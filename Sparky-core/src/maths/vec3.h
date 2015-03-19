@@ -9,7 +9,7 @@ namespace sparky { namespace maths {
 		float x, y, z;
 
 		vec3();
-		vec3(const float& x, const float& y, const float& z);
+		vec3(float x, float y, float z);
 
 		vec3& add(const vec3& other);
 		vec3& subtract(const vec3& other);

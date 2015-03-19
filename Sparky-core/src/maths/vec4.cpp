@@ -8,7 +8,7 @@ namespace sparky { namespace maths {
 		y = 0.0f;
 	}
 
-	vec4::vec4(const float& x, const float& y, const float& z, const float& w)
+	vec4::vec4(float x, float y, float z, float w)
 	{
 		this->x = x;
 		this->y = y;
