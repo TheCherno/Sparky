@@ -2,7 +2,7 @@
 
 namespace sparky { namespace graphics {
 
-	void window_resize(GLFWwindow *window, int width, int height);
+	void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 
 	Window::Window(const char *title, int width, int height)
 	{
@@ -43,7 +43,7 @@ namespace sparky { namespace graphics {
 		}
 		glfwMakeContextCurrent(m_Window);
 		glfwSetWindowUserPointer(m_Window, this);
-		glfwSetWindowSizeCallback(m_Window, window_resize);
+		glfwSetFramebufferSizeCallback(m_Window, framebuffer_size_callback);
 		glfwSetKeyCallback(m_Window, key_callback);
 		glfwSetMouseButtonCallback(m_Window, mouse_button_callback);
 		glfwSetCursorPosCallback(m_Window, cursor_position_callback);
@@ -98,7 +98,7 @@ namespace sparky { namespace graphics {
 		return glfwWindowShouldClose(m_Window) == 1;
 	}
 
-	void window_resize(GLFWwindow *window, int width, int height)
+	void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 	{
 		glViewport(0, 0, width, height);
 	}
