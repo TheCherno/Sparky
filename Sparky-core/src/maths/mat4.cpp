@@ -85,7 +85,7 @@ namespace sparky { namespace maths {
 		result.elements[3 + 2 * 4] = -1.0f;
 		result.elements[2 + 3 * 4] = c;
 
-		return c;
+		return result;
 	}
 
 	mat4 mat4::translation(const vec3& translation)
