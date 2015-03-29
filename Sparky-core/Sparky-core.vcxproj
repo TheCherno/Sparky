@@ -78,6 +78,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\graphics\buffers\buffer.cpp" />
+    <ClCompile Include="src\graphics\buffers\indexbuffer.cpp" />
+    <ClCompile Include="src\graphics\buffers\vertexarray.cpp" />
     <ClCompile Include="src\graphics\shader.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
     <ClCompile Include="src\maths\mat4.cpp" />
@@ -86,6 +89,9 @@
     <ClCompile Include="src\maths\vec4.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\graphics\buffers\buffer.h" />
+    <ClInclude Include="src\graphics\buffers\indexbuffer.h" />
+    <ClInclude Include="src\graphics\buffers\vertexarray.h" />
     <ClInclude Include="src\graphics\shader.h" />
     <ClInclude Include="src\graphics\window.h" />
     <ClInclude Include="src\maths\mat4.h" />
