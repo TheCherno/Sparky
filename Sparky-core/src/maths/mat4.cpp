@@ -44,6 +44,25 @@ namespace sparky { namespace maths {
 		return *this;
 	}
 
+	vec3 mat4::multiply(const vec3& other) const
+	{
+		return vec3(
+			columns[0].x * other.x + columns[1].x * other.y + columns[2].x * other.z + columns[3].x,
+			columns[0].y * other.x + columns[1].y * other.y + columns[2].y * other.z + columns[3].y,
+			columns[0].z * other.x + columns[1].z * other.y + columns[2].z * other.z + columns[3].z
+		);
+	}
+
+	vec4 mat4::multiply(const vec4& other) const
+	{
+		return vec4(
+			columns[0].x * other.x + columns[1].x * other.y + columns[2].x * other.z + columns[3].x * other.w,
+			columns[0].y * other.x + columns[1].y * other.y + columns[2].y * other.z + columns[3].y * other.w,
+			columns[0].z * other.x + columns[1].z * other.y + columns[2].z * other.z + columns[3].z * other.w,
+			columns[0].w * other.x + columns[1].w * other.y + columns[2].w * other.z + columns[3].w * other.w
+		);
+	}
+
 	mat4 operator*(mat4 left, const mat4& right)
 	{
 		return left.multiply(right);
@@ -52,6 +71,16 @@ namespace sparky { namespace maths {
 	mat4& mat4::operator*=(const mat4& other)
 	{
 		return multiply(other);
+	}
+
+	vec3 operator*(const mat4& left, const vec3& right)
+	{
+		return left.multiply(right);
+	}
+
+	vec4 operator*(const mat4& left, const vec4& right)
+	{
+		return left.multiply(right);
 	}
 
 	mat4 mat4::orthographic(float left, float right, float bottom, float top, float near, float far)
