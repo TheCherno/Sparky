@@ -14,7 +14,8 @@ namespace sparky { namespace graphics {
 #define RENDERER_INDICES_SIZE	RENDERER_MAX_SPRITES * 6
 
 #define SHADER_VERTEX_INDEX 0
-#define SHADER_COLOR_INDEX	1
+#define SHADER_UV_INDEX	1
+#define SHADER_COLOR_INDEX	2
 
 	class BatchRenderer2D : public Renderer2D
 	{
