@@ -14,8 +14,9 @@ namespace sparky { namespace graphics {
 #define RENDERER_INDICES_SIZE	RENDERER_MAX_SPRITES * 6
 
 #define SHADER_VERTEX_INDEX 0
-#define SHADER_UV_INDEX	1
-#define SHADER_COLOR_INDEX	2
+#define SHADER_UV_INDEX		1
+#define SHADER_TID_INDEX	2
+#define SHADER_COLOR_INDEX	3
 
 	class BatchRenderer2D : public Renderer2D
 	{
@@ -25,6 +26,8 @@ namespace sparky { namespace graphics {
 		IndexBuffer* m_IBO;
 		GLsizei m_IndexCount;
 		VertexData* m_Buffer;
+
+		std::vector<GLuint> m_TextureSlots;
 	public:
 		BatchRenderer2D();
 		~BatchRenderer2D();
