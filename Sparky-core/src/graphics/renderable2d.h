@@ -29,10 +29,10 @@ namespace sparky { namespace graphics {
 		std::vector<maths::vec2> m_UV;
 		Texture* m_Texture;
 	protected:
-		Renderable2D() { setUVDefaults(); }
+		Renderable2D() : m_Texture(nullptr) { setUVDefaults(); }
 	public:
 		Renderable2D(maths::vec3 position, maths::vec2 size, maths::vec4 color)
-			: m_Position(position), m_Size(size), m_Color(color)
+			: m_Position(position), m_Size(size), m_Color(color), m_Texture(nullptr)
 		{ setUVDefaults(); }
 
 		virtual ~Renderable2D() { }
@@ -47,7 +47,7 @@ namespace sparky { namespace graphics {
 		inline const maths::vec4& getColor() const { return m_Color; }
 		inline const std::vector<maths::vec2>& getUV() const { return m_UV; }
 
-		inline const GLuint getTID() const { return m_Texture == nullptr ? 0 : m_Texture->getID(); }
+		inline const GLuint getTID() const { return m_Texture ? m_Texture->getID() : 0; }
 	private:
 		void setUVDefaults()
 		{

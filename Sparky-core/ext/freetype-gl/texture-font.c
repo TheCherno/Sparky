@@ -433,6 +433,9 @@ texture_font_load_glyphs( texture_font_t * self,
     height = self->atlas->height;
     depth  = self->atlas->depth;
 
+	if (depth == 2)
+		depth = 1;
+
     if (!texture_font_get_face(self, &library, &face))
         return wcslen(charcodes);
 

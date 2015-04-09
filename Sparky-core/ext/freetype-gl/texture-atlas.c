@@ -52,7 +52,7 @@ texture_atlas_new( const size_t width,
     // sampling texture
     ivec3 node = {{1,1,width-2}};
 
-    assert( (depth == 1) || (depth == 3) || (depth == 4) );
+	assert((depth == 1) || (depth == 2) || (depth == 3) || (depth == 4));
     if( self == NULL)
     {
         fprintf( stderr,
@@ -109,9 +109,10 @@ texture_atlas_set_region( texture_atlas_t * self,
                           const unsigned char * data,
                           const size_t stride )
 {
-    size_t i;
+    size_t i, j;
     size_t depth;
     size_t charsize;
+	unsigned char *row, *src;
 
     assert( self );
     assert( x > 0);
@@ -125,8 +126,21 @@ texture_atlas_set_region( texture_atlas_t * self,
     charsize = sizeof(char);
     for( i=0; i<height; ++i )
     {
-        memcpy( self->data+((y+i)*self->width + x ) * charsize * depth, 
-                data + (i*stride) * charsize, width * charsize * depth  );
+		if (depth == 2)
+		{
+			row = self->data + ((y + i) * self->width + x) * charsize * depth;
+			src = data + (i * stride) * charsize;
+			for (j = 0; j < width; j++)
+			{
+				row[j * 2 + 0] = 0xff;
+				row[j * 2 + 1] = src[j];
+			}
+		}
+		else
+		{
+			memcpy(self->data + ((y + i)*self->width + x) * charsize * depth,
+				data + (i*stride) * charsize, width * charsize * depth);
+		}
     }
 }
 
@@ -336,10 +350,15 @@ texture_atlas_upload( texture_atlas_t * self )
         glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, self->width, self->height,
                       0, GL_RGB, GL_UNSIGNED_BYTE, self->data );
     }
+	else if (self->depth == 2)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, self->width, self->height,
+			0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, self->data);
+	}
     else
     {
         glTexImage2D( GL_TEXTURE_2D, 0, GL_RED, self->width, self->height,
-                      0, GL_RED, GL_UNSIGNED_BYTE, self->data );
+			0, GL_RED, GL_UNSIGNED_BYTE, self->data);
     }
 }
 

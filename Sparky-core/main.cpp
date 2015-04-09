@@ -18,6 +18,7 @@
 
 #include "src/graphics/layers/group.h"
 #include "src/graphics/texture.h"
+#include "src/graphics/label.h"
 
 #include <time.h>
 
@@ -31,7 +32,7 @@ int main()
 	using namespace maths;
 
 	Window window("Sparky!", 960, 540);
-	// glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	//glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
 
 	mat4 ortho = mat4::orthographic(0.0f, 16.0f, 0.0f, 9.0f, -1.0f, 1.0f);
 
@@ -61,6 +62,12 @@ int main()
 		}
 	}
 
+	Group* g = new Group(maths::mat4::translation(maths::vec3(-15.8f, 7.0f, 0.0f)));
+	Label* fps = new Label("", 0.4f, 0.4f, maths::vec4(1, 1, 1, 1));
+	g->add(new Sprite(0, 0, 5, 1.5f, maths::vec4(0.3f, 0.3f, 0.3f, 0.9f)));
+	g->add(fps);
+
+	layer.add(g);
 
 	GLint texIDs[] =
 	{
@@ -87,6 +94,7 @@ int main()
 		if (time.elapsed() - timer > 1.0f)
 		{
 			timer += 1.0f;
+			fps->text = std::to_string(frames) + " fps";
 			printf("%d fps\n", frames);
 			frames = 0;
 		}
