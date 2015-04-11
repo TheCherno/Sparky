@@ -25,6 +25,8 @@ namespace sparky { namespace graphics {
 
 		buffer->unbind();
 		unbind();
+
+		m_Buffers.push_back(buffer);
 	}
 
 	void VertexArray::bind() const

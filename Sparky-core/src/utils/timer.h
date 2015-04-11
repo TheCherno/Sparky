@@ -1,9 +1,16 @@
 #pragma once
 
-#include <Windows.h>
+#define WINDOWS_TIMER 0
+
+#if WINDOWS_TIMER
+	#include <Windows.h>
+#else
+	#include <chrono>
+#endif
 
 namespace sparky {
 
+#if WINDOWS_TIMER
 	class Timer
 	{
 	private:
@@ -32,5 +39,30 @@ namespace sparky {
 		}
 
 	};
+#else
+	class Timer
+	{
+	private:
+		typedef std::chrono::high_resolution_clock HighResolutionClock;
+		typedef std::chrono::duration<float, std::milli> milliseconds_type;
+		std::chrono::time_point<HighResolutionClock> m_Start;
+	public:
+		Timer()
+		{
+			reset();
+		}
+
+		void reset()
+		{
+			m_Start = HighResolutionClock::now();
+		}
+
+		float elapsed()
+		{
+			return std::chrono::duration_cast<milliseconds_type>(HighResolutionClock::now() - m_Start).count() / 1000.0f;
+		}
+
+	};
+#endif
 
 }

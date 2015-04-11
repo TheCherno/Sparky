@@ -9,7 +9,7 @@ namespace sparky { namespace graphics {
 	private:
 
 	public:
-		Sprite(float x, float y, float width, float height, const maths::vec4& color);
+		Sprite(float x, float y, float width, float height, unsigned int color);
 		Sprite(float x, float y, float width, float height, Texture* texture);
 	};
 
