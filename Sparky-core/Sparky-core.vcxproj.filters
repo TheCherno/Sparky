@@ -258,6 +258,12 @@
     <ClCompile Include="src\graphics\static_sprite.cpp">
       <Filter>Source Files\graphics\renderables</Filter>
     </ClCompile>
+    <ClCompile Include="src\graphics\font.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\font_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ext\freetype\include\ft2build.h">
@@ -373,6 +379,12 @@
     </ClInclude>
     <ClInclude Include="src\graphics\label.h">
       <Filter>Header Files\graphics\renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\font_manager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

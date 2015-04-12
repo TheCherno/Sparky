@@ -20,6 +20,8 @@
 #include "src/graphics/texture.h"
 #include "src/graphics/label.h"
 
+#include "src/graphics/font_manager.h"
+
 int main()
 {
 	using namespace sparky;
@@ -61,7 +63,7 @@ int main()
 	}
 
 	Group* g = new Group(maths::mat4::translation(maths::vec3(-15.8f, 7.0f, 0.0f)));
-	Label* fps = new Label("", 0.4f, 0.4f, 0xffffffff);
+	Label* fps = new Label("", 0.4f, 0.4f, "SourceSansPro", 50, 0xffffffff);
 	g->add(new Sprite(0, 0, 5, 1.5f, 0x505050DD));
 	g->add(fps);
 
@@ -108,5 +110,7 @@ int main()
 	}
 	for (int i = 0; i < 3; i++)
 		delete textures[i];
+
+	FontManager::clean();
 	return 0;
 }

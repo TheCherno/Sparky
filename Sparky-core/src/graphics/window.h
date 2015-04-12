@@ -4,6 +4,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "font_manager.h"
+
 namespace sparky { namespace graphics {
 
 #define MAX_KEYS	1024
