@@ -10,7 +10,7 @@ namespace sparky { namespace graphics {
 
 	Texture::~Texture()
 	{
-
+		glDeleteTextures(1, &m_TID);
 	}
 
 	GLuint Texture::load()
