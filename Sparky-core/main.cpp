@@ -22,6 +22,10 @@
 
 #include "src/graphics/font_manager.h"
 
+#include "ext/gorilla-audio/ga.h"
+#include "ext/gorilla-audio/gau.h"
+
+#if 0
 int main()
 {
 	using namespace sparky;
@@ -63,7 +67,7 @@ int main()
 	}
 
 	Group* g = new Group(maths::mat4::translation(maths::vec3(-15.8f, 7.0f, 0.0f)));
-	Label* fps = new Label("", 0.4f, 0.4f, "SourceSansPro", 50, 0xffffffff);
+	Label* fps = new Label("", 0.4f, 0.4f, 0xffffffff);
 	g->add(new Sprite(0, 0, 5, 1.5f, 0x505050DD));
 	g->add(fps);
 
@@ -111,6 +115,54 @@ int main()
 	for (int i = 0; i < 3; i++)
 		delete textures[i];
 
-	FontManager::clean();
+	return 0;
+}
+#endif
+
+static void setFlagAndDestroyOnFinish(ga_Handle* in_handle, void* in_context)
+{
+	gc_int32* flag = (gc_int32*)(in_context);
+	*flag = 1;
+	ga_handle_destroy(in_handle);
+}
+
+int main()
+{
+	gau_Manager* mgr;
+	ga_Mixer* mixer;
+	ga_Sound* sound;
+	ga_Handle* handle;
+	gau_SampleSourceLoop* loopSrc = 0;
+	gau_SampleSourceLoop** pLoopSrc = &loopSrc;
+	gc_int32 loop = 0;
+	gc_int32 quit = 0;
+
+	/* Initialize library + manager */
+	gc_initialize(0);
+	mgr = gau_manager_create();
+	mixer = gau_manager_mixer(mgr);
+
+	/* Create and play shared sound */
+	if (!loop)
+		pLoopSrc = 0;
+	sound = gau_load_sound_file("Evacuate.wav", "wav");
+	handle = gau_create_handle_sound(mixer, sound, &setFlagAndDestroyOnFinish, &quit, pLoopSrc);
+	ga_handle_play(handle);
+
+	/* Bounded mix/queue/dispatch loop */
+	while (!quit)
+	{
+		gau_manager_update(mgr);
+		printf("%d / %d\n", ga_handle_tell(handle, GA_TELL_PARAM_CURRENT), ga_handle_tell(handle, GA_TELL_PARAM_TOTAL));
+		gc_thread_sleep(1);
+	}
+
+	/* Clean up sound */
+	ga_sound_release(sound);
+
+	/* Clean up library + manager */
+	gau_manager_destroy(mgr);
+	gc_shutdown();
+
 	return 0;
 }
