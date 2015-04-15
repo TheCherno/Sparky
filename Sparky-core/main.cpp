@@ -25,11 +25,13 @@
 #include "ext/gorilla-audio/ga.h"
 #include "ext/gorilla-audio/gau.h"
 
-#if 0
+#include "src/audio/sound_manager.h"
+
 int main()
 {
 	using namespace sparky;
 	using namespace graphics;
+	using namespace audio;
 	using namespace maths;
 
 	Window window("Sparky!", 960, 540);
@@ -82,10 +84,14 @@ int main()
 	shader.setUniform1iv("textures", texIDs, 10);
 	shader.setUniformMat4("pr_matrix", maths::mat4::orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
 
+	SoundManager::add(new Sound("Test", "Cherno.ogg"));
+
 	Timer time;
 	float timer = 0;
 	unsigned int frames = 0;
 	float t = 0.0f;
+	float gain = 0.5f;
+	SoundManager::get("Test")->setGain(gain);
 	while (!window.closed())
 	{
 		t += 0.001f;
@@ -100,6 +106,33 @@ int main()
 		{
 			float c = sin(t) / 2 + 0.5f;
 			rs[i]->setColor(maths::vec4(c, 0, 1, 1));
+		}
+
+		if (window.isKeyTyped(GLFW_KEY_P))
+			SoundManager::get("Test")->play();
+
+		if (window.isKeyTyped(GLFW_KEY_L))
+			SoundManager::get("Test")->loop();
+
+		if (window.isKeyTyped(GLFW_KEY_S))
+			SoundManager::get("Test")->stop();
+
+		if (window.isKeyTyped(GLFW_KEY_1))
+			SoundManager::get("Test")->pause();
+
+		if (window.isKeyTyped(GLFW_KEY_2))
+			SoundManager::get("Test")->resume();
+
+		if (window.isKeyTyped(GLFW_KEY_UP))
+		{
+			gain += 0.05f;
+			SoundManager::get("Test")->setGain(gain);
+		}
+
+		if (window.isKeyTyped(GLFW_KEY_DOWN))
+		{
+			gain -= 0.05f;
+			SoundManager::get("Test")->setGain(gain);
 		}
 
 		window.update();
@@ -117,8 +150,9 @@ int main()
 
 	return 0;
 }
-#endif
 
+
+#if 0
 static void setFlagAndDestroyOnFinish(ga_Handle* in_handle, void* in_context)
 {
 	gc_int32* flag = (gc_int32*)(in_context);
@@ -166,3 +200,4 @@ int main()
 
 	return 0;
 }
+#endif

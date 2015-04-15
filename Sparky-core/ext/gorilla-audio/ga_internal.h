@@ -196,6 +196,7 @@ struct ga_Handle {
   gc_Link mixLink;
   gc_Mutex* handleMutex;
   ga_SampleSource* sampleSrc;
+  void* sound;
   volatile gc_int32 finished;
 };
 

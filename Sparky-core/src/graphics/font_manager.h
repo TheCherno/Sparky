@@ -15,7 +15,7 @@ namespace sparky { namespace graphics {
 		static Font* get(const std::string& name, unsigned int size);
 		static void clean();
 	private:
-		FontManager();
+		FontManager() { }
 	};
 
 } }
