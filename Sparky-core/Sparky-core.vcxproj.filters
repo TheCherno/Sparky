@@ -76,6 +76,12 @@
     <Filter Include="Source Files\ext\gorilla-audio">
       <UniqueIdentifier>{51d9a528-15c2-4272-8e4e-309c4fb1458a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\audio">
+      <UniqueIdentifier>{54ecd7b8-7e95-4776-8c0b-a1ce5dcd7bef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\audio">
+      <UniqueIdentifier>{febda883-2525-4101-a89c-e3b28650dcbb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -225,9 +231,6 @@
     <ClCompile Include="src\graphics\shader.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\simple2drenderer.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\graphics\texture.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
@@ -249,9 +252,6 @@
     <ClCompile Include="src\graphics\layers\group.cpp">
       <Filter>Source Files\graphics\layers</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\layers\tilelayer.cpp">
-      <Filter>Source Files\graphics\layers</Filter>
-    </ClCompile>
     <ClCompile Include="src\graphics\layers\layer.cpp">
       <Filter>Source Files\graphics\layers</Filter>
     </ClCompile>
@@ -259,9 +259,6 @@
       <Filter>Source Files\graphics\renderables</Filter>
     </ClCompile>
     <ClCompile Include="src\graphics\sprite.cpp">
-      <Filter>Source Files\graphics\renderables</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\static_sprite.cpp">
       <Filter>Source Files\graphics\renderables</Filter>
     </ClCompile>
     <ClCompile Include="ext\gorilla-audio\ga.c">
@@ -288,10 +285,16 @@
     <ClCompile Include="src\graphics\font_manager.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\audio\sound.cpp">
+    <ClCompile Include="tilelayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\audio\sound_manager.cpp">
+      <Filter>Source Files\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\audio\sound.cpp">
+      <Filter>Source Files\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -344,9 +347,6 @@
     <ClInclude Include="src\graphics\shader.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\simple2drenderer.h">
-      <Filter>Header Files\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="src\graphics\texture.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
@@ -392,14 +392,8 @@
     <ClInclude Include="src\graphics\layers\layer.h">
       <Filter>Header Files\graphics\layers</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\layers\tilelayer.h">
-      <Filter>Header Files\graphics\layers</Filter>
-    </ClInclude>
     <ClInclude Include="src\graphics\layers\group.h">
       <Filter>Header Files\graphics\layers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\graphics\static_sprite.h">
-      <Filter>Header Files\graphics\renderables</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\sprite.h">
       <Filter>Header Files\graphics\renderables</Filter>
@@ -437,13 +431,19 @@
     <ClInclude Include="src\graphics\font.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\audio\sound_manager.h">
+    <ClInclude Include="tilelayer.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\audio\sound_manager.h">
+      <Filter>Header Files\audio</Filter>
     </ClInclude>
     <ClInclude Include="src\audio\sound.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\audio</Filter>
     </ClInclude>
     <ClInclude Include="src\utils\stringutils.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sparky.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

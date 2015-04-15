@@ -43,12 +43,18 @@ namespace sparky { namespace audio {
 
 	void Sound::resume()
 	{
-		gc_int32 quit = 0;
+		if (m_Playing)
+			return;
+
+		m_Playing = true;
 		ga_handle_play(m_Handle);
 	}
 
 	void Sound::pause()
 	{
+		if (!m_Playing)
+			return;
+
 		m_Playing = false;
 		ga_handle_stop(m_Handle);
 	}

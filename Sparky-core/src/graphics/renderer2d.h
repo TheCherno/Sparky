@@ -13,7 +13,7 @@ namespace sparky { namespace graphics {
 	class Renderer2D
 	{
 	protected:
-		std::vector<const maths::mat4> m_TransformationStack;
+		std::vector<maths::mat4> m_TransformationStack;
 		const maths::mat4* m_TransformationBack;
 	protected:
 		Renderer2D()
