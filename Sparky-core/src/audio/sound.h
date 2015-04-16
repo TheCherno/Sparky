@@ -5,8 +5,12 @@
 
 #include "../utils/stringutils.h"
 
-#include "../../ext/gorilla-audio/ga.h"
-#include "../../ext/gorilla-audio/gau.h"
+#ifdef SPARKY_EMSCRIPTEN
+	#include <emscripten/emscripten.h>
+#else
+	#include "../../ext/gorilla-audio/ga.h"
+	#include "../../ext/gorilla-audio/gau.h"
+#endif
 
 namespace sparky { namespace audio {
 
@@ -16,9 +20,12 @@ namespace sparky { namespace audio {
 		std::string m_Name;
 		std::string m_Filename;
 
+#ifdef SPARKY_EMSCRIPTEN
+#else
 		ga_Sound* m_Sound;
 		ga_Handle* m_Handle;
 		gc_int32 m_Position;
+#endif
 
 		bool m_Playing;
 		float m_Gain;
@@ -40,8 +47,11 @@ namespace sparky { namespace audio {
 		inline const std::string& getName() const { return m_Name; }
 		inline const std::string& getFileName() const { return m_Filename; }
 
+#ifdef SPARKY_EMSCRIPTEN
+#else
 		friend void destroy_on_finish(ga_Handle* in_handle, void* in_context);
 		friend void loop_on_finish(ga_Handle* in_handle, void* in_context);
+#endif
 
 	};
 

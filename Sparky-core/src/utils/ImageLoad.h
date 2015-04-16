@@ -2,6 +2,7 @@
 
 #include <string>
 #include <FreeImage.h>
+#include <FreeImage/Utilities.h>
 
 namespace sparky {
 
@@ -25,6 +26,10 @@ namespace sparky {
 		*height = FreeImage_GetHeight(dib);
 		int bits = FreeImage_GetBPP(dib);
 		
+#ifdef SPARKY_EMSCRIPTEN
+		SwapRedBlue32(dib);
+#endif
+
 		int size = *width * *height * (bits / 8);
 		BYTE* result = new BYTE[size];
 		memcpy(result, pixels, size);

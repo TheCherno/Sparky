@@ -2,6 +2,11 @@
 
 namespace sparky { namespace graphics {
 
+	void window_resize(GLFWwindow* window, int width, int height);
+	void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+	void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
+
 	Window::Window(const char *title, int width, int height)
 	{
 		m_Title = title;
@@ -10,7 +15,16 @@ namespace sparky { namespace graphics {
 		if (!init())
 			glfwTerminate();
 
+#ifdef SPARKY_EMSCRIPTEN
+		FontManager::add(new Font("SourceSansPro", "res/SourceSansPro-Light.ttf", 32));
+#else
 		FontManager::add(new Font("SourceSansPro", "SourceSansPro-Light.ttf", 32));
+#endif
+
+#ifdef SPARKY_EMSCRIPTEN
+		FreeImage_Initialise();
+#endif
+
 		audio::SoundManager::init();
 
 		for (int i = 0; i < MAX_KEYS; i++)
@@ -56,11 +70,13 @@ namespace sparky { namespace graphics {
 		glfwSetCursorPosCallback(m_Window, cursor_position_callback);
 		glfwSwapInterval(0.0);
 
+#ifndef SPARKY_EMSCRIPTEN
 		if (glewInit() != GLEW_OK)
 		{
 			std::cout << "Could not initialize GLEW!" << std::endl;
 			return false;
 		}
+#endif
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

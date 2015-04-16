@@ -28,9 +28,9 @@ namespace sparky { namespace graphics {
 		glEnableVertexAttribArray(SHADER_COLOR_INDEX);
 
 		glVertexAttribPointer(SHADER_VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)0);
-		glVertexAttribPointer(SHADER_UV_INDEX, 2, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, VertexData::uv)));
-		glVertexAttribPointer(SHADER_TID_INDEX, 1, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, VertexData::tid)));
-		glVertexAttribPointer(SHADER_COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, VertexData::color)));
+		glVertexAttribPointer(SHADER_UV_INDEX, 2, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, uv)));
+		glVertexAttribPointer(SHADER_TID_INDEX, 1, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, tid)));
+		glVertexAttribPointer(SHADER_COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, color)));
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -54,12 +54,20 @@ namespace sparky { namespace graphics {
 
 		glBindVertexArray(0);
 
+#ifdef SPARKY_EMSCRIPTEN
+		m_BufferBase = new VertexData[RENDERER_MAX_SPRITES * 4];
+#endif
+
 	}
 
 	void BatchRenderer2D::begin()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+#ifdef SPARKY_EMSCRIPTEN
+		m_Buffer = m_BufferBase;
+#else
 		m_Buffer = (VertexData*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+#endif
 	}
 
 	void BatchRenderer2D::submit(const Renderable2D* renderable)
@@ -215,7 +223,13 @@ namespace sparky { namespace graphics {
 
 	void BatchRenderer2D::end()
 	{
+#ifdef SPARKY_EMSCRIPTEN
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, (m_Buffer - m_BufferBase) * RENDERER_VERTEX_SIZE, m_BufferBase);
+		m_Buffer = m_BufferBase;
+#else
 		glUnmapBuffer(GL_ARRAY_BUFFER);
+#endif
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 

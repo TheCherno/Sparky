@@ -26,9 +26,17 @@ public:
 	{
 		window = createWindow("Test Game", 960, 540);
 		FontManager::get()->setScale(window->getWidth() / 32.0f, window->getHeight() / 18.0f);
+#ifdef SPARKY_EMSCRIPTEN
+		shader = new Shader("res/shaders/basic.es3.vert", "res/shaders/basic.es3.frag");
+#else
 		shader = new Shader("src/shaders/basic.vert", "src/shaders/basic.frag");
+#endif
 		layer = new Layer(new BatchRenderer2D(), shader, maths::mat4::orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+#ifdef SPARKY_EMSCRIPTEN
+		sprite = new Sprite(0.0f, 0.0f, 4, 4, new Texture("res/tb.png"));
+#else
 		sprite = new Sprite(0.0f, 0.0f, 4, 4, new Texture("tb.png"));
+#endif
 		layer->add(sprite);
 
 		fps = new Label("", -15.5f, 7.8f, 0xffffffff);

@@ -19,19 +19,24 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
+		Emscripten|Win32 = Emscripten|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C737C239-3A40-4388-9C61-6CF779025785}.Debug|Win32.ActiveCfg = Debug|Win32
 		{C737C239-3A40-4388-9C61-6CF779025785}.Debug|Win32.Build.0 = Debug|Win32
+		{C737C239-3A40-4388-9C61-6CF779025785}.Emscripten|Win32.ActiveCfg = Emscripten|Win32
+		{C737C239-3A40-4388-9C61-6CF779025785}.Emscripten|Win32.Build.0 = Emscripten|Win32
 		{C737C239-3A40-4388-9C61-6CF779025785}.Release|Win32.ActiveCfg = Release|Win32
 		{C737C239-3A40-4388-9C61-6CF779025785}.Release|Win32.Build.0 = Release|Win32
 		{8ED62764-0D19-40AC-BC88-E82AADF1189B}.Debug|Win32.ActiveCfg = Debug|Win32
 		{8ED62764-0D19-40AC-BC88-E82AADF1189B}.Debug|Win32.Build.0 = Debug|Win32
+		{8ED62764-0D19-40AC-BC88-E82AADF1189B}.Emscripten|Win32.ActiveCfg = Release|Win32
 		{8ED62764-0D19-40AC-BC88-E82AADF1189B}.Release|Win32.ActiveCfg = Release|Win32
 		{8ED62764-0D19-40AC-BC88-E82AADF1189B}.Release|Win32.Build.0 = Release|Win32
 		{54CE06E0-6313-4F5E-8BDA-4E7815C8743C}.Debug|Win32.ActiveCfg = Debug|Win32
 		{54CE06E0-6313-4F5E-8BDA-4E7815C8743C}.Debug|Win32.Build.0 = Debug|Win32
+		{54CE06E0-6313-4F5E-8BDA-4E7815C8743C}.Emscripten|Win32.ActiveCfg = Release|Win32
 		{54CE06E0-6313-4F5E-8BDA-4E7815C8743C}.Release|Win32.ActiveCfg = Release|Win32
 		{54CE06E0-6313-4F5E-8BDA-4E7815C8743C}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection

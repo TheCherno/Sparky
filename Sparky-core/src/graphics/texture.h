@@ -2,7 +2,14 @@
 
 #include <FreeImage.h>
 #include <string>
-#include <GL/glew.h>
+
+#ifdef SPARKY_EMSCRIPTEN
+	#define GLFW_INCLUDE_ES3
+	#include <GLFW/glfw3.h>
+#else
+	#include <GL/glew.h>
+#endif
+
 #include "../utils/ImageLoad.h"
 
 namespace sparky { namespace graphics{

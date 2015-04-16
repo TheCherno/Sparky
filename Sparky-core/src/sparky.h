@@ -1,5 +1,9 @@
 #pragma once
 
+#ifdef SPARKY_EMSCRIPTEN
+	#include <emscripten/emscripten.h>
+#endif
+
 #include "graphics/label.h"
 #include "graphics/sprite.h"
 #include "graphics/renderer2d.h"
@@ -9,6 +13,16 @@
 
 #include "maths/maths.h"
 #include "utils/timer.h"
+
+#ifdef SPARKY_EMSCRIPTEN
+
+static void dispatch_main(void* fp)
+{
+	std::function<void()>* func = (std::function<void()>*)fp;
+	(*func)();
+}
+
+#endif
 
 namespace sparky {
 
@@ -65,8 +79,12 @@ namespace sparky {
 			float updateTick = 1.0f / 60.0f;
 			unsigned int frames = 0;
 			unsigned int updates = 0;
+#ifdef SPARKY_EMSCRIPTEN
+			std::function<void()> mainLoop = [&]() {
+#else
 			while (!m_Window->closed())
 			{
+#endif
 				m_Window->clear();
 				if (m_Timer->elapsed() - updateTimer > updateTick)
 				{
@@ -86,7 +104,12 @@ namespace sparky {
 					updates = 0;
 					tick();
 				}
+#ifdef SPARKY_EMSCRIPTEN
+			};
+			emscripten_set_main_loop_arg(dispatch_main, &mainLoop, 0, 1);
+#else
 			}
+#endif
 		}
 	};
 
