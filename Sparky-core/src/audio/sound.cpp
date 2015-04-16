@@ -13,6 +13,9 @@ namespace sparky { namespace audio {
 			return;
 		}
 #ifdef SPARKY_EMSCRIPTEN
+// 		EM_ASM(
+// 		window.SoundManager.m_Sounds[]
+// 		);
 #else
 		m_Sound = gau_load_sound_file(filename.c_str(), split.back().c_str());
 		if (m_Sound == nullptr)

@@ -21,6 +21,7 @@ namespace sparky { namespace audio {
 		std::string m_Filename;
 
 #ifdef SPARKY_EMSCRIPTEN
+
 #else
 		ga_Sound* m_Sound;
 		ga_Handle* m_Handle;
@@ -32,7 +33,6 @@ namespace sparky { namespace audio {
 	public:
 		Sound(const std::string& name, const std::string& filename);
 		~Sound();
-
 
 		void play();
 		void loop();

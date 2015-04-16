@@ -24,6 +24,8 @@ public:
 
 	void init() override
 	{
+		using namespace audio;
+
 		window = createWindow("Test Game", 960, 540);
 		FontManager::get()->setScale(window->getWidth() / 32.0f, window->getHeight() / 18.0f);
 #ifdef SPARKY_EMSCRIPTEN
@@ -41,6 +43,8 @@ public:
 
 		fps = new Label("", -15.5f, 7.8f, 0xffffffff);
 		layer->add(fps);
+
+		SoundManager::add(new Sound("Cherno", "res/Cherno.ogg"));
 	}
 
 	void tick() override

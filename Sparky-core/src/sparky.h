@@ -11,6 +11,9 @@
 #include "graphics/window.h"
 #include "graphics/layers/layer.h"
 
+#include "audio/sound.h"
+#include "audio/sound_manager.h"
+
 #include "maths/maths.h"
 #include "utils/timer.h"
 
