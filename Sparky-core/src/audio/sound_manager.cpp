@@ -5,8 +5,6 @@ namespace sparky { namespace audio {
 	extern "C" void SoundManager_add(int id, const char* name, const char* filename);
 
 #ifdef SPARKY_EMSCRIPTEN
-	std::map<std::string, int> SoundManager::m_SoundIDs;
-	int SoundManager::s_SID = 0;
 #else
 	gau_Manager* SoundManager::m_Manager = nullptr;
 	ga_Mixer* SoundManager::m_Mixer = nullptr;
@@ -18,22 +16,17 @@ namespace sparky { namespace audio {
 	{
 #ifdef SPARKY_EMSCRIPTEN
 		EM_ASM(
-		window.SoundManager = {};
-		window.SoundManager.m_Sounds = { };
-		window.SoundManager.add = function(name, filename) { alert('Loading audio file ' + name + ' path=' + filename + '!'); window.SoundManager.m_Sounds[name] = new Audio(filename); };
-		window.SoundManager.play = function(name) { window.SoundManager.m_Sounds[name].play(); };
-		window.SoundManager.pause = function(name) { window.SoundManager.m_Sounds[name].pause(); };
-		window.SoundManager.stop = function(name) { window.SoundManager.pause(name); window.SoundManager.m_Sounds[name].currentTime = 0; window.SoundManager.m_Sounds[name].loop = false; };
-		window.SoundManager.loop = function(name) { window.SoundManager.m_Sounds[name].play(); window.SoundManager.m_Sounds[name].loop = true; };
-		window.SoundManager.setGain = function(name, gain) { window.SoundManager.m_Sounds[name].volume = gain; };
+			function classSoundManager() {
+			this.m_Sounds = {};
+			this.add = function(name, filename) { this.m_Sounds[name] = new Audio(filename); };
+			this.play = function(name) { this.m_Sounds[name].play(); };
+			this.pause = function(name) { this.m_Sounds[name].pause(); };
+			this.stop = function(name) { this.pause(name); this.m_Sounds[name].currentTime = 0; this.m_Sounds[name].loop = false; };
+			this.loop = function(name) { this.m_Sounds[name].play(); this.m_Sounds[name].loop = true; };
+			this.setGain = function(name, gain) { this.m_Sounds[name].volume = gain; };
+		};
 
-		var func_map = {
-			0: window.SoundManager.add
-		}
-
-		function _SoundManager_add(id, name, filename) {
-			func_map[id](Pointer_stringify(name), Pointer_stringify(filename));
- 		}
+		window.SoundManager = new classSoundManager();
 		);
 #else
 		gc_initialize(0);
@@ -44,9 +37,13 @@ namespace sparky { namespace audio {
 
 	void SoundManager::add(Sound* sound)
 	{
+#ifdef SPARKY_EMSCRIPTEN
+		EM_ASM_ARGS(
+		{ window.SoundManager.add(Pointer_stringify($0), Pointer_stringify($1)); },
+		sound->getName().c_str(), sound->getFileName().c_str()
+		);
+#endif
 		m_Sounds.push_back(sound);
-		m_SoundIDs[sound->getName()] = s_SID++;
-		SoundManager_add(0, sound->getName().c_str(), sound->getFileName().c_str());
 	}
 
 	Sound* SoundManager::get(const std::string& name)
@@ -54,7 +51,9 @@ namespace sparky { namespace audio {
 		for (Sound* sound : m_Sounds)
 		{
 			if (sound->getName() == name)
+			{
 				return sound;
+			}
 		}
 		return nullptr;
 	}

@@ -6,17 +6,14 @@ namespace sparky { namespace audio {
 	Sound::Sound(const std::string& name, const std::string& filename)
 		: m_Name(name), m_Filename(filename), m_Playing(false)
 	{
+#ifdef SPARKY_EMSCRIPTEN
+#else
 		std::vector<std::string> split = split_string(m_Filename, '.');
 		if (split.size() < 2)
 		{
 			std::cout << "[Sound] Invalid file name '" << m_Filename << "'!" << std::endl;
 			return;
 		}
-#ifdef SPARKY_EMSCRIPTEN
-// 		EM_ASM(
-// 		window.SoundManager.m_Sounds[]
-// 		);
-#else
 		m_Sound = gau_load_sound_file(filename.c_str(), split.back().c_str());
 		if (m_Sound == nullptr)
 			std::cout << "[Sound] Could not load file '" << m_Filename << "'!" << std::endl;
@@ -35,6 +32,10 @@ namespace sparky { namespace audio {
 	void Sound::play()
 	{
 #ifdef SPARKY_EMSCRIPTEN
+		EM_ASM_ARGS(
+		{ window.SoundManager.play(Pointer_stringify($0)); },
+		getName().c_str()
+		);
 #else
 		gc_int32 quit = 0;
 		m_Handle = gau_create_handle_sound(SoundManager::m_Mixer, m_Sound, &destroy_on_finish, &quit, NULL);
@@ -47,6 +48,10 @@ namespace sparky { namespace audio {
 	void Sound::loop()
 	{
 #ifdef SPARKY_EMSCRIPTEN
+		EM_ASM_ARGS(
+		{ window.SoundManager.loop(Pointer_stringify($0)); },
+		getName().c_str()
+		);
 #else
 		gc_int32 quit = 0;
 		m_Handle = gau_create_handle_sound(SoundManager::m_Mixer, m_Sound, &loop_on_finish, &quit, NULL);
@@ -63,6 +68,10 @@ namespace sparky { namespace audio {
 
 		m_Playing = true;
 #ifdef SPARKY_EMSCRIPTEN
+		EM_ASM_ARGS(
+		{ window.SoundManager.play(Pointer_stringify($0)); },
+		getName().c_str()
+		);
 #else
 		ga_handle_play(m_Handle);
 #endif
@@ -75,6 +84,10 @@ namespace sparky { namespace audio {
 
 		m_Playing = false;
 #ifdef SPARKY_EMSCRIPTEN
+		EM_ASM_ARGS(
+		{ window.SoundManager.pause(Pointer_stringify($0)); },
+		getName().c_str()
+		);
 #else
 		ga_handle_stop(m_Handle);
 #endif
@@ -86,6 +99,10 @@ namespace sparky { namespace audio {
 			return;
 
 #ifdef SPARKY_EMSCRIPTEN
+		EM_ASM_ARGS(
+		{ window.SoundManager.stop(Pointer_stringify($0)); },
+		getName().c_str()
+		);
 #else
 		ga_handle_stop(m_Handle);
 #endif
@@ -101,6 +118,14 @@ namespace sparky { namespace audio {
 		}
 		m_Gain = gain;
 #ifdef SPARKY_EMSCRIPTEN
+		if (m_Gain > 1)
+			m_Gain = 1;
+		if (m_Gain < 0)
+			m_Gain = 0;
+		EM_ASM_ARGS(
+		{ window.SoundManager.setGain(Pointer_stringify($0), $1); },
+		getName().c_str(), (double)m_Gain
+		);
 #else
 		ga_handle_setParamf(m_Handle, GA_HANDLE_PARAM_GAIN, gain);
 #endif
