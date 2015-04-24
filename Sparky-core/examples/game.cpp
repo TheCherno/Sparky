@@ -44,7 +44,11 @@ public:
 		fps = new Label("", -15.5f, 7.8f, 0xffffffff);
 		layer->add(fps);
 
+#ifdef SPARKY_EMSCRIPTEN
 		SoundManager::add(new Sound("Cherno", "res/Cherno.ogg"));
+#else
+		SoundManager::add(new Sound("Cherno", "Cherno.ogg"));
+#endif
 	}
 
 	void tick() override
@@ -64,6 +68,21 @@ public:
 			sprite->position.x -= speed;
 		else if (window->isKeyPressed(GLFW_KEY_RIGHT))
 			sprite->position.x += speed;
+		
+		if (window->isKeyTyped(GLFW_KEY_P))
+			audio::SoundManager::get("Cherno")->play();
+		if (window->isKeyTyped(GLFW_KEY_S))
+			audio::SoundManager::get("Cherno")->stop();
+		if (window->isKeyTyped(GLFW_KEY_L))
+			audio::SoundManager::get("Cherno")->loop();
+		if (window->isKeyTyped(GLFW_KEY_J))
+			audio::SoundManager::get("Cherno")->pause();
+		if (window->isKeyTyped(GLFW_KEY_H))
+			audio::SoundManager::get("Cherno")->resume();
+		if (window->isKeyTyped(GLFW_KEY_I))
+			audio::SoundManager::get("Cherno")->setGain(audio::SoundManager::get("Cherno")->getGain()-0.1);
+		if (window->isKeyTyped(GLFW_KEY_G))
+			audio::SoundManager::get("Cherno")->setGain(audio::SoundManager::get("Cherno")->getGain()+0.1);
 
 		double x, y;
 		window->getMousePosition(x, y);

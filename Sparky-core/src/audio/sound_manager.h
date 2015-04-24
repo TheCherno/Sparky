@@ -21,8 +21,6 @@ namespace sparky { namespace audio {
 		friend class Sound;
 
 #ifdef SPARKY_EMSCRIPTEN
-		static std::map<std::string, int> m_SoundIDs;
-		static int s_SID;
 #else
 		static gau_Manager* m_Manager;
 		static ga_Mixer* m_Mixer;
