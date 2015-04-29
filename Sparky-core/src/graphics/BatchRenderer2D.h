@@ -38,6 +38,7 @@ namespace sparky { namespace graphics {
 		~BatchRenderer2D();
 		void begin() override;
 		void submit(const Renderable2D* renderable) override;
+		void drawLine(const maths::vec3& start, const maths::vec3& end, unsigned int color) override;
 		void drawString(const std::string& text, const maths::vec3& position, const Font& font, unsigned int color) override;
 		void end() override;
 		void flush() override;

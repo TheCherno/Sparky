@@ -51,7 +51,8 @@ namespace sparky { namespace graphics {
 		}
 
 		m_IBO = new IndexBuffer(indices, RENDERER_INDICES_SIZE);
-
+		m_Buffer = nullptr;
+		m_IndexCount = 0;
 		glBindVertexArray(0);
 
 #ifdef SPARKY_EMSCRIPTEN
@@ -126,6 +127,41 @@ namespace sparky { namespace graphics {
 		m_Buffer->vertex = *m_TransformationBack * maths::vec3(position.x + size.x, position.y, position.z);
 		m_Buffer->uv = uv[3];
 		m_Buffer->tid = ts;
+		m_Buffer->color = color;
+		m_Buffer++;
+
+		m_IndexCount += 6;
+	}
+
+	void BatchRenderer2D::drawLine(const maths::vec3& start, const maths::vec3& end, unsigned int color)
+	{
+		assert(m_Buffer && "Invalid buffer!");
+
+		float angle = atan2(start.y - end.y, start.x - end.x) + (M_PI / 2.0f);
+		float x = cos(angle);
+		float y = sin(angle);
+
+		m_Buffer->vertex = *m_TransformationBack * start;
+		m_Buffer->uv = maths::vec2(0, 1);
+		m_Buffer->tid = 0;
+		m_Buffer->color = color;
+		m_Buffer++;
+
+		m_Buffer->vertex = *m_TransformationBack * end;
+		m_Buffer->uv = maths::vec2(0, 0);
+		m_Buffer->tid = 0;
+		m_Buffer->color = color;
+		m_Buffer++;
+
+		m_Buffer->vertex = *m_TransformationBack * (end + maths::vec3(x * m_LineThickness, y * m_LineThickness, 0));
+		m_Buffer->uv = maths::vec2(1, 0);
+		m_Buffer->tid = 0;
+		m_Buffer->color = color;
+		m_Buffer++;
+
+		m_Buffer->vertex = *m_TransformationBack * (start + maths::vec3(x * m_LineThickness, y * m_LineThickness, 0));
+		m_Buffer->uv = maths::vec2(1, 1);
+		m_Buffer->tid = 0;
 		m_Buffer->color = color;
 		m_Buffer++;
 
@@ -229,6 +265,7 @@ namespace sparky { namespace graphics {
 		m_Buffer = m_BufferBase;
 #else
 		glUnmapBuffer(GL_ARRAY_BUFFER);
+		m_Buffer = nullptr;
 #endif
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}

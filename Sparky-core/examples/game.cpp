@@ -44,6 +44,8 @@ public:
 		fps = new Label("", -15.5f, 7.8f, 0xffffffff);
 		layer->add(fps);
 
+		layer->setLineThickness(0.05f);
+
 		SoundManager::add(new Sound("Cherno", "res/Cherno.ogg"));
 	}
 
@@ -72,6 +74,7 @@ public:
 
 	void render() override
 	{
+		layer->drawLine(maths::vec3(-2, -4, 0), maths::vec3(-1.5f, -2.5f, 0), 0xffff3020);
 		layer->render();
 	}
 };

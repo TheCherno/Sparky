@@ -20,11 +20,13 @@ namespace sparky { namespace graphics {
 	protected:
 		std::vector<maths::mat4> m_TransformationStack;
 		const maths::mat4* m_TransformationBack;
+		float m_LineThickness;
 	protected:
 		Renderer2D()
 		{
 			m_TransformationStack.push_back(maths::mat4::identity());
 			m_TransformationBack = &m_TransformationStack.back();
+			m_LineThickness = 1.0f;
 		}
 	public:
 		virtual ~Renderer2D() { }
@@ -48,6 +50,8 @@ namespace sparky { namespace graphics {
 
 		virtual void begin() {}
 		virtual void submit(const Renderable2D* renderable) = 0;
+		void setLineThickness(float thickness) { m_LineThickness = thickness; }
+		virtual void drawLine(const maths::vec3& start, const maths::vec3& end, unsigned int color) { }
 		virtual void drawString(const std::string& text, const maths::vec3& position, const Font& font, unsigned int color) { }
 		virtual void end() {}
 		virtual void flush() = 0;
