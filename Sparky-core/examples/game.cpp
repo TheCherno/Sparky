@@ -47,6 +47,8 @@ public:
 		layer->setLineThickness(0.05f);
 
 		SoundManager::add(new Sound("Cherno", "res/Cherno.ogg"));
+
+		Model model("cube.obj");
 	}
 
 	void tick() override

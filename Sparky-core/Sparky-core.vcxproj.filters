@@ -297,6 +297,9 @@
     <ClCompile Include="examples\game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\graphics\model\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ext\freetype\include\ft2build.h">
@@ -444,6 +447,9 @@
       <Filter>Header Files\utils</Filter>
     </ClInclude>
     <ClInclude Include="src\sparky.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\model\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

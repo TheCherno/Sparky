@@ -17,6 +17,8 @@
 #include "maths/maths.h"
 #include "utils/timer.h"
 
+#include "graphics/model/Model.h"
+
 #ifdef SPARKY_EMSCRIPTEN
 
 static void dispatch_main(void* fp)
