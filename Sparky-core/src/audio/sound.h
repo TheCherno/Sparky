@@ -19,7 +19,7 @@ namespace sparky { namespace audio {
 	private:
 		std::string m_Name;
 		std::string m_Filename;
-
+		unsigned int m_Count;
 #ifdef SPARKY_EMSCRIPTEN
 
 #else

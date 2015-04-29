@@ -13,6 +13,15 @@
 	#include "../../ext/gorilla-audio/gau.h"
 #endif
 
+#ifdef SPARKY_EMSCRIPTEN
+extern "C" void SoundManagerAdd(const char* name, const char* filename);
+extern "C" void SoundManagerPlay(const char* name);
+extern "C" void SoundManagerPause(const char* name);
+extern "C" void SoundManagerStop(const char* name);
+extern "C" void SoundManagerLoop(const char* name);
+extern "C" void SoundManagerSetGain(const char* name, double gain);
+#endif
+
 namespace sparky { namespace audio {
 
 	class SoundManager
@@ -21,8 +30,6 @@ namespace sparky { namespace audio {
 		friend class Sound;
 
 #ifdef SPARKY_EMSCRIPTEN
-		static std::map<std::string, int> m_SoundIDs;
-		static int s_SID;
 #else
 		static gau_Manager* m_Manager;
 		static ga_Mixer* m_Mixer;
