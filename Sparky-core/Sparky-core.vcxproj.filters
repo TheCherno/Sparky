@@ -466,5 +466,7 @@
     <None Include="src\shaders\basic.es3.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="src\shaders\model.vert" />
+    <None Include="src\shaders\model.frag" />
   </ItemGroup>
 </Project>

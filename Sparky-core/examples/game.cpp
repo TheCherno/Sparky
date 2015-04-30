@@ -11,6 +11,8 @@ private:
 	Label* fps;
 	Sprite* sprite;
 	Shader* shader;
+	Model* model;
+	float angle;
 public:
 	Game()
 	{
@@ -31,9 +33,9 @@ public:
 #ifdef SPARKY_EMSCRIPTEN
 		shader = new Shader("res/shaders/basic.es3.vert", "res/shaders/basic.es3.frag");
 #else
-		shader = new Shader("src/shaders/basic.vert", "src/shaders/basic.frag");
+		shader = new Shader("src/shaders/model.vert", "src/shaders/model.frag");
 #endif
-		layer = new Layer(new BatchRenderer2D(), shader, maths::mat4::orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+		layer = new Layer(new BatchRenderer2D(), shader, maths::mat4::perspective(65.0f, 16.0f / 9.0f, 0.1f, 1000.0f));
 #ifdef SPARKY_EMSCRIPTEN
 		sprite = new Sprite(0.0f, 0.0f, 4, 4, new Texture("res/tb.png"));
 #else
@@ -48,7 +50,11 @@ public:
 
 		SoundManager::add(new Sound("Cherno", "res/Cherno.ogg"));
 
-		Model model("cube.obj");
+		model = new Model("teapot.obj", 0.04f);
+		shader->enable();
+		maths::mat4 vw_matrix = maths::mat4::translation(maths::vec3(0, -2, -5));
+		//vw_matrix = vw_matrix * maths::mat4::rotation(angle, maths::vec3(0, 1, 0));
+		shader->setUniformMat4("vw_matrix", vw_matrix);
 	}
 
 	void tick() override
@@ -59,6 +65,7 @@ public:
 
 	void update() override
 	{
+
 		float speed = 0.5f;
 		if (window->isKeyPressed(GLFW_KEY_UP))
 			sprite->position.y += speed;
@@ -71,13 +78,18 @@ public:
 
 		double x, y;
 		window->getMousePosition(x, y);
-		shader->setUniform2f("light_pos", maths::vec2((float)(x * 32.0f / window->getWidth() - 16.0f), (float)(9.0f - y * 18.0f / window->getHeight())));
+		//shader->setUniform2f("light_pos", maths::vec2((float)(x * 32.0f / window->getWidth() - 16.0f), (float)(9.0f - y * 18.0f / window->getHeight())));
+		shader->enable();
+		maths::mat4 ml_matrix = maths::mat4::rotation(angle++, maths::vec3(0, 1, 0));
+		shader->setUniformMat4("ml_matrix", ml_matrix);
 	}
 
 	void render() override
 	{
-		layer->drawLine(maths::vec3(-2, -4, 0), maths::vec3(-1.5f, -2.5f, 0), 0xffff3020);
-		layer->render();
+		//layer->drawLine(maths::vec3(-2, -4, 0), maths::vec3(-1.5f, -2.5f, 0), 0xffff3020);
+		//layer->render();
+		shader->enable();
+		model->render();
 	}
 };
 

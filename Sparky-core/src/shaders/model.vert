@@ -12,7 +12,9 @@ uniform mat4 ml_matrix = mat4(1.0);
 
 out DATA
 {
-	vec4 position;
+	vec3 position;
+	vec3 camera_pos ;
+	vec3 normal;
 	vec2 uv;
 	float tid;
 	vec4 color;
@@ -21,8 +23,10 @@ out DATA
 void main()
 {
 	gl_Position = pr_matrix * vw_matrix * ml_matrix * position;
-	vs_out.position = ml_matrix * position;
+	vs_out.position = vec3(ml_matrix * position);
+	vs_out.camera_pos = vec3(vw_matrix * vec4(0.0, 0.0, 0.0, -1.0));
+	vs_out.normal = vec3(ml_matrix * vec4(normal, 0));
 	vs_out.uv = uv;
 	vs_out.tid = tid;
-	vs_out.color = color;
+	vs_out.color = vec4(0.4, 0.4, 0.4, 1.0);
 }
