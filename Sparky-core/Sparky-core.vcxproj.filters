@@ -300,6 +300,9 @@
     <ClCompile Include="src\graphics\model\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\graphics\CubeMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ext\freetype\include\ft2build.h">
@@ -452,6 +455,9 @@
     <ClInclude Include="src\graphics\model\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\graphics\CubeMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\basic.vert">
@@ -468,5 +474,7 @@
     </None>
     <None Include="src\shaders\model.vert" />
     <None Include="src\shaders\model.frag" />
+    <None Include="src\shaders\ibl.vert" />
+    <None Include="src\shaders\ibl.frag" />
   </ItemGroup>
 </Project>

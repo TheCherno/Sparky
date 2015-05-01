@@ -62,6 +62,7 @@ namespace sparky { namespace graphics {
 	void Layer::render()
 	{
 		m_Shader->enable();
+		m_Shader->setUniformMat4("pr_matrix", m_ProjectionMatrix);
 		m_Renderer->begin();
 
 		for (const Renderable2D* renderable : m_Renderables)

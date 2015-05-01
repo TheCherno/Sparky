@@ -44,7 +44,7 @@ namespace sparky { namespace graphics {
 				normals[std::get<2>(key)],
 				uvs[std::get<1>(key)],
 				0.0f,
-				0xffffffff
+				0xff7f7f7f
 			};
 			vertexData.push_back(mvd);
 		}

@@ -14,11 +14,12 @@ namespace sparky { namespace graphics {
 
 	class Layer
 	{
+	public:
+		Shader* m_Shader;
 	protected:
 		Renderer2D* m_Renderer;
 		std::vector<Renderable2D*> m_Renderables, m_TemporaryRenderables;
 		std::vector<Line> m_Lines;
-		Shader* m_Shader;
 		maths::mat4 m_ProjectionMatrix;
 	public:
 		Layer(Renderer2D* renderer, Shader* shader, maths::mat4 projectionMatrix);

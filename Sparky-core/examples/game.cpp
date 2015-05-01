@@ -7,12 +7,13 @@ class Game : public Sparky
 {
 private:
 	Window* window;
-	Layer* layer;
+	Layer* layer, *bg;
 	Label* fps;
-	Sprite* sprite;
 	Shader* shader;
 	Model* model;
 	float angle;
+	CubeMap* cubemap;
+	maths::mat4 pr_matrix, ml_matrix, vw_matrix;
 public:
 	Game()
 	{
@@ -26,35 +27,23 @@ public:
 
 	void init() override
 	{
-		using namespace audio;
-
 		window = createWindow("Test Game", 960, 540);
 		FontManager::get()->setScale(window->getWidth() / 32.0f, window->getHeight() / 18.0f);
-#ifdef SPARKY_EMSCRIPTEN
-		shader = new Shader("res/shaders/basic.es3.vert", "res/shaders/basic.es3.frag");
-#else
-		shader = new Shader("src/shaders/model.vert", "src/shaders/model.frag");
-#endif
-		layer = new Layer(new BatchRenderer2D(), shader, maths::mat4::perspective(65.0f, 16.0f / 9.0f, 0.1f, 1000.0f));
-#ifdef SPARKY_EMSCRIPTEN
-		sprite = new Sprite(0.0f, 0.0f, 4, 4, new Texture("res/tb.png"));
-#else
-		sprite = new Sprite(0.0f, 0.0f, 4, 4, new Texture("tb.png"));
-#endif
-		layer->add(sprite);
+		layer = new Layer(new BatchRenderer2D(), new Shader("src/shaders/basic.vert", "src/shaders/basic.frag"), maths::mat4::orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+		bg = new Layer(new BatchRenderer2D(), new Shader("src/shaders/basic.vert", "src/shaders/basic.frag"), maths::mat4::perspective(65.0f, 16.0f / 9.0f, 0.1f, 1000.0f));
 
 		fps = new Label("", -15.5f, 7.8f, 0xffffffff);
 		layer->add(fps);
+		bg->add(new Sprite(0, 0, 960, 540, new Texture("Skybox - tex.png")));
 
-		layer->setLineThickness(0.05f);
-
-		SoundManager::add(new Sound("Cherno", "res/Cherno.ogg"));
-
+		shader = new Shader("src/shaders/ibl.vert", "src/shaders/ibl.frag");
 		model = new Model("teapot.obj", 0.04f);
+		cubemap = new CubeMap("Skybox.png", 500, 500);
+		cubemap->bind();
 		shader->enable();
-		maths::mat4 vw_matrix = maths::mat4::translation(maths::vec3(0, -2, -5));
-		//vw_matrix = vw_matrix * maths::mat4::rotation(angle, maths::vec3(0, 1, 0));
-		shader->setUniformMat4("vw_matrix", vw_matrix);
+		shader->setUniform1i("diffuseEnvMap", 0);
+		pr_matrix = maths::mat4::perspective(65.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
+		vw_matrix = maths::mat4::translation(maths::vec3(0, -2, -5));
 	}
 
 	void tick() override
@@ -65,31 +54,25 @@ public:
 
 	void update() override
 	{
-
-		float speed = 0.5f;
-		if (window->isKeyPressed(GLFW_KEY_UP))
-			sprite->position.y += speed;
-		else if (window->isKeyPressed(GLFW_KEY_DOWN))
-			sprite->position.y -= speed;
-		if (window->isKeyPressed(GLFW_KEY_LEFT))
-			sprite->position.x -= speed;
-		else if (window->isKeyPressed(GLFW_KEY_RIGHT))
-			sprite->position.x += speed;
-
-		double x, y;
-		window->getMousePosition(x, y);
-		//shader->setUniform2f("light_pos", maths::vec2((float)(x * 32.0f / window->getWidth() - 16.0f), (float)(9.0f - y * 18.0f / window->getHeight())));
-		shader->enable();
-		maths::mat4 ml_matrix = maths::mat4::rotation(angle++, maths::vec3(0, 1, 0));
-		shader->setUniformMat4("ml_matrix", ml_matrix);
+		ml_matrix = maths::mat4::rotation(angle++, maths::vec3(0, 1, 0));
 	}
 
 	void render() override
 	{
-		//layer->drawLine(maths::vec3(-2, -4, 0), maths::vec3(-1.5f, -2.5f, 0), 0xffff3020);
-		//layer->render();
+		bg->m_Shader->enable();
+		bg->m_Shader->setUniformMat4("vw_matrix", maths::mat4::translation(maths::vec3(-405, -300, -350)));
+		bg->m_Shader->setUniformMat4("ml_matrix", maths::mat4::translation(maths::vec3(0, 0, -5)));
+		bg->render();
 		shader->enable();
+		shader->setUniformMat4("pr_matrix", pr_matrix);
+		shader->setUniformMat4("ml_matrix", ml_matrix);
+		shader->setUniformMat4("vw_matrix", vw_matrix);
+		glActiveTexture(GL_TEXTURE0);
+		cubemap->bind();
 		model->render();
+		glDisable(GL_DEPTH_TEST);
+		layer->render();
+		glEnable(GL_DEPTH_TEST);
 	}
 };
 

@@ -18,15 +18,24 @@ out DATA
 	vec2 uv;
 	float tid;
 	vec4 color;
+
+	vec3 reflectDir;
+	vec3 reflectNormal;
 } vs_out;
 
 void main()
 {
-	gl_Position = pr_matrix * vw_matrix * ml_matrix * position;
+	mat4 mvp = pr_matrix * vw_matrix * ml_matrix;
+	mat4 normalMatrix = transpose(inverse(mvp));
+	gl_Position = mvp * position;
+
 	vs_out.position = vec3(ml_matrix * position);
 	vs_out.camera_pos = vec3(vw_matrix * vec4(0.0, 0.0, 0.0, -1.0));
 	vs_out.normal = vec3(ml_matrix * vec4(normal, 0));
 	vs_out.uv = uv;
 	vs_out.tid = tid;
-	vs_out.color = vec4(0.4, 0.4, 0.4, 1.0);
+	vs_out.color = color;
+
+	vs_out.reflectNormal = normalize(mat3(normalMatrix) * normal);
+	vs_out.reflectDir = reflect(gl_Position.xyz, vs_out.reflectNormal);
 }

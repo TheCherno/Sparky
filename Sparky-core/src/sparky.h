@@ -6,6 +6,7 @@
 
 #include "graphics/label.h"
 #include "graphics/sprite.h"
+#include "graphics/CubeMap.h"
 #include "graphics/renderer2d.h"
 #include "graphics/batchrenderer2d.h"
 #include "graphics/window.h"

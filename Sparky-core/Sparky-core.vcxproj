@@ -185,6 +185,7 @@
     <ClCompile Include="src\graphics\buffers\buffer.cpp" />
     <ClCompile Include="src\graphics\buffers\indexbuffer.cpp" />
     <ClCompile Include="src\graphics\buffers\vertexarray.cpp" />
+    <ClCompile Include="src\graphics\CubeMap.cpp" />
     <ClCompile Include="src\graphics\font.cpp" />
     <ClCompile Include="src\graphics\font_manager.cpp" />
     <ClCompile Include="src\graphics\label.cpp" />
@@ -228,6 +229,7 @@
     <ClInclude Include="src\graphics\buffers\buffer.h" />
     <ClInclude Include="src\graphics\buffers\indexbuffer.h" />
     <ClInclude Include="src\graphics\buffers\vertexarray.h" />
+    <ClInclude Include="src\graphics\CubeMap.h" />
     <ClInclude Include="src\graphics\font.h" />
     <ClInclude Include="src\graphics\font_manager.h" />
     <ClInclude Include="src\graphics\label.h" />
@@ -258,6 +260,8 @@
     <None Include="src\shaders\basic.es3.vert" />
     <None Include="src\shaders\basic.frag" />
     <None Include="src\shaders\basic.vert" />
+    <None Include="src\shaders\ibl.frag" />
+    <None Include="src\shaders\ibl.vert" />
     <None Include="src\shaders\model.frag" />
     <None Include="src\shaders\model.vert" />
   </ItemGroup>
