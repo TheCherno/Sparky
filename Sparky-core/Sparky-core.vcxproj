@@ -23,7 +23,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -77,6 +77,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
+      <AdditionalIncludeDirectories>src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -96,6 +97,7 @@
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <AdditionalIncludeDirectories>src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -118,6 +120,7 @@
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <AdditionalIncludeDirectories>src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -193,6 +196,7 @@
     <ClCompile Include="src\graphics\shader.cpp" />
     <ClCompile Include="src\graphics\sprite.cpp" />
     <ClCompile Include="src\graphics\texture.cpp" />
+    <ClCompile Include="src\graphics\texture_manager.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
     <ClCompile Include="src\maths\mat4.cpp" />
     <ClCompile Include="src\maths\vec2.cpp" />
@@ -237,6 +241,7 @@
     <ClInclude Include="src\graphics\shader.h" />
     <ClInclude Include="src\graphics\sprite.h" />
     <ClInclude Include="src\graphics\texture.h" />
+    <ClInclude Include="src\graphics\texture_manager.h" />
     <ClInclude Include="src\graphics\window.h" />
     <ClInclude Include="src\maths\mat4.h" />
     <ClInclude Include="src\maths\maths.h" />
@@ -247,6 +252,7 @@
     <ClInclude Include="src\sparky.h" />
     <ClInclude Include="src\utils\fileutils.h" />
     <ClInclude Include="src\utils\ImageLoad.h" />
+    <ClInclude Include="src\utils\Log.h" />
     <ClInclude Include="src\utils\stringutils.h" />
     <ClInclude Include="src\utils\timer.h" />
     <ClInclude Include="tilelayer.h" />
@@ -256,6 +262,9 @@
     <None Include="src\shaders\basic.es3.vert" />
     <None Include="src\shaders\basic.frag" />
     <None Include="src\shaders\basic.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="SparkyCore-TODO.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

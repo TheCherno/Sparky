@@ -45,6 +45,7 @@ namespace sparky { namespace graphics {
 	Window::~Window()
 	{
 		FontManager::clean();
+		TextureManager::clean();
 		audio::SoundManager::clean();
 		glfwTerminate();
 	}
@@ -121,10 +122,9 @@ namespace sparky { namespace graphics {
 		return m_MouseClicked[button];
 	}
 
-	void Window::getMousePosition(double& x, double& y) const
+	const maths::vec2& Window::getMousePosition() const
 	{
-		x = mx;
-		y = my;
+		return m_MousePosition;
 	}
 
 	void Window::clear() const
@@ -134,6 +134,18 @@ namespace sparky { namespace graphics {
 
  	void Window::update()
 	{
+		GLenum error = glGetError();
+		if (error != GL_NO_ERROR)
+			std::cout << "OpenGL Error: " << error << std::endl;
+
+		glfwSwapBuffers(m_Window);
+		glfwPollEvents();
+
+		audio::SoundManager::update();
+	}
+
+	void Window::updateInput()
+	{
 		for (int i = 0; i < MAX_KEYS; i++)
 			m_KeyTyped[i] = m_Keys[i] && !m_KeyState[i];
 
@@ -142,15 +154,6 @@ namespace sparky { namespace graphics {
 
 		memcpy(m_KeyState, m_Keys, MAX_KEYS);
 		memcpy(m_MouseState, m_MouseButtons, MAX_BUTTONS);
-
-		GLenum error = glGetError();
-		if (error != GL_NO_ERROR)
-			std::cout << "OpenGL Error: " << error << std::endl;
-
-		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
-
-		audio::SoundManager::update();
 	}
 
 	bool Window::closed() const
@@ -181,8 +184,8 @@ namespace sparky { namespace graphics {
 	void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 	{
 		Window* win = (Window*)glfwGetWindowUserPointer(window);
-		win->mx = xpos;
-		win->my = ypos;
+		win->m_MousePosition.x = (float) xpos;
+		win->m_MousePosition.y = (float) ypos;
 	}
 
 } }

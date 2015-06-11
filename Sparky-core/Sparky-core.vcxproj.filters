@@ -297,6 +297,9 @@
     <ClCompile Include="examples\game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\graphics\texture_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ext\freetype\include\ft2build.h">
@@ -446,6 +449,12 @@
     <ClInclude Include="src\sparky.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\graphics\texture_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\Log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\basic.vert">
@@ -460,5 +469,8 @@
     <None Include="src\shaders\basic.es3.frag">
       <Filter>Shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="SparkyCore-TODO.txt" />
   </ItemGroup>
 </Project>

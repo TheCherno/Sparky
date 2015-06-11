@@ -12,6 +12,16 @@ namespace sparky { namespace audio {
 	void SoundManager::init()
 	{
 #ifdef SPARKY_EMSCRIPTEN
+		EM_ASM(
+		Module.SoundManager = { };
+		Module.SoundManager.m_Sounds = { };
+		Module.SoundManagerAdd = function(name, filename) { Module.SoundManager.m_Sounds[name] = new Audio(filename); };
+		Module.SoundManagerPlay = function(name) { Module.SoundManager.m_Sounds[name].play(); };
+		Module.SoundManagerPause = function(name) { Module.SoundManager.m_Sounds[name].pause(); };
+		Module.SoundManagerStop = function(name) { Module.SoundManagerPause(name); Module.SoundManager.m_Sounds[name].currentTime = 0; Module.SoundManager.m_Sounds[name].loop = false; };
+		Module.SoundManagerLoop = function(name) { Module.SoundManager.m_Sounds[name].play(); Module.SoundManager.m_Sounds[name].loop = true; };
+		Module.SoundManagerSetGain = function(name, gain) { Module.SoundManager.m_Sounds[name].volume = gain; };
+		);
 #else
 		gc_initialize(0);
 		m_Manager = gau_manager_create();
@@ -19,9 +29,13 @@ namespace sparky { namespace audio {
 #endif
 	}
 
-	void SoundManager::add(Sound* sound)
+	Sound* SoundManager::add(Sound* sound)
 	{
 		m_Sounds.push_back(sound);
+#ifdef SPARKY_EMSCRIPTEN
+		SoundManagerAdd(sound->getName().c_str(), sound->getFileName().c_str());
+#endif
+		return sound;
 	}
 
 	Sound* SoundManager::get(const std::string& name)

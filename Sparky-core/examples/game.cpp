@@ -33,14 +33,16 @@ public:
 #endif
 		layer = new Layer(new BatchRenderer2D(), shader, maths::mat4::orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
 #ifdef SPARKY_EMSCRIPTEN
-		sprite = new Sprite(0.0f, 0.0f, 4, 4, new Texture("res/tb.png"));
+		sprite = new Sprite(0.0f, 0.0f, 4, 4, new Texture("Tex", "res/tb.png"));
 #else
-		sprite = new Sprite(0.0f, 0.0f, 4, 4, new Texture("tb.png"));
+		sprite = new Sprite(0.0f, 0.0f, 4, 4, new Texture("Tex", "tb.png"));
 #endif
 		layer->add(sprite);
 
 		fps = new Label("", -15.5f, 7.8f, 0xffffffff);
 		layer->add(fps);
+
+		audio::SoundManager::add(new audio::Sound("Lol", "Cherno.ogg"))->play();
 	}
 
 	void tick() override
@@ -61,9 +63,8 @@ public:
 		else if (window->isKeyPressed(GLFW_KEY_RIGHT))
 			sprite->position.x += speed;
 
-		double x, y;
-		window->getMousePosition(x, y);
-		shader->setUniform2f("light_pos", maths::vec2((float)(x * 32.0f / window->getWidth() - 16.0f), (float)(9.0f - y * 18.0f / window->getHeight())));
+		maths::vec2 mouse = window->getMousePosition();
+		shader->setUniform2f("light_pos", maths::vec2((float)(mouse.x * 32.0f / window->getWidth() - 16.0f), (float)(9.0f - mouse.y * 18.0f / window->getHeight())));
 	}
 
 	void render() override
