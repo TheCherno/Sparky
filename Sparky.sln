@@ -16,6 +16,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libvorbis", "libvorbis\libv
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libogg", "libogg\libogg.vcxproj", "{54CE06E0-6313-4F5E-8BDA-4E7815C8743C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "Sandbox\Sandbox.vcxproj", "{3A87EAB9-F0FF-4C31-905F-E3D07BF021FF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C737C239-3A40-4388-9C61-6CF779025785} = {C737C239-3A40-4388-9C61-6CF779025785}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -39,6 +44,12 @@ Global
 		{54CE06E0-6313-4F5E-8BDA-4E7815C8743C}.Emscripten|Win32.ActiveCfg = Release|Win32
 		{54CE06E0-6313-4F5E-8BDA-4E7815C8743C}.Release|Win32.ActiveCfg = Release|Win32
 		{54CE06E0-6313-4F5E-8BDA-4E7815C8743C}.Release|Win32.Build.0 = Release|Win32
+		{3A87EAB9-F0FF-4C31-905F-E3D07BF021FF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3A87EAB9-F0FF-4C31-905F-E3D07BF021FF}.Debug|Win32.Build.0 = Debug|Win32
+		{3A87EAB9-F0FF-4C31-905F-E3D07BF021FF}.Emscripten|Win32.ActiveCfg = Release|Win32
+		{3A87EAB9-F0FF-4C31-905F-E3D07BF021FF}.Emscripten|Win32.Build.0 = Release|Win32
+		{3A87EAB9-F0FF-4C31-905F-E3D07BF021FF}.Release|Win32.ActiveCfg = Release|Win32
+		{3A87EAB9-F0FF-4C31-905F-E3D07BF021FF}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

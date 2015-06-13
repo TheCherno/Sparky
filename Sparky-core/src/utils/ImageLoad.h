@@ -18,8 +18,8 @@ namespace sparky {
 
 		if (FreeImage_FIFSupportsReading(fif))
 			dib = FreeImage_Load(fif, filename);
-		if (!dib)
-			return nullptr;
+
+		SPARKY_ASSERT(dib, "Could not load image '", filename, "'!");
 
 		BYTE* pixels = FreeImage_GetBits(dib);
 		*width = FreeImage_GetWidth(dib);

@@ -4,13 +4,7 @@
 #include <string>
 #include <utils/Log.h>
 #include <FreeImage.h>
-
-#ifdef SPARKY_EMSCRIPTEN
-	#define GLFW_INCLUDE_ES3
-	#include <GLFW/glfw3.h>
-#else
-	#include <GL/glew.h>
-#endif
+#include <sparkygl.h>
 
 #include "../utils/ImageLoad.h"
 

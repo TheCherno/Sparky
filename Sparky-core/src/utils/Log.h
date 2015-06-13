@@ -19,7 +19,7 @@ namespace std
 	template <typename T>
 	string to_string(const T& t)
 	{
-		return "[Unsupported type!] (to_string)";
+		return std::string("[Unsupported type (") + typeid(T).name() + std::string(")!] (to_string)");
 	}
 }
 
@@ -51,6 +51,30 @@ namespace sparky { namespace internal {
 	static const char* to_string(const T& t)
 	{
 		return to_string_internal<T>(t, std::integral_constant<bool, has_iterator<T>::value>());
+	}
+
+	template <>
+	static const char* to_string<char>(char const & t)
+	{
+		return &t;
+	}
+
+	template <>
+	static const char* to_string<char*>(char* const & t)
+	{
+		return t;
+	}
+
+	template <>
+	static const char* to_string<char const*>(char const * const & t)
+	{
+		return t;
+	}
+
+	template <>
+	static const char* to_string<std::string>(std::string const & t)
+	{
+		return t.c_str();
 	}
 
 	template <typename T>
@@ -106,7 +130,7 @@ namespace sparky { namespace internal {
 	}
 
 	template<>
-	static  const char* to_string_internal<const char*>(const char* const& v, const std::false_type& ignored)
+	static const char* to_string_internal<const char*>(const char* const& v, const std::false_type& ignored)
 	{
 		return v;
 	}
@@ -134,13 +158,15 @@ namespace sparky { namespace internal {
 	}
 
 	template <typename... Args>
-	static void log_message(int level, Args... args)
+	static void log_message(int level, bool newline, Args... args)
 	{
 		char buffer[1024 * 10];
 		int position = 0;
 		print_log_internal(buffer, position, std::forward<Args>(args)...);
 
-		buffer[position++] = '\n';
+		if (newline)
+			buffer[position++] = '\n';
+
 		buffer[position] = 0;
 
 		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -160,58 +186,58 @@ namespace sparky { namespace internal {
 		SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	}
 } }
-#define SPARKY_ASSERT(x, m) \
+
+#ifndef SPARKY_LOG_LEVEL
+#define SPARKY_LOG_LEVEL SPARKY_LOG_LEVEL_INFO
+#endif
+
+#if SPARKY_LOG_LEVEL >= SPARKY_LOG_LEVEL_FATAL
+#define SPARKY_FATAL(...) sparky::internal::log_message(SPARKY_LOG_LEVEL_FATAL, true, "SPARKY:    ", __VA_ARGS__)
+#define _SPARKY_FATAL(...) sparky::internal::log_message(SPARKY_LOG_LEVEL_FATAL, false, __VA_ARGS__)
+#else
+#define SPARKY_FATAL(...)
+#endif
+
+#if SPARKY_LOG_LEVEL >= SPARKY_LOG_LEVEL_ERROR
+#define SPARKY_ERROR(...) sparky::internal::log_message(SPARKY_LOG_LEVEL_ERROR, true, "SPARKY:    ", __VA_ARGS__)
+#else
+#define SPARKY_ERROR(...)
+#endif
+
+#if SPARKY_LOG_LEVEL >= SPARKY_LOG_LEVEL_WARN
+#define SPARKY_WARN(...) sparky::internal::log_message(SPARKY_LOG_LEVEL_WARN, true, "SPARKY:    ", __VA_ARGS__)
+#else
+#define SPARKY_WARN(...)
+#endif
+
+#if SPARKY_LOG_LEVEL >= SPARKY_LOG_LEVEL_INFO
+#define SPARKY_INFO(...) sparky::internal::log_message(SPARKY_LOG_LEVEL_INFO, true, "SPARKY:    ", __VA_ARGS__)
+#else
+#define SPARKY_INFO(...)
+#endif
+
+#define SPARKY_ASSERT(x, ...) \
 	do { \
 	if (!(x)) \
-	{ \
+		{ \
 		char* file = __FILE__; \
 		unsigned int last = 0; \
 		char* c; \
 		for (c = file; *c != '\0'; c++) \
-		{ \
+				{ \
 			if (*c == '\\' || *c == '/') \
 				last = c - file; \
-		} \
-		printf("\n"); \
-		printf("*************************\n"); \
-		printf("    ASSERTION FAILED!    \n"); \
-		printf("*************************\n"); \
-		printf("%s\n", #x); \
-		char* message = m; \
-		if (message[0] != '\0') \
-			printf("%s\n", m); \
-		printf("-> "); \
+				} \
+		SPARKY_FATAL(""); \
+		SPARKY_FATAL("*************************"); \
+		SPARKY_FATAL("    ASSERTION FAILED!    "); \
+		SPARKY_FATAL("*************************"); \
+		SPARKY_FATAL(#x); \
+		SPARKY_FATAL(__VA_ARGS__); \
+		_SPARKY_FATAL("-> "); \
 		for (int i = last + 1; i < c - file; i++) \
-			printf("%c", file[i]); \
-		printf(":%d\n", __LINE__); \
+			_SPARKY_FATAL(file[i]); \
+		_SPARKY_FATAL(":", __LINE__, "\n"); \
 		*(int*)NULL = 8; \
-	} \
+		} \
 	} while(0)
-
-#ifndef SPARKY_LOG_LEVEL
-	#define SPARKY_LOG_LEVEL SPARKY_LOG_LEVEL_INFO
-#endif
-
-#if SPARKY_LOG_LEVEL >= SPARKY_LOG_LEVEL_FATAL
-	#define SPARKY_FATAL(...) sparky::internal::log_message(SPARKY_LOG_LEVEL_FATAL, "SPARKY:    ", __VA_ARGS__)
-#else
-	#define SPARKY_FATAL(...)
-#endif
-
-#if SPARKY_LOG_LEVEL >= SPARKY_LOG_LEVEL_ERROR
-	#define SPARKY_ERROR(...) sparky::internal::log_message(SPARKY_LOG_LEVEL_ERROR, "SPARKY:    ", __VA_ARGS__)
-#else
-	#define SPARKY_ERROR(...)
-#endif
-
-#if SPARKY_LOG_LEVEL >= SPARKY_LOG_LEVEL_WARN
-	#define SPARKY_WARN(...) sparky::internal::log_message(SPARKY_LOG_LEVEL_WARN, "SPARKY:    ", __VA_ARGS__)
-#else
-	#define SPARKY_WARN(...)
-#endif
-
-#if SPARKY_LOG_LEVEL >= SPARKY_LOG_LEVEL_INFO
-	#define SPARKY_INFO(...) sparky::internal::log_message(SPARKY_LOG_LEVEL_INFO, "SPARKY:    ", __VA_ARGS__)
-#else
-	#define SPARKY_INFO(...)
-#endif

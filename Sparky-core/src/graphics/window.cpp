@@ -18,7 +18,8 @@ namespace sparky { namespace graphics {
 #ifdef SPARKY_EMSCRIPTEN
 		FontManager::add(new Font("SourceSansPro", "res/SourceSansPro-Light.ttf", 32));
 #else
-		FontManager::add(new Font("SourceSansPro", "SourceSansPro-Light.ttf", 32));
+		// TODO: A default font should probably be embedded into the engine.
+		FontManager::add(new Font("SourceSansPro", "res/SourceSansPro-Light.ttf", 32));
 #endif
 
 #ifdef SPARKY_EMSCRIPTEN

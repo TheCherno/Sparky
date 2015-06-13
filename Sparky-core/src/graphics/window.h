@@ -1,15 +1,7 @@
 #pragma once
 
 #include <iostream>
-
-#ifdef SPARKY_EMSCRIPTEN
-	#define GLFW_INCLUDE_ES3
-	#include <FreeImage.h>
-#else
-	#include <GL/glew.h>
-#endif
-
-#include <GLFW/glfw3.h>
+#include <sparkygl.h>
 
 #include "../maths/vec2.h"
 #include "font_manager.h"
