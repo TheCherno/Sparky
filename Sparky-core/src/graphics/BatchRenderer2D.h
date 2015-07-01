@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <utils/Log.h>
+#include <sparky_types.h>
 
 #include "renderer2d.h"
 #include "renderable2d.h"
@@ -15,7 +16,7 @@ namespace sparky { namespace graphics {
 #define RENDERER_SPRITE_SIZE	RENDERER_VERTEX_SIZE * 4
 #define RENDERER_BUFFER_SIZE	RENDERER_SPRITE_SIZE * RENDERER_MAX_SPRITES
 #define RENDERER_INDICES_SIZE	RENDERER_MAX_SPRITES * 6
-#define RENDERER_MAX_TEXTURES	32
+#define RENDERER_MAX_TEXTURES	32 - 1
 
 #define SHADER_VERTEX_INDEX 0
 #define SHADER_UV_INDEX		1
@@ -30,13 +31,14 @@ namespace sparky { namespace graphics {
 		IndexBuffer* m_IBO;
 		GLsizei m_IndexCount;
 		VertexData* m_Buffer;
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 		VertexData* m_BufferBase;
 #endif
 		std::vector<GLuint> m_TextureSlots;
 	public:
 		BatchRenderer2D();
 		~BatchRenderer2D();
+
 		void begin() override;
 		void submit(const Renderable2D* renderable) override;
 		void drawString(const std::string& text, const maths::vec3& position, const Font& font, unsigned int color) override;

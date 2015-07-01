@@ -4,7 +4,7 @@
 
 #include "sound.h"
 
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 	#include <emscripten/emscripten.h>
 	#include <map>
 #else
@@ -13,7 +13,7 @@
 	#include "../../ext/gorilla-audio/gau.h"
 #endif
 
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 extern "C" void SoundManagerAdd(const char* name, const char* filename);
 extern "C" void SoundManagerPlay(const char* name);
 extern "C" void SoundManagerPause(const char* name);
@@ -29,7 +29,7 @@ namespace sparky { namespace audio {
 	private:
 		friend class Sound;
 
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 #else
 		static gau_Manager* m_Manager;
 		static ga_Mixer* m_Mixer;

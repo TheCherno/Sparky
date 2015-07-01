@@ -228,7 +228,7 @@
     <ClCompile Include="src\maths\vec4.cpp">
       <Filter>Source Files\maths</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\shader.cpp">
+    <ClCompile Include="src\graphics\shaders\Shader.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\graphics\texture.cpp">
@@ -297,6 +297,9 @@
     <ClCompile Include="src\graphics\texture_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\graphics\shaders\ShaderFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ext\freetype\include\ft2build.h">
@@ -344,7 +347,7 @@
     <ClInclude Include="src\graphics\renderer2d.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\shader.h">
+    <ClInclude Include="src\graphics\shaders\Shader.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\texture.h">
@@ -453,6 +456,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\sparkygl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sparky_types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\shaders\ShaderFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

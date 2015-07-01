@@ -2,6 +2,8 @@
 
 namespace sparky { namespace graphics {
 
+	TextureWrap Texture::s_WrapMode = REPEAT;
+
 	Texture::Texture(const std::string& name, const std::string& filename)
 		: m_Name(name), m_FileName(filename)
 	{
@@ -22,13 +24,15 @@ namespace sparky { namespace graphics {
 		glBindTexture(GL_TEXTURE_2D, result);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (GLint)s_WrapMode);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (GLint)s_WrapMode);
 
 		if (m_Bits != 24 && m_Bits != 32)
 			SPARKY_ERROR("[Texture] Unsupported image bit-depth! (%d)", m_Bits);
 
 		GLint internalFormat = m_Bits == 32 ? GL_RGBA : GL_RGB;
 		GLenum format = m_Bits == 32 ?
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 		GL_RGBA : GL_RGB;
 #else
 		GL_BGRA : GL_BGR;

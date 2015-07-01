@@ -1,5 +1,7 @@
 #pragma once
 
+#include <sparky_types.h>
+
 #include "buffers/buffer.h"
 #include "buffers/indexbuffer.h"
 #include "buffers/vertexarray.h"
@@ -8,7 +10,7 @@
 #include "texture.h"
 
 #include "../maths/maths.h"
-#include "shader.h"
+#include "shaders/shader.h"
 
 namespace sparky { namespace graphics {
 
@@ -45,10 +47,10 @@ namespace sparky { namespace graphics {
 		void setColor(unsigned int color) { m_Color = color; }
 		void setColor(const maths::vec4& color)
 		{ 
-			int r = color.x * 255.0f;
-			int g = color.y * 255.0f;
-			int b = color.z * 255.0f;
-			int a = color.w * 255.0f;
+			uint r = (uint)(color.x * 255.0f);
+			uint g = (uint)(color.y * 255.0f);
+			uint b = (uint)(color.z * 255.0f);
+			uint a = (uint)(color.w * 255.0f);
 
 			m_Color = a << 24 | b << 16 | g << 8 | r;
 		}

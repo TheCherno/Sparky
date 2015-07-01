@@ -15,14 +15,14 @@ namespace sparky { namespace graphics {
 		if (!init())
 			glfwTerminate();
 
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 		FontManager::add(new Font("SourceSansPro", "res/SourceSansPro-Light.ttf", 32));
 #else
 		// TODO: A default font should probably be embedded into the engine.
 		FontManager::add(new Font("SourceSansPro", "res/SourceSansPro-Light.ttf", 32));
 #endif
 
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 		FreeImage_Initialise();
 #endif
 
@@ -72,7 +72,7 @@ namespace sparky { namespace graphics {
 		glfwSetCursorPosCallback(m_Window, cursor_position_callback);
 		glfwSwapInterval(0.0);
 
-#ifndef SPARKY_EMSCRIPTEN
+#ifndef SPARKY_PLATFORM_WEB
 		if (glewInit() != GLEW_OK)
 		{
 			std::cout << "Could not initialize GLEW!" << std::endl;

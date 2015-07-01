@@ -38,7 +38,7 @@ namespace sparky { namespace graphics {
 
 	void FontManager::clean()
 	{
-		for (int i = 0; i < m_Fonts.size(); i++)
+		for (uint i = 0; i < m_Fonts.size(); i++)
 			delete m_Fonts[i];
 	}
 

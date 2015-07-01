@@ -12,12 +12,12 @@ namespace sparky { namespace graphics {
 	private:
 		ftgl::texture_atlas_t* m_FTAtlas;
 		ftgl::texture_font_t* m_FTFont;
-		unsigned int m_Size;
+		float m_Size;
 		maths::vec2 m_Scale;
 		std::string m_Name;
 		std::string m_Filename;
 	public:
-		Font(std::string name, std::string filename, int size);
+		Font(std::string name, std::string filename, float size);
 
 		void setScale(float x, float y);
 
@@ -27,7 +27,7 @@ namespace sparky { namespace graphics {
 		inline const maths::vec2& getScale() const { return m_Scale; }
 		inline const std::string& getName() const { return m_Name; }
 		inline const std::string& getFileName() const { return m_Filename; }
-		inline const int getSize() const { return m_Size; }
+		inline const float getSize() const { return m_Size; }
 	};
 
 } }

@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "Sandbox\Sandbox.
 		{C737C239-3A40-4388-9C61-6CF779025785} = {C737C239-3A40-4388-9C61-6CF779025785}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{CDF953E8-D5D6-4797-AA4A-5C7D86DE1F64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -53,6 +55,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8ED62764-0D19-40AC-BC88-E82AADF1189B} = {CDF953E8-D5D6-4797-AA4A-5C7D86DE1F64}
+		{54CE06E0-6313-4F5E-8BDA-4E7815C8743C} = {CDF953E8-D5D6-4797-AA4A-5C7D86DE1F64}
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true

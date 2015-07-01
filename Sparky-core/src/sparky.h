@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 	#include <emscripten/emscripten.h>
 #endif
 
@@ -8,10 +8,13 @@
 #include "graphics/sprite.h"
 #include "graphics/renderer2d.h"
 #include "graphics/batchrenderer2d.h"
-#include "graphics/window.h"
 #include "graphics/layers/layer.h"
 #include "graphics/layers/group.h"
 #include "graphics/texture_manager.h"
+#include "graphics/window.h"
+
+#include "graphics/shaders/Shader.h"
+#include "graphics/shaders/ShaderFactory.h"
 
 #include "audio/sound.h"
 #include "audio/sound_manager.h"
@@ -19,7 +22,7 @@
 #include "maths/maths.h"
 #include "utils/timer.h"
 
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 
 static void dispatch_main(void* fp)
 {
@@ -84,7 +87,7 @@ namespace sparky {
 			float updateTick = 1.0f / 60.0f;
 			unsigned int frames = 0;
 			unsigned int updates = 0;
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 			std::function<void()> mainLoop = [&]() {
 #else
 			while (!m_Window->closed())
@@ -110,7 +113,7 @@ namespace sparky {
 					updates = 0;
 					tick();
 				}
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 			};
 			emscripten_set_main_loop_arg(dispatch_main, &mainLoop, 0, 1);
 #else

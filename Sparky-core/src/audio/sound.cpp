@@ -12,7 +12,7 @@ namespace sparky { namespace audio {
 			std::cout << "[Sound] Invalid file name '" << m_Filename << "'!" << std::endl;
 			return;
 		}
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 #else
 		m_Sound = gau_load_sound_file(filename.c_str(), split.back().c_str());
 		if (m_Sound == nullptr)
@@ -23,7 +23,7 @@ namespace sparky { namespace audio {
 
 	Sound::~Sound()
 	{
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 #else
 		ga_sound_release(m_Sound);
 #endif
@@ -31,7 +31,7 @@ namespace sparky { namespace audio {
 
 	void Sound::play()
 	{
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 		SoundManagerPlay(m_Name.c_str());
 #else
 		gc_int32 quit = 0;
@@ -45,7 +45,7 @@ namespace sparky { namespace audio {
 
 	void Sound::loop()
 	{
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 		SoundManagerLoop(m_Name.c_str());
 #else
 		gc_int32 quit = 0;
@@ -62,7 +62,7 @@ namespace sparky { namespace audio {
 			return;
 
 		m_Playing = true;
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 		SoundManagerPlay(m_Name.c_str());
 #else
 		ga_handle_play(m_Handle);
@@ -75,7 +75,7 @@ namespace sparky { namespace audio {
 			return;
 
 		m_Playing = false;
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 		SoundManagerPause(m_Name.c_str());
 #else
 		ga_handle_stop(m_Handle);
@@ -87,7 +87,7 @@ namespace sparky { namespace audio {
 		if (!m_Playing)
 			return;
 
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 		SoundManagerStop(m_Name.c_str());
 #else
 		ga_handle_stop(m_Handle);
@@ -103,14 +103,14 @@ namespace sparky { namespace audio {
 			return;
 		}
 		m_Gain = gain;
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 		SoundManagerSetGain(m_Name.c_str(), gain);
 #else
 		ga_handle_setParamf(m_Handle, GA_HANDLE_PARAM_GAIN, gain);
 #endif
 	}
 
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 #else
 	void destroy_on_finish(ga_Handle* in_handle, void* in_context)
 	{

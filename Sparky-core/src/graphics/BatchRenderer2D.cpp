@@ -56,7 +56,7 @@ namespace sparky { namespace graphics {
 
 		glBindVertexArray(0);
 
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 		m_BufferBase = new VertexData[RENDERER_MAX_SPRITES * 4];
 #endif
 
@@ -65,7 +65,7 @@ namespace sparky { namespace graphics {
 	void BatchRenderer2D::begin()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 		m_Buffer = m_BufferBase;
 #else
 		m_Buffer = (VertexData*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
@@ -84,7 +84,7 @@ namespace sparky { namespace graphics {
 		if (tid > 0)
 		{
 			bool found = false;
-			for (int i = 0; i < m_TextureSlots.size(); i++)
+			for (uint i = 0; i < m_TextureSlots.size(); i++)
 			{
 				if (m_TextureSlots[i] == tid)
 				{
@@ -140,7 +140,7 @@ namespace sparky { namespace graphics {
 
 		float ts = 0.0f;
 		bool found = false;
-		for (int i = 0; i < m_TextureSlots.size(); i++)
+		for (uint i = 0; i < m_TextureSlots.size(); i++)
 		{
 			if (m_TextureSlots[i] == font.getID())
 			{
@@ -168,7 +168,7 @@ namespace sparky { namespace graphics {
 
 		texture_font_t* ftFont = font.getFTFont();
 
-		for (int i = 0; i < text.length(); i++)
+		for (uint i = 0; i < text.length(); i++)
 		{
 			char c = text[i];
 			texture_glyph_t* glyph = texture_font_get_glyph(ftFont, c);
@@ -225,7 +225,7 @@ namespace sparky { namespace graphics {
 
 	void BatchRenderer2D::end()
 	{
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, (m_Buffer - m_BufferBase) * RENDERER_VERTEX_SIZE, m_BufferBase);
 		m_Buffer = m_BufferBase;
@@ -237,11 +237,14 @@ namespace sparky { namespace graphics {
 
 	void BatchRenderer2D::flush()
 	{
-		for (int i = 0; i < m_TextureSlots.size(); i++)
+		for (uint i = 0; i < m_TextureSlots.size(); i++)
 		{
 			glActiveTexture(GL_TEXTURE0 + i);
 			glBindTexture(GL_TEXTURE_2D, m_TextureSlots[i]);
 		}
+
+		glActiveTexture(GL_TEXTURE31);
+		m_Mask->bind();
 
 		glBindVertexArray(m_VAO);
 		m_IBO->bind();

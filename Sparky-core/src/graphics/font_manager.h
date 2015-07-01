@@ -1,6 +1,8 @@
 #pragma once
 
 #include <vector>
+#include <sparky_types.h>
+
 #include "font.h"
 
 namespace sparky { namespace graphics {

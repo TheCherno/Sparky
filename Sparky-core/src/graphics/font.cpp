@@ -2,7 +2,7 @@
 
 namespace sparky { namespace graphics {
 
-	Font::Font(std::string name, std::string filename, int size)
+	Font::Font(std::string name, std::string filename, float size)
 		: m_Name(name), m_Filename(filename), m_Size(size), m_Scale(maths::vec2(1, 1))
 	{
 		m_FTAtlas = ftgl::texture_atlas_new(512, 512, 2);

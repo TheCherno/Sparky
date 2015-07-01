@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <sparkygl.h>
+#include <sparky_types.h>
 
 #include "buffer.h"
 

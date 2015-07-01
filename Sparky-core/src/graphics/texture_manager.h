@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <sparky_types.h>
 #include "texture.h"
 
 namespace sparky { namespace graphics {

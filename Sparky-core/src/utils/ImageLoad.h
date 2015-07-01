@@ -26,7 +26,7 @@ namespace sparky {
 		*height = FreeImage_GetHeight(dib);
 		*bits = FreeImage_GetBPP(dib);
 		
-#ifdef SPARKY_EMSCRIPTEN
+#ifdef SPARKY_PLATFORM_WEB
 		SwapRedBlue32(dib);
 #endif
 
