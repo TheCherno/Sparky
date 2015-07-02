@@ -18,7 +18,9 @@ namespace sparky { namespace graphics {
 	{
 		maths::vec3 vertex;
 		maths::vec2 uv;
+		maths::vec2 mask_uv;
 		float tid;
+		float mid;
 		unsigned int color;
 	};
 
@@ -61,6 +63,7 @@ namespace sparky { namespace graphics {
 		inline const std::vector<maths::vec2>& getUV() const { return m_UV; }
 
 		inline const GLuint getTID() const { return m_Texture ? m_Texture->getID() : 0; }
+		inline const Texture* getTexture() const { return m_Texture; }
 	private:
 		void setUVDefaults()
 		{

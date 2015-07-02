@@ -294,4 +294,10 @@ namespace sparky { namespace maths {
 		return result;
 	}
 
+	mat4 mat4::invert(const mat4& matrix)
+	{
+		mat4 result = matrix;
+		return result.invert();
+	}
+
 } }

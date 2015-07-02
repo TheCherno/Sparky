@@ -20,7 +20,6 @@ namespace sparky { namespace graphics {
 #ifdef SPARKY_PLATFORM_WEB
 		FontManager::add(new Font("SourceSansPro", "res/SourceSansPro-Light.ttf", 32));
 #else
-		// TODO: A default font should probably be embedded into the engine.
 		FontManager::add(new Font("SourceSansPro", internal::DEFAULT_FONT, internal::DEFAULT_FONT_SIZE, 32));
 #endif
 
@@ -57,13 +56,13 @@ namespace sparky { namespace graphics {
 	{
 		if (!glfwInit())
 		{
-			std::cout << "Failed to initialize GLFW!" << std::endl;
+			SPARKY_FATAL("Failed to initialize GLFW!");
 			return false;
 		}
 		m_Window = glfwCreateWindow(m_Width, m_Height, m_Title, NULL, NULL);
 		if (!m_Window)
 		{
-			std::cout << "Failed to create GLFW window!" << std::endl;
+			SPARKY_FATAL("Failed to create GLFW window!");
 			return false;
 		}
 		glfwMakeContextCurrent(m_Window);
@@ -77,7 +76,7 @@ namespace sparky { namespace graphics {
 #ifndef SPARKY_PLATFORM_WEB
 		if (glewInit() != GLEW_OK)
 		{
-			std::cout << "Could not initialize GLEW!" << std::endl;
+			SPARKY_FATAL("Could not initialize GLEW!");
 			return false;
 		}
 #endif
@@ -85,7 +84,7 @@ namespace sparky { namespace graphics {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		std::cout << "OpenGL " << glGetString(GL_VERSION) << std::endl;
+		SPARKY_WARN("OpenGL ", glGetString(GL_VERSION));
 		return true;
 	}
 
@@ -137,6 +136,7 @@ namespace sparky { namespace graphics {
 
  	void Window::update()
 	{
+		// TODO: Proper OpenGL error checking!
 		GLenum error = glGetError();
 		if (error != GL_NO_ERROR)
 			std::cout << "OpenGL Error: " << error << std::endl;

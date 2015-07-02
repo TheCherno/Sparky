@@ -2,6 +2,8 @@
 
 namespace sparky { namespace graphics {
 
+	using namespace maths;
+
 	BatchRenderer2D::BatchRenderer2D()
 		: m_IndexCount(0)
 	{
@@ -26,12 +28,16 @@ namespace sparky { namespace graphics {
 
 		glEnableVertexAttribArray(SHADER_VERTEX_INDEX);
 		glEnableVertexAttribArray(SHADER_UV_INDEX);
+		glEnableVertexAttribArray(SHADER_MASK_UV_INDEX);
 		glEnableVertexAttribArray(SHADER_TID_INDEX);
+		glEnableVertexAttribArray(SHADER_MID_INDEX);
 		glEnableVertexAttribArray(SHADER_COLOR_INDEX);
 
 		glVertexAttribPointer(SHADER_VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)0);
 		glVertexAttribPointer(SHADER_UV_INDEX, 2, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, uv)));
+		glVertexAttribPointer(SHADER_MASK_UV_INDEX, 2, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, mask_uv)));
 		glVertexAttribPointer(SHADER_TID_INDEX, 1, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, tid)));
+		glVertexAttribPointer(SHADER_MID_INDEX, 1, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, mid)));
 		glVertexAttribPointer(SHADER_COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, color)));
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -62,6 +68,39 @@ namespace sparky { namespace graphics {
 
 	}
 
+	float BatchRenderer2D::submitTexture(uint textureID)
+	{
+		float result = 0.0f;
+		bool found = false;
+		for (uint i = 0; i < m_TextureSlots.size(); i++)
+		{
+			if (m_TextureSlots[i] == textureID)
+			{
+				result = (float)(i + 1);
+				found = true;
+				break;
+			}
+		}
+
+		if (!found)
+		{
+			if (m_TextureSlots.size() >= RENDERER_MAX_TEXTURES)
+			{
+				end();
+				flush();
+				begin();
+			}
+			m_TextureSlots.push_back(textureID);
+			result = (float)(m_TextureSlots.size());
+		}
+		return result;
+	}
+
+	float BatchRenderer2D::submitTexture(const Texture* texture)
+	{
+		return submitTexture(texture->getID());
+	}
+
 	void BatchRenderer2D::begin()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
@@ -82,52 +121,51 @@ namespace sparky { namespace graphics {
 
 		float ts = 0.0f;
 		if (tid > 0)
-		{
-			bool found = false;
-			for (uint i = 0; i < m_TextureSlots.size(); i++)
-			{
-				if (m_TextureSlots[i] == tid)
-				{
-					ts = (float)(i + 1);
-					found = true;
-					break;
-				}
-			}
+			ts = submitTexture(renderable->getTexture());
 
-			if (!found)
-			{
-				if (m_TextureSlots.size() >= RENDERER_MAX_TEXTURES)
-				{
-					end();
-					flush();
-					begin();
-				}
-				m_TextureSlots.push_back(tid);
-				ts = (float)(m_TextureSlots.size());
-			}
+		maths::mat4 maskTransform = maths::mat4::identity();
+		const GLuint mid = m_Mask ? m_Mask->texture->getID() : 0;
+		float ms = 0.0f;
+
+		if (m_Mask != nullptr)
+		{
+			maskTransform = mat4::invert(m_Mask->transform);
+			ms = submitTexture(m_Mask->texture);
 		}
 
-		m_Buffer->vertex = *m_TransformationBack * position;
+		vec3 vertex = *m_TransformationBack * position;
+		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[0];
+		m_Buffer->mask_uv = maskTransform * vertex;
 		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
 		m_Buffer->color = color;
 		m_Buffer++;
 
-		m_Buffer->vertex = *m_TransformationBack * maths::vec3(position.x, position.y + size.y, position.z);
+		vertex = *m_TransformationBack * vec3(position.x, position.y + size.y, position.z);
+		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[1];
+		m_Buffer->mask_uv = maskTransform * vertex;
 		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
 		m_Buffer->color = color;
 		m_Buffer++;
 
-		m_Buffer->vertex = *m_TransformationBack * maths::vec3(position.x + size.x, position.y + size.y, position.z);
+		vertex = *m_TransformationBack * vec3(position.x + size.x, position.y + size.y, position.z);
+		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[2];
+		m_Buffer->mask_uv = maskTransform * vertex;
 		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
 		m_Buffer->color = color;
 		m_Buffer++;
 
-		m_Buffer->vertex = *m_TransformationBack * maths::vec3(position.x + size.x, position.y, position.z);
+		vertex = *m_TransformationBack * vec3(position.x + size.x, position.y, position.z);
+		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[3];
+		m_Buffer->mask_uv = maskTransform * vertex;
 		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
 		m_Buffer->color = color;
 		m_Buffer++;
 
@@ -139,28 +177,7 @@ namespace sparky { namespace graphics {
 		using namespace ftgl;
 
 		float ts = 0.0f;
-		bool found = false;
-		for (uint i = 0; i < m_TextureSlots.size(); i++)
-		{
-			if (m_TextureSlots[i] == font.getID())
-			{
-				ts = (float)(i + 1);
-				found = true;
-				break;
-			}
-		}
-
-		if (!found)
-		{
-			if (m_TextureSlots.size() >= 32)
-			{
-				end();
-				flush();
-				begin();
-			}
-			m_TextureSlots.push_back(font.getID());
-			ts = (float)(m_TextureSlots.size());
-		}
+		ts = submitTexture(font.getID());
 
 		const maths::vec2& scale = font.getScale();
 
@@ -242,9 +259,6 @@ namespace sparky { namespace graphics {
 			glActiveTexture(GL_TEXTURE0 + i);
 			glBindTexture(GL_TEXTURE_2D, m_TextureSlots[i]);
 		}
-
-		glActiveTexture(GL_TEXTURE31);
-		m_Mask->bind();
 
 		glBindVertexArray(m_VAO);
 		m_IBO->bind();

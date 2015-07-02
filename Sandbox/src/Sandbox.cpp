@@ -11,7 +11,7 @@ private:
 	Label* fps;
 	Sprite* sprite;
 	Shader* shader;
-	maths::vec3 mask;
+	Mask* mask;
 public:
 	Game()
 	{
@@ -33,18 +33,16 @@ public:
 		shader = ShaderFactory::DefaultShader();
 #endif
 		layer = new Layer(new BatchRenderer2D(), shader, maths::mat4::orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
-		sprite = new Sprite(0.0f, 0.0f, 4, 4, new Texture("Tex", "res/tb.png"));
-		layer->add(new Sprite(-16.0f, -9.0f, 32, 32, 0xffff00ff));
+		sprite = new Sprite(0.0f, 0.0f, 8, 4, new Texture("Tex", "res/tb.png"));
+		//layer->add(new Sprite(-16.0f, -9.0f, 32, 32, 0xffff00ff));
 		layer->add(sprite);
 
 		fps = new Label("", -15.5f, 7.8f, 0xffffffff);
 		layer->add(fps);
 
 		Texture::SetWrap(TextureWrap::CLAMP_TO_BORDER);
-		layer->setMask(new Texture("Mask", "res/mask.png"));
-
-		shader->enable();
-		shader->setUniformMat4("mask_matrix", maths::mat4::translation(mask));
+		mask = new Mask(new Texture("Mask", "res/mask.png"));
+		layer->setMask(mask);
 
 //		audio::SoundManager::add(new audio::Sound("Lol", "res/Cherno.ogg"))->loop();
 	}
@@ -57,7 +55,7 @@ public:
 
 	void update() override
 	{
-		float speed = 0.01f;
+		float speed = 0.5f;
 		if (window->isKeyPressed(GLFW_KEY_UP))
 			sprite->position.y += speed;
 		else if (window->isKeyPressed(GLFW_KEY_DOWN))
@@ -67,29 +65,31 @@ public:
 		else if (window->isKeyPressed(GLFW_KEY_RIGHT))
 			sprite->position.x += speed;
 
+		static maths::vec3 pos;
 		if (window->isKeyPressed(GLFW_KEY_UP))
-			mask.y += speed;
+			pos.y += speed;
 		else if (window->isKeyPressed(GLFW_KEY_DOWN))
-			mask.y -= speed;
+			pos.y -= speed;
 		if (window->isKeyPressed(GLFW_KEY_LEFT))
-			mask.x -= speed;
+			pos.x -= speed;
 		else if (window->isKeyPressed(GLFW_KEY_RIGHT))
-			mask.x += speed;
+			pos.x += speed;
 
-		static maths::vec3 scale(1, 1, 1);
+		static maths::vec3 scale(1.777778f, 1, 1);
 		if (window->isKeyPressed(GLFW_KEY_W))
 		{
-			scale.x += speed;
+			scale.x += speed*1.777778f;
 			scale.y += speed;
 		}
 		else if (window->isKeyPressed(GLFW_KEY_S))
 		{
-			scale.x -= speed;
+			scale.x -= speed*1.777778f;
 			scale.y -= speed;
 		}
 
+		mask->transform = maths::mat4::scale(scale);
+
 		maths::vec2 mouse = window->getMousePosition();
-		shader->setUniformMat4("mask_matrix", maths::mat4::translation(mask) * maths::mat4::scale(scale));
 		// shader->setUniform2f("light_pos", maths::vec2((float)(mouse.x * 32.0f / window->getWidth() - 16.0f), (float)(9.0f - mouse.y * 18.0f / window->getHeight())));
 	}
 

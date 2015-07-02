@@ -4,6 +4,7 @@
 
 #include "../renderer2d.h"
 #include "../renderable2d.h"
+#include "../Mask.h"
 
 namespace sparky { namespace graphics {
 
@@ -19,7 +20,7 @@ namespace sparky { namespace graphics {
 		virtual ~Layer();
 		virtual Renderable2D* add(Renderable2D* renderable);
 
-		inline void setMask(const Texture* mask) const { m_Renderer->setMask(mask); }
+		inline void setMask(const Mask* mask) const { m_Renderer->setMask(mask); }
 
 		virtual void render();
 

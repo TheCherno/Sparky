@@ -5,6 +5,7 @@
 
 #include "font.h"
 #include "texture.h"
+#include "Mask.h"
 #include "../maths/maths.h"
 
 namespace sparky { namespace graphics {
@@ -16,9 +17,10 @@ namespace sparky { namespace graphics {
 	protected:
 		std::vector<maths::mat4> m_TransformationStack;
 		const maths::mat4* m_TransformationBack;
-		const Texture* m_Mask;
+		const Mask* m_Mask;
 	protected:
 		Renderer2D()
+			: m_Mask(nullptr)
 		{
 			m_TransformationStack.push_back(maths::mat4::identity());
 			m_TransformationBack = &m_TransformationStack.back();
@@ -43,7 +45,7 @@ namespace sparky { namespace graphics {
 			m_TransformationBack = &m_TransformationStack.back();
 		}
 
-		virtual void setMask(const Texture* mask) { m_Mask = mask; }
+		virtual void setMask(const Mask* mask) { m_Mask = mask; }
 
 		virtual void begin() {}
 		virtual void submit(const Renderable2D* renderable) = 0;
