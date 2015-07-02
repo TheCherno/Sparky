@@ -183,6 +183,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\audio\sound.cpp" />
     <ClCompile Include="src\audio\sound_manager.cpp" />
+    <ClCompile Include="src\embedded\Embedded.cpp" />
     <ClCompile Include="src\graphics\BatchRenderer2D.cpp" />
     <ClCompile Include="src\graphics\buffers\buffer.cpp" />
     <ClCompile Include="src\graphics\buffers\indexbuffer.cpp" />
@@ -227,6 +228,7 @@
     <ClInclude Include="ext\gorilla-audio\ga_internal.h" />
     <ClInclude Include="src\audio\sound.h" />
     <ClInclude Include="src\audio\sound_manager.h" />
+    <ClInclude Include="src\embedded\Embedded.h" />
     <ClInclude Include="src\graphics\BatchRenderer2D.h" />
     <ClInclude Include="src\graphics\buffers\buffer.h" />
     <ClInclude Include="src\graphics\buffers\indexbuffer.h" />
@@ -262,6 +264,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="SparkyCore-TODO.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\embedded\files\SourceSansPro-Light.embed" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

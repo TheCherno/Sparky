@@ -1,5 +1,7 @@
 #include "window.h"
 
+#include "../embedded/Embedded.h"
+
 namespace sparky { namespace graphics {
 
 	void window_resize(GLFWwindow* window, int width, int height);
@@ -19,7 +21,7 @@ namespace sparky { namespace graphics {
 		FontManager::add(new Font("SourceSansPro", "res/SourceSansPro-Light.ttf", 32));
 #else
 		// TODO: A default font should probably be embedded into the engine.
-		FontManager::add(new Font("SourceSansPro", "res/SourceSansPro-Light.ttf", 32));
+		FontManager::add(new Font("SourceSansPro", internal::DEFAULT_FONT, internal::DEFAULT_FONT_SIZE, 32));
 #endif
 
 #ifdef SPARKY_PLATFORM_WEB
