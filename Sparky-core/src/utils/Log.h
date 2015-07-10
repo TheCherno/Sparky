@@ -66,6 +66,13 @@ namespace sparky { namespace internal {
 	}
 
 	template <>
+	static const char* to_string<unsigned char const*>(unsigned char const* const & t)
+	{
+		return (const char*)t;
+	}
+
+
+	template <>
 	static const char* to_string<char const*>(char const * const & t)
 	{
 		return t;
