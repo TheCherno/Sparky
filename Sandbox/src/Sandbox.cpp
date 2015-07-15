@@ -12,6 +12,7 @@ private:
 	Sprite* sprite;
 	Shader* shader;
 	Mask* mask;
+	Label* debugInfo;
 public:
 	Game()
 	{
@@ -25,20 +26,24 @@ public:
 
 	void init() override
 	{
-		window = createWindow("Test Game", 960, 540);
+		window = createWindow("Test Game", 1280, 720);
 		FontManager::get()->setScale(window->getWidth() / 32.0f, window->getHeight() / 18.0f);
 #ifdef SPARKY_PLATFORM_WEB
 		shader = new Shader("res/shaders/basic.es3.vert", "res/shaders/basic.es3.frag");
 #else
 		shader = ShaderFactory::DefaultShader();
 #endif
-		layer = new Layer(new BatchRenderer2D(), shader, maths::mat4::orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+		layer = new Layer(new BatchRenderer2D(maths::tvec2<uint>(1280, 720)), shader, maths::mat4::orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+		
 		sprite = new Sprite(0.0f, 0.0f, 8, 4, new Texture("Tex", "res/tb.png"));
 		//layer->add(new Sprite(-16.0f, -9.0f, 32, 32, 0xffff00ff));
 		layer->add(sprite);
 
 		fps = new Label("", -15.5f, 7.8f, 0xffffffff);
 		layer->add(fps);
+
+		debugInfo = new Label("", -15.5f, 6.8f, 0xffffffff);
+		layer->add(debugInfo);
 
 		Texture::SetWrap(TextureWrap::CLAMP_TO_BORDER);
 		mask = new Mask(new Texture("Mask", "res/mask.png"));
@@ -55,42 +60,25 @@ public:
 
 	void update() override
 	{
-		float speed = 0.5f;
+		if (window->isKeyPressed(GLFW_KEY_1))
+			((BatchRenderer2D*)layer->renderer)->SetRenderTarget(RenderTarget::SCREEN);
+		if (window->isKeyPressed(GLFW_KEY_2))
+			((BatchRenderer2D*)layer->renderer)->SetRenderTarget(RenderTarget::BUFFER);
+
+		maths::tvec2<uint> size = ((BatchRenderer2D*)layer->renderer)->GetViewportSize();
+
 		if (window->isKeyPressed(GLFW_KEY_UP))
-			sprite->position.y += speed;
-		else if (window->isKeyPressed(GLFW_KEY_DOWN))
-			sprite->position.y -= speed;
-		if (window->isKeyPressed(GLFW_KEY_LEFT))
-			sprite->position.x -= speed;
-		else if (window->isKeyPressed(GLFW_KEY_RIGHT))
-			sprite->position.x += speed;
-
-		static maths::vec3 pos;
-		if (window->isKeyPressed(GLFW_KEY_UP))
-			pos.y += speed;
-		else if (window->isKeyPressed(GLFW_KEY_DOWN))
-			pos.y -= speed;
-		if (window->isKeyPressed(GLFW_KEY_LEFT))
-			pos.x -= speed;
-		else if (window->isKeyPressed(GLFW_KEY_RIGHT))
-			pos.x += speed;
-
-		static maths::vec3 scale(1.777778f, 1, 1);
-		if (window->isKeyPressed(GLFW_KEY_W))
 		{
-			scale.x += speed*1.777778f;
-			scale.y += speed;
+			size.x++;
+			size.y++;
 		}
-		else if (window->isKeyPressed(GLFW_KEY_S))
+		else if (window->isKeyPressed(GLFW_KEY_DOWN))
 		{
-			scale.x -= speed*1.777778f;
-			scale.y -= speed;
+			size.x--;
+			size.y--;
 		}
-
-		mask->transform = maths::mat4::scale(scale);
-
-		maths::vec2 mouse = window->getMousePosition();
-		// shader->setUniform2f("light_pos", maths::vec2((float)(mouse.x * 32.0f / window->getWidth() - 16.0f), (float)(9.0f - mouse.y * 18.0f / window->getHeight())));
+		debugInfo->text = std::to_string(size.x) + ", " + std::to_string(size.y);
+		((BatchRenderer2D*)layer->renderer)->SetViewportSize(size);
 	}
 
 	void render() override

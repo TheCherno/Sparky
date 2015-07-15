@@ -4,6 +4,12 @@ namespace sparky { namespace graphics {
 
 	TextureWrap Texture::s_WrapMode = REPEAT;
 
+	Texture::Texture(uint width, uint height)
+		: m_Width(width), m_Height(height), m_FileName("NULL")
+	{
+		m_TID = load();
+	}
+
 	Texture::Texture(const std::string& name, const std::string& filename)
 		: m_Name(name), m_FileName(filename)
 	{
@@ -12,23 +18,27 @@ namespace sparky { namespace graphics {
 
 	Texture::~Texture()
 	{
-		glDeleteTextures(1, &m_TID);
+		GLCall(glDeleteTextures(1, &m_TID));
 	}
 
 	GLuint Texture::load()
 	{
-		BYTE* pixels = load_image(m_FileName.c_str(), &m_Width, &m_Height, &m_Bits);
-
+		BYTE* pixels = nullptr;
+		if (m_FileName != "NULL")
+			pixels = load_image(m_FileName.c_str(), &m_Width, &m_Height, &m_Bits);
+		else
+			m_Bits = 32; // Temporary
+		
 		GLuint result;
-		glGenTextures(1, &result);
-		glBindTexture(GL_TEXTURE_2D, result);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (GLint)s_WrapMode);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (GLint)s_WrapMode);
+		GLCall(glGenTextures(1, &result));
+		GLCall(glBindTexture(GL_TEXTURE_2D, result));
+		GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
+		GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
+		GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (GLint)s_WrapMode));
+		GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (GLint)s_WrapMode));
 
 		if (m_Bits != 24 && m_Bits != 32)
-			SPARKY_ERROR("[Texture] Unsupported image bit-depth! (%d)", m_Bits);
+			SPARKY_ERROR("[Texture] Unsupported image bit-depth! (", m_Bits, ")");
 
 		GLint internalFormat = m_Bits == 32 ? GL_RGBA : GL_RGB;
 		GLenum format = m_Bits == 32 ?
@@ -37,22 +47,23 @@ namespace sparky { namespace graphics {
 #else
 		GL_BGRA : GL_BGR;
 #endif
-		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_Width, m_Height, 0, format, GL_UNSIGNED_BYTE, pixels);
-		glBindTexture(GL_TEXTURE_2D, 0);
+		GLCall(glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_Width, m_Height, 0, format, GL_UNSIGNED_BYTE, pixels ? pixels : NULL));
+		GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 
-		delete[] pixels;
+		if (pixels != nullptr)
+			delete[] pixels;
 
 		return result;
 	}
 
 	void Texture::bind() const
 	{
-		glBindTexture(GL_TEXTURE_2D, m_TID);
+		GLCall(glBindTexture(GL_TEXTURE_2D, m_TID));
 	}
 
 	void Texture::unbind() const
 	{
-		glBindTexture(GL_TEXTURE_2D, 0);
+		GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 	}
 
 } }

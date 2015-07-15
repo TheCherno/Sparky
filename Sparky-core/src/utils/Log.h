@@ -189,7 +189,7 @@ namespace sparky { namespace internal {
 			SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 			break;
 		}
-		std::cout << buffer;
+		printf("%s", buffer);
 		SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	}
 } }

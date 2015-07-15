@@ -75,6 +75,46 @@ namespace sparky { namespace graphics { namespace ShaderFactory {
 		"	color = texColor * maskColor; // vec4(1.0 - maskColor.x, 1.0 - maskColor.y, 1.0 - maskColor.z, 1.0);\n"
 		"}\n";
 
+	const char* simple_shader_vert =
+		"#version 330 core\n"
+		"\n"
+		"layout (location = 0) in vec4 position;\n"
+		"layout (location = 1) in vec2 uv;\n"
+		"layout (location = 2) in vec2 mask_uv;\n"
+		"layout (location = 3) in float tid;\n"
+		"layout (location = 4) in float mid;\n"
+		"layout (location = 5) in vec4 color;\n"
+		"\n"
+		"uniform mat4 pr_matrix;\n"
+		"\n"
+		"out DATA\n"
+		"{\n"
+		"	vec2 uv;\n"
+		"} vs_out;\n"
+		"\n"
+		"void main()\n"
+		"{\n"
+		"	gl_Position = pr_matrix * position;\n"
+		"	vs_out.uv = uv;\n"
+		"}\n";
+
+	const char* simple_shader_frag =
+		"#version 330 core\n"
+		"\n"
+		"layout (location = 0) out vec4 color;\n"
+		"\n"
+		"uniform sampler2D tex;\n"
+		"\n"
+		"in DATA\n"
+		"{\n"
+		"	vec2 uv;\n"
+		"} fs_in;\n"
+		"\n"
+		"void main()\n"
+		"{\n"
+		"	color = texture(tex, fs_in.uv);\n"
+		"}\n";
+
 #elif defined(SPARKY_PLATFORM_WEB)
 
 	const char* default_shader_vert =
@@ -148,6 +188,41 @@ namespace sparky { namespace graphics { namespace ShaderFactory {
 		"	gl_FragColor = texColor * intensity;\n"
 		"}\n";
 
+	const char* simple_shader_vertex =
+		"#version 140\n"
+		"\n"
+		"attribute vec4 position;\n"
+		"attribute vec2 uv;\n"
+		"attribute float tid;\n"
+		"attribute vec4 color;\n"
+		"\n"
+		"uniform mat4 pr_matrix;\n"
+		"\n"
+		"varying vec2 vs_uv;\n"
+		"varying float vs_tid;\n"
+		"varying vec4 vs_color;\n"
+		"\n"
+		"void main()\n"
+		"{\n"
+		"	gl_Position = pr_matrix * position;\n"
+		"	vs_uv = uv;\n"
+		"}\n";
+
+	const char* simple_shader_fragment =
+		"#version 140\n"
+		"\n"
+		"uniform sampler2D tex;\n"
+		"\n"
+		"varying vec4 vs_position;\n"
+		"varying vec2 vs_uv;\n"
+		"varying float vs_tid;\n"
+		"varying vec4 vs_color;\n"
+		"\n"
+		"void main()\n"
+		"{\n"
+		"	gl_FragColor = texture2D(tex, vs_uv);\n"
+		"}\n";
+
 #endif
 
 	const char* basic_light_shader_vert =
@@ -212,6 +287,11 @@ namespace sparky { namespace graphics { namespace ShaderFactory {
 	Shader* DefaultShader()
 	{
 		return Shader::FromSource("Default Shader", default_shader_vert, default_shader_frag);
+	}
+
+	Shader* SimpleShader()
+	{
+		return Shader::FromSource("Simple Shader", simple_shader_vert, simple_shader_frag);
 	}
 
 	Shader* BasicLightShader()

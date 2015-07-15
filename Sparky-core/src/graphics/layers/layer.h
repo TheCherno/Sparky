@@ -10,8 +10,9 @@ namespace sparky { namespace graphics {
 
 	class Layer
 	{
+	public:
+		Renderer2D* renderer;
 	protected:
-		Renderer2D* m_Renderer;
 		std::vector<Renderable2D*> m_Renderables;
 		Shader* m_Shader;
 		maths::mat4 m_ProjectionMatrix;
@@ -20,7 +21,7 @@ namespace sparky { namespace graphics {
 		virtual ~Layer();
 		virtual Renderable2D* add(Renderable2D* renderable);
 
-		inline void setMask(const Mask* mask) const { m_Renderer->setMask(mask); }
+		inline void setMask(const Mask* mask) const { renderer->setMask(mask); }
 
 		virtual void render();
 

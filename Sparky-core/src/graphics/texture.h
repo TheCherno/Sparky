@@ -4,6 +4,7 @@
 #include <string>
 #include <utils/Log.h>
 #include <FreeImage.h>
+#include <sparky_types.h>
 #include <sparkygl.h>
 
 #include "../utils/ImageLoad.h"
@@ -25,10 +26,11 @@ namespace sparky { namespace graphics{
 		static TextureWrap s_WrapMode;
 	private:
 		std::string m_Name, m_FileName;
-		GLuint m_TID;
-		GLsizei m_Width, m_Height;
+		uint m_TID;
+		uint m_Width, m_Height;
 		unsigned int m_Bits;
 	public:
+		Texture(uint width, uint height);
 		Texture(const std::string& name, const std::string& filename);
 		~Texture();
 		void bind() const;

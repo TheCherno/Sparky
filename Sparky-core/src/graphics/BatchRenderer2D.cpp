@@ -1,11 +1,14 @@
 #include "BatchRenderer2D.h"
 
+#include "shaders/ShaderFactory.h"
+#include "MeshFactory.h"
+
 namespace sparky { namespace graphics {
 
 	using namespace maths;
 
-	BatchRenderer2D::BatchRenderer2D()
-		: m_IndexCount(0)
+	BatchRenderer2D::BatchRenderer2D(const maths::tvec2<uint>& screenSize)
+		: m_IndexCount(0), m_ScreenSize(screenSize), m_ViewportSize(screenSize), m_Target(RenderTarget::SCREEN)
 	{
 		init();
 	}
@@ -13,34 +16,34 @@ namespace sparky { namespace graphics {
 	BatchRenderer2D::~BatchRenderer2D()
 	{
 		delete m_IBO;
-		glDeleteBuffers(1, &m_VBO);
-		glDeleteVertexArrays(1, &m_VAO);
+		GLCall(glDeleteBuffers(1, &m_VBO));
+		GLCall(glDeleteVertexArrays(1, &m_VAO));
 	}
 
 	void BatchRenderer2D::init()
 	{
-		glGenVertexArrays(1, &m_VAO);
-		glGenBuffers(1, &m_VBO);
+		GLCall(glGenVertexArrays(1, &m_VAO));
+		GLCall(glGenBuffers(1, &m_VBO));
 
-		glBindVertexArray(m_VAO);
-		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-		glBufferData(GL_ARRAY_BUFFER, RENDERER_BUFFER_SIZE, NULL, GL_DYNAMIC_DRAW);
+		GLCall(glBindVertexArray(m_VAO));
+		GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_VBO));
+		GLCall(glBufferData(GL_ARRAY_BUFFER, RENDERER_BUFFER_SIZE, NULL, GL_DYNAMIC_DRAW));
 
-		glEnableVertexAttribArray(SHADER_VERTEX_INDEX);
-		glEnableVertexAttribArray(SHADER_UV_INDEX);
-		glEnableVertexAttribArray(SHADER_MASK_UV_INDEX);
-		glEnableVertexAttribArray(SHADER_TID_INDEX);
-		glEnableVertexAttribArray(SHADER_MID_INDEX);
-		glEnableVertexAttribArray(SHADER_COLOR_INDEX);
+		GLCall(glEnableVertexAttribArray(SHADER_VERTEX_INDEX));
+		GLCall(glEnableVertexAttribArray(SHADER_UV_INDEX));
+		GLCall(glEnableVertexAttribArray(SHADER_MASK_UV_INDEX));
+		GLCall(glEnableVertexAttribArray(SHADER_TID_INDEX));
+		GLCall(glEnableVertexAttribArray(SHADER_MID_INDEX));
+		GLCall(glEnableVertexAttribArray(SHADER_COLOR_INDEX));
 
-		glVertexAttribPointer(SHADER_VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)0);
-		glVertexAttribPointer(SHADER_UV_INDEX, 2, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, uv)));
-		glVertexAttribPointer(SHADER_MASK_UV_INDEX, 2, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, mask_uv)));
-		glVertexAttribPointer(SHADER_TID_INDEX, 1, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, tid)));
-		glVertexAttribPointer(SHADER_MID_INDEX, 1, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, mid)));
-		glVertexAttribPointer(SHADER_COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, color)));
+		GLCall(glVertexAttribPointer(SHADER_VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)0));
+		GLCall(glVertexAttribPointer(SHADER_UV_INDEX, 2, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, uv))));
+		GLCall(glVertexAttribPointer(SHADER_MASK_UV_INDEX, 2, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, mask_uv))));
+		GLCall(glVertexAttribPointer(SHADER_TID_INDEX, 1, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, tid))));
+		GLCall(glVertexAttribPointer(SHADER_MID_INDEX, 1, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, mid))));
+		GLCall(glVertexAttribPointer(SHADER_COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, color))));
 
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 
 		GLuint* indices = new GLuint[RENDERER_INDICES_SIZE];
 
@@ -60,12 +63,21 @@ namespace sparky { namespace graphics {
 
 		m_IBO = new IndexBuffer(indices, RENDERER_INDICES_SIZE);
 
-		glBindVertexArray(0);
+		GLCall(glBindVertexArray(0));
 
 #ifdef SPARKY_PLATFORM_WEB
 		m_BufferBase = new VertexData[RENDERER_MAX_SPRITES * 4];
 #endif
 
+		// Setup Framebuffer
+		GLCall(glGetIntegerv(GL_FRAMEBUFFER_BINDING, &m_ScreenBuffer));
+		m_Framebuffer = new Framebuffer(m_ViewportSize);
+		m_SimpleShader = ShaderFactory::SimpleShader();
+		m_SimpleShader->enable();
+		m_SimpleShader->setUniformMat4("pr_matrix", maths::mat4::orthographic(0, m_ScreenSize.x, m_ScreenSize.y, 0, -1.0f, 1.0f));
+		m_SimpleShader->setUniform1i("tex", 0);
+		m_SimpleShader->disable();
+		m_ScreenQuad = MeshFactory::CreateQuad(0, 0, m_ScreenSize.x, m_ScreenSize.y);
 	}
 
 	float BatchRenderer2D::submitTexture(uint textureID)
@@ -103,11 +115,27 @@ namespace sparky { namespace graphics {
 
 	void BatchRenderer2D::begin()
 	{
+		if (m_Target == RenderTarget::BUFFER)
+		{
+			if (m_ViewportSize != m_Framebuffer->GetSize())
+			{
+				delete m_Framebuffer;
+				m_Framebuffer = new Framebuffer(m_ViewportSize);
+			}
+
+			m_Framebuffer->Bind();
+			m_Framebuffer->Clear();
+		}
+		else
+		{
+			GLCall(glBindFramebuffer(GL_FRAMEBUFFER, m_ScreenBuffer));
+			GLCall(glViewport(0, 0, m_ScreenSize.x, m_ScreenSize.y));
+		}
 		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 #ifdef SPARKY_PLATFORM_WEB
 		m_Buffer = m_BufferBase;
 #else
-		m_Buffer = (VertexData*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+		GLCall(m_Buffer = (VertexData*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
 #endif
 	}
 
@@ -247,29 +275,47 @@ namespace sparky { namespace graphics {
 		glBufferSubData(GL_ARRAY_BUFFER, 0, (m_Buffer - m_BufferBase) * RENDERER_VERTEX_SIZE, m_BufferBase);
 		m_Buffer = m_BufferBase;
 #else
-		glUnmapBuffer(GL_ARRAY_BUFFER);
+		GLCall(glUnmapBuffer(GL_ARRAY_BUFFER));
 #endif
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 	}
 
 	void BatchRenderer2D::flush()
 	{
 		for (uint i = 0; i < m_TextureSlots.size(); i++)
 		{
-			glActiveTexture(GL_TEXTURE0 + i);
-			glBindTexture(GL_TEXTURE_2D, m_TextureSlots[i]);
+			GLCall(glActiveTexture(GL_TEXTURE0 + i));
+			GLCall(glBindTexture(GL_TEXTURE_2D, m_TextureSlots[i]));
 		}
 
-		glBindVertexArray(m_VAO);
+		GLCall(glBindVertexArray(m_VAO));
 		m_IBO->bind();
 
-		glDrawElements(GL_TRIANGLES, m_IndexCount, GL_UNSIGNED_INT, NULL);
+		GLCall(glDrawElements(GL_TRIANGLES, m_IndexCount, GL_UNSIGNED_INT, NULL));
 
 		m_IBO->unbind();
-		glBindVertexArray(0);
+		GLCall(glBindVertexArray(0));
 
 		m_IndexCount = 0;
 		m_TextureSlots.clear();
+		
+		if (m_Target == RenderTarget::BUFFER)
+		{
+			// Display Framebuffer - potentially move to Framebuffer class
+			GLCall(glBindFramebuffer(GL_FRAMEBUFFER, m_ScreenBuffer));
+			GLCall(glViewport(0, 0, m_ScreenSize.x, m_ScreenSize.y));
+			m_SimpleShader->enable();
+
+			GLCall(glActiveTexture(GL_TEXTURE0));
+			m_Framebuffer->GetTexture()->bind();
+
+			GLCall(glBindVertexArray(m_ScreenQuad));
+			m_IBO->bind();
+			GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
+			m_IBO->unbind();
+			GLCall(glBindVertexArray(0));
+			m_SimpleShader->disable();
+		}
 	}
 
 } }
