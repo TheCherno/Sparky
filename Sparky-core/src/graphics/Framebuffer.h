@@ -5,7 +5,8 @@
 
 #include "../maths/vec4.h"
 #include "../maths/tvec2.h"
-#include "texture.h"
+
+#include "Texture.h"
 
 namespace sparky { namespace graphics {
 

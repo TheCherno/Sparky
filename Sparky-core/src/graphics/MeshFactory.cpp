@@ -1,7 +1,7 @@
 #include "MeshFactory.h"
 
 #include <sparkygl.h>
-#include <graphics/renderable2d.h>
+#include <graphics/Renderable2D.h>
 #include <graphics/shaders/Shader.h>
 
 #define SPARKY_VERTEX_ARRAYS 1

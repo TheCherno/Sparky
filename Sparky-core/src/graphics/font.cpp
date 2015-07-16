@@ -1,4 +1,6 @@
-#include "font.h"
+#include "Font.h"
+
+#include <utils/Log.h>
 
 namespace sparky { namespace graphics {
 
@@ -18,7 +20,7 @@ namespace sparky { namespace graphics {
 		SPARKY_ASSERT(m_FTFont, "Failed to load font from data!");
 	}
 
-	void Font::setScale(float x, float y)
+	void Font::SetScale(float x, float y)
 	{
 		m_Scale = maths::vec2(x, y);
 	}

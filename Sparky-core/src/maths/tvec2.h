@@ -12,10 +12,10 @@ namespace sparky { namespace maths {
 		tvec2<T>();
 		tvec2<T>(const T& x, const T& y);
 
-		tvec2<T>& add(const tvec2<T>& other);
-		tvec2<T>& subtract(const tvec2<T>& other);
-		tvec2<T>& multiply(const tvec2<T>& other);
-		tvec2<T>& divide(const tvec2<T>& other);
+		tvec2<T>& Add(const tvec2<T>& other);
+		tvec2<T>& Subtract(const tvec2<T>& other);
+		tvec2<T>& Multiply(const tvec2<T>& other);
+		tvec2<T>& Divide(const tvec2<T>& other);
 
 		friend tvec2<T> operator+(tvec2<T> left, const tvec2<T>& right);
 		friend tvec2<T> operator-(tvec2<T> left, const tvec2<T>& right);
@@ -48,7 +48,7 @@ namespace sparky { namespace maths {
 	}
 
 	template <class T>
-	tvec2<T>& tvec2<T>::add(const tvec2<T>& other)
+	tvec2<T>& tvec2<T>::Add(const tvec2<T>& other)
 	{
 		x += other.x;
 		y += other.y;
@@ -57,7 +57,7 @@ namespace sparky { namespace maths {
 	}
 
 	template <class T>
-	tvec2<T>& tvec2<T>::subtract(const tvec2<T>& other)
+	tvec2<T>& tvec2<T>::Subtract(const tvec2<T>& other)
 	{
 		x -= other.x;
 		y -= other.y;
@@ -66,7 +66,7 @@ namespace sparky { namespace maths {
 	}
 	
 	template <class T>
-	tvec2<T>& tvec2<T>::multiply(const tvec2<T>& other)
+	tvec2<T>& tvec2<T>::Multiply(const tvec2<T>& other)
 	{
 		x *= other.x;
 		y *= other.y;
@@ -75,7 +75,7 @@ namespace sparky { namespace maths {
 	}
 
 	template <class T>
-	tvec2<T>& tvec2<T>::divide(const tvec2<T>& other)
+	tvec2<T>& tvec2<T>::Divide(const tvec2<T>& other)
 	{
 		x /= other.x;
 		y /= other.y;
@@ -86,49 +86,49 @@ namespace sparky { namespace maths {
 	template <class T>
 	tvec2<T> operator+(tvec2<T> left, const tvec2<T>& right)
 	{
-		return left.add(right);
+		return left.Add(right);
 	}
 
 	template <class T>
 	tvec2<T> operator-(tvec2<T> left, const tvec2<T>& right)
 	{
-		return left.subtract(right);
+		return left.Subtract(right);
 	}
 
 	template <class T>
 	tvec2<T> operator*(tvec2<T> left, const tvec2<T>& right)
 	{
-		return left.multiply(right);
+		return left.Multiply(right);
 	}
 
 	template <class T>
 	tvec2<T> operator/(tvec2<T> left, const tvec2<T>& right)
 	{
-		return left.divide(right);
+		return left.Divide(right);
 	}
 
 	template <class T>
 	tvec2<T>& tvec2<T>::operator+=(const tvec2<T>& other)
 	{
-		return add(other);
+		return Add(other);
 	}
 
 	template <class T>
 	tvec2<T>& tvec2<T>::operator-=(const tvec2<T>& other)
 	{
-		return subtract(other);
+		return Subtract(other);
 	}
 
 	template <class T>
 	tvec2<T>& tvec2<T>::operator*=(const tvec2<T>& other)
 	{
-		return multiply(other);
+		return Multiply(other);
 	}
 
 	template <class T>
 	tvec2<T>& tvec2<T>::operator/=(const tvec2<T>& other)
 	{
-		return divide(other);
+		return Divide(other);
 	}
 
 	template <class T>

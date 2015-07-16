@@ -4,23 +4,24 @@
 	#include <emscripten/emscripten.h>
 #endif
 
-#include "graphics/label.h"
-#include "graphics/sprite.h"
-#include "graphics/renderer2d.h"
-#include "graphics/batchrenderer2d.h"
-#include "graphics/layers/layer.h"
-#include "graphics/layers/group.h"
-#include "graphics/texture_manager.h"
-#include "graphics/window.h"
+#include "graphics/Label.h"
+#include "graphics/Sprite.h"
+#include "graphics/Renderer2D.h"
+#include "graphics/Batchrenderer2D.h"
+#include "graphics/layers/Layer.h"
+#include "graphics/layers/Group.h"
+#include "graphics/TextureManager.h"
+#include "graphics/Window.h"
 
 #include "graphics/shaders/Shader.h"
 #include "graphics/shaders/ShaderFactory.h"
 
-#include "audio/sound.h"
-#include "audio/sound_manager.h"
+#include "audio/Sound.h"
+#include "audio/SoundManager.h"
 
 #include "maths/maths.h"
-#include "utils/timer.h"
+#include "utils/Log.h"
+#include "utils/Timer.h"
 
 #ifdef SPARKY_PLATFORM_WEB
 
@@ -53,33 +54,33 @@ namespace sparky {
 			delete m_Window;
 		}
 
-		graphics::Window* createWindow(const char *name, int width, int height)
+		graphics::Window* CreateWindow(const char *name, int width, int height)
 		{
 			m_Window = new graphics::Window(name, width, height);
 			return m_Window;
 		}
 
 	public:
-		void start()
+		void Start()
 		{
-			init();
-			run();
+			Init();
+			Run();
 		}
 
 	protected:
 		// Runs once upon initialization
-		virtual void init() = 0;
+		virtual void Init() = 0;
 		// Runs once per second
-		virtual void tick() { }
+		virtual void Tick() { }
 		// Runs 60 times per second
-		virtual void update() { }
+		virtual void Update() { }
 		// Runs as fast as possible (unless vsync is enabled)
-		virtual void render() = 0;
+		virtual void Render() = 0;
 
-		const unsigned int getFPS() const { return m_FramesPerSecond; }
-		const unsigned int getUPS() const { return m_UpdatesPerSecond; }
+		const unsigned int GetFPS() const { return m_FramesPerSecond; }
+		const unsigned int GetUPS() const { return m_UpdatesPerSecond; }
 	private:
-		void run()
+		void Run()
 		{
 			m_Timer = new Timer();
 			float timer = 0.0f;
@@ -90,28 +91,28 @@ namespace sparky {
 #ifdef SPARKY_PLATFORM_WEB
 			std::function<void()> mainLoop = [&]() {
 #else
-			while (!m_Window->closed())
+			while (!m_Window->Closed())
 			{
 #endif
-				m_Window->clear();
-				if (m_Timer->elapsed() - updateTimer > updateTick)
+				m_Window->Clear();
+				if (m_Timer->Elapsed() - updateTimer > updateTick)
 				{
-					m_Window->updateInput();
-					update();
+					m_Window->UpdateInput();
+					Update();
 					updates++;
 					updateTimer += updateTick;
 				}
-				render();
+				Render();
 				frames++;
-				m_Window->update();
-				if (m_Timer->elapsed() - timer > 1.0f)
+				m_Window->Update();
+				if (m_Timer->Elapsed() - timer > 1.0f)
 				{
 					timer += 1.0f;
 					m_FramesPerSecond = frames;
 					m_UpdatesPerSecond = updates;
 					frames = 0;
 					updates = 0;
-					tick();
+					Tick();
 				}
 #ifdef SPARKY_PLATFORM_WEB
 			};

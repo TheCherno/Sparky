@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 
+#include <sparky_types.h>
+
 #include "../utils/stringutils.h"
 
 #ifdef SPARKY_PLATFORM_WEB
@@ -19,7 +21,7 @@ namespace sparky { namespace audio {
 	private:
 		std::string m_Name;
 		std::string m_Filename;
-		unsigned int m_Count;
+		uint m_Count;
 #ifdef SPARKY_PLATFORM_WEB
 #else
 		ga_Sound* m_Sound;
@@ -34,18 +36,18 @@ namespace sparky { namespace audio {
 		~Sound();
 
 
-		void play();
-		void loop();
-		void pause();
-		void resume();
-		void stop();
+		void Play();
+		void Loop();
+		void Pause();
+		void Resume();
+		void Stop();
 
-		void setGain(float gain);
+		void SetGain(float gain);
 
-		inline const bool isPlaying() const { return m_Playing; }
-		inline const float getGain() const { return m_Gain; }
-		inline const std::string& getName() const { return m_Name; }
-		inline const std::string& getFileName() const { return m_Filename; }
+		inline const bool IsPlaying() const { return m_Playing; }
+		inline const float GetGain() const { return m_Gain; }
+		inline const std::string& GetName() const { return m_Name; }
+		inline const std::string& GetFileName() const { return m_Filename; }
 
 #ifdef SPARKY_PLATFORM_WEB
 #else

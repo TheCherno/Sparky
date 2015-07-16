@@ -1,14 +1,14 @@
 #pragma once
 
 #include <cstddef>
-#include <utils/Log.h>
+
 #include <sparky_types.h>
 
-#include "renderer2d.h"
-#include "renderable2d.h"
+#include "Renderer2D.h"
+#include "Renderable2D.h"
 #include "Framebuffer.h"
 
-#include "buffers/indexbuffer.h"
+#include "buffers/IndexBuffer.h"
 
 namespace sparky { namespace graphics {
 
@@ -46,11 +46,11 @@ namespace sparky { namespace graphics {
 		BatchRenderer2D(const maths::tvec2<uint>& screenSize);
 		~BatchRenderer2D();
 
-		void begin() override;
-		void submit(const Renderable2D* renderable) override;
-		void drawString(const std::string& text, const maths::vec3& position, const Font& font, unsigned int color) override;
-		void end() override;
-		void flush() override;
+		void Begin() override;
+		void Submit(const Renderable2D* renderable) override;
+		void DrawString(const std::string& text, const maths::vec3& position, const Font& font, unsigned int color) override;
+		void End() override;
+		void Flush() override;
 
 		inline void SetScreenSize(const maths::tvec2<uint>& size) { m_ScreenSize = size; }
 		inline const maths::tvec2<uint>& GetScreenSize() const { return m_ScreenSize; }
@@ -60,9 +60,9 @@ namespace sparky { namespace graphics {
 		inline void SetRenderTarget(RenderTarget target) { m_Target = target; }
 		inline const RenderTarget GetRenderTarget() const { return m_Target; }
 	private:
-		void init();
-		float submitTexture(uint textureID);
-		float submitTexture(const Texture* texture);
+		void Init();
+		float SubmitTexture(uint textureID);
+		float SubmitTexture(const Texture* texture);
 	};
 
 } }

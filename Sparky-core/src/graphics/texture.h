@@ -2,12 +2,13 @@
 
 #include <iostream>
 #include <string>
-#include <utils/Log.h>
+
 #include <FreeImage.h>
+
 #include <sparky_types.h>
 #include <sparkygl.h>
 
-#include "../utils/ImageLoad.h"
+#include <utils/ImageLoad.h>
 
 namespace sparky { namespace graphics{
 
@@ -33,17 +34,17 @@ namespace sparky { namespace graphics{
 		Texture(uint width, uint height);
 		Texture(const std::string& name, const std::string& filename);
 		~Texture();
-		void bind() const;
-		void unbind() const;
+		void Bind() const;
+		void Unbind() const;
 		
-		inline const std::string& getName() const { return m_Name; }
-		inline const unsigned int getID() const { return m_TID; }
-		inline const unsigned int getWidth() const { return m_Width; }
-		inline const unsigned int getHeight() const { return m_Height; }
+		inline const std::string& GetName() const { return m_Name; }
+		inline const unsigned int GetID() const { return m_TID; }
+		inline const unsigned int GetWidth() const { return m_Width; }
+		inline const unsigned int GetHeight() const { return m_Height; }
 	public:
 		inline static void SetWrap(TextureWrap mode) { s_WrapMode = mode; }
 	private:
-		GLuint load();
+		GLuint Load();
 	};
 
 } }

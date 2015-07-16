@@ -2,6 +2,7 @@
 
 using namespace sparky;
 using namespace graphics;
+using namespace maths;
 
 class Game : public Sparky
 {
@@ -24,72 +25,75 @@ public:
 		delete layer;
 	}
 
-	void init() override
+	void Init() override
 	{
-		window = createWindow("Test Game", 1280, 720);
-		FontManager::get()->setScale(window->getWidth() / 32.0f, window->getHeight() / 18.0f);
-#ifdef SPARKY_PLATFORM_WEB
-		shader = new Shader("res/shaders/basic.es3.vert", "res/shaders/basic.es3.frag");
-#else
+		window = CreateWindow("Test Game", 1280, 720);
+		// window->SetVsync(false);
+
+		FontManager::Get()->SetScale(window->GetWidth() / 32.0f, window->GetHeight() / 18.0f);
 		shader = ShaderFactory::DefaultShader();
-#endif
-		layer = new Layer(new BatchRenderer2D(maths::tvec2<uint>(1280, 720)), shader, maths::mat4::orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+		layer = new Layer(new BatchRenderer2D(tvec2<uint>(1280, 720)), shader, mat4::Orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
 		
-		sprite = new Sprite(0.0f, 0.0f, 8, 4, new Texture("Tex", "res/tb.png"));
-		//layer->add(new Sprite(-16.0f, -9.0f, 32, 32, 0xffff00ff));
-		layer->add(sprite);
+		sprite = new Sprite(0.0f, 0.0f, 8, 8, new Texture("Tex", "res/tb.png"));
+		layer->Add(sprite);
 
 		fps = new Label("", -15.5f, 7.8f, 0xffffffff);
-		layer->add(fps);
+		layer->Add(fps);
 
 		debugInfo = new Label("", -15.5f, 6.8f, 0xffffffff);
-		layer->add(debugInfo);
+		layer->Add(debugInfo);
 
 		Texture::SetWrap(TextureWrap::CLAMP_TO_BORDER);
 		mask = new Mask(new Texture("Mask", "res/mask.png"));
-		layer->setMask(mask);
-
-//		audio::SoundManager::add(new audio::Sound("Lol", "res/Cherno.ogg"))->loop();
+		mask->transform = mat4::Translate(vec3(-16.0f, -9.0f, 0.0f)) * mat4::Scale(vec3(32, 18, 1));
+		layer->SetMask(mask);
 	}
 
-	void tick() override
+	void Tick() override
 	{
-		fps->text = std::to_string(getFPS()) + " fps";
-		SPARKY_INFO(getUPS(), " ups, ", getFPS(), " fps");
+		fps->text = std::to_string(GetFPS()) + " fps";
+		SPARKY_INFO(GetUPS(), " ups, ", GetFPS(), " fps");
 	}
 
-	void update() override
+	void Update() override
 	{
-		if (window->isKeyPressed(GLFW_KEY_1))
+		if (window->IsKeyPressed(GLFW_KEY_1))
 			((BatchRenderer2D*)layer->renderer)->SetRenderTarget(RenderTarget::SCREEN);
-		if (window->isKeyPressed(GLFW_KEY_2))
+		if (window->IsKeyPressed(GLFW_KEY_2))
 			((BatchRenderer2D*)layer->renderer)->SetRenderTarget(RenderTarget::BUFFER);
 
-		maths::tvec2<uint> size = ((BatchRenderer2D*)layer->renderer)->GetViewportSize();
+		tvec2<uint> size = ((BatchRenderer2D*)layer->renderer)->GetViewportSize();
 
-		if (window->isKeyPressed(GLFW_KEY_UP))
+		if (window->IsKeyPressed(GLFW_KEY_UP))
 		{
-			size.x++;
-			size.y++;
+			size.x += 16;
+			size.y += 9;
 		}
-		else if (window->isKeyPressed(GLFW_KEY_DOWN))
+		else if (window->IsKeyPressed(GLFW_KEY_DOWN))
 		{
-			size.x--;
-			size.y--;
+			size.x -= 16;
+			size.y -= 9;
 		}
+
+		if (size.x > 10000)
+			size.x = 0;
+		if (size.y > 10000)
+			size.y = 0;
+
 		debugInfo->text = std::to_string(size.x) + ", " + std::to_string(size.y);
 		((BatchRenderer2D*)layer->renderer)->SetViewportSize(size);
+		((BatchRenderer2D*)layer->renderer)->SetScreenSize(tvec2<uint>(window->GetWidth(), window->GetHeight()));
 	}
 
-	void render() override
+	void Render() override
 	{
-		layer->render();
+		layer->Render();
 	}
 };
 
 int main()
 {
 	Game game;
-	game.start();
+	game.Start();
 	return 0;
 }

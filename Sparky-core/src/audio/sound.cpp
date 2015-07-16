@@ -1,5 +1,5 @@
-#include "sound.h"
-#include "sound_manager.h"
+#include "Sound.h"
+#include "SoundManager.h"
 
 namespace sparky { namespace audio {
 
@@ -29,7 +29,7 @@ namespace sparky { namespace audio {
 #endif
 	}
 
-	void Sound::play()
+	void Sound::Play()
 	{
 #ifdef SPARKY_PLATFORM_WEB
 		SoundManagerPlay(m_Name.c_str());
@@ -43,7 +43,7 @@ namespace sparky { namespace audio {
 		m_Playing = true;
 	}
 
-	void Sound::loop()
+	void Sound::Loop()
 	{
 #ifdef SPARKY_PLATFORM_WEB
 		SoundManagerLoop(m_Name.c_str());
@@ -56,7 +56,7 @@ namespace sparky { namespace audio {
 		m_Playing = true;
 	}
 
-	void Sound::resume()
+	void Sound::Resume()
 	{
 		if (m_Playing)
 			return;
@@ -69,7 +69,7 @@ namespace sparky { namespace audio {
 #endif
 	}
 
-	void Sound::pause()
+	void Sound::Pause()
 	{
 		if (!m_Playing)
 			return;
@@ -82,7 +82,7 @@ namespace sparky { namespace audio {
 #endif
 	}
 
-	void Sound::stop()
+	void Sound::Stop()
 	{
 		if (!m_Playing)
 			return;
@@ -95,7 +95,7 @@ namespace sparky { namespace audio {
 		m_Playing = false;
 	}
 
-	void Sound::setGain(float gain)
+	void Sound::SetGain(float gain)
 	{
 		if (!m_Playing)
 		{
@@ -117,13 +117,13 @@ namespace sparky { namespace audio {
 		Sound* sound = (Sound*)in_handle->sound;
 		sound->m_Count--;
 		if (sound->m_Count == 0)
-			sound->stop();
+			sound->Stop();
 	}
 
 	void loop_on_finish(ga_Handle* in_handle, void* in_context)
 	{
 		Sound* sound = (Sound*) in_handle->sound;
-		sound->loop();
+		sound->Loop();
 		ga_handle_destroy(in_handle);
 	}
 #endif

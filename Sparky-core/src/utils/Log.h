@@ -7,7 +7,7 @@
 #include <list>
 #include <map>
 
-#include <Windows.h>
+#include <sparky_types.h>
 
 #define SPARKY_LOG_LEVEL_FATAL 0
 #define SPARKY_LOG_LEVEL_ERROR 1
@@ -37,6 +37,8 @@ namespace std
 namespace sparky { namespace internal {
 	
 	static char to_string_buffer[1024 * 10];
+
+	void PlatformLogMessage(uint level, const char* message);
 
 	template <class T>
 	struct has_iterator
@@ -159,9 +161,7 @@ namespace sparky { namespace internal {
 		memcpy(&buffer[position], formatted, length);
 		position += length;
 		if (sizeof...(Args))
-		{
 			print_log_internal(buffer, position, std::forward<Args>(args)...);
-		}
 	}
 
 	template <typename... Args>
@@ -176,21 +176,7 @@ namespace sparky { namespace internal {
 
 		buffer[position] = 0;
 
-		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-		switch (level)
-		{
-		case SPARKY_LOG_LEVEL_FATAL:
-			SetConsoleTextAttribute(hConsole, BACKGROUND_RED | BACKGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-			break;
-		case SPARKY_LOG_LEVEL_ERROR:
-			SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
-			break;
-		case SPARKY_LOG_LEVEL_WARN:
-			SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-			break;
-		}
-		printf("%s", buffer);
-		SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+		PlatformLogMessage(level, buffer);
 	}
 } }
 

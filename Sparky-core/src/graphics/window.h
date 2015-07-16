@@ -4,9 +4,9 @@
 #include <sparkygl.h>
 
 #include "../maths/vec2.h"
-#include "font_manager.h"
-#include "texture_manager.h"
-#include "../audio/sound_manager.h"
+#include "FontManager.h"
+#include "TextureManager.h"
+#include "../audio/SoundManager.h"
 
 namespace sparky { namespace graphics {
 
@@ -29,24 +29,29 @@ namespace sparky { namespace graphics {
 		bool m_MouseClicked[MAX_BUTTONS];
 
 		maths::vec2 m_MousePosition;
+		bool m_Vsync;
 	public:
 		Window(const char *name, int width, int height);
 		~Window();
-		void clear() const;
-		void update();
-		void updateInput();
-		bool closed() const;
+		void Clear() const;
+		void Update();
+		void UpdateInput();
+		bool Closed() const;
 
-		inline int getWidth() const { return m_Width; }
-		inline int getHeight() const { return m_Height; }
+		inline int GetWidth() const { return m_Width; }
+		inline int GetHeight() const { return m_Height; }
 
-		bool isKeyPressed(unsigned int keycode) const;
-		bool isKeyTyped(unsigned int keycode) const;
-		bool isMouseButtonPressed(unsigned int button) const;
-		bool isMouseButtonClicked(unsigned int button) const;
-		const maths::vec2& getMousePosition() const;
+		bool IsKeyPressed(uint keycode) const;
+		bool IsKeyTyped(uint keycode) const;
+		bool IsMouseButtonPressed(uint button) const;
+		bool IsMouseButtonClicked(uint button) const;
+		const maths::vec2& GetMousePosition() const;
+
+		void SetVsync(bool enabled);
+		bool IsVsync() const { return m_Vsync; }
 	private:
-		bool init();
+		bool Init();
+
 		friend void window_resize(GLFWwindow* window, int width, int height);
 		friend void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 		friend void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);

@@ -2,8 +2,8 @@
 
 #include <sparky_types.h>
 
-#include "../renderer2d.h"
-#include "../renderable2d.h"
+#include "../Renderer2D.h"
+#include "../Renderable2D.h"
 #include "../Mask.h"
 
 namespace sparky { namespace graphics {
@@ -19,13 +19,13 @@ namespace sparky { namespace graphics {
 	public:
 		Layer(Renderer2D* renderer, Shader* shader, maths::mat4 projectionMatrix);
 		virtual ~Layer();
-		virtual Renderable2D* add(Renderable2D* renderable);
+		virtual Renderable2D* Add(Renderable2D* renderable);
 
-		inline void setMask(const Mask* mask) const { renderer->setMask(mask); }
+		inline void SetMask(const Mask* mask) const { renderer->SetMask(mask); }
 
-		virtual void render();
+		virtual void Render();
 
-		inline const std::vector<Renderable2D*>& getRenderables() const { return m_Renderables; }
+		inline const std::vector<Renderable2D*>& GetRenderables() const { return m_Renderables; }
 	};
 
 } }

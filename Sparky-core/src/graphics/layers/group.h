@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../renderable2d.h"
+#include "../Renderable2D.h"
 
 namespace sparky { namespace graphics {
 
@@ -12,10 +12,10 @@ namespace sparky { namespace graphics {
 	public:
 		Group(const maths::mat4& transform);
 		~Group();
-		void add(Renderable2D* renderable);
-		void submit(Renderer2D* renderer) const override;
+		void Add(Renderable2D* renderable);
+		void Submit(Renderer2D* renderer) const override;
 
-		maths::mat4& getTransformRef() { return m_TransformationMatrix; }
+		maths::mat4& GetTransformRef() { return m_TransformationMatrix; }
 	};
 
 } }

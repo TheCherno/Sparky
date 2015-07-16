@@ -25,12 +25,12 @@ namespace sparky {
 			QueryPerformanceCounter(&m_Start);
 		}
 
-		void reset()
+		void Reset()
 		{
 			QueryPerformanceCounter(&m_Start);
 		}
 
-		float elapsed()
+		float Elapsed()
 		{
 			LARGE_INTEGER current;
 			QueryPerformanceCounter(&current);
@@ -49,15 +49,15 @@ namespace sparky {
 	public:
 		Timer()
 		{
-			reset();
+			Reset();
 		}
 
-		void reset()
+		void Reset()
 		{
 			m_Start = HighResolutionClock::now();
 		}
 
-		float elapsed()
+		float Elapsed()
 		{
 			return std::chrono::duration_cast<milliseconds_type>(HighResolutionClock::now() - m_Start).count() / 1000.0f;
 		}

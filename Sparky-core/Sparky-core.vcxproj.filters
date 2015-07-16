@@ -84,9 +84,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ext\freetype\src\autofit\autofit.c">
       <Filter>Source Files\ext\freetype</Filter>
     </ClCompile>
@@ -231,34 +228,34 @@
     <ClCompile Include="src\graphics\shaders\Shader.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\texture.cpp">
+    <ClCompile Include="src\graphics\Texture.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\window.cpp">
+    <ClCompile Include="src\graphics\Window.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\graphics\BatchRenderer2D.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\buffers\buffer.cpp">
+    <ClCompile Include="src\graphics\buffers\Buffer.cpp">
       <Filter>Source Files\graphics\buffers</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\buffers\indexbuffer.cpp">
+    <ClCompile Include="src\graphics\buffers\IndexBuffer.cpp">
       <Filter>Source Files\graphics\buffers</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\buffers\vertexarray.cpp">
+    <ClCompile Include="src\graphics\buffers\VertexArray.cpp">
       <Filter>Source Files\graphics\buffers</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\layers\group.cpp">
+    <ClCompile Include="src\graphics\layers\Group.cpp">
       <Filter>Source Files\graphics\layers</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\layers\layer.cpp">
+    <ClCompile Include="src\graphics\layers\Layer.cpp">
       <Filter>Source Files\graphics\layers</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\label.cpp">
+    <ClCompile Include="src\graphics\Label.cpp">
       <Filter>Source Files\graphics\renderables</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\sprite.cpp">
+    <ClCompile Include="src\graphics\Sprite.cpp">
       <Filter>Source Files\graphics\renderables</Filter>
     </ClCompile>
     <ClCompile Include="ext\gorilla-audio\ga.c">
@@ -279,19 +276,19 @@
     <ClCompile Include="ext\gorilla-audio\common\gc_thread.c">
       <Filter>Source Files\ext\gorilla-audio</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\font.cpp">
+    <ClCompile Include="src\graphics\Font.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\font_manager.cpp">
+    <ClCompile Include="src\graphics\FontManager.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\audio\sound_manager.cpp">
+    <ClCompile Include="src\audio\SoundManager.cpp">
       <Filter>Source Files\audio</Filter>
     </ClCompile>
-    <ClCompile Include="src\audio\sound.cpp">
+    <ClCompile Include="src\audio\Sound.cpp">
       <Filter>Source Files\audio</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\texture_manager.cpp">
+    <ClCompile Include="src\graphics\TextureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\graphics\shaders\ShaderFactory.cpp">
@@ -301,6 +298,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\graphics\Framebuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\MeshFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -347,25 +347,25 @@
     <ClInclude Include="src\graphics\BatchRenderer2D.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\renderer2d.h">
+    <ClInclude Include="src\graphics\Renderer2D.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\shaders\Shader.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\texture.h">
+    <ClInclude Include="src\graphics\Texture.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\window.h">
+    <ClInclude Include="src\graphics\Window.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\utils\fileutils.h">
+    <ClInclude Include="src\utils\FileUtils.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
     <ClInclude Include="src\utils\ImageLoad.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\utils\timer.h">
+    <ClInclude Include="src\utils\Timer.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
     <ClInclude Include="src\maths\mat4.h">
@@ -386,28 +386,28 @@
     <ClInclude Include="src\maths\vec4.h">
       <Filter>Header Files\maths</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\buffers\vertexarray.h">
+    <ClInclude Include="src\graphics\buffers\VertexArray.h">
       <Filter>Header Files\graphics\buffers</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\buffers\buffer.h">
+    <ClInclude Include="src\graphics\buffers\Buffer.h">
       <Filter>Header Files\graphics\buffers</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\buffers\indexbuffer.h">
+    <ClInclude Include="src\graphics\buffers\Indexbuffer.h">
       <Filter>Header Files\graphics\buffers</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\layers\layer.h">
+    <ClInclude Include="src\graphics\layers\Layer.h">
       <Filter>Header Files\graphics\layers</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\layers\group.h">
+    <ClInclude Include="src\graphics\layers\Group.h">
       <Filter>Header Files\graphics\layers</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\sprite.h">
+    <ClInclude Include="src\graphics\Sprite.h">
       <Filter>Header Files\graphics\renderables</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\renderable2d.h">
+    <ClInclude Include="src\graphics\Renderable2D.h">
       <Filter>Header Files\graphics\renderables</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\label.h">
+    <ClInclude Include="src\graphics\Label.h">
       <Filter>Header Files\graphics\renderables</Filter>
     </ClInclude>
     <ClInclude Include="ext\gorilla-audio\ga.h">
@@ -431,25 +431,25 @@
     <ClInclude Include="ext\gorilla-audio\common\gc_types.h">
       <Filter>Header Files\ext\gorilla-audio</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\font_manager.h">
+    <ClInclude Include="src\graphics\FontManager.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\font.h">
+    <ClInclude Include="src\graphics\Font.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\audio\sound_manager.h">
+    <ClInclude Include="src\audio\SoundManager.h">
       <Filter>Header Files\audio</Filter>
     </ClInclude>
-    <ClInclude Include="src\audio\sound.h">
+    <ClInclude Include="src\audio\Sound.h">
       <Filter>Header Files\audio</Filter>
     </ClInclude>
-    <ClInclude Include="src\utils\stringutils.h">
+    <ClInclude Include="src\utils\StringUtils.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
     <ClInclude Include="src\sparky.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\texture_manager.h">
+    <ClInclude Include="src\graphics\TextureManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\utils\Log.h">
@@ -474,6 +474,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\maths\tvec2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\MeshFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

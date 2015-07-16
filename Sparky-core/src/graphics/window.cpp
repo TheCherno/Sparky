@@ -1,4 +1,4 @@
-#include "window.h"
+#include "Window.h"
 
 #include "../embedded/Embedded.h"
 
@@ -14,20 +14,20 @@ namespace sparky { namespace graphics {
 		m_Title = title;
 		m_Width = width;
 		m_Height = height;
-		if (!init())
+		if (!Init())
 			glfwTerminate();
 
 #ifdef SPARKY_PLATFORM_WEB
-		FontManager::add(new Font("SourceSansPro", "res/SourceSansPro-Light.ttf", 32));
+		FontManager::Add(new Font("SourceSansPro", "res/SourceSansPro-Light.ttf", 32));
 #else
-		FontManager::add(new Font("SourceSansPro", internal::DEFAULT_FONT, internal::DEFAULT_FONT_SIZE, 32));
+		FontManager::Add(new Font("SourceSansPro", internal::DEFAULT_FONT, internal::DEFAULT_FONT_SIZE, 32));
 #endif
 
 #ifdef SPARKY_PLATFORM_WEB
 		FreeImage_Initialise();
 #endif
 
-		audio::SoundManager::init();
+		audio::SoundManager::Init();
 
 		for (int i = 0; i < MAX_KEYS; i++)
 		{
@@ -46,13 +46,13 @@ namespace sparky { namespace graphics {
 
 	Window::~Window()
 	{
-		FontManager::clean();
-		TextureManager::clean();
-		audio::SoundManager::clean();
+		FontManager::Clean();
+		TextureManager::Clean();
+		audio::SoundManager::Clean();
 		glfwTerminate();
 	}
 
-	bool Window::init()
+	bool Window::Init()
 	{
 		if (!glfwInit())
 		{
@@ -71,7 +71,6 @@ namespace sparky { namespace graphics {
 		glfwSetKeyCallback(m_Window, key_callback);
 		glfwSetMouseButtonCallback(m_Window, mouse_button_callback);
 		glfwSetCursorPosCallback(m_Window, cursor_position_callback);
-		glfwSwapInterval(0.0);
 
 #ifndef SPARKY_PLATFORM_WEB
 		if (glewInit() != GLEW_OK)
@@ -88,7 +87,7 @@ namespace sparky { namespace graphics {
 		return true;
 	}
 
-	bool Window::isKeyPressed(unsigned int keycode) const
+	bool Window::IsKeyPressed(uint keycode) const
 	{
 		// TODO: Log this!
 		if (keycode >= MAX_KEYS)
@@ -97,7 +96,7 @@ namespace sparky { namespace graphics {
 		return m_Keys[keycode];
 	}
 
-	bool Window::isKeyTyped(unsigned int keycode) const
+	bool Window::IsKeyTyped(uint keycode) const
 	{
 		// TODO: Log this!
 		if (keycode >= MAX_KEYS)
@@ -106,7 +105,7 @@ namespace sparky { namespace graphics {
 		return m_KeyTyped[keycode];
 	}
 	 
-	bool Window::isMouseButtonPressed(unsigned int button) const
+	bool Window::IsMouseButtonPressed(uint button) const
 	{
 		// TODO: Log this!
 		if (button >= MAX_BUTTONS)
@@ -115,7 +114,7 @@ namespace sparky { namespace graphics {
 		return m_MouseButtons[button];
 	}
 
-	bool Window::isMouseButtonClicked(unsigned int button) const
+	bool Window::IsMouseButtonClicked(uint button) const
 	{
 		// TODO: Log this!
 		if (button >= MAX_BUTTONS)
@@ -124,30 +123,31 @@ namespace sparky { namespace graphics {
 		return m_MouseClicked[button];
 	}
 
-	const maths::vec2& Window::getMousePosition() const
+	const maths::vec2& Window::GetMousePosition() const
 	{
 		return m_MousePosition;
 	}
 
-	void Window::clear() const
+	void Window::SetVsync(bool enabled)
+	{
+		glfwSwapInterval((double)enabled);
+		m_Vsync = enabled;
+	}
+
+	void Window::Clear() const
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
- 	void Window::update()
+ 	void Window::Update()
 	{
-		// TODO: Proper OpenGL error checking!
-		GLenum error = glGetError();
-		if (error != GL_NO_ERROR)
-			std::cout << "OpenGL Error: " << error << std::endl;
-
 		glfwSwapBuffers(m_Window);
 		glfwPollEvents();
 
-		audio::SoundManager::update();
+		audio::SoundManager::Update();
 	}
 
-	void Window::updateInput()
+	void Window::UpdateInput()
 	{
 		for (int i = 0; i < MAX_KEYS; i++)
 			m_KeyTyped[i] = m_Keys[i] && !m_KeyState[i];
@@ -159,7 +159,7 @@ namespace sparky { namespace graphics {
 		memcpy(m_MouseState, m_MouseButtons, MAX_BUTTONS);
 	}
 
-	bool Window::closed() const
+	bool Window::Closed() const
 	{
 		return glfwWindowShouldClose(m_Window) == 1;
 	}

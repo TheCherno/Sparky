@@ -1,10 +1,11 @@
 #pragma once
 
 #include <vector>
+
 #include <sparkygl.h>
 #include <sparky_types.h>
 
-#include "buffer.h"
+#include "Buffer.h"
 
 namespace sparky { namespace graphics {
 
@@ -17,9 +18,9 @@ namespace sparky { namespace graphics {
 		VertexArray();
 		~VertexArray();
 
-		void addBuffer(Buffer* buffer, GLuint index);
-		void bind() const;
-		void unbind() const;
+		void AddBuffer(Buffer* buffer, uint index);
+		void Bind() const;
+		void Unbind() const;
 	};
 
 } }

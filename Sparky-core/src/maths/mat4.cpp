@@ -19,12 +19,12 @@ namespace sparky { namespace maths {
 		elements[3 + 3 * 4] = diagonal;
 	}
 
-	mat4 mat4::identity()
+	mat4 mat4::Identity()
 	{
 		return mat4(1.0f);
 	}
 
-	mat4& mat4::multiply(const mat4& other)
+	mat4& mat4::Multiply(const mat4& other)
 	{
 		float data[16];
 		for (int y = 0; y < 4; y++)
@@ -44,7 +44,7 @@ namespace sparky { namespace maths {
 		return *this;
 	}
 
-	vec3 mat4::multiply(const vec3& other) const
+	vec3 mat4::Multiply(const vec3& other) const
 	{
 		return vec3(
 			columns[0].x * other.x + columns[1].x * other.y + columns[2].x * other.z + columns[3].x,
@@ -53,7 +53,7 @@ namespace sparky { namespace maths {
 		);
 	}
 
-	vec4 mat4::multiply(const vec4& other) const
+	vec4 mat4::Multiply(const vec4& other) const
 	{
 		return vec4(
 			columns[0].x * other.x + columns[1].x * other.y + columns[2].x * other.z + columns[3].x * other.w,
@@ -65,25 +65,25 @@ namespace sparky { namespace maths {
 
 	mat4 operator*(mat4 left, const mat4& right)
 	{
-		return left.multiply(right);
+		return left.Multiply(right);
 	}
 
 	mat4& mat4::operator*=(const mat4& other)
 	{
-		return multiply(other);
+		return Multiply(other);
 	}
 
 	vec3 operator*(const mat4& left, const vec3& right)
 	{
-		return left.multiply(right);
+		return left.Multiply(right);
 	}
 
 	vec4 operator*(const mat4& left, const vec4& right)
 	{
-		return left.multiply(right);
+		return left.Multiply(right);
 	}
 
-	mat4& mat4::invert()
+	mat4& mat4::Invert()
 	{
 		double temp[16];
 
@@ -208,7 +208,7 @@ namespace sparky { namespace maths {
 		return *this;
 	}
 
-	mat4 mat4::orthographic(float left, float right, float bottom, float top, float near, float far)
+	mat4 mat4::Orthographic(float left, float right, float bottom, float top, float near, float far)
 	{
 		mat4 result(1.0f);
 
@@ -225,7 +225,7 @@ namespace sparky { namespace maths {
 		return result;
 	}
 
-	mat4 mat4::perspective(float fov, float aspectRatio, float near, float far)
+	mat4 mat4::Perspective(float fov, float aspectRatio, float near, float far)
 	{
 		mat4 result(1.0f);
 
@@ -244,7 +244,7 @@ namespace sparky { namespace maths {
 		return result;
 	}
 
-	mat4 mat4::translation(const vec3& translation)
+	mat4 mat4::Translate(const vec3& translation)
 	{
 		mat4 result(1.0f);
 
@@ -255,7 +255,7 @@ namespace sparky { namespace maths {
 		return result;
 	}
 
-	mat4 mat4::rotation(float angle, const vec3& axis)
+	mat4 mat4::Rotate(float angle, const vec3& axis)
 	{
 		mat4 result(1.0f);
 
@@ -283,7 +283,7 @@ namespace sparky { namespace maths {
 		return result;
 	}
 
-	mat4 mat4::scale(const vec3& scale)
+	mat4 mat4::Scale(const vec3& scale)
 	{
 		mat4 result(1.0f);
 
@@ -294,10 +294,10 @@ namespace sparky { namespace maths {
 		return result;
 	}
 
-	mat4 mat4::invert(const mat4& matrix)
+	mat4 mat4::Invert(const mat4& matrix)
 	{
 		mat4 result = matrix;
-		return result.invert();
+		return result.Invert();
 	}
 
 } }

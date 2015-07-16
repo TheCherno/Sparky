@@ -15,7 +15,7 @@ static void log_gl_call(const char* function, const char* file, int line)
 	GLenum error = glGetError();
 	if (error != GL_NO_ERROR)
 	{
-		SPARKY_ERROR("[OpenGL Error] (", error, "): ", function, " ", file, ":", line);
+//		SPARKY_ERROR("[OpenGL Error] (", error, "): ", function, " ", file, ":", line);
 	}
 }
 

@@ -1,8 +1,12 @@
 #pragma once
 
 #include <string>
+
 #include <FreeImage.h>
 #include <FreeImage/Utilities.h>
+
+#include <sparky_types.h>
+#include <utils/Log.h>
 
 namespace sparky {
 

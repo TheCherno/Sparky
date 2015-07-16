@@ -23,27 +23,27 @@ namespace sparky { namespace maths {
 			return vec4(elements[index], elements[index + 1], elements[index + 2], elements[index + 3]);
 		}
 
-		static mat4 identity();
+		static mat4 Identity();
 
-		mat4& multiply(const mat4& other);
+		mat4& Multiply(const mat4& other);
 		friend mat4 operator*(mat4 left, const mat4& right);
 		mat4& operator*=(const mat4& other);
 
-		vec3 multiply(const vec3& other) const;
+		vec3 Multiply(const vec3& other) const;
 		friend vec3 operator*(const mat4& left, const vec3& right);
 
-		vec4 multiply(const vec4& other) const;
+		vec4 Multiply(const vec4& other) const;
 		friend vec4 operator*(const mat4& left, const vec4& right);
 
-		mat4& invert();
+		mat4& Invert();
 
-		static mat4 orthographic(float left, float right, float bottom, float top, float near, float far);
-		static mat4 perspective(float fov, float aspectRatio, float near, float far);
+		static mat4 Orthographic(float left, float right, float bottom, float top, float near, float far);
+		static mat4 Perspective(float fov, float aspectRatio, float near, float far);
 
-		static mat4 translation(const vec3& translation);
-		static mat4 rotation(float angle, const vec3& axis);
-		static mat4 scale(const vec3& scale);
-		static mat4 invert(const mat4& matrix);
+		static mat4 Translate(const vec3& translation);
+		static mat4 Rotate(float angle, const vec3& axis);
+		static mat4 Scale(const vec3& scale);
+		static mat4 Invert(const mat4& matrix);
 	};
 
 } }

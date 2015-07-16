@@ -1,11 +1,11 @@
-#include "shader.h"
+#include "Shader.h"
 
 namespace sparky { namespace graphics {
 
 	Shader::Shader(const char* name, const char* vertSrc, const char* fragSrc)
 		: m_Name(name), m_VertSrc(vertSrc), m_FragSrc(fragSrc)
 	{
-		m_ShaderID = load(m_VertSrc, m_FragSrc);
+		m_ShaderID = Load(m_VertSrc, m_FragSrc);
 	}
 
 	Shader::Shader(const char* vertPath, const char* fragPath)
@@ -16,7 +16,7 @@ namespace sparky { namespace graphics {
 
 		m_VertSrc = vertSourceString.c_str();
 		m_FragSrc = fragSourceString.c_str();
-		m_ShaderID = load(m_VertSrc, m_FragSrc);
+		m_ShaderID = Load(m_VertSrc, m_FragSrc);
 	}
 
 	Shader* Shader::FromFile(const char* vertPath, const char* fragPath)
@@ -39,7 +39,7 @@ namespace sparky { namespace graphics {
 		glDeleteProgram(m_ShaderID);
 	}
 
-	GLuint Shader::load(const char* vertSrc, const char* fragSrc)
+	GLuint Shader::Load(const char* vertSrc, const char* fragSrc)
 	{
 		GLuint program = glCreateProgram();
 		GLuint vertex = glCreateShader(GL_VERTEX_SHADER);
@@ -92,7 +92,7 @@ namespace sparky { namespace graphics {
 		return program;
 	}
 
-	GLint Shader::getUniformLocation(const GLchar* name)
+	GLint Shader::GetUniformLocation(const GLchar* name)
 	{
 		GLint result = glGetUniformLocation(m_ShaderID, name);
 		if (result == -1)
@@ -101,52 +101,52 @@ namespace sparky { namespace graphics {
 		return result;
 	}
 
-	void Shader::setUniform1f(const GLchar* name, float value)
+	void Shader::SetUniform1f(const GLchar* name, float value)
 	{
-		glUniform1f(getUniformLocation(name), value);
+		glUniform1f(GetUniformLocation(name), value);
 	}
 
-	void Shader::setUniform1fv(const GLchar* name, float* value, int count)
+	void Shader::SetUniform1fv(const GLchar* name, float* value, int count)
 	{
-		glUniform1fv(getUniformLocation(name), count, value);
+		glUniform1fv(GetUniformLocation(name), count, value);
 	}
 
-	void Shader::setUniform1i(const GLchar* name, int value)
+	void Shader::SetUniform1i(const GLchar* name, int value)
 	{
-		glUniform1i(getUniformLocation(name), value);
+		glUniform1i(GetUniformLocation(name), value);
 	}
 
-	void Shader::setUniform1iv(const GLchar* name, int* value, int count)
+	void Shader::SetUniform1iv(const GLchar* name, int* value, int count)
 	{
-		glUniform1iv(getUniformLocation(name), count, value);
+		glUniform1iv(GetUniformLocation(name), count, value);
 	}
 
-	void Shader::setUniform2f(const GLchar* name, const maths::vec2& vector)
+	void Shader::SetUniform2f(const GLchar* name, const maths::vec2& vector)
 	{
-		glUniform2f(getUniformLocation(name), vector.x, vector.y);
+		glUniform2f(GetUniformLocation(name), vector.x, vector.y);
 	}
 
-	void Shader::setUniform3f(const GLchar* name, const maths::vec3& vector)
+	void Shader::SetUniform3f(const GLchar* name, const maths::vec3& vector)
 	{
-		glUniform3f(getUniformLocation(name), vector.x, vector.y, vector.z);
+		glUniform3f(GetUniformLocation(name), vector.x, vector.y, vector.z);
 	}
 
-	void Shader::setUniform4f(const GLchar* name, const maths::vec4& vector)
+	void Shader::SetUniform4f(const GLchar* name, const maths::vec4& vector)
 	{
-		glUniform4f(getUniformLocation(name), vector.x, vector.y, vector.z, vector.w);
+		glUniform4f(GetUniformLocation(name), vector.x, vector.y, vector.z, vector.w);
 	}
 
-	void Shader::setUniformMat4(const GLchar* name, const maths::mat4& matrix)
+	void Shader::SetUniformMat4(const GLchar* name, const maths::mat4& matrix)
 	{
-		glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, matrix.elements);
+		glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, matrix.elements);
 	}
 
-	void Shader::enable() const
+	void Shader::Bind() const
 	{
 		glUseProgram(m_ShaderID);
 	}
 
-	void Shader::disable() const
+	void Shader::Unbind() const
 	{
 		glUseProgram(0);
 	}

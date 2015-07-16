@@ -56,19 +56,19 @@
     <IncludePath>$(SolutionDir)Dependencies\libvorbis\include;$(SolutionDir)Dependencies\OpenAL\include;$(ProjectDir)ext\freetype\include;$(SolutionDir)Dependencies\FreeImage\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\GLFW\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies\libogg\bin;$(SolutionDir)Dependencies\OpenAL\libs\Win32;$(SolutionDir)Dependencies\FreeImage\lib;$(SolutionDir)Dependencies\GLEW\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2013;$(SolutionDir)Dependencies\libvorbis\bin;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\</IntDir>
+    <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\$(ProjectName)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">
     <IncludePath>C:\Program Files\Emscripten\emscripten\1.30.0\system\include;$(SolutionDir)Dependencies\libvorbis\include;$(SolutionDir)Dependencies\OpenAL\include;$(ProjectDir)ext\freetype\include;$(SolutionDir)Dependencies\FreeImage\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\GLFW\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies\libogg\bin;$(SolutionDir)Dependencies\OpenAL\libs\Win32;$(SolutionDir)Dependencies\FreeImage\lib;$(SolutionDir)Dependencies\GLEW\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2013;$(SolutionDir)Dependencies\libvorbis\bin;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\</IntDir>
+    <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\$(ProjectName)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(SolutionDir)Dependencies\libvorbis\include;$(SolutionDir)Dependencies\OpenAL\include;$(ProjectDir)ext\freetype\include;$(SolutionDir)Dependencies\FreeImage\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\GLFW\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies\libogg\bin;$(SolutionDir)Dependencies\OpenAL\libs\Win32;$(SolutionDir)Dependencies\FreeImage\lib;$(SolutionDir)Dependencies\GLEW\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2013;$(SolutionDir)Dependencies\libvorbis\bin;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\</IntDir>
+    <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\$(ProjectName)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -180,31 +180,31 @@
     <ClCompile Include="ext\gorilla-audio\ga.c" />
     <ClCompile Include="ext\gorilla-audio\gau.c" />
     <ClCompile Include="ext\gorilla-audio\ga_stream.c" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\audio\sound.cpp" />
-    <ClCompile Include="src\audio\sound_manager.cpp" />
+    <ClCompile Include="src\audio\Sound.cpp" />
+    <ClCompile Include="src\audio\SoundManager.cpp" />
     <ClCompile Include="src\embedded\Embedded.cpp" />
     <ClCompile Include="src\graphics\BatchRenderer2D.cpp" />
-    <ClCompile Include="src\graphics\buffers\buffer.cpp" />
-    <ClCompile Include="src\graphics\buffers\indexbuffer.cpp" />
-    <ClCompile Include="src\graphics\buffers\vertexarray.cpp" />
-    <ClCompile Include="src\graphics\font.cpp" />
-    <ClCompile Include="src\graphics\font_manager.cpp" />
+    <ClCompile Include="src\graphics\buffers\Buffer.cpp" />
+    <ClCompile Include="src\graphics\buffers\IndexBuffer.cpp" />
+    <ClCompile Include="src\graphics\buffers\VertexArray.cpp" />
+    <ClCompile Include="src\graphics\Font.cpp" />
+    <ClCompile Include="src\graphics\FontManager.cpp" />
     <ClCompile Include="src\graphics\Framebuffer.cpp" />
-    <ClCompile Include="src\graphics\label.cpp" />
-    <ClCompile Include="src\graphics\layers\group.cpp" />
-    <ClCompile Include="src\graphics\layers\layer.cpp" />
+    <ClCompile Include="src\graphics\Label.cpp" />
+    <ClCompile Include="src\graphics\layers\Group.cpp" />
+    <ClCompile Include="src\graphics\layers\Layer.cpp" />
     <ClCompile Include="src\graphics\MeshFactory.cpp" />
     <ClCompile Include="src\graphics\shaders\Shader.cpp" />
     <ClCompile Include="src\graphics\shaders\ShaderFactory.cpp" />
-    <ClCompile Include="src\graphics\sprite.cpp" />
-    <ClCompile Include="src\graphics\texture.cpp" />
-    <ClCompile Include="src\graphics\texture_manager.cpp" />
-    <ClCompile Include="src\graphics\window.cpp" />
+    <ClCompile Include="src\graphics\Sprite.cpp" />
+    <ClCompile Include="src\graphics\Texture.cpp" />
+    <ClCompile Include="src\graphics\TextureManager.cpp" />
+    <ClCompile Include="src\graphics\Window.cpp" />
     <ClCompile Include="src\maths\mat4.cpp" />
     <ClCompile Include="src\maths\vec2.cpp" />
     <ClCompile Include="src\maths\vec3.cpp" />
     <ClCompile Include="src\maths\vec4.cpp" />
+    <ClCompile Include="src\platform\windows\Win32Log.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ext\freetype-gl\freetype-gl.h" />
@@ -227,29 +227,29 @@
     <ClInclude Include="ext\gorilla-audio\ga.h" />
     <ClInclude Include="ext\gorilla-audio\gau.h" />
     <ClInclude Include="ext\gorilla-audio\ga_internal.h" />
-    <ClInclude Include="src\audio\sound.h" />
-    <ClInclude Include="src\audio\sound_manager.h" />
+    <ClInclude Include="src\audio\Sound.h" />
+    <ClInclude Include="src\audio\SoundManager.h" />
     <ClInclude Include="src\embedded\Embedded.h" />
     <ClInclude Include="src\graphics\BatchRenderer2D.h" />
-    <ClInclude Include="src\graphics\buffers\buffer.h" />
-    <ClInclude Include="src\graphics\buffers\indexbuffer.h" />
-    <ClInclude Include="src\graphics\buffers\vertexarray.h" />
-    <ClInclude Include="src\graphics\font.h" />
-    <ClInclude Include="src\graphics\font_manager.h" />
+    <ClInclude Include="src\graphics\buffers\Buffer.h" />
+    <ClInclude Include="src\graphics\buffers\IndexBuffer.h" />
+    <ClInclude Include="src\graphics\buffers\VertexArray.h" />
+    <ClInclude Include="src\graphics\Font.h" />
+    <ClInclude Include="src\graphics\FontManager.h" />
     <ClInclude Include="src\graphics\Framebuffer.h" />
-    <ClInclude Include="src\graphics\label.h" />
-    <ClInclude Include="src\graphics\layers\group.h" />
-    <ClInclude Include="src\graphics\layers\layer.h" />
+    <ClInclude Include="src\graphics\Label.h" />
+    <ClInclude Include="src\graphics\layers\Group.h" />
+    <ClInclude Include="src\graphics\layers\Layer.h" />
     <ClInclude Include="src\graphics\Mask.h" />
     <ClInclude Include="src\graphics\MeshFactory.h" />
-    <ClInclude Include="src\graphics\renderable2d.h" />
-    <ClInclude Include="src\graphics\renderer2d.h" />
+    <ClInclude Include="src\graphics\Renderable2D.h" />
+    <ClInclude Include="src\graphics\Renderer2D.h" />
     <ClInclude Include="src\graphics\shaders\Shader.h" />
     <ClInclude Include="src\graphics\shaders\ShaderFactory.h" />
-    <ClInclude Include="src\graphics\sprite.h" />
-    <ClInclude Include="src\graphics\texture.h" />
-    <ClInclude Include="src\graphics\texture_manager.h" />
-    <ClInclude Include="src\graphics\window.h" />
+    <ClInclude Include="src\graphics\Sprite.h" />
+    <ClInclude Include="src\graphics\Texture.h" />
+    <ClInclude Include="src\graphics\TextureManager.h" />
+    <ClInclude Include="src\graphics\Window.h" />
     <ClInclude Include="src\maths\mat4.h" />
     <ClInclude Include="src\maths\maths.h" />
     <ClInclude Include="src\maths\maths_func.h" />
@@ -260,11 +260,11 @@
     <ClInclude Include="src\sparky.h" />
     <ClInclude Include="src\sparkygl.h" />
     <ClInclude Include="src\sparky_types.h" />
-    <ClInclude Include="src\utils\fileutils.h" />
+    <ClInclude Include="src\utils\FileUtils.h" />
     <ClInclude Include="src\utils\ImageLoad.h" />
     <ClInclude Include="src\utils\Log.h" />
-    <ClInclude Include="src\utils\stringutils.h" />
-    <ClInclude Include="src\utils\timer.h" />
+    <ClInclude Include="src\utils\StringUtils.h" />
+    <ClInclude Include="src\utils\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="SparkyCore-TODO.txt" />

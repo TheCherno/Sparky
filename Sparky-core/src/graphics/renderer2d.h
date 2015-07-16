@@ -3,8 +3,8 @@
 #include <vector>
 #include <sparkygl.h>
 
-#include "font.h"
-#include "texture.h"
+#include "Font.h"
+#include "Texture.h"
 #include "Mask.h"
 #include "../maths/maths.h"
 
@@ -22,12 +22,12 @@ namespace sparky { namespace graphics {
 		Renderer2D()
 			: m_Mask(nullptr)
 		{
-			m_TransformationStack.push_back(maths::mat4::identity());
+			m_TransformationStack.push_back(maths::mat4::Identity());
 			m_TransformationBack = &m_TransformationStack.back();
 		}
 	public:
 		virtual ~Renderer2D() { }
-		void push(const maths::mat4& matrix, bool override = false)
+		void Push(const maths::mat4& matrix, bool override = false)
 		{
 			if (override)
 				m_TransformationStack.push_back(matrix);
@@ -36,7 +36,7 @@ namespace sparky { namespace graphics {
 
 			m_TransformationBack = &m_TransformationStack.back();
 		}
-		void pop()
+		void Pop()
 		{
 			// TODO: Add to log!
 			if (m_TransformationStack.size() > 1)
@@ -45,13 +45,13 @@ namespace sparky { namespace graphics {
 			m_TransformationBack = &m_TransformationStack.back();
 		}
 
-		virtual void setMask(const Mask* mask) { m_Mask = mask; }
+		virtual void SetMask(const Mask* mask) { m_Mask = mask; }
 
-		virtual void begin() {}
-		virtual void submit(const Renderable2D* renderable) = 0;
-		virtual void drawString(const std::string& text, const maths::vec3& position, const Font& font, unsigned int color) { }
-		virtual void end() {}
-		virtual void flush() = 0;
+		virtual void Begin() {}
+		virtual void Submit(const Renderable2D* renderable) = 0;
+		virtual void DrawString(const std::string& text, const maths::vec3& position, const Font& font, unsigned int color) { }
+		virtual void End() {}
+		virtual void Flush() = 0;
 	};
 
 } }

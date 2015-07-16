@@ -1,6 +1,6 @@
 #pragma once
 
-#include "renderable2d.h"
+#include "Renderable2D.h"
 
 namespace sparky { namespace graphics {
 
@@ -16,7 +16,7 @@ namespace sparky { namespace graphics {
 		Sprite(float x, float y, float width, float height, maths::vec4 color);
 		Sprite(float x, float y, float width, float height, Texture* texture);
 
-		void setUV(const std::vector<maths::vec2>& uv);
+		void SetUV(const std::vector<maths::vec2>& uv);
 	};
 
 } }

@@ -6,7 +6,7 @@
 #include <sparkygl.h>
 
 #include "../../maths/maths.h"
-#include "../../utils/fileutils.h"
+#include "../../utils/FileUtils.h"
 
 namespace sparky { namespace graphics {
 
@@ -31,20 +31,20 @@ namespace sparky { namespace graphics {
 		Shader(const char* vertPath, const char* fragPath);
 		~Shader();
 
-		void setUniform1f(const GLchar* name, float value);
-		void setUniform1fv(const GLchar* name, float* value, int count);
-		void setUniform1i(const GLchar* name, int value);
-		void setUniform1iv(const GLchar* name, int* value, int count);
-		void setUniform2f(const GLchar* name, const maths::vec2& vector);
-		void setUniform3f(const GLchar* name, const maths::vec3& vector);
-		void setUniform4f(const GLchar* name, const maths::vec4& vector);
-		void setUniformMat4(const GLchar* name, const maths::mat4& matrix);
+		void SetUniform1f(const GLchar* name, float value);
+		void SetUniform1fv(const GLchar* name, float* value, int count);
+		void SetUniform1i(const GLchar* name, int value);
+		void SetUniform1iv(const GLchar* name, int* value, int count);
+		void SetUniform2f(const GLchar* name, const maths::vec2& vector);
+		void SetUniform3f(const GLchar* name, const maths::vec3& vector);
+		void SetUniform4f(const GLchar* name, const maths::vec4& vector);
+		void SetUniformMat4(const GLchar* name, const maths::mat4& matrix);
 
-		void enable() const;
-		void disable() const;
+		void Bind() const;
+		void Unbind() const;
 	private:
-		GLuint load(const char* vertSrc, const char* fragSrc);
-		GLint getUniformLocation(const GLchar* name);
+		GLuint Load(const char* vertSrc, const char* fragSrc);
+		GLint GetUniformLocation(const GLchar* name);
 	public:
 		static Shader* FromFile(const char* vertPath, const char* fragPath);
 		static Shader* FromSource(const char* vertSrc, const char* fragSrc);

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <sparky_types.h>
 #include <sparkygl.h>
 
 namespace sparky { namespace graphics {
@@ -7,15 +8,15 @@ namespace sparky { namespace graphics {
 	class Buffer
 	{
 	private:
-		GLuint m_BufferID;
-		GLuint m_ComponentCount;
+		uint m_BufferID;
+		uint m_ComponentCount;
 	public:
-		Buffer(GLfloat* data, GLsizei count, GLuint componentCount);
+		Buffer(float* data, uint count, uint componentCount);
 		~Buffer();
-		void bind() const;
-		void unbind() const;
+		void Bind() const;
+		void Unbind() const;
 
-		inline GLuint getComponentCount() const { return m_ComponentCount; }
+		inline GLuint GetComponentCount() const { return m_ComponentCount; }
 	};
 
 } }

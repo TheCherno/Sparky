@@ -1,4 +1,4 @@
-#include "vertexarray.h"
+#include "VertexArray.h"
 
 namespace sparky { namespace graphics {
 
@@ -15,26 +15,26 @@ namespace sparky { namespace graphics {
 		GLCall(glDeleteVertexArrays(1, &m_ArrayID));
 	}
 
-	void VertexArray::addBuffer(Buffer* buffer, GLuint index)
+	void VertexArray::AddBuffer(Buffer* buffer, uint index)
 	{
-		bind();
-		buffer->bind();
+		Bind();
+		buffer->Bind();
 
 		GLCall(glEnableVertexAttribArray(index));
-		GLCall(glVertexAttribPointer(index, buffer->getComponentCount(), GL_FLOAT, GL_FALSE, 0, 0));
+		GLCall(glVertexAttribPointer(index, buffer->GetComponentCount(), GL_FLOAT, GL_FALSE, 0, 0));
 
-		buffer->unbind();
-		unbind();
+		buffer->Unbind();
+		Unbind();
 
 		m_Buffers.push_back(buffer);
 	}
 
-	void VertexArray::bind() const
+	void VertexArray::Bind() const
 	{
 		GLCall(glBindVertexArray(m_ArrayID));
 	}
 
-	void VertexArray::unbind() const
+	void VertexArray::Unbind() const
 	{
 		GLCall(glBindVertexArray(0));
 	}

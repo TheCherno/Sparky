@@ -1,4 +1,6 @@
-#include "texture.h"
+#include "Texture.h"
+
+#include <utils/Log.h>
 
 namespace sparky { namespace graphics {
 
@@ -7,13 +9,13 @@ namespace sparky { namespace graphics {
 	Texture::Texture(uint width, uint height)
 		: m_Width(width), m_Height(height), m_FileName("NULL")
 	{
-		m_TID = load();
+		m_TID = Load();
 	}
 
 	Texture::Texture(const std::string& name, const std::string& filename)
 		: m_Name(name), m_FileName(filename)
 	{
-		m_TID = load();
+		m_TID = Load();
 	}
 
 	Texture::~Texture()
@@ -21,7 +23,7 @@ namespace sparky { namespace graphics {
 		GLCall(glDeleteTextures(1, &m_TID));
 	}
 
-	GLuint Texture::load()
+	GLuint Texture::Load()
 	{
 		BYTE* pixels = nullptr;
 		if (m_FileName != "NULL")
@@ -37,8 +39,8 @@ namespace sparky { namespace graphics {
 		GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (GLint)s_WrapMode));
 		GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (GLint)s_WrapMode));
 
-		if (m_Bits != 24 && m_Bits != 32)
-			SPARKY_ERROR("[Texture] Unsupported image bit-depth! (", m_Bits, ")");
+ 		if (m_Bits != 24 && m_Bits != 32)
+ 			SPARKY_ERROR("[Texture] Unsupported image bit-depth! (", m_Bits, ")");
 
 		GLint internalFormat = m_Bits == 32 ? GL_RGBA : GL_RGB;
 		GLenum format = m_Bits == 32 ?
@@ -56,12 +58,12 @@ namespace sparky { namespace graphics {
 		return result;
 	}
 
-	void Texture::bind() const
+	void Texture::Bind() const
 	{
 		GLCall(glBindTexture(GL_TEXTURE_2D, m_TID));
 	}
 
-	void Texture::unbind() const
+	void Texture::Unbind() const
 	{
 		GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 	}

@@ -1,4 +1,4 @@
-#include "group.h"
+#include "Group.h"
 
 namespace sparky { namespace graphics {
 
@@ -13,19 +13,19 @@ namespace sparky { namespace graphics {
 			delete m_Renderables[i];
 	}
 
-	void Group::add(Renderable2D* renderable)
+	void Group::Add(Renderable2D* renderable)
 	{
 		m_Renderables.push_back(renderable);
 	}
 
-	void Group::submit(Renderer2D* renderer) const
+	void Group::Submit(Renderer2D* renderer) const
 	{
-		renderer->push(m_TransformationMatrix);
+		renderer->Push(m_TransformationMatrix);
 
 		for (const Renderable2D* renderable : m_Renderables)
-			renderable->submit(renderer);
+			renderable->Submit(renderer);
 
-		renderer->pop();
+		renderer->Pop();
 	}
 
 
