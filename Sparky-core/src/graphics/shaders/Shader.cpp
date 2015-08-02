@@ -94,11 +94,23 @@ namespace sparky { namespace graphics {
 
 	GLint Shader::GetUniformLocation(const GLchar* name)
 	{
-		GLint result = glGetUniformLocation(m_ShaderID, name);
-		if (result == -1)
-			SPARKY_ERROR(m_Name, ": could not find uniform ", name, " in shader!");
+		auto it = m_UniformLocations.find(std::string(name));
+		GLint location;
 
-		return result;
+		if (it != m_UniformLocations.end())
+		{
+			location = it->second;
+		}
+		else
+		{
+			location = glGetUniformLocation(m_ShaderID, name);
+			if (location == -1)
+				SPARKY_ERROR(m_Name, ": could not find uniform ", name, " in shader!");
+
+			m_UniformLocations[name] = location;
+		}
+
+		return location;
 	}
 
 	void Shader::SetUniform1f(const GLchar* name, float value)
