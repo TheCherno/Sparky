@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <string>
 
 #include <sparkygl.h>
@@ -28,7 +28,7 @@ namespace sparky { namespace graphics {
 		const char* m_VertSrc;
 		const char* m_FragSrc;
 
-		std::map<std::string, GLint> m_UniformLocations;
+		std::unordered_map<std::string, GLint> m_UniformLocations;
 	public:
 		GLuint m_ShaderID;
 		Shader(const char* name, const char* vertSrc, const char* fragSrc);
