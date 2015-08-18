@@ -31,15 +31,15 @@ namespace sparky { namespace graphics {
 		maths::vec2 m_MousePosition;
 		bool m_Vsync;
 	public:
-		Window(const char *name, int width, int height);
+		Window(const char *name, uint width, uint height);
 		~Window();
 		void Clear() const;
 		void Update();
 		void UpdateInput();
 		bool Closed() const;
 
-		inline int GetWidth() const { return m_Width; }
-		inline int GetHeight() const { return m_Height; }
+		inline uint GetWidth() const { return m_Width; }
+		inline uint GetHeight() const { return m_Height; }
 
 		bool IsKeyPressed(uint keycode) const;
 		bool IsKeyTyped(uint keycode) const;

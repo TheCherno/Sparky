@@ -204,6 +204,7 @@
     <ClCompile Include="src\maths\vec2.cpp" />
     <ClCompile Include="src\maths\vec3.cpp" />
     <ClCompile Include="src\maths\vec4.cpp" />
+    <ClCompile Include="src\platform\windows\Win32Application.cpp" />
     <ClCompile Include="src\platform\windows\Win32Log.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -227,6 +228,7 @@
     <ClInclude Include="ext\gorilla-audio\ga.h" />
     <ClInclude Include="ext\gorilla-audio\gau.h" />
     <ClInclude Include="ext\gorilla-audio\ga_internal.h" />
+    <ClInclude Include="src\app\Application.h" />
     <ClInclude Include="src\audio\Sound.h" />
     <ClInclude Include="src\audio\SoundManager.h" />
     <ClInclude Include="src\embedded\Embedded.h" />

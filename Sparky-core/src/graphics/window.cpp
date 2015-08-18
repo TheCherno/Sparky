@@ -9,7 +9,7 @@ namespace sparky { namespace graphics {
 	void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 	void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 
-	Window::Window(const char *title, int width, int height)
+	Window::Window(const char *title, uint width, uint height)
 	{
 		m_Title = title;
 		m_Width = width;
