@@ -4,18 +4,16 @@
 
 namespace sparky { namespace graphics {
 
-	void window_resize(GLFWwindow* window, int width, int height);
-	void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
-	void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
-	void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
+	std::map<void*, Window*> Window::s_Handles;
 
 	Window::Window(const char *title, uint width, uint height)
+		: m_Title(title), m_Width(width), m_Height(height), m_Handle(nullptr), m_Closed(false)
 	{
-		m_Title = title;
-		m_Width = width;
-		m_Height = height;
 		if (!Init())
-			glfwTerminate();
+		{
+			SPARKY_ERROR("Failed base Window initialization!");
+			return;
+		}
 
 #ifdef SPARKY_PLATFORM_WEB
 		FontManager::Add(new Font("SourceSansPro", "res/SourceSansPro-Light.ttf", 32));
@@ -49,41 +47,26 @@ namespace sparky { namespace graphics {
 		FontManager::Clean();
 		TextureManager::Clean();
 		audio::SoundManager::Clean();
-		glfwTerminate();
 	}
 
 	bool Window::Init()
 	{
-		if (!glfwInit())
+		if (!PlatformInit())
 		{
-			SPARKY_FATAL("Failed to initialize GLFW!");
+			SPARKY_FATAL("Failed to initialize platform!");
 			return false;
 		}
-		m_Window = glfwCreateWindow(m_Width, m_Height, m_Title, NULL, NULL);
-		if (!m_Window)
-		{
-			SPARKY_FATAL("Failed to create GLFW window!");
-			return false;
-		}
-		glfwMakeContextCurrent(m_Window);
-		glfwSetWindowUserPointer(m_Window, this);
-		glfwSetFramebufferSizeCallback(m_Window, window_resize);
-		glfwSetKeyCallback(m_Window, key_callback);
-		glfwSetMouseButtonCallback(m_Window, mouse_button_callback);
-		glfwSetCursorPosCallback(m_Window, cursor_position_callback);
-
-#ifndef SPARKY_PLATFORM_WEB
-		if (glewInit() != GLEW_OK)
-		{
-			SPARKY_FATAL("Could not initialize GLEW!");
-			return false;
-		}
-#endif
-
+		
+		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		SPARKY_WARN("OpenGL ", glGetString(GL_VERSION));
+		SPARKY_WARN("----------------------------------");
+		SPARKY_WARN(" OpenGL:");
+		SPARKY_WARN("    ", glGetString(GL_VERSION));
+		SPARKY_WARN("    ", glGetString(GL_VENDOR));
+		SPARKY_WARN("    ", glGetString(GL_RENDERER));
+		SPARKY_WARN("----------------------------------");
 		return true;
 	}
 
@@ -130,7 +113,7 @@ namespace sparky { namespace graphics {
 
 	void Window::SetVsync(bool enabled)
 	{
-		glfwSwapInterval((double)enabled);
+		// TODO: Not implemented
 		m_Vsync = enabled;
 	}
 
@@ -141,9 +124,7 @@ namespace sparky { namespace graphics {
 
  	void Window::Update()
 	{
-		glfwSwapBuffers(m_Window);
-		glfwPollEvents();
-
+		PlatformUpdate();
 		audio::SoundManager::Update();
 	}
 
@@ -161,34 +142,17 @@ namespace sparky { namespace graphics {
 
 	bool Window::Closed() const
 	{
-		return glfwWindowShouldClose(m_Window) == 1;
+		return m_Closed;
 	}
 
-	void window_resize(GLFWwindow *window, int width, int height)
+	void Window::RegisterWindowClass(void* handle, Window* window)
 	{
-		glViewport(0, 0, width, height);
-		Window* win = (Window*)glfwGetWindowUserPointer(window);
-		win->m_Width = width;
-		win->m_Height = height;
+		s_Handles[handle] = window;
 	}
 
-	void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+	Window* Window::GetWindowClass(void* handle)
 	{
-		Window* win = (Window*)glfwGetWindowUserPointer(window);
-		win->m_Keys[key] = action != GLFW_RELEASE;
-	}
-
-	void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
-	{
-		Window* win = (Window*)glfwGetWindowUserPointer(window);
-		win->m_MouseButtons[button] = action != GLFW_RELEASE;
-	}
-
-	void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
-	{
-		Window* win = (Window*)glfwGetWindowUserPointer(window);
-		win->m_MousePosition.x = (float) xpos;
-		win->m_MousePosition.y = (float) ypos;
+		return s_Handles[handle];
 	}
 
 } }

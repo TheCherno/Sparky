@@ -12,7 +12,7 @@
 
 namespace sparky { namespace graphics{
 
-	enum TextureWrap
+	enum class TextureWrap
 	{
 		REPEAT			= GL_REPEAT,
 		CLAMP			= GL_CLAMP,
@@ -21,17 +21,24 @@ namespace sparky { namespace graphics{
 		CLAMP_TO_BORDER	= GL_CLAMP_TO_BORDER
 	};
 
+	enum class TextureFilter
+	{
+		LINEAR = GL_LINEAR,
+		NEAREST = GL_NEAREST
+	};
+
 	class Texture
 	{
 	private:
 		static TextureWrap s_WrapMode;
+		static TextureFilter s_FilterMode;
 	private:
 		std::string m_Name, m_FileName;
 		uint m_TID;
 		uint m_Width, m_Height;
 		unsigned int m_Bits;
 	public:
-		Texture(uint width, uint height);
+		Texture(uint width, uint height, uint bits = 24);
 		Texture(const std::string& name, const std::string& filename);
 		~Texture();
 		void Bind() const;
@@ -43,6 +50,7 @@ namespace sparky { namespace graphics{
 		inline const unsigned int GetHeight() const { return m_Height; }
 	public:
 		inline static void SetWrap(TextureWrap mode) { s_WrapMode = mode; }
+		inline static void SetFilter(TextureFilter mode) { s_FilterMode = mode; }
 	private:
 		GLuint Load();
 	};

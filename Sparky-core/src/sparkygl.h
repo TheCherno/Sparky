@@ -6,8 +6,6 @@
 	#include <GL/glew.h>
 #endif
 
-#include <GLFW/glfw3.h>
-
 #include <utils/Log.h>
 
 static void log_gl_call(const char* function, const char* file, int line)

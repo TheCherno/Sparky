@@ -25,8 +25,8 @@ namespace sparky { namespace graphics {
 		const char* m_FragPath;
 		const char* m_VertSrc;
 		const char* m_FragSrc;
-	public:
 		GLuint m_ShaderID;
+	public:
 		Shader(const char* name, const char* vertSrc, const char* fragSrc);
 		Shader(const char* vertPath, const char* fragPath);
 		~Shader();

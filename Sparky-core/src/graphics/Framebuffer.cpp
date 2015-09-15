@@ -3,13 +3,13 @@
 namespace sparky { namespace graphics {
 
 	Framebuffer::Framebuffer(const maths::tvec2<uint>& size)
-		: m_Size(size), m_Width(m_Size.x), m_Height(m_Size.y)
+		: m_Size(size), m_Width(m_Size.x), m_Height(m_Size.y), m_ClearColor(maths::vec4(0.0f, 0.0f, 0.0f, 1.0f))
 	{
 		Create(m_Width, m_Height);
 	}
 
 	Framebuffer::Framebuffer(uint width, uint height)
-		: m_Size(width, height), m_Width(m_Size.x), m_Height(m_Size.y)
+		: m_Size(width, height), m_Width(m_Size.x), m_Height(m_Size.y), m_ClearColor(maths::vec4(0.0f, 0.0f, 0.0f, 1.0f))
 	{
 		Create(width, height);
 	}
@@ -24,6 +24,7 @@ namespace sparky { namespace graphics {
 		GLCall(glGenFramebuffers(1, &m_Data.framebufferID));
 		GLCall(glGenRenderbuffers(1, &m_Data.depthbufferID));
 		
+		Texture::SetFilter(TextureFilter::LINEAR);
 		m_Texture = new Texture(width, height);
 
 		GLCall(glBindRenderbuffer(GL_RENDERBUFFER, m_Data.depthbufferID));

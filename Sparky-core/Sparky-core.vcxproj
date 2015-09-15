@@ -23,7 +23,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -194,6 +194,8 @@
     <ClCompile Include="src\graphics\layers\Group.cpp" />
     <ClCompile Include="src\graphics\layers\Layer.cpp" />
     <ClCompile Include="src\graphics\MeshFactory.cpp" />
+    <ClCompile Include="src\graphics\postfx\PostEffects.cpp" />
+    <ClCompile Include="src\graphics\postfx\PostEffectsPass.cpp" />
     <ClCompile Include="src\graphics\shaders\Shader.cpp" />
     <ClCompile Include="src\graphics\shaders\ShaderFactory.cpp" />
     <ClCompile Include="src\graphics\Sprite.cpp" />
@@ -206,6 +208,7 @@
     <ClCompile Include="src\maths\vec4.cpp" />
     <ClCompile Include="src\platform\windows\Win32Application.cpp" />
     <ClCompile Include="src\platform\windows\Win32Log.cpp" />
+    <ClCompile Include="src\platform\windows\Win32Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ext\freetype-gl\freetype-gl.h" />
@@ -244,6 +247,8 @@
     <ClInclude Include="src\graphics\layers\Layer.h" />
     <ClInclude Include="src\graphics\Mask.h" />
     <ClInclude Include="src\graphics\MeshFactory.h" />
+    <ClInclude Include="src\graphics\postfx\PostEffects.h" />
+    <ClInclude Include="src\graphics\postfx\PostEffectsPass.h" />
     <ClInclude Include="src\graphics\Renderable2D.h" />
     <ClInclude Include="src\graphics\Renderer2D.h" />
     <ClInclude Include="src\graphics\shaders\Shader.h" />

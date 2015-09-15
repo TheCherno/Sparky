@@ -5,7 +5,6 @@ namespace sparky {
 	Application::Application(const char* name, uint width, uint height)
 		: m_Name(name), m_Width(width), m_Height(height)
 	{
-
 	}
 
 	Application::~Application()

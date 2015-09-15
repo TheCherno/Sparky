@@ -9,3 +9,9 @@
 #include "tvec2.h"
 
 #include "mat4.h"
+
+namespace sparky { namespace maths {
+	
+	typedef tvec2<int> ivec2;
+
+} }

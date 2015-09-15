@@ -49,9 +49,6 @@
     <Filter Include="Header Files\graphics\layers">
       <UniqueIdentifier>{f66c2c91-4e01-418b-b87f-43c177b2f2b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\graphics\renderables">
-      <UniqueIdentifier>{1d69eab3-4f0a-4d51-a587-8572d09a09e1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\graphics">
       <UniqueIdentifier>{c9e9f25f-b4fd-4949-803a-82dd774cf9d4}</UniqueIdentifier>
     </Filter>
@@ -63,9 +60,6 @@
     </Filter>
     <Filter Include="Source Files\graphics\layers">
       <UniqueIdentifier>{205820f6-83de-482c-83f7-3b9a33c3efc4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\graphics\renderables">
-      <UniqueIdentifier>{f5d75aa6-e830-4863-9ef4-637649c589e7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Shaders">
       <UniqueIdentifier>{2dd91781-8958-4f9b-b48b-e25c47fdc6d7}</UniqueIdentifier>
@@ -81,6 +75,30 @@
     </Filter>
     <Filter Include="Header Files\audio">
       <UniqueIdentifier>{febda883-2525-4101-a89c-e3b28650dcbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\embedded">
+      <UniqueIdentifier>{4f2b3065-02bc-43f2-a152-b9c32a9f9d76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\embedded\files">
+      <UniqueIdentifier>{879fc9f3-d8d7-4685-9ebc-d1d3fb478eb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\platform">
+      <UniqueIdentifier>{af731d24-993c-42a2-958c-3c30bf7b7477}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\platform\win32">
+      <UniqueIdentifier>{4a166c17-e7e3-4bc9-9617-39ff33e9ece1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\app">
+      <UniqueIdentifier>{b0ed385a-3cff-4157-a9e0-3bed4d1f3cd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\embedded">
+      <UniqueIdentifier>{4d5ffe50-56f6-4f33-83fc-0b1bf768e31d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics\shaders">
+      <UniqueIdentifier>{8b3b6764-8052-4f06-a5eb-723c635d1201}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics\shaders">
+      <UniqueIdentifier>{bbf7d1bc-4bdb-4634-9ec6-0173ba64c92f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -225,9 +243,6 @@
     <ClCompile Include="src\maths\vec4.cpp">
       <Filter>Source Files\maths</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\shaders\Shader.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\graphics\Texture.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
@@ -251,12 +266,6 @@
     </ClCompile>
     <ClCompile Include="src\graphics\layers\Layer.cpp">
       <Filter>Source Files\graphics\layers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\Label.cpp">
-      <Filter>Source Files\graphics\renderables</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\Sprite.cpp">
-      <Filter>Source Files\graphics\renderables</Filter>
     </ClCompile>
     <ClCompile Include="ext\gorilla-audio\ga.c">
       <Filter>Source Files\ext\gorilla-audio</Filter>
@@ -288,25 +297,43 @@
     <ClCompile Include="src\audio\Sound.cpp">
       <Filter>Source Files\audio</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\TextureManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\shaders\ShaderFactory.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\graphics\MeshFactory.cpp">
+      <Filter>Source Files\graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\embedded\Embedded.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\embedded</Filter>
     </ClCompile>
     <ClCompile Include="src\graphics\Framebuffer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\MeshFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\platform\windows\Win32Log.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\graphics\TextureManager.cpp">
+      <Filter>Source Files\graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\platform\windows\Win32Application.cpp">
+      <Filter>Source Files\platform\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\windows\Win32Log.cpp">
+      <Filter>Source Files\platform\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\Label.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\Sprite.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\shaders\Shader.cpp">
+      <Filter>Source Files\graphics\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\shaders\ShaderFactory.cpp">
+      <Filter>Source Files\graphics\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\postfx\PostEffects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\postfx\PostEffectsPass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\windows\Win32Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -354,9 +381,6 @@
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\Renderer2D.h">
-      <Filter>Header Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\graphics\shaders\Shader.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\Texture.h">
@@ -407,15 +431,6 @@
     <ClInclude Include="src\graphics\layers\Group.h">
       <Filter>Header Files\graphics\layers</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\Sprite.h">
-      <Filter>Header Files\graphics\renderables</Filter>
-    </ClInclude>
-    <ClInclude Include="src\graphics\Renderable2D.h">
-      <Filter>Header Files\graphics\renderables</Filter>
-    </ClInclude>
-    <ClInclude Include="src\graphics\Label.h">
-      <Filter>Header Files\graphics\renderables</Filter>
-    </ClInclude>
     <ClInclude Include="ext\gorilla-audio\ga.h">
       <Filter>Header Files\ext\gorilla-audio</Filter>
     </ClInclude>
@@ -455,37 +470,55 @@
     <ClInclude Include="src\sparky.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\TextureManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utils\Log.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\sparkygl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\sparky_types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\shaders\ShaderFactory.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\app\Application.h">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
     <ClInclude Include="src\embedded\Embedded.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\graphics\Mask.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\embedded</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\Framebuffer.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\maths\tvec2.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\utils\Log.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\Mask.h">
+      <Filter>Header Files\graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\MeshFactory.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\TextureManager.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\maths\tvec2.h">
+      <Filter>Header Files\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\Label.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\Renderable2D.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\Sprite.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\shaders\ShaderFactory.h">
+      <Filter>Header Files\graphics\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\shaders\Shader.h">
+      <Filter>Header Files\graphics\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\postfx\PostEffectsPass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\app\Application.h">
+    <ClInclude Include="src\graphics\postfx\PostEffects.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -493,6 +526,8 @@
     <Text Include="SparkyCore-TODO.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\embedded\files\SourceSansPro-Light.embed" />
+    <None Include="src\embedded\files\SourceSansPro-Light.embed">
+      <Filter>Source Files\embedded\files</Filter>
+    </None>
   </ItemGroup>
 </Project>

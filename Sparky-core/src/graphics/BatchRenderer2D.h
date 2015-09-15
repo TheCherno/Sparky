@@ -18,12 +18,6 @@ namespace sparky { namespace graphics {
 #define RENDERER_INDICES_SIZE	RENDERER_MAX_SPRITES * 6
 #define RENDERER_MAX_TEXTURES	32 - 1
 
-	enum class RenderTarget
-	{
-		SCREEN = 0,
-		BUFFER = 1
-	};
-
 	class BatchRenderer2D : public Renderer2D
 	{
 	private:
@@ -37,11 +31,11 @@ namespace sparky { namespace graphics {
 #endif
 		std::vector<GLuint> m_TextureSlots;
 		Framebuffer* m_Framebuffer;
+		Framebuffer* m_PostEffectsBuffer;
 		int m_ScreenBuffer;
 		maths::tvec2<uint> m_ViewportSize, m_ScreenSize;
 		Shader* m_SimpleShader;
 		uint m_ScreenQuad;
-		RenderTarget m_Target;
 	public:
 		BatchRenderer2D(const maths::tvec2<uint>& screenSize);
 		~BatchRenderer2D();
@@ -56,9 +50,6 @@ namespace sparky { namespace graphics {
 		inline const maths::tvec2<uint>& GetScreenSize() const { return m_ScreenSize; }
 		inline void SetViewportSize(const maths::tvec2<uint>& size) { m_ViewportSize = size; }
 		inline const maths::tvec2<uint>& GetViewportSize() const { return m_ViewportSize; }
-
-		inline void SetRenderTarget(RenderTarget target) { m_Target = target; }
-		inline const RenderTarget GetRenderTarget() const { return m_Target; }
 	private:
 		void Init();
 		float SubmitTexture(uint textureID);

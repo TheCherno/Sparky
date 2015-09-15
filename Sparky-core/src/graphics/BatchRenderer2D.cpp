@@ -10,7 +10,7 @@ namespace sparky { namespace graphics {
 	using namespace maths;
 
 	BatchRenderer2D::BatchRenderer2D(const maths::tvec2<uint>& screenSize)
-		: m_IndexCount(0), m_ScreenSize(screenSize), m_ViewportSize(screenSize), m_Target(RenderTarget::SCREEN)
+		: m_IndexCount(0), m_ScreenSize(screenSize), m_ViewportSize(screenSize)
 	{
 		Init();
 	}
@@ -80,6 +80,9 @@ namespace sparky { namespace graphics {
 		m_SimpleShader->SetUniform1i("tex", 0);
 		m_SimpleShader->Unbind();
 		m_ScreenQuad = MeshFactory::CreateQuad(0, 0, m_ScreenSize.x, m_ScreenSize.y);
+
+		m_PostEffects = new PostEffects();
+		m_PostEffectsBuffer = new Framebuffer(m_ViewportSize);
 	}
 
 	float BatchRenderer2D::SubmitTexture(uint textureID)
@@ -123,6 +126,18 @@ namespace sparky { namespace graphics {
 			{
 				delete m_Framebuffer;
 				m_Framebuffer = new Framebuffer(m_ViewportSize);
+				
+				if (m_PostEffectsEnabled)
+				{
+					delete m_PostEffectsBuffer;
+					m_PostEffectsBuffer = new Framebuffer(m_ViewportSize);
+				}
+			}
+
+			if (m_PostEffectsEnabled)
+			{
+				m_PostEffectsBuffer->Bind();
+				m_PostEffectsBuffer->Clear();
 			}
 
 			m_Framebuffer->Bind();
@@ -301,13 +316,20 @@ namespace sparky { namespace graphics {
 		
 		if (m_Target == RenderTarget::BUFFER)
 		{
+			// Post Effects pass should go here!
+			if (m_PostEffectsEnabled)
+				m_PostEffects->RenderPostEffects(m_Framebuffer, m_PostEffectsBuffer, m_ScreenQuad, m_IBO);
+
 			// Display Framebuffer - potentially move to Framebuffer class
 			GLCall(glBindFramebuffer(GL_FRAMEBUFFER, m_ScreenBuffer));
 			GLCall(glViewport(0, 0, m_ScreenSize.x, m_ScreenSize.y));
 			m_SimpleShader->Bind();
 
 			GLCall(glActiveTexture(GL_TEXTURE0));
-			m_Framebuffer->GetTexture()->Bind();
+			if (m_PostEffectsEnabled)
+				m_PostEffectsBuffer->GetTexture()->Bind();
+			else
+				m_Framebuffer->GetTexture()->Bind();
 
 			GLCall(glBindVertexArray(m_ScreenQuad));
 			m_IBO->Bind();
