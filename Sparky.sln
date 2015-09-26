@@ -26,6 +26,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChernoCraft", "ChernoCraft\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{DA6CA300-B43B-4D11-B50D-BA81B3D01382}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Box2D", "Dependencies\Box2D\Box2D.vcxproj", "{BCE9869C-CDE3-4935-99AB-4522493CE0B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -142,6 +144,21 @@ Global
 		{E8C1C244-2E8D-4DFD-89F5-A4291C47DECC}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{E8C1C244-2E8D-4DFD-89F5-A4291C47DECC}.Release|Win32.ActiveCfg = Release|Win32
 		{E8C1C244-2E8D-4DFD-89F5-A4291C47DECC}.Release|Win32.Build.0 = Release|Win32
+		{BCE9869C-CDE3-4935-99AB-4522493CE0B3}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{BCE9869C-CDE3-4935-99AB-4522493CE0B3}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{BCE9869C-CDE3-4935-99AB-4522493CE0B3}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{BCE9869C-CDE3-4935-99AB-4522493CE0B3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BCE9869C-CDE3-4935-99AB-4522493CE0B3}.Debug|Win32.Build.0 = Debug|Win32
+		{BCE9869C-CDE3-4935-99AB-4522493CE0B3}.Emscripten|Any CPU.ActiveCfg = Release|Win32
+		{BCE9869C-CDE3-4935-99AB-4522493CE0B3}.Emscripten|Mixed Platforms.ActiveCfg = Release|Win32
+		{BCE9869C-CDE3-4935-99AB-4522493CE0B3}.Emscripten|Mixed Platforms.Build.0 = Release|Win32
+		{BCE9869C-CDE3-4935-99AB-4522493CE0B3}.Emscripten|Win32.ActiveCfg = Release|Win32
+		{BCE9869C-CDE3-4935-99AB-4522493CE0B3}.Emscripten|Win32.Build.0 = Release|Win32
+		{BCE9869C-CDE3-4935-99AB-4522493CE0B3}.Release|Any CPU.ActiveCfg = Release|Win32
+		{BCE9869C-CDE3-4935-99AB-4522493CE0B3}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{BCE9869C-CDE3-4935-99AB-4522493CE0B3}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{BCE9869C-CDE3-4935-99AB-4522493CE0B3}.Release|Win32.ActiveCfg = Release|Win32
+		{BCE9869C-CDE3-4935-99AB-4522493CE0B3}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -150,5 +167,6 @@ Global
 		{8ED62764-0D19-40AC-BC88-E82AADF1189B} = {CDF953E8-D5D6-4797-AA4A-5C7D86DE1F64}
 		{54CE06E0-6313-4F5E-8BDA-4E7815C8743C} = {CDF953E8-D5D6-4797-AA4A-5C7D86DE1F64}
 		{E8C1C244-2E8D-4DFD-89F5-A4291C47DECC} = {DA6CA300-B43B-4D11-B50D-BA81B3D01382}
+		{BCE9869C-CDE3-4935-99AB-4522493CE0B3} = {CDF953E8-D5D6-4797-AA4A-5C7D86DE1F64}
 	EndGlobalSection
 EndGlobal
