@@ -204,18 +204,21 @@ namespace sparky { namespace internal {
 
 #if SPARKY_LOG_LEVEL >= SPARKY_LOG_LEVEL_ERROR
 #define SPARKY_ERROR(...) sparky::internal::log_message(SPARKY_LOG_LEVEL_ERROR, true, "SPARKY:    ", __VA_ARGS__)
+#define _SPARKY_ERROR(...) sparky::internal::log_message(SPARKY_LOG_LEVEL_ERROR, false, __VA_ARGS__)
 #else
 #define SPARKY_ERROR(...)
 #endif
 
 #if SPARKY_LOG_LEVEL >= SPARKY_LOG_LEVEL_WARN
 #define SPARKY_WARN(...) sparky::internal::log_message(SPARKY_LOG_LEVEL_WARN, true, "SPARKY:    ", __VA_ARGS__)
+#define _SPARKY_WARN(...) sparky::internal::log_message(SPARKY_LOG_LEVEL_WARN, false, __VA_ARGS__)
 #else
 #define SPARKY_WARN(...)
 #endif
 
 #if SPARKY_LOG_LEVEL >= SPARKY_LOG_LEVEL_INFO
 #define SPARKY_INFO(...) sparky::internal::log_message(SPARKY_LOG_LEVEL_INFO, true, "SPARKY:    ", __VA_ARGS__)
+#define _SPARKY_INFO(...) sparky::internal::log_message(SPARKY_LOG_LEVEL_INFO, false, __VA_ARGS__)
 #else
 #define SPARKY_INFO(...)
 #endif

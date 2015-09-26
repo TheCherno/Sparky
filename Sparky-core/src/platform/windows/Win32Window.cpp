@@ -133,6 +133,27 @@ namespace sparky { namespace graphics {
 		SwapBuffers(hDc);
 	}
 
+	void Window::SetMousePosition(const maths::vec2& position)
+	{
+		POINT pt = { (LONG)position.x, (LONG)position.y };
+		ClientToScreen(hWnd, &pt);
+		SetCursorPos(pt.x, pt.y);
+	}
+
+	void Window::SetMouseCursor(int cursor)
+	{
+		if (cursor == SP_NO_CURSOR)
+		{
+			SetCursor(SP_NO_CURSOR);
+			while (ShowCursor(false) >= 0);
+		}
+		else
+		{
+			SetCursor(LoadCursor(NULL, IDC_ARROW));
+			ShowCursor(true);
+		}
+	}
+
 	void key_callback(Window* window, int key, uint message)
 	{
 		window->m_Keys[key] = message == WM_KEYDOWN || message == WM_SYSKEYDOWN;

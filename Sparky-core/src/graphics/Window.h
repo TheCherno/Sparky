@@ -29,6 +29,7 @@ namespace sparky { namespace graphics {
 		bool m_MouseButtons[MAX_BUTTONS];
 		bool m_MouseState[MAX_BUTTONS];
 		bool m_MouseClicked[MAX_BUTTONS];
+		bool m_MouseGrabbed;
 
 		maths::vec2 m_MousePosition;
 		bool m_Vsync;
@@ -47,7 +48,12 @@ namespace sparky { namespace graphics {
 		bool IsKeyTyped(uint keycode) const;
 		bool IsMouseButtonPressed(uint button) const;
 		bool IsMouseButtonClicked(uint button) const;
+
 		const maths::vec2& GetMousePosition() const;
+		void SetMousePosition(const maths::vec2& position);
+		const bool IsMouseGrabbed() const;
+		void SetMouseGrabbed(bool grabbed);
+		void SetMouseCursor(int cursor);
 
 		void SetVsync(bool enabled);
 		bool IsVsync() const { return m_Vsync; }
@@ -70,6 +76,8 @@ namespace sparky { namespace graphics {
 #define SP_MOUSE_LEFT	  0x00
 #define SP_MOUSE_MIDDLE	  0x01
 #define SP_MOUSE_RIGHT    0x02
+
+#define SP_NO_CURSOR	  NULL
 
 #define VK_0			  0x30
 #define VK_1			  0x31

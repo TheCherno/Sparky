@@ -40,6 +40,7 @@ namespace sparky { namespace graphics {
 			m_MouseState[i] = false;
 			m_MouseClicked[i] = false;
 		}
+		m_MouseGrabbed = true;
 	}
 
 	Window::~Window()
@@ -109,6 +110,16 @@ namespace sparky { namespace graphics {
 	const maths::vec2& Window::GetMousePosition() const
 	{
 		return m_MousePosition;
+	}
+
+	const bool Window::IsMouseGrabbed() const
+	{
+		return m_MouseGrabbed;
+	}
+
+	void Window::SetMouseGrabbed(bool grabbed)
+	{
+		m_MouseGrabbed = grabbed;
 	}
 
 	void Window::SetVsync(bool enabled)
