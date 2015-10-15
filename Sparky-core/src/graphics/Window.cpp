@@ -163,6 +163,9 @@ namespace sparky { namespace graphics {
 
 	Window* Window::GetWindowClass(void* handle)
 	{
+		if (handle == nullptr)
+			return s_Handles.begin()->second;
+
 		return s_Handles[handle];
 	}
 

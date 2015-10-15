@@ -37,6 +37,7 @@ namespace sparky { namespace graphics {
 		Shader* m_SimpleShader;
 		uint m_ScreenQuad;
 	public:
+		BatchRenderer2D(uint width, uint height);
 		BatchRenderer2D(const maths::tvec2<uint>& screenSize);
 		~BatchRenderer2D();
 

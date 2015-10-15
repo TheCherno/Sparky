@@ -180,9 +180,13 @@
     <ClCompile Include="ext\gorilla-audio\ga.c" />
     <ClCompile Include="ext\gorilla-audio\gau.c" />
     <ClCompile Include="ext\gorilla-audio\ga_stream.c" />
+    <ClCompile Include="src\app\Application.cpp" />
     <ClCompile Include="src\audio\Sound.cpp" />
     <ClCompile Include="src\audio\SoundManager.cpp" />
     <ClCompile Include="src\embedded\Embedded.cpp" />
+    <ClCompile Include="src\events\Event.cpp" />
+    <ClCompile Include="src\events\KeyEvent.cpp" />
+    <ClCompile Include="src\events\MouseEvent.cpp" />
     <ClCompile Include="src\graphics\BatchRenderer2D.cpp" />
     <ClCompile Include="src\graphics\buffers\Buffer.cpp" />
     <ClCompile Include="src\graphics\buffers\IndexBuffer.cpp" />
@@ -193,6 +197,7 @@
     <ClCompile Include="src\graphics\Label.cpp" />
     <ClCompile Include="src\graphics\layers\Group.cpp" />
     <ClCompile Include="src\graphics\layers\Layer.cpp" />
+    <ClCompile Include="src\graphics\layers\Layer2D.cpp" />
     <ClCompile Include="src\graphics\MeshFactory.cpp" />
     <ClCompile Include="src\graphics\postfx\PostEffects.cpp" />
     <ClCompile Include="src\graphics\postfx\PostEffectsPass.cpp" />
@@ -235,6 +240,10 @@
     <ClInclude Include="src\audio\Sound.h" />
     <ClInclude Include="src\audio\SoundManager.h" />
     <ClInclude Include="src\embedded\Embedded.h" />
+    <ClInclude Include="src\events\Event.h" />
+    <ClInclude Include="src\events\IEventListener.h" />
+    <ClInclude Include="src\events\KeyEvent.h" />
+    <ClInclude Include="src\events\MouseEvent.h" />
     <ClInclude Include="src\graphics\BatchRenderer2D.h" />
     <ClInclude Include="src\graphics\buffers\Buffer.h" />
     <ClInclude Include="src\graphics\buffers\IndexBuffer.h" />
@@ -245,6 +254,7 @@
     <ClInclude Include="src\graphics\Label.h" />
     <ClInclude Include="src\graphics\layers\Group.h" />
     <ClInclude Include="src\graphics\layers\Layer.h" />
+    <ClInclude Include="src\graphics\layers\Layer2D.h" />
     <ClInclude Include="src\graphics\Mask.h" />
     <ClInclude Include="src\graphics\MeshFactory.h" />
     <ClInclude Include="src\graphics\postfx\PostEffects.h" />
