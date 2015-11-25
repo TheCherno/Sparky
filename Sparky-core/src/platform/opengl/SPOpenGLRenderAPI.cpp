@@ -1,7 +1,7 @@
-#include "graphics/SPRenderAPI.h"
+#include <sp/graphics/SPRenderAPI.h>
 
 
-namespace sparky { namespace graphics { namespace API {
+namespace sp { namespace graphics { namespace API {
 
 
 

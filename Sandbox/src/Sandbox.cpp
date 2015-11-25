@@ -1,9 +1,9 @@
-#include <sparky.h>
-#include <app/Application.h>
+#include <sp/sparky.h>
+#include <sp/app/Application.h>
 
 #include "TestLayer.h"
 
-using namespace sparky;
+using namespace sp;
 using namespace graphics;
 using namespace maths;
 

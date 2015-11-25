@@ -1,6 +1,6 @@
-#include <app/Application.h>
+#include <sp/app/Application.h>
 
-namespace sparky {
+namespace sp {
 
 	Application::Application(const char* name, uint width, uint height)
 		: m_Name(name), m_Width(width), m_Height(height)

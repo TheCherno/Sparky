@@ -1,13 +1,13 @@
 #include "TestLayer.h"
 
-#include <app/Application.h>
+#include <sp/app/Application.h>
 
-#include <graphics/BatchRenderer2D.h>
-#include <graphics/shaders/ShaderFactory.h>
-#include <graphics/FontManager.h>
-#include <graphics/Sprite.h>
+#include <sp/graphics/BatchRenderer2D.h>
+#include <sp/graphics/shaders/ShaderFactory.h>
+#include <sp/graphics/FontManager.h>
+#include <sp/graphics/Sprite.h>
 
-using namespace sparky;
+using namespace sp;
 using namespace graphics;
 using namespace events;
 using namespace maths;
@@ -62,7 +62,7 @@ void TestLayer::OnUpdate()
 {
 }
 
-bool TestLayer::OnEvent(const sparky::events::Event& event)
+bool TestLayer::OnEvent(const sp::events::Event& event)
 {
 	return false;
 }

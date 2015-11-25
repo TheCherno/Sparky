@@ -1,4 +1,4 @@
-#include <utils/Log.h>
+#include <sp/utils/Log.h>
 
 #ifdef SPARKY_PLATFORM_WEB
 	#define GLFW_INCLUDE_ES3
@@ -9,7 +9,7 @@
 #define SP_FLOAT GL_FLOAT
 #define SP_UNSIGNED_SHORT GL_UNSIGNED_SHORT
 
-namespace sparky { namespace graphics { namespace API {
+namespace sp { namespace graphics { namespace API {
 
 	inline uint CreateVertexArray()
 	{

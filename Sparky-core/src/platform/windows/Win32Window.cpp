@@ -1,11 +1,11 @@
 #include <Windows.h>
 #include <Windowsx.h>
 
-#include <graphics/Window.h>
+#include <sp/graphics/Window.h>
 
 EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 
-namespace sparky { namespace graphics {
+namespace sp { namespace graphics {
 
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 

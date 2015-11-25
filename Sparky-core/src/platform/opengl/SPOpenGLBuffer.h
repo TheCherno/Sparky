@@ -1,9 +1,9 @@
 #pragma once
 
-#include <sparky_types.h>
-#include <graphics/buffers/BufferLayout.h>
+#include <sp/Types.h>
+#include <sp/graphics/buffers/BufferLayout.h>
 
-namespace sparky { namespace graphics { namespace API {
+namespace sp { namespace graphics { namespace API {
 
 	struct Buffer
 	{

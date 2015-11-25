@@ -1,8 +1,8 @@
 #include "SPOpenGLBuffer.h"
 
-#include <graphics/SPRenderAPI.h>
+#include <sp/graphics/SPRenderAPI.h>
 
-namespace sparky { namespace graphics { namespace API {
+namespace sp { namespace graphics { namespace API {
 
 	Buffer::Buffer(uint target, uint usage)
 		: target(target), usage(usage)
