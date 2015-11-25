@@ -252,9 +252,6 @@
     <ClCompile Include="src\graphics\BatchRenderer2D.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\buffers\Buffer.cpp">
-      <Filter>Source Files\graphics\buffers</Filter>
-    </ClCompile>
     <ClCompile Include="src\graphics\buffers\IndexBuffer.cpp">
       <Filter>Source Files\graphics\buffers</Filter>
     </ClCompile>
@@ -351,6 +348,18 @@
     <ClCompile Include="src\app\Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\maths\AABB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\opengl\SPOpenGLRenderAPI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\opengl\SPOpenGLBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\buffers\BufferLayout.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ext\freetype\include\ft2build.h">
@@ -432,9 +441,6 @@
       <Filter>Header Files\maths</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\buffers\VertexArray.h">
-      <Filter>Header Files\graphics\buffers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\graphics\buffers\Buffer.h">
       <Filter>Header Files\graphics\buffers</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\buffers\Indexbuffer.h">
@@ -551,6 +557,21 @@
     <ClInclude Include="src\graphics\layers\Layer2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\maths\AABB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\SPRenderAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform\opengl\SPOpenGLBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\buffers\BufferLayout.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\buffers\Buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="SparkyCore-TODO.txt" />
@@ -558,6 +579,9 @@
   <ItemGroup>
     <None Include="src\embedded\files\SourceSansPro-Light.embed">
       <Filter>Source Files\embedded\files</Filter>
+    </None>
+    <None Include="src\platform\opengl\SPOpenGLRenderAPI.inl">
+      <Filter>Header Files</Filter>
     </None>
   </ItemGroup>
 </Project>

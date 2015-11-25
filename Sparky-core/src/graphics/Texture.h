@@ -6,7 +6,7 @@
 #include <FreeImage.h>
 
 #include <sparky_types.h>
-#include <sparkygl.h>
+#include "SPRenderAPI.h"
 
 #include <utils/ImageLoad.h>
 

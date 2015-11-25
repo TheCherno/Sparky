@@ -223,6 +223,7 @@ namespace sparky { namespace internal {
 #define SPARKY_INFO(...)
 #endif
 
+#ifdef SP_DEBUG
 #define SPARKY_ASSERT(x, ...) \
 	do { \
 	if (!(x)) \
@@ -248,3 +249,27 @@ namespace sparky { namespace internal {
 		*(int*)NULL = 8; \
 		} \
 	} while(0)
+#else
+#define SPARKY_ASSERT(x, ...)
+#endif
+
+#include <GL/glew.h>
+
+static bool log_gl_call(const char* function, const char* file, int line)
+{
+	GLenum error = glGetError();
+	if (error != GL_NO_ERROR)
+	{
+		SPARKY_ERROR("[OpenGL Error] (", error, "): ", function, " ", file, ":", line);
+		return false;
+	}
+	return true;
+}
+
+#ifdef SP_DEBUG
+#define GLCall(x) glGetError();\
+		x; \
+		if (!log_gl_call(#x, __FILE__, __LINE__)) __debugbreak();
+#else
+#define GLCall(x) x
+#endif

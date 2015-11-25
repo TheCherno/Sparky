@@ -1,5 +1,7 @@
 #include "Shader.h"
 
+#include <GL/glew.h>
+
 namespace sparky { namespace graphics {
 
 	Shader::Shader(const char* name, const char* vertSrc, const char* fragSrc)

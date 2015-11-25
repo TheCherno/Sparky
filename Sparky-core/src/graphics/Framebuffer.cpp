@@ -16,35 +16,35 @@ namespace sparky { namespace graphics {
 
 	Framebuffer::~Framebuffer()
 	{
-		GLCall(glDeleteFramebuffers(1, &m_Data.framebufferID));
+		API::FreeFramebuffer(m_Data.framebufferID);
 	}
 
 	void Framebuffer::Create(uint width, uint height)
 	{
-		GLCall(glGenFramebuffers(1, &m_Data.framebufferID));
-		GLCall(glGenRenderbuffers(1, &m_Data.depthbufferID));
+		m_Data.framebufferID = API::CreateFramebuffer();
+		m_Data.depthbufferID = API::CreateRenderbuffer();
 		
 		Texture::SetFilter(TextureFilter::LINEAR);
 		m_Texture = new Texture(width, height);
 
-		GLCall(glBindRenderbuffer(GL_RENDERBUFFER, m_Data.depthbufferID));
-		GLCall(glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width, height));
+		API::BindRenderbuffer(GL_RENDERBUFFER, m_Data.depthbufferID);
+		API::RenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width, height);
 
-		GLCall(glBindFramebuffer(GL_FRAMEBUFFER, m_Data.framebufferID));
-		GLCall(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_Texture->GetID(), 0));
-		GLCall(glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_Data.depthbufferID));
+		API::BindFramebuffer(GL_FRAMEBUFFER, m_Data.framebufferID);
+		API::FramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_Texture->GetID(), 0);
+		API::FramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_Data.depthbufferID);
 	}
 
 	void Framebuffer::Bind() const
 	{
-		GLCall(glBindFramebuffer(GL_FRAMEBUFFER, m_Data.framebufferID));
-		GLCall(glViewport(0, 0, m_Width, m_Height));
+		API::BindFramebuffer(GL_FRAMEBUFFER, m_Data.framebufferID);
+		API::SetViewport(0, 0, m_Width, m_Height);
 	}
 
 	void Framebuffer::Clear()
 	{
-		GLCall(glClearColor(m_ClearColor.x, m_ClearColor.y, m_ClearColor.z, m_ClearColor.w));
-		GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+		API::SetClearColor(m_ClearColor.x, m_ClearColor.y, m_ClearColor.z, m_ClearColor.w);
+		API::Clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 } }

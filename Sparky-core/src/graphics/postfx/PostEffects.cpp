@@ -1,5 +1,7 @@
 #include "PostEffects.h"
 
+#include <graphics/SPRenderAPI.h>
+
 namespace sparky { namespace graphics {
 
 	PostEffects::PostEffects()
@@ -22,20 +24,20 @@ namespace sparky { namespace graphics {
 		m_Passes.pop_back();
 	}
 
-	void PostEffects::RenderPostEffects(Framebuffer* source, Framebuffer* target, uint quad, IndexBuffer* indices)
+	void PostEffects::RenderPostEffects(Framebuffer* source, Framebuffer* target, VertexArray* quad, IndexBuffer* indices)
 	{
 		target->Bind();
-		GLCall(glActiveTexture(GL_TEXTURE0));
+		API::SetActiveTexture(GL_TEXTURE0);
 		source->GetTexture()->Bind();
 
-		GLCall(glBindVertexArray(quad));
+		quad->Bind();
 		indices->Bind();
 
 		for (PostEffectsPass* pass : m_Passes)
 			pass->RenderPass(target);
 
 		indices->Unbind();
-		GLCall(glBindVertexArray(0));
+		quad->Unbind();
 	}
 
 } }

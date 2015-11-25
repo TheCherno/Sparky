@@ -1,7 +1,8 @@
 #pragma once
 
-#include <sparkygl.h>
 #include <sparky_types.h>
+
+#include "graphics/SPRenderAPI.h"
 
 #include "../maths/vec4.h"
 #include "../maths/tvec2.h"
@@ -15,8 +16,8 @@ namespace sparky { namespace graphics {
 	private:
 		struct FramebufferData
 		{
-			GLuint framebufferID;
-			GLuint depthbufferID;
+			uint framebufferID;
+			uint depthbufferID;
 		};
 
 		Texture* m_Texture;

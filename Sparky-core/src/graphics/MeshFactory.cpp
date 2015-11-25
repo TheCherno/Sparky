@@ -1,5 +1,7 @@
 #include "MeshFactory.h"
 
+#include <graphics/BatchRenderer2D.h>
+
 #include <sparkygl.h>
 #include <graphics/Renderable2D.h>
 #include <graphics/shaders/Shader.h>
@@ -8,11 +10,12 @@
 
 namespace sparky { namespace graphics { namespace MeshFactory {
 
-	uint CreateQuad(float x, float y, float width, float height)
+	VertexArray* CreateQuad(float x, float y, float width, float height)
 	{
-		uint result;
+		using namespace maths;
 
 		VertexData data[4];
+
 		data[0].vertex = maths::vec3(x, y, 0);
 		data[0].uv = maths::vec2(0, 1);
 
@@ -26,38 +29,27 @@ namespace sparky { namespace graphics { namespace MeshFactory {
 		data[3].uv = maths::vec2(1, 1);
 
 #if SPARKY_VERTEX_ARRAYS
-		uint buffer;
-		GLCall(glGenVertexArrays(1, &result));
-		GLCall(glGenBuffers(1, &buffer));
+		API::Buffer* buffer = new API::Buffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW);
+		buffer->Bind();
+		buffer->SetData(RENDERER_VERTEX_SIZE * 4, data);
 
-		GLCall(glBindVertexArray(result));
-		GLCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
+		buffer->layout.Push<vec3>("position");
+		buffer->layout.Push<vec2>("uv");
+		buffer->layout.Push<vec2>("mask_uv");
+		buffer->layout.Push<float>("tid");
+		buffer->layout.Push<float>("mid");
+		buffer->layout.Push<byte>("color", 4, true);
 
-		GLCall(glBufferData(GL_ARRAY_BUFFER, RENDERER_VERTEX_SIZE * 4, data, GL_STATIC_DRAW));
-
-		GLCall(glEnableVertexAttribArray(SHADER_VERTEX_INDEX));
-		GLCall(glEnableVertexAttribArray(SHADER_UV_INDEX));
-		GLCall(glEnableVertexAttribArray(SHADER_MASK_UV_INDEX));
-		GLCall(glEnableVertexAttribArray(SHADER_TID_INDEX));
-		GLCall(glEnableVertexAttribArray(SHADER_MID_INDEX));
-		GLCall(glEnableVertexAttribArray(SHADER_COLOR_INDEX));
-
-		GLCall(glVertexAttribPointer(SHADER_VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)0));
-		GLCall(glVertexAttribPointer(SHADER_UV_INDEX, 2, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, uv))));
-		GLCall(glVertexAttribPointer(SHADER_MASK_UV_INDEX, 2, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, mask_uv))));
-		GLCall(glVertexAttribPointer(SHADER_TID_INDEX, 1, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, tid))));
-		GLCall(glVertexAttribPointer(SHADER_MID_INDEX, 1, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, mid))));
-		GLCall(glVertexAttribPointer(SHADER_COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, color))));
-
-		GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
-		GLCall(glBindVertexArray(0));
+		VertexArray* result = new VertexArray();
+		result->Bind();
+		result->PushBuffer(buffer);
 #else
 #error Sparky non-vertex arrays are not yet implemented!
 #endif
 		return result;
 	}
 
-	uint CreateQuad(const maths::vec2& position, const maths::vec2& size)
+	VertexArray* CreateQuad(const maths::vec2& position, const maths::vec2& size)
 	{
 		return CreateQuad(position.x, position.y, size.x, size.y);
 	}

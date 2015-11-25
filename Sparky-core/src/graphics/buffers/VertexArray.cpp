@@ -2,9 +2,11 @@
 
 namespace sparky { namespace graphics {
 
+	uint VertexArray::s_CurrentBinding = 0;
+
 	VertexArray::VertexArray()
 	{
-		GLCall(glGenVertexArrays(1, &m_ArrayID));
+		m_ID = API::CreateVertexArray();
 	}
 
 	VertexArray::~VertexArray()
@@ -12,31 +14,43 @@ namespace sparky { namespace graphics {
 		for (uint i = 0; i < m_Buffers.size(); i++)
 			delete m_Buffers[i];
 
-		GLCall(glDeleteVertexArrays(1, &m_ArrayID));
+		API::FreeVertexArray(m_ID);
 	}
 
-	void VertexArray::AddBuffer(Buffer* buffer, uint index)
+
+	API::Buffer* VertexArray::GetBuffer(uint index)
 	{
-		Bind();
-		buffer->Bind();
+		return m_Buffers[index];
+	}
 
-		GLCall(glEnableVertexAttribArray(index));
-		GLCall(glVertexAttribPointer(index, buffer->GetComponentCount(), GL_FLOAT, GL_FALSE, 0, 0));
-
-		buffer->Unbind();
-		Unbind();
+	void VertexArray::PushBuffer(API::Buffer* buffer)
+	{
+		SPARKY_ASSERT(s_CurrentBinding == m_ID);
 
 		m_Buffers.push_back(buffer);
+
+		const std::vector<BufferLayoutType>& layout = buffer->layout.GetLayout();
+		for (uint i = 0; i < layout.size(); i++)
+		{
+			API::EnableVertexAttribute(i);
+			API::SetVertexAttributePointer(i, layout[i].count, layout[i].type, layout[i].normalized, buffer->layout.GetStride(), layout[i].offset);
+		}
 	}
 
 	void VertexArray::Bind() const
 	{
-		GLCall(glBindVertexArray(m_ArrayID));
+#ifdef SP_DEBUG
+		s_CurrentBinding = m_ID;
+#endif
+		API::BindVertexArray(m_ID);
 	}
 
 	void VertexArray::Unbind() const
 	{
-		GLCall(glBindVertexArray(0));
+#ifdef SP_DEBUG
+		s_CurrentBinding = 0;
+#endif
+		API::UnbindVertexArrays();
 	}
 
 } }

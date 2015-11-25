@@ -2,4 +2,5 @@
  Sparky Core - TODO
 --------------------
 
-General things
+- Shader unification and improvements
+- SP_DEBUG macros

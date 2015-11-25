@@ -5,35 +5,34 @@ namespace sparky { namespace graphics {
 	IndexBuffer::IndexBuffer(short* data, uint count)
 		: m_Count(count)
 	{
-		GLCall(glGenBuffers(1, &m_BufferID));
-		GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_BufferID));
-		GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(short), data, GL_STATIC_DRAW));
-		GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+		m_Buffer = new API::Buffer(GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW);
+		m_Buffer->Bind();
+		m_Buffer->SetData(count * sizeof(short), data);
+		m_Buffer->Unbind();
 	}
 
 	IndexBuffer::IndexBuffer(uint* data, uint count)
 		: m_Count(count)
 	{
-		GLCall(glGenBuffers(1, &m_BufferID));
-		GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_BufferID));
-		GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint), data, GL_STATIC_DRAW));
-		GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+		m_Buffer = new API::Buffer(GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW);
+		m_Buffer->Bind();
+		m_Buffer->SetData(count * sizeof(uint), data);
+		m_Buffer->Unbind();
 	}
 
 	IndexBuffer::~IndexBuffer()
 	{
-		GLCall(glDeleteBuffers(1, &m_BufferID));
+		delete m_Buffer;
 	}
 
 	void IndexBuffer::Bind() const
 	{
-		GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_BufferID));
+		m_Buffer->Bind();
 	}
 
 	void IndexBuffer::Unbind() const
 	{
-		GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+		m_Buffer->Unbind();
 	}
-
 
 } }

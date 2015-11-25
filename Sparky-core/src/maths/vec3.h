@@ -25,13 +25,18 @@ namespace sparky { namespace maths {
 		friend vec3 operator*(vec3 left, const vec3& right);
 		friend vec3 operator/(vec3 left, const vec3& right);
 
-		bool operator==(const vec3& other);
-		bool operator!=(const vec3& other);
+		bool operator==(const vec3& other) const;
+		bool operator!=(const vec3& other) const;
 
 		vec3& operator+=(const vec3& other);
 		vec3& operator-=(const vec3& other);
 		vec3& operator*=(const vec3& other);
 		vec3& operator/=(const vec3& other);
+
+		bool operator<(const vec3& other) const;
+		bool operator<=(const vec3& other) const;
+		bool operator>(const vec3& other) const;
+		bool operator>=(const vec3& other) const;
 
 		float Distance(const vec3& other) const;
 
