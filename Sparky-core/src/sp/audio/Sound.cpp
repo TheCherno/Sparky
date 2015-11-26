@@ -6,7 +6,7 @@ namespace sp { namespace audio {
 	Sound::Sound(const String& name, const String& filename)
 		: m_Name(name), m_Filename(filename), m_Playing(false), m_Count(0)
 	{
-		std::vector<String> split = SplitString(m_Filename, '.');
+		std::vector<String> split = utils::SplitString(m_Filename, '.');
 		if (split.size() < 2)
 		{
 			std::cout << "[Sound] Invalid file name '" << m_Filename << "'!" << std::endl;
@@ -18,7 +18,6 @@ namespace sp { namespace audio {
 		if (m_Sound == nullptr)
 			std::cout << "[Sound] Could not load file '" << m_Filename << "'!" << std::endl;
 #endif
-
 	}
 
 	Sound::~Sound()

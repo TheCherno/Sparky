@@ -20,35 +20,40 @@ namespace sp { namespace graphics {
 	class Shader
 	{
 	private:
-		const char* m_Name;
-		const char* m_VertPath;
-		const char* m_FragPath;
-		const char* m_VertSrc;
-		const char* m_FragSrc;
+		enum class ShaderType
+		{
+			UNKNOWN, VERTEX, FRAGMENT
+		};
+		struct ShaderSource
+		{
+
+		};
+	private:
+		String m_Name, m_Path;
+		String m_Source;
 		uint m_ShaderID;
 	public:
-		Shader(const char* name, const char* vertSrc, const char* fragSrc);
-		Shader(const char* vertPath, const char* fragPath);
+		Shader(const String& name, const String& source);
 		~Shader();
 
-		void SetUniform1f(const char* name, float value);
-		void SetUniform1fv(const char* name, float* value, int count);
-		void SetUniform1i(const char* name, int value);
-		void SetUniform1iv(const char* name, int* value, int count);
-		void SetUniform2f(const char* name, const maths::vec2& vector);
-		void SetUniform3f(const char* name, const maths::vec3& vector);
-		void SetUniform4f(const char* name, const maths::vec4& vector);
-		void SetUniformMat4(const char* name, const maths::mat4& matrix);
+		void SetUniform1f(const String& name, float value);
+		void SetUniform1fv(const String& name, float* value, int count);
+		void SetUniform1i(const String& name, int value);
+		void SetUniform1iv(const String& name, int* value, int count);
+		void SetUniform2f(const String& name, const maths::vec2& vector);
+		void SetUniform3f(const String& name, const maths::vec3& vector);
+		void SetUniform4f(const String& name, const maths::vec4& vector);
+		void SetUniformMat4(const String& name, const maths::mat4& matrix);
 
 		void Bind() const;
 		void Unbind() const;
 	private:
-		uint Load(const char* vertSrc, const char* fragSrc);
-		int GetUniformLocation(const char* name);
+		void PreProcess(const String& source, String* shaders);
+		uint Load(const String& vertSrc, const String& fragSrc);
+		int GetUniformLocation(const String& name);
 	public:
-		static Shader* FromFile(const char* vertPath, const char* fragPath);
-		static Shader* FromSource(const char* vertSrc, const char* fragSrc);
-		static Shader* FromSource(const char* name, const char* vertSrc, const char* fragSrc);
+		static Shader* FromFile(const String& name, const String& filepath);
+		static Shader* FromSource(const String& name, const String& source);
 	};
 
 } }

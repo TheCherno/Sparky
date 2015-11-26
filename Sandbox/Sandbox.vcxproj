@@ -90,10 +90,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\basic.es3.frag" />
-    <None Include="shaders\basic.es3.vert" />
-    <None Include="shaders\postfx.frag" />
-    <None Include="shaders\postfx.vert" />
+    <None Include="shaders\postfx.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Sandbox.cpp" />

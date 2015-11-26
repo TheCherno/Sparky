@@ -583,5 +583,10 @@
     <None Include="src\platform\opengl\SPOpenGLRenderAPI.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="src\sp\graphics\shaders\default\gles\Default.shader" />
+    <None Include="src\sp\graphics\shaders\default\gles\Simple.shader" />
+    <None Include="src\sp\graphics\shaders\default\BasicLight.shader" />
+    <None Include="src\sp\graphics\shaders\default\Default.shader" />
+    <None Include="src\sp\graphics\shaders\default\Simple.shader" />
   </ItemGroup>
 </Project>

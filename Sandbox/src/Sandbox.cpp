@@ -14,7 +14,7 @@ class Game : public Application
 {
 public:
 	Game()
-		: Application("Test Game", WIDTH, HEIGHT)
+		: Application("Sandbox", WIDTH, HEIGHT)
 	{
 	}
 

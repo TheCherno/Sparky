@@ -29,7 +29,7 @@ void TestLayer::OnInit(Renderer2D& renderer, Shader& shader)
 
 	FontManager::Get()->SetScale(m_Window->GetWidth() / 32.0f, m_Window->GetHeight() / 18.0f);
 	renderer.SetRenderTarget(RenderTarget::BUFFER);
-	renderer.AddPostEffectsPass(new PostEffectsPass(Shader::FromFile("shaders/postfx.vert", "shaders/postfx.frag")));
+	renderer.AddPostEffectsPass(new PostEffectsPass(Shader::FromFile("Horizontal Blur", "shaders/postfx.shader")));
 	renderer.SetPostEffects(false);
 
 	Texture::SetFilter(TextureFilter::NEAREST);

@@ -20,7 +20,7 @@ namespace std
 	template <typename T>
 	string to_string(const T& t)
 	{
-		return String("[Unsupported type (") + typeid(T).name() + String(")!] (to_string)");
+		return string("[Unsupported type (") + typeid(T).name() + string(")!] (to_string)");
 	}
 }
 
@@ -57,38 +57,38 @@ namespace sp { namespace internal {
 	}
 
 	template <>
-	static const char* to_string<char>(char const & t)
+	static const char* to_string<char>(char const& t)
 	{
 		return &t;
 	}
 
 	template <>
-	static const char* to_string<char*>(char* const & t)
+	static const char* to_string<char*>(char* const& t)
 	{
 		return t;
 	}
 
 	template <>
-	static const char* to_string<unsigned char const*>(unsigned char const* const & t)
+	static const char* to_string<unsigned char const*>(unsigned char const* const& t)
 	{
 		return (const char*)t;
 	}
 
 
 	template <>
-	static const char* to_string<char const*>(char const * const & t)
+	static const char* to_string<char const*>(char const* const& t)
 	{
 		return t;
 	}
 
 	template <>
-	static const char* to_string<String>(String const & t)
+	static const char* to_string<String>(const String& t)
 	{
 		return t.c_str();
 	}
 
 	template <>
-	static const char* to_string<maths::vec2>(maths::vec2 const & t)
+	static const char* to_string<maths::vec2>(const maths::vec2& t)
 	{
 		// TODO: sprintf
 		String string = String("vec2: (") + std::to_string(t.x) + ", " + std::to_string(t.y) + ")";
@@ -112,21 +112,6 @@ namespace sp { namespace internal {
 		}
 		return result;
 	}
-
-	//
-	//template <typename T> const char* container_to_string_internal(const std::vector<T>& v)
-	//{
-	//	static char buffer[1024];
-	//	sprintf(buffer, "Vector of %s - size: %d, contents: %s", typeid(T).name(), v.size(), format_iterators(v.begin(), v.end()).c_str());
-	//	return buffer;
-	//}
-	//
-	//template <typename T> const char* container_to_string_internal(const std::list<T>& v)
-	//{
-	//	static char buffer[1024];
-	//	sprintf(buffer, "List of %s - size: %d, contents: %s", typeid(T).name(), v.size(), format_iterators(v.begin(), v.end()).c_str());
-	//	return buffer;
-	//}
 
 	template <typename T>
 	static const char* to_string_internal(const T& v, const std::true_type& ignored)
@@ -158,7 +143,7 @@ namespace sp { namespace internal {
 	template <typename First>
 	static void print_log_internal(char* buffer, int& position, First&& first)
 	{
-		const char* formatted = to_string<First>(first);
+		const char* formatted = sp::internal::to_string<First>(first);
 		int length = strlen(formatted);
 		memcpy(&buffer[position], formatted, length);
 		position += length;
@@ -167,7 +152,7 @@ namespace sp { namespace internal {
 	template <typename First, typename... Args>
 	static void print_log_internal(char* buffer, int& position, First&& first, Args&&... args)
 	{
-		const char* formatted = to_string<First>(first);
+		const char* formatted = sp::internal::to_string<First>(first);
 		int length = strlen(formatted);
 		memcpy(&buffer[position], formatted, length);
 		position += length;

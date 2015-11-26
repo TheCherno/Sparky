@@ -5,11 +5,11 @@
 
 #include <sp/utils/Log.h>
 
-namespace sp {
+namespace sp { namespace utils {
 
-	static String read_file(const char* filepath)
+	static String ReadFile(const String& filepath)
 	{
-		FILE* file = fopen(filepath, "rt");
+		FILE* file = fopen(filepath.c_str(), "rt");
 		if (file == nullptr)
 			SPARKY_ASSERT(file, "Could not open file '", filepath, "'!");
 
@@ -26,4 +26,4 @@ namespace sp {
 		return result;
 	}
 
-}
+} }

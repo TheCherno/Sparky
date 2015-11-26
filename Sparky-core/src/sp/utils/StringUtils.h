@@ -5,7 +5,7 @@
 #include <sstream>
 #include <vector>
 
-namespace sp {
+namespace sp { namespace utils {
 
 	static std::vector<String> SplitString(const String& string, const char delimiter)
 	{
@@ -28,4 +28,4 @@ namespace sp {
 		return result;
 	}
 
-}
+} }

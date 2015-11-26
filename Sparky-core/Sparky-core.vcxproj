@@ -296,6 +296,11 @@
   <ItemGroup>
     <None Include="src\sp\embedded\files\SourceSansPro-Light.embed" />
     <None Include="src\platform\opengl\SPOpenGLRenderAPI.inl" />
+    <None Include="src\sp\graphics\shaders\default\BasicLight.shader" />
+    <None Include="src\sp\graphics\shaders\default\Default.shader" />
+    <None Include="src\sp\graphics\shaders\default\gles\Default.shader" />
+    <None Include="src\sp\graphics\shaders\default\gles\Simple.shader" />
+    <None Include="src\sp\graphics\shaders\default\Simple.shader" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dependencies\Box2D\Box2D.vcxproj">
