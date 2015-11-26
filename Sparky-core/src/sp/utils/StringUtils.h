@@ -7,14 +7,25 @@
 
 namespace sp {
 
-	static std::vector<String> split_string(const String& s, char delimeter) {
-		std::vector<String> elems;
-		std::stringstream ss(s);
-		String item;
-		while (std::getline(ss, item, delimeter)) {
-			elems.push_back(item);
+	static std::vector<String> SplitString(const String& string, const char delimiter)
+	{
+		size_t start = 0;
+		size_t end = string.find_first_of(delimiter);
+
+		std::vector<String> result;
+
+		while (end <= String::npos)
+		{
+			result.emplace_back(string.substr(start, end - start));
+
+			if (end == String::npos)
+				break;
+
+			start = end + 1;
+			end = string.find_first_of(delimiter, start);
 		}
-		return elems;
+
+		return result;
 	}
 
 }
