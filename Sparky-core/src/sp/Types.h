@@ -1,8 +1,14 @@
 #pragma once
 
-#include <string>
+#include <sp/String.h> // Temp, need PCH
 
 typedef unsigned char byte;
 typedef unsigned int uint;
 
-typedef std::string String;
+
+// Sparky Class Forward-Declarations
+namespace sp {
+	namespace graphics {
+		class Shader;
+	}
+}

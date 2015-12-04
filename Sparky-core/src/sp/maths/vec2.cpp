@@ -1,5 +1,7 @@
 #include "vec2.h"
 
+#include <sstream>
+
 namespace sp { namespace maths {
 
 	vec2::vec2()
@@ -135,11 +137,17 @@ namespace sp { namespace maths {
 		return vec2(x / length, y / length);
 	}
 
-	std::ostream& operator<<(std::ostream& stream, const vec2& vector)
+	String vec2::ToString() const
 	{
-		stream << "vec2: (" << vector.x << ", " << vector.y << ")";
-		return stream;
+		std::stringstream result;
+		result << "vec2: (" << x << ", " << y << ")";
+		return result.str();
 	}
 
+	std::ostream& operator<<(std::ostream& stream, const vec2& vector)
+	{
+		stream << vector.ToString();
+		return stream;
+	}
 
 } }

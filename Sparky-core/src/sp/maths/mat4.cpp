@@ -1,5 +1,7 @@
 #include "mat4.h"
 
+#include <sstream>
+
 namespace sp { namespace maths {
 
 	mat4::mat4()
@@ -298,6 +300,16 @@ namespace sp { namespace maths {
 	{
 		mat4 result = matrix;
 		return result.Invert();
+	}
+
+	String mat4::ToString() const
+	{
+		std::stringstream result;
+		result << "mat4: (" << columns[0].x << ", " << columns[1].x << ", " << columns[2].x << ", " << columns[3].x << "), ";
+		result << "(" << columns[0].y << ", " << columns[1].y << ", " << columns[2].y << ", " << columns[3].y << "), ";
+		result << "(" << columns[0].z << ", " << columns[1].z << ", " << columns[2].z << ", " << columns[3].z << "), ";
+		result << "(" << columns[0].w << ", " << columns[1].w << ", " << columns[2].w << ", " << columns[3].w << ")";
+		return result.str();
 	}
 
 } }

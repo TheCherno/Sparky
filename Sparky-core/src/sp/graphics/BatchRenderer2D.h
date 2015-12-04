@@ -51,7 +51,7 @@ namespace sp { namespace graphics {
 		void DrawAABB(const maths::AABB& aabb, uint color = 0xffffffff);
 		void DrawString(const String& text, const maths::vec3& position, const Font& font, unsigned int color) override;
 		void End() override;
-		void Flush() override;
+		void Present() override;
 
 		inline void SetScreenSize(const maths::tvec2<uint>& size) { m_ScreenSize = size; }
 		inline const maths::tvec2<uint>& GetScreenSize() const { return m_ScreenSize; }

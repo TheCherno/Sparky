@@ -2,6 +2,7 @@
 #include <sp/app/Application.h>
 
 #include "TestLayer.h"
+#include "Test3D.h"
 
 using namespace sp;
 using namespace graphics;
@@ -25,7 +26,8 @@ public:
 	void Init() override
 	{
 		Application::Init();
-		PushLayer(new TestLayer());
+		// PushLayer(new TestLayer());
+		PushLayer(new Test3D());
 	}
 };
 

@@ -24,6 +24,9 @@ namespace sp { namespace graphics {
 		void PushBuffer(API::Buffer* buffer);
 		void Bind() const;
 		void Unbind() const;
+
+		// TODO: I don't like this
+		void Draw(uint count) const;
 	};
 
 } }

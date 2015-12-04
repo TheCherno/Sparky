@@ -75,6 +75,6 @@ void TestLayer::OnRender(Renderer2D& renderer)
 	if (m_Window->IsKeyTyped(VK_P))
 		renderer.SetPostEffects(!renderer.GetPostEffects());
 
-	debugInfo[0]->text = std::string("Target: ") + (renderer.GetRenderTarget() == RenderTarget::SCREEN ? "Screen" : "Buffer");
-	debugInfo[1]->text = std::string("PostFX: ") + (renderer.GetPostEffects() ? "On" : "Off");
+	debugInfo[0]->text = String("Target: ") + (renderer.GetRenderTarget() == RenderTarget::SCREEN ? "Screen" : "Buffer");
+	debugInfo[1]->text = String("PostFX: ") + (renderer.GetPostEffects() ? "On" : "Off");
 }

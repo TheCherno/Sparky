@@ -42,7 +42,7 @@ void main()
 	vec4 sum = vec4(0.0);
 	vec2 tc = fs_in.uv;
 
-	// Blur amount in pixels	
+	// Blur amount in pixels
 	float blur = radius / resolution; 
     
 	float hstep = dir.x;

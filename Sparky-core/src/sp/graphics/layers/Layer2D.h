@@ -17,6 +17,7 @@ namespace sp { namespace graphics {
 		Shader* m_Shader;
 		maths::mat4 m_ProjectionMatrix;
 	public:
+		// TODO: Replace Shader with Material
 		Layer2D(Shader* shader, const maths::mat4& projectionMatrix);
 		virtual ~Layer2D();
 

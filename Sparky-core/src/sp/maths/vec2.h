@@ -40,6 +40,8 @@ namespace sp { namespace maths {
 		float Distance(const vec2& other) const;
 		float Dot(const vec2& other) const;
 
+		String ToString() const;
+
 		friend std::ostream& operator<<(std::ostream& stream, const vec2& vector);
 	};
 

@@ -105,7 +105,7 @@ namespace sp { namespace graphics {
 			if (m_TextureSlots.size() >= RENDERER_MAX_TEXTURES)
 			{
 				End();
-				Flush();
+				Present();
 				Begin();
 			}
 			m_TextureSlots.push_back(textureID);
@@ -314,7 +314,7 @@ namespace sp { namespace graphics {
 		m_VertexArray->GetBuffer()->Unbind();
 	}
 
-	void BatchRenderer2D::Flush()
+	void BatchRenderer2D::Present()
 	{
 		for (uint i = 0; i < m_TextureSlots.size(); i++)
 		{

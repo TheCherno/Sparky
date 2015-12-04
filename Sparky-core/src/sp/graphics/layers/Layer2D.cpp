@@ -67,7 +67,7 @@ namespace sp { namespace graphics {
 			renderable->Submit(m_Renderer);
 
 		m_Renderer->End();
-		m_Renderer->Flush();
+		m_Renderer->Present();
 
 		OnRender(*m_Renderer);
 	}

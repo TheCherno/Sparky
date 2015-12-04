@@ -8,6 +8,8 @@
 #include <sp/maths/maths.h>
 #include <sp/utils/FileUtils.h>
 
+#include "ShaderUniform.h"
+
 namespace sp { namespace graphics {
 
 #define SHADER_VERTEX_INDEX		0
@@ -24,14 +26,13 @@ namespace sp { namespace graphics {
 		{
 			UNKNOWN, VERTEX, FRAGMENT
 		};
-		struct ShaderSource
-		{
-
-		};
 	private:
 		String m_Name, m_Path;
 		String m_Source;
+		String m_VertexSource, m_FragmentSource;
 		uint m_ShaderID;
+
+		std::vector<ShaderUniformDeclaration*> m_Uniforms;
 	public:
 		Shader(const String& name, const String& source);
 		~Shader();
@@ -45,12 +46,30 @@ namespace sp { namespace graphics {
 		void SetUniform4f(const String& name, const maths::vec4& vector);
 		void SetUniformMat4(const String& name, const maths::mat4& matrix);
 
+		void ResolveAndSetUniforms(byte* data, uint size);
+
 		void Bind() const;
 		void Unbind() const;
+
+		inline const std::vector<ShaderUniformDeclaration*>& GetUniformDeclarations() const { return m_Uniforms; }
 	private:
-		void PreProcess(const String& source, String* shaders);
+		void PreProcess(const String& source, String** shaders);
+		void ParseUniforms(const std::vector<String>& lines);
+		ShaderUniformDeclaration::Type GetUniformTypeFromString(const String& token);
+		void ResolveUniforms();
 		uint Load(const String& vertSrc, const String& fragSrc);
 		int GetUniformLocation(const String& name);
+
+		void ResolveAndSetUniform(ShaderUniformDeclaration* uniform, byte* data);
+
+		void SetUniform1f(uint location, float value);
+		void SetUniform1fv(uint location, float* value, int count);
+		void SetUniform1i(uint location, int value);
+		void SetUniform1iv(uint location, int* value, int count);
+		void SetUniform2f(uint location, const maths::vec2& vector);
+		void SetUniform3f(uint location, const maths::vec3& vector);
+		void SetUniform4f(uint location, const maths::vec4& vector);
+		void SetUniformMat4(uint location, const maths::mat4& matrix);
 	public:
 		static Shader* FromFile(const String& name, const String& filepath);
 		static Shader* FromSource(const String& name, const String& source);

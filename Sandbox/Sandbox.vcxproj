@@ -91,12 +91,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\postfx.shader" />
+    <None Include="shaders\Scene.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Sandbox.cpp" />
+    <ClCompile Include="src\Test3D.cpp" />
     <ClCompile Include="src\TestLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Test3D.h" />
     <ClInclude Include="src\TestLayer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

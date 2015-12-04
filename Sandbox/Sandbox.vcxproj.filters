@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\postfx.shader" />
+    <None Include="shaders\Scene.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Sandbox.cpp">
@@ -24,9 +25,15 @@
     <ClCompile Include="src\TestLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Test3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\TestLayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

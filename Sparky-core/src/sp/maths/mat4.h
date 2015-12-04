@@ -44,6 +44,8 @@ namespace sp { namespace maths {
 		static mat4 Rotate(float angle, const vec3& axis);
 		static mat4 Scale(const vec3& scale);
 		static mat4 Invert(const mat4& matrix);
+
+		String ToString() const;
 	};
 
 } }
