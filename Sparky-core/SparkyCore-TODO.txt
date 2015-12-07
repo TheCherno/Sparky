@@ -10,3 +10,6 @@
 - Better logging. Seriously.
 - Check for memory leaks. Likely.
 - Investigate transparent FBs
+- Some kind of Asset Server. This needs to support things like memory mapping and virtual file systems.
+- ivec<x>, uvec<x>
+- Hash functions for maths classes

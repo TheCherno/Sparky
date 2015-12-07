@@ -6,11 +6,11 @@
 #include <sp/graphics/MeshFactory.h>
 #include <sp/graphics/layers/Layer3D.h>
 #include <sp/graphics/shaders/ShaderFactory.h>
+#include <sp/graphics/Model.h>
 
 class Test3D : public sp::graphics::Layer3D
 {
 private:
-	sp::graphics::Mesh* m_Cube;
 	sp::graphics::Material* m_Material;
 	float m_Rotation;
 public:

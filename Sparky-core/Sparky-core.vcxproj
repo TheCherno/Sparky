@@ -204,6 +204,7 @@
     <ClCompile Include="src\sp\graphics\Material.cpp" />
     <ClCompile Include="src\sp\graphics\Mesh.cpp" />
     <ClCompile Include="src\sp\graphics\MeshFactory.cpp" />
+    <ClCompile Include="src\sp\graphics\Model.cpp" />
     <ClCompile Include="src\sp\graphics\postfx\PostEffects.cpp" />
     <ClCompile Include="src\sp\graphics\postfx\PostEffectsPass.cpp" />
     <ClCompile Include="src\sp\graphics\Scene.cpp" />
@@ -264,6 +265,7 @@
     <ClInclude Include="src\sp\graphics\FontManager.h" />
     <ClInclude Include="src\sp\graphics\ForwardRenderer.h" />
     <ClInclude Include="src\sp\graphics\Framebuffer.h" />
+    <ClInclude Include="src\sp\graphics\IRenderable.h" />
     <ClInclude Include="src\sp\graphics\Label.h" />
     <ClInclude Include="src\sp\graphics\layers\Group.h" />
     <ClInclude Include="src\sp\graphics\layers\Layer.h" />
@@ -273,6 +275,7 @@
     <ClInclude Include="src\sp\graphics\Material.h" />
     <ClInclude Include="src\sp\graphics\Mesh.h" />
     <ClInclude Include="src\sp\graphics\MeshFactory.h" />
+    <ClInclude Include="src\sp\graphics\Model.h" />
     <ClInclude Include="src\sp\graphics\postfx\PostEffects.h" />
     <ClInclude Include="src\sp\graphics\postfx\PostEffectsPass.h" />
     <ClInclude Include="src\sp\graphics\Renderable2D.h" />

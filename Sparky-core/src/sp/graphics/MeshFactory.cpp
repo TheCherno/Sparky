@@ -56,6 +56,8 @@ namespace sp { namespace graphics { namespace MeshFactory {
 
 	Mesh* CreateCube(float size, MaterialInstance* material)
 	{
+		// TODO: Do this ~properly~! Current lazy cube.
+
 		using namespace maths;
 
 		Vertex data[8];
