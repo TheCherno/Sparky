@@ -230,14 +230,6 @@ namespace sp { namespace graphics {
 		glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, matrix.elements);
 	}
 
-	void Shader::ResolveAndSetUniforms(byte* data, uint size)
-	{
-		const std::vector<ShaderUniformDeclaration*>& uniforms = m_Uniforms;
-
-		for (uint i = 0; i < uniforms.size(); i++)
-			ResolveAndSetUniform(uniforms[i], data);
-	}
-
 	void Shader::ResolveAndSetUniform(ShaderUniformDeclaration* uniform, byte* data)
 	{
 		switch (uniform->GetType())
@@ -255,7 +247,7 @@ namespace sp { namespace graphics {
 			case ShaderUniformDeclaration::Type::VEC3:
 				SetUniform3f(uniform->GetLocation(), *(maths::vec3*)&data[uniform->GetOffset()]);
 				break;
-			case ShaderUniformDeclaration::Type::VEC4: 
+			case ShaderUniformDeclaration::Type::VEC4:
 				SetUniform4f(uniform->GetLocation(), *(maths::vec4*)&data[uniform->GetOffset()]);
 				break;
 			case ShaderUniformDeclaration::Type::MAT3:
@@ -267,6 +259,20 @@ namespace sp { namespace graphics {
 			default:
 				SPARKY_ASSERT(false, "Unknown type!");
 		}
+	}
+
+	void Shader::ResolveAndSetUniform(uint index, byte* data)
+	{
+		ShaderUniformDeclaration* uniform = m_Uniforms[index];
+		ResolveAndSetUniform(uniform, data);
+	}
+
+	void Shader::ResolveAndSetUniforms(byte* data, uint size)
+	{
+		const std::vector<ShaderUniformDeclaration*>& uniforms = m_Uniforms;
+
+		for (uint i = 0; i < uniforms.size(); i++)
+			ResolveAndSetUniform(uniforms[i], data);
 	}
 
 	void Shader::Bind() const

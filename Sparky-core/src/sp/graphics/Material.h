@@ -10,6 +10,8 @@ namespace sp { namespace graphics {
 	class Material
 	{
 	private:
+		friend class MaterialInstance;
+
 		Shader* m_Shader;
 		byte* m_UniformData;
 		uint m_UniformDataSize;
@@ -55,6 +57,8 @@ namespace sp { namespace graphics {
 	private:
 		Material* m_Material;
 		byte* m_UniformData;
+		uint m_UniformDataSize;
+		uint m_SetUniforms;
 	public:
 		MaterialInstance(Material* material);
 
@@ -62,16 +66,25 @@ namespace sp { namespace graphics {
 
 		void Bind() const;
 		void Unbind() const;
+		void UnsetUniform(const String& name);
 
 		template<typename T>
 		void SetUniform(const String& name, const T& value)
 		{
-			SPARKY_ASSERT(false, "Unknown type");
-		}
+			int index = GetUniformDeclarationIndex(name);
+			if (index == -1)
+			{
+				SPARKY_ERROR("Could not find uniform '", name, "'!");
+				return;
+			}
+			ShaderUniformDeclaration* uniform = m_Material->m_Shader->GetUniformDeclarations()[index];
+			memcpy(m_UniformData + uniform->GetOffset(), &value, uniform->GetSize());
 
-		template<> void SetUniform<float>(const String& name, const float& value) { }
+			m_SetUniforms |= 1 << index;
+		}
 	private:
 		void InitUniformStorage();
+		int GetUniformDeclarationIndex(const String& name) const;
 	};
 
 } }

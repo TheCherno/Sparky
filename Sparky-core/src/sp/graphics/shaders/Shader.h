@@ -46,6 +46,8 @@ namespace sp { namespace graphics {
 		void SetUniform4f(const String& name, const maths::vec4& vector);
 		void SetUniformMat4(const String& name, const maths::mat4& matrix);
 
+		void ResolveAndSetUniform(ShaderUniformDeclaration* uniform, byte* data);
+		void ResolveAndSetUniform(uint index, byte* data);
 		void ResolveAndSetUniforms(byte* data, uint size);
 
 		void Bind() const;
@@ -59,8 +61,6 @@ namespace sp { namespace graphics {
 		void ResolveUniforms();
 		uint Load(const String& vertSrc, const String& fragSrc);
 		int GetUniformLocation(const String& name);
-
-		void ResolveAndSetUniform(ShaderUniformDeclaration* uniform, byte* data);
 
 		void SetUniform1f(uint location, float value);
 		void SetUniform1fv(uint location, float* value, int count);

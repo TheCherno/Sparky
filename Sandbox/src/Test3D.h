@@ -11,8 +11,10 @@
 class Test3D : public sp::graphics::Layer3D
 {
 private:
-	sp::graphics::Material* m_Material;
+	sp::graphics::MaterialInstance* m_CubeMaterial;
+	sp::graphics::MaterialInstance* m_SphereMaterial;
 	float m_Rotation;
+	bool m_SetUniforms[2];
 public:
 	Test3D();
 	~Test3D();

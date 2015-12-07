@@ -19,7 +19,7 @@ namespace sp { namespace graphics {
 
 	void Mesh::Render(Renderer3D& renderer)
 	{
-		m_MaterialInstance->GetMaterial()->Bind();
+		m_MaterialInstance->Bind();
 
 		m_VertexArray->Bind();
 		m_IndexBuffer->Bind();
@@ -27,7 +27,7 @@ namespace sp { namespace graphics {
 		m_IndexBuffer->Unbind();
 		m_VertexArray->Unbind();
 
-		m_MaterialInstance->GetMaterial()->Unbind();
+		m_MaterialInstance->Unbind();
 	}
 
 } }
