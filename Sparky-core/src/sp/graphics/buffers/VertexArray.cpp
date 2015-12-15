@@ -25,7 +25,7 @@ namespace sp { namespace graphics {
 
 	void VertexArray::PushBuffer(API::Buffer* buffer)
 	{
-		SPARKY_ASSERT(s_CurrentBinding == m_ID);
+		SP_ASSERT(s_CurrentBinding == m_ID);
 
 		m_Buffers.push_back(buffer);
 

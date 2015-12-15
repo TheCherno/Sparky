@@ -38,7 +38,7 @@ namespace sp { namespace graphics {
 
 	void Material::DumpUniformData() const
 	{
-		SPARKY_INFO("Dumping uniforms for Material ", (long)this);
+		SP_INFO("Dumping uniforms for Material ", (long)this);
 		const std::vector<ShaderUniformDeclaration*>& uniforms = m_Shader->GetUniformDeclarations();
 		for (uint i = 0; i < uniforms.size(); i++)
 		{
@@ -46,7 +46,7 @@ namespace sp { namespace graphics {
 			switch (declaration->GetType())
 			{
 			case ShaderUniformDeclaration::Type::MAT4:
-				SPARKY_INFO(declaration->GetName(), " = ", GetUniform<maths::mat4>(declaration)->ToString());
+				SP_INFO(declaration->GetName(), " = ", GetUniform<maths::mat4>(declaration)->ToString());
 				break;
 			}
 		}

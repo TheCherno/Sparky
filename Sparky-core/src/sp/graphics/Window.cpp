@@ -11,7 +11,7 @@ namespace sp { namespace graphics {
 	{
 		if (!Init())
 		{
-			SPARKY_ERROR("Failed base Window initialization!");
+			SP_ERROR("Failed base Window initialization!");
 			return;
 		}
 
@@ -54,7 +54,7 @@ namespace sp { namespace graphics {
 	{
 		if (!PlatformInit())
 		{
-			SPARKY_FATAL("Failed to initialize platform!");
+			SP_FATAL("Failed to initialize platform!");
 			return false;
 		}
 		
@@ -62,12 +62,12 @@ namespace sp { namespace graphics {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		SPARKY_WARN("----------------------------------");
-		SPARKY_WARN(" OpenGL:");
-		SPARKY_WARN("    ", glGetString(GL_VERSION));
-		SPARKY_WARN("    ", glGetString(GL_VENDOR));
-		SPARKY_WARN("    ", glGetString(GL_RENDERER));
-		SPARKY_WARN("----------------------------------");
+		SP_WARN("----------------------------------");
+		SP_WARN(" OpenGL:");
+		SP_WARN("    ", glGetString(GL_VERSION));
+		SP_WARN("    ", glGetString(GL_VENDOR));
+		SP_WARN("    ", glGetString(GL_RENDERER));
+		SP_WARN("----------------------------------");
 		return true;
 	}
 

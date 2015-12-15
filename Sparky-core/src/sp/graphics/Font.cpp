@@ -9,7 +9,7 @@ namespace sp { namespace graphics {
 	{
 		m_FTAtlas = ftgl::texture_atlas_new(512, 512, 2);
 		m_FTFont = ftgl::texture_font_new_from_file(m_FTAtlas, size, filename.c_str());
-		SPARKY_ASSERT(m_FTFont, "Failed to load font '", filename.c_str(), "'!");
+		SP_ASSERT(m_FTFont, "Failed to load font '", filename.c_str(), "'!");
 	}
 
 	Font::Font(const String& name, const byte* data, unsigned int datasize, float size)
@@ -17,7 +17,7 @@ namespace sp { namespace graphics {
 	{
 		m_FTAtlas = ftgl::texture_atlas_new(512, 512, 2);
 		m_FTFont = ftgl::texture_font_new_from_memory(m_FTAtlas, size, data, datasize);
-		SPARKY_ASSERT(m_FTFont, "Failed to load font from data!");
+		SP_ASSERT(m_FTFont, "Failed to load font from data!");
 	}
 
 	void Font::SetScale(float x, float y)

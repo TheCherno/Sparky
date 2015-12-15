@@ -39,7 +39,7 @@ namespace sp { namespace graphics {
 		API::SetTextureParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (int)s_WrapMode);
 
  		if (m_Bits != 24 && m_Bits != 32)
- 			SPARKY_ERROR("[Texture] Unsupported image bit-depth! (", m_Bits, ")");
+ 			SP_ERROR("[Texture] Unsupported image bit-depth! (", m_Bits, ")");
 
 		int internalFormat = m_Bits == 32 ? GL_RGBA : GL_RGB;
 		uint format = m_Bits == 32 ?

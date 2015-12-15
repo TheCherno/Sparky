@@ -43,7 +43,7 @@ namespace sp { namespace graphics {
 		if (!RegisterClassA(&winClass))
 		{
 			// TODO: Handle error
-			SPARKY_ERROR("Could not register Win32 class!");
+			SP_ERROR("Could not register Win32 class!");
 			return false;
 		}
 
@@ -60,7 +60,7 @@ namespace sp { namespace graphics {
 			
 		if (!hWnd)
 		{
-			SPARKY_ERROR("Could not create window!");
+			SP_ERROR("Could not create window!");
 			return false;
 		}
 
@@ -73,13 +73,13 @@ namespace sp { namespace graphics {
 		{
 			if (!SetPixelFormat(hDc, pixelFormat, &pfd))
 			{
-				SPARKY_ERROR("Failed setting pixel format!");
+				SP_ERROR("Failed setting pixel format!");
 				return false;
 			}
 		}
 		else
 		{
-			SPARKY_ERROR("Failed choosing pixel format!");
+			SP_ERROR("Failed choosing pixel format!");
 			return false;
 		}
 
@@ -88,19 +88,19 @@ namespace sp { namespace graphics {
 		{
 			if (!wglMakeCurrent(hDc, hrc))
 			{
-				SPARKY_ERROR("Failed setting OpenGL context!");
+				SP_ERROR("Failed setting OpenGL context!");
 				return false;
 			}
 		}
 		else
 		{
-			SPARKY_ERROR("Failed creating OpenGL context!");
+			SP_ERROR("Failed creating OpenGL context!");
 			return false;
 		}
 
 		if (glewInit() != GLEW_OK)
 		{
-			SPARKY_FATAL("Could not initialize GLEW!");
+			SP_FATAL("Could not initialize GLEW!");
 			return false;
 		}
 

@@ -11,7 +11,7 @@ namespace sp { namespace utils {
 	{
 		FILE* file = fopen(filepath.c_str(), "rt");
 		if (file == nullptr)
-			SPARKY_ASSERT(file, "Could not open file '", filepath, "'!");
+			SP_ASSERT(file, "Could not open file '", filepath, "'!");
 
 		fseek(file, 0, SEEK_END);
 		unsigned long length = ftell(file);

@@ -40,7 +40,7 @@ void Test3D::OnInit(Renderer3D& renderer, Scene& scene)
 void Test3D::OnTick()
 {
 	Application& app = Application::GetApplication();
-	SPARKY_INFO(app.GetUPS(), " ups, ", app.GetFPS(), " fps");
+	SP_INFO(app.GetUPS(), " ups, ", app.GetFPS(), " fps");
 }
 
 void Test3D::OnUpdate()

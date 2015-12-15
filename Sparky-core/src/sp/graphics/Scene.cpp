@@ -32,7 +32,7 @@ namespace sp { namespace graphics {
 		m_Entities.push_back(entity);
 		if (!entity->GetComponent<TransformComponent>())
 		{
-			SPARKY_WARN("Entity does not have Transform, creating...");
+			SP_WARN("Entity does not have Transform, creating...");
 			entity->AddComponent(new TransformComponent(maths::mat4::Identity()));
 		}
 	}
@@ -54,7 +54,7 @@ namespace sp { namespace graphics {
 			if (mesh)
 			{
 				TransformComponent* tc = entity->GetComponent<TransformComponent>();
-				SPARKY_ASSERT(tc, "Mesh does not have transform!"); // Meshes MUST have transforms
+				SP_ASSERT(tc, "Mesh does not have transform!"); // Meshes MUST have transforms
 				renderer.SubmitMesh(camera, mesh->mesh, tc->transform);
 			}
 		}

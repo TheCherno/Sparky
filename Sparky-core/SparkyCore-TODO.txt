@@ -2,7 +2,6 @@
  Sparky Core - TODO
 --------------------
 
-- SPARKY_ASSERT macro rewrite
 - SP_DEBUG macros
 - Cameras -> projection and view matrices
 - mat3 support

@@ -55,7 +55,7 @@ void TestLayer::OnTick()
 {
 	Application& app = Application::GetApplication();
 	m_Fps->text = std::to_string(app.GetFPS()) + " fps";
-	SPARKY_INFO(app.GetUPS(), " ups, ", app.GetFPS(), " fps");
+	SP_INFO(app.GetUPS(), " ups, ", app.GetFPS(), " fps");
 }
 
 void TestLayer::OnUpdate()

@@ -181,61 +181,50 @@ namespace sp { namespace internal {
 #endif
 
 #if SPARKY_LOG_LEVEL >= SPARKY_LOG_LEVEL_FATAL
-#define SPARKY_FATAL(...) sp::internal::log_message(SPARKY_LOG_LEVEL_FATAL, true, "SPARKY:    ", __VA_ARGS__)
-#define _SPARKY_FATAL(...) sp::internal::log_message(SPARKY_LOG_LEVEL_FATAL, false, __VA_ARGS__)
+#define SP_FATAL(...) sp::internal::log_message(SPARKY_LOG_LEVEL_FATAL, true, "SPARKY:    ", __VA_ARGS__)
+#define _SP_FATAL(...) sp::internal::log_message(SPARKY_LOG_LEVEL_FATAL, false, __VA_ARGS__)
 #else
-#define SPARKY_FATAL(...)
+#define SP_FATAL(...)
+#define _SP_FATAL(...)
 #endif
 
 #if SPARKY_LOG_LEVEL >= SPARKY_LOG_LEVEL_ERROR
-#define SPARKY_ERROR(...) sp::internal::log_message(SPARKY_LOG_LEVEL_ERROR, true, "SPARKY:    ", __VA_ARGS__)
-#define _SPARKY_ERROR(...) sp::internal::log_message(SPARKY_LOG_LEVEL_ERROR, false, __VA_ARGS__)
+#define SP_ERROR(...) sp::internal::log_message(SPARKY_LOG_LEVEL_ERROR, true, "SPARKY:    ", __VA_ARGS__)
+#define _SP_ERROR(...) sp::internal::log_message(SPARKY_LOG_LEVEL_ERROR, false, __VA_ARGS__)
 #else
-#define SPARKY_ERROR(...)
+#define SP_ERROR(...)
+#define _SP_ERROR(...)
 #endif
 
 #if SPARKY_LOG_LEVEL >= SPARKY_LOG_LEVEL_WARN
-#define SPARKY_WARN(...) sp::internal::log_message(SPARKY_LOG_LEVEL_WARN, true, "SPARKY:    ", __VA_ARGS__)
-#define _SPARKY_WARN(...) sp::internal::log_message(SPARKY_LOG_LEVEL_WARN, false, __VA_ARGS__)
+#define SP_WARN(...) sp::internal::log_message(SPARKY_LOG_LEVEL_WARN, true, "SPARKY:    ", __VA_ARGS__)
+#define _SP_WARN(...) sp::internal::log_message(SPARKY_LOG_LEVEL_WARN, false, __VA_ARGS__)
 #else
-#define SPARKY_WARN(...)
+#define SP_WARN(...)
+#define _SP_WARN(...)
 #endif
 
 #if SPARKY_LOG_LEVEL >= SPARKY_LOG_LEVEL_INFO
-#define SPARKY_INFO(...) sp::internal::log_message(SPARKY_LOG_LEVEL_INFO, true, "SPARKY:    ", __VA_ARGS__)
-#define _SPARKY_INFO(...) sp::internal::log_message(SPARKY_LOG_LEVEL_INFO, false, __VA_ARGS__)
+#define SP_INFO(...) sp::internal::log_message(SPARKY_LOG_LEVEL_INFO, true, "SPARKY:    ", __VA_ARGS__)
+#define _SP_INFO(...) sp::internal::log_message(SPARKY_LOG_LEVEL_INFO, false, __VA_ARGS__)
 #else
-#define SPARKY_INFO(...)
+#define SP_INFO(...)
+#define _SP_INFO(...)
 #endif
 
 #ifdef SP_DEBUG
-#define SPARKY_ASSERT(x, ...) \
-	do { \
-	if (!(x)) \
-		{ \
-		char* file = __FILE__; \
-		unsigned int last = 0; \
-		char* c; \
-		for (c = file; *c != '\0'; c++) \
-				{ \
-			if (*c == '\\' || *c == '/') \
-				last = c - file; \
-				} \
-		SPARKY_FATAL(""); \
-		SPARKY_FATAL("*************************"); \
-		SPARKY_FATAL("    ASSERTION FAILED!    "); \
-		SPARKY_FATAL("*************************"); \
-		SPARKY_FATAL(#x); \
-		SPARKY_FATAL(__VA_ARGS__); \
-		_SPARKY_FATAL("-> "); \
-		for (int i = last + 1; i < c - file; i++) \
-			_SPARKY_FATAL(file[i]); \
-		_SPARKY_FATAL(":", __LINE__, "\n"); \
-		*(int*)NULL = 8; \
-		} \
-	} while(0)
+#define SP_ASSERT(x, ...) \
+		if (!(x)) {\
+			SP_FATAL("*************************"); \
+			SP_FATAL("    ASSERTION FAILED!    "); \
+			SP_FATAL("*************************"); \
+			SP_FATAL(__FILE__, ": ", __LINE__); \
+			SP_FATAL("Condition: ", #x); \
+			SP_FATAL(__VA_ARGS__); \
+			__debugbreak(); \
+		}
 #else
-#define SPARKY_ASSERT(x, ...)
+#define SP_ASSERT(x, ...)
 #endif
 
 #include <GL/glew.h>
@@ -245,7 +234,7 @@ static bool log_gl_call(const char* function, const char* file, int line)
 	GLenum error = glGetError();
 	if (error != GL_NO_ERROR)
 	{
-		SPARKY_ERROR("[OpenGL Error] (", error, "): ", function, " ", file, ":", line);
+		SP_ERROR("[OpenGL Error] (", error, "): ", function, " ", file, ":", line);
 		return false;
 	}
 	return true;

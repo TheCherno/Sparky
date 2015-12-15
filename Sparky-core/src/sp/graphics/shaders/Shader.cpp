@@ -86,7 +86,7 @@ namespace sp { namespace graphics {
 						{
 							name = name.substr(0, arrayToken - 1);
 							uint arrayEnd = nextToken.find(']');
-							SPARKY_ASSERT(arrayEnd != String::npos);
+							SP_ASSERT(arrayEnd != String::npos);
 							count = atoi(nextToken.substr(arrayToken + 1, arrayEnd - arrayToken - 1).c_str());
 						}
 
@@ -133,9 +133,9 @@ namespace sp { namespace graphics {
 			glGetShaderiv(vertex, GL_INFO_LOG_LENGTH, &length);
 			std::vector<char> error(length);
 			glGetShaderInfoLog(vertex, length, &length, &error[0]);
-			SPARKY_ERROR("Failed to compile vertex shader!");
-			SPARKY_ERROR(&error[0]);
-			SPARKY_ASSERT(false, "Failed to compile vertex shader!");
+			SP_ERROR("Failed to compile vertex shader!");
+			SP_ERROR(&error[0]);
+			SP_ASSERT(false, "Failed to compile vertex shader!");
 			glDeleteShader(vertex);
 			return 0;
 		}
@@ -150,9 +150,9 @@ namespace sp { namespace graphics {
 			glGetShaderiv(fragment, GL_INFO_LOG_LENGTH, &length);
 			std::vector<char> error(length);
 			glGetShaderInfoLog(fragment, length, &length, &error[0]);
-			SPARKY_ERROR("Failed to compile fragment shader!");
-			SPARKY_ERROR(&error[0]);
-			SPARKY_ASSERT(false, "Failed to compile fragment shader!");
+			SP_ERROR("Failed to compile fragment shader!");
+			SP_ERROR(&error[0]);
+			SP_ASSERT(false, "Failed to compile fragment shader!");
 			glDeleteShader(fragment);
 			return 0;
 		}
@@ -185,13 +185,13 @@ namespace sp { namespace graphics {
 	void Shader::ValidateUniforms()
 	{
 		if (!HasUniform(SHADER_UNIFORM_PROJECTION_MATRIX_NAME))
-			SPARKY_WARN(m_Name, " shader does not contain pr_matrix uniform.");
+			SP_WARN(m_Name, " shader does not contain pr_matrix uniform.");
 		if (!HasUniform(SHADER_UNIFORM_VIEW_MATRIX_NAME))
-			SPARKY_WARN(m_Name, " shader does not contain vw_matrix uniform.");
+			SP_WARN(m_Name, " shader does not contain vw_matrix uniform.");
 		if (!HasUniform(SHADER_UNIFORM_MODEL_MATRIX_NAME))
-			SPARKY_WARN(m_Name, " shader does not contain ml_matrix uniform.");
+			SP_WARN(m_Name, " shader does not contain ml_matrix uniform.");
 
-		SPARKY_INFO(m_Name, " shader successfully validated.");
+		SP_INFO(m_Name, " shader successfully validated.");
 	}
 
 	bool Shader::IsSystemUniform(ShaderUniformDeclaration* uniform) const
@@ -212,7 +212,7 @@ namespace sp { namespace graphics {
 	{
 		GLint result = glGetUniformLocation(m_ShaderID, name.c_str());
 		if (result == -1)
-			SPARKY_ERROR(m_Name, ": could not find uniform ", name, " in shader!");
+			SP_ERROR(m_Name, ": could not find uniform ", name, " in shader!");
 
 		return result;
 	}
@@ -272,7 +272,7 @@ namespace sp { namespace graphics {
 		ShaderUniformDeclaration* uniform = FindUniformDeclaration(name);
 		if (!uniform)
 		{
-			SPARKY_ERROR("Cannot find uniform in ", m_Name, " shader with name '", name, "'");
+			SP_ERROR("Cannot find uniform in ", m_Name, " shader with name '", name, "'");
 			return;
 		}
 		ResolveAndSetUniform(uniform, data, 0);
@@ -305,7 +305,7 @@ namespace sp { namespace graphics {
 				SetUniformMat4(uniform->GetLocation(), *(maths::mat4*)&data[offset]);
 				break;
 			default:
-				SPARKY_ASSERT(false, "Unknown type!");
+				SP_ASSERT(false, "Unknown type!");
 		}
 	}
 
