@@ -15,6 +15,7 @@ namespace sp { namespace graphics {
 		PreProcess(source, shaders);
 		m_ShaderID = Load(m_VertexSource, m_FragmentSource);
 		ResolveUniforms();
+		ValidateUniforms();
 	}
 
 	Shader::~Shader()
@@ -181,6 +182,32 @@ namespace sp { namespace graphics {
 		}
 	}
 
+	void Shader::ValidateUniforms()
+	{
+		if (!HasUniform(SHADER_UNIFORM_PROJECTION_MATRIX_NAME))
+			SPARKY_WARN(m_Name, " shader does not contain pr_matrix uniform.");
+		if (!HasUniform(SHADER_UNIFORM_VIEW_MATRIX_NAME))
+			SPARKY_WARN(m_Name, " shader does not contain vw_matrix uniform.");
+		if (!HasUniform(SHADER_UNIFORM_MODEL_MATRIX_NAME))
+			SPARKY_WARN(m_Name, " shader does not contain ml_matrix uniform.");
+
+		SPARKY_INFO(m_Name, " shader successfully validated.");
+	}
+
+	bool Shader::IsSystemUniform(ShaderUniformDeclaration* uniform) const
+	{
+		// TODO: Optimize with naming convention for system uniforms
+
+		if (uniform->GetName() == SHADER_UNIFORM_PROJECTION_MATRIX_NAME)
+			return true;
+		if (uniform->GetName() == SHADER_UNIFORM_VIEW_MATRIX_NAME)
+			return true;
+		if (uniform->GetName() == SHADER_UNIFORM_MODEL_MATRIX_NAME)
+			return true;
+
+		return false;
+	}
+
 	GLint Shader::GetUniformLocation(const String& name)
 	{
 		GLint result = glGetUniformLocation(m_ShaderID, name.c_str());
@@ -190,71 +217,92 @@ namespace sp { namespace graphics {
 		return result;
 	}
 
+	ShaderUniformDeclaration* Shader::FindUniformDeclaration(const String& name)
+	{
+		for (uint i = 0; i < m_Uniforms.size(); i++)
+		{
+			if (m_Uniforms[i]->GetName() == name)
+				return m_Uniforms[i];
+		}
+		return nullptr;
+	}
+
 	void Shader::SetUniform1f(const String& name, float value)
 	{
-		glUniform1f(GetUniformLocation(name), value);
+		SetUniform1f(GetUniformLocation(name), value);
 	}
 
 	void Shader::SetUniform1fv(const String& name, float* value, int count)
 	{
-		glUniform1fv(GetUniformLocation(name), count, value);
+		SetUniform1fv(GetUniformLocation(name), value, count);
 	}
 
 	void Shader::SetUniform1i(const String& name, int value)
 	{
-		glUniform1i(GetUniformLocation(name), value);
+		SetUniform1i(GetUniformLocation(name), value);
 	}
 
 	void Shader::SetUniform1iv(const String& name, int* value, int count)
 	{
-		glUniform1iv(GetUniformLocation(name), count, value);
+		SetUniform1iv(GetUniformLocation(name), value, count);
 	}
 
 	void Shader::SetUniform2f(const String& name, const maths::vec2& vector)
 	{
-		glUniform2f(GetUniformLocation(name), vector.x, vector.y);
+		SetUniform2f(GetUniformLocation(name), vector);
 	}
 
 	void Shader::SetUniform3f(const String& name, const maths::vec3& vector)
 	{
-		glUniform3f(GetUniformLocation(name), vector.x, vector.y, vector.z);
+		SetUniform3f(GetUniformLocation(name), vector);
 	}
 
 	void Shader::SetUniform4f(const String& name, const maths::vec4& vector)
 	{
-		glUniform4f(GetUniformLocation(name), vector.x, vector.y, vector.z, vector.w);
+		SetUniform4f(GetUniformLocation(name), vector);
 	}
 
 	void Shader::SetUniformMat4(const String& name, const maths::mat4& matrix)
 	{
-		glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, matrix.elements);
+		SetUniformMat4(GetUniformLocation(name), matrix);
 	}
 
-	void Shader::ResolveAndSetUniform(ShaderUniformDeclaration* uniform, byte* data)
+	void Shader::SetUniform(const String& name, byte* data)
+	{
+		ShaderUniformDeclaration* uniform = FindUniformDeclaration(name);
+		if (!uniform)
+		{
+			SPARKY_ERROR("Cannot find uniform in ", m_Name, " shader with name '", name, "'");
+			return;
+		}
+		ResolveAndSetUniform(uniform, data, 0);
+	}
+
+	void Shader::ResolveAndSetUniform(ShaderUniformDeclaration* uniform, byte* data, int offset)
 	{
 		switch (uniform->GetType())
 		{
 			case ShaderUniformDeclaration::Type::FLOAT32:
-				SetUniform1f(uniform->GetLocation(), *(float*)&data[uniform->GetOffset()]);
+				SetUniform1f(uniform->GetLocation(), *(float*)&data[offset]);
 				break;
 			case ShaderUniformDeclaration::Type::SAMPLER2D:
 			case ShaderUniformDeclaration::Type::INT32:
-				SetUniform1i(uniform->GetLocation(), *(int*)&data[uniform->GetOffset()]);
+				SetUniform1i(uniform->GetLocation(), *(int*)&data[offset]);
 				break;
 			case ShaderUniformDeclaration::Type::VEC2:
-				SetUniform2f(uniform->GetLocation(), *(maths::vec2*)&data[uniform->GetOffset()]);
+				SetUniform2f(uniform->GetLocation(), *(maths::vec2*)&data[offset]);
 				break;
 			case ShaderUniformDeclaration::Type::VEC3:
-				SetUniform3f(uniform->GetLocation(), *(maths::vec3*)&data[uniform->GetOffset()]);
+				SetUniform3f(uniform->GetLocation(), *(maths::vec3*)&data[offset]);
 				break;
 			case ShaderUniformDeclaration::Type::VEC4:
-				SetUniform4f(uniform->GetLocation(), *(maths::vec4*)&data[uniform->GetOffset()]);
+				SetUniform4f(uniform->GetLocation(), *(maths::vec4*)&data[offset]);
 				break;
 			case ShaderUniformDeclaration::Type::MAT3:
-				// TODO: SetUniformMat3(uniform->GetLocation(), *(maths::mat3*)&data[uniform->GetOffset()]);
+				// TODO: SetUniformMat3(uniform->GetLocation(), *(maths::mat3*)&data[offset]);
 				break;
 			case ShaderUniformDeclaration::Type::MAT4:
-				SetUniformMat4(uniform->GetLocation(), *(maths::mat4*)&data[uniform->GetOffset()]);
+				SetUniformMat4(uniform->GetLocation(), *(maths::mat4*)&data[offset]);
 				break;
 			default:
 				SPARKY_ASSERT(false, "Unknown type!");
@@ -264,15 +312,16 @@ namespace sp { namespace graphics {
 	void Shader::ResolveAndSetUniform(uint index, byte* data)
 	{
 		ShaderUniformDeclaration* uniform = m_Uniforms[index];
-		ResolveAndSetUniform(uniform, data);
+		if (IsSystemUniform(uniform))
+			return;
+		ResolveAndSetUniform(uniform, data, uniform->GetOffset());
 	}
 
 	void Shader::ResolveAndSetUniforms(byte* data, uint size)
 	{
 		const std::vector<ShaderUniformDeclaration*>& uniforms = m_Uniforms;
-
 		for (uint i = 0; i < uniforms.size(); i++)
-			ResolveAndSetUniform(uniforms[i], data);
+			ResolveAndSetUniform(i, data);
 	}
 
 	void Shader::Bind() const
@@ -283,6 +332,26 @@ namespace sp { namespace graphics {
 	void Shader::Unbind() const
 	{
 		glUseProgram(0);
+	}
+
+	bool Shader::HasUniform(const String& name) const
+	{
+		for (uint i = 0; i < m_Uniforms.size(); i++)
+		{
+			if (m_Uniforms[i]->m_Name == name)
+				return true;
+		}
+		return false;
+	}
+
+	ShaderUniformDeclaration* Shader::GetUniformDeclaration(uint location)
+	{
+		for (uint i = 0; i < m_Uniforms.size(); i++)
+		{
+			if (m_Uniforms[i]->GetLocation() == location)
+				return m_Uniforms[i];
+		}
+		return nullptr;
 	}
 
 	void Shader::SetUniform1f(uint location, float value)

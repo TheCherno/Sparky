@@ -3,7 +3,9 @@
 #include <vector>
 
 #include <sp/Types.h>
-#include "Mesh.h"
+#include <sp/entity/Entity.h>
+
+#include "camera/Camera.h"
 
 namespace sp { namespace graphics {
 
@@ -13,14 +15,17 @@ namespace sp { namespace graphics {
 	class Scene
 	{
 	private:
-		std::vector<Mesh*> m_Meshes; // TODO: Replace with component-based Entities!
+		std::vector<entity::Entity*> m_Entities;
+		Camera* m_Camera;
 	public:
 		Scene();
+		Scene(Camera* camera);
 		~Scene();
-		void Add(Mesh* mesh);
+		void Add(entity::Entity* entity);
+		void Update();
 		void Render(Renderer3D& renderer);
 
-		const std::vector<Mesh*>& GetMeshes() const { return m_Meshes; }
+		const std::vector<entity::Entity*>& GetEntities() const { return m_Entities; }
 	};
 
 } }

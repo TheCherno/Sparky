@@ -23,6 +23,8 @@ namespace sp { namespace graphics {
 		void Unbind() const;
 		void DumpUniformData() const;
 
+		inline Shader* GetShader() const { return m_Shader; }
+
 		template<typename T>
 		void SetUniform(const String& name, const T& value)
 		{

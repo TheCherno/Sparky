@@ -6,22 +6,19 @@
 
 namespace sp { namespace maths {
 
+	struct Quaternion;
+
 	struct mat4
 	{
 		union
 		{
+			// [col + row * 4]
 			float elements[4 * 4];
 			vec4 columns[4];
 		};
 
 		mat4();
 		mat4(float diagonal);
-
-		vec4 getColumn(int index)
-		{
-			index *= 4;
-			return vec4(elements[index], elements[index + 1], elements[index + 2], elements[index + 3]);
-		}
 
 		static mat4 Identity();
 
@@ -42,6 +39,7 @@ namespace sp { namespace maths {
 
 		static mat4 Translate(const vec3& translation);
 		static mat4 Rotate(float angle, const vec3& axis);
+		static mat4 Rotate(const Quaternion& quat);
 		static mat4 Scale(const vec3& scale);
 		static mat4 Invert(const mat4& matrix);
 

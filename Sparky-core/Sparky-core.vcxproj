@@ -185,6 +185,10 @@
     <ClCompile Include="src\sp\audio\Sound.cpp" />
     <ClCompile Include="src\sp\audio\SoundManager.cpp" />
     <ClCompile Include="src\sp\embedded\Embedded.cpp" />
+    <ClCompile Include="src\sp\entity\component\Component.cpp" />
+    <ClCompile Include="src\sp\entity\component\MeshComponent.cpp" />
+    <ClCompile Include="src\sp\entity\component\TransformComponent.cpp" />
+    <ClCompile Include="src\sp\entity\Entity.cpp" />
     <ClCompile Include="src\sp\events\Event.cpp" />
     <ClCompile Include="src\sp\events\KeyEvent.cpp" />
     <ClCompile Include="src\sp\events\MouseEvent.cpp" />
@@ -192,6 +196,8 @@
     <ClCompile Include="src\sp\graphics\buffers\BufferLayout.cpp" />
     <ClCompile Include="src\sp\graphics\buffers\IndexBuffer.cpp" />
     <ClCompile Include="src\sp\graphics\buffers\VertexArray.cpp" />
+    <ClCompile Include="src\sp\graphics\camera\Camera.cpp" />
+    <ClCompile Include="src\sp\graphics\camera\MayaCamera.cpp" />
     <ClCompile Include="src\sp\graphics\Font.cpp" />
     <ClCompile Include="src\sp\graphics\FontManager.cpp" />
     <ClCompile Include="src\sp\graphics\ForwardRenderer.cpp" />
@@ -217,6 +223,7 @@
     <ClCompile Include="src\sp\graphics\Window.cpp" />
     <ClCompile Include="src\sp\maths\AABB.cpp" />
     <ClCompile Include="src\sp\maths\mat4.cpp" />
+    <ClCompile Include="src\sp\maths\Quaternion.cpp" />
     <ClCompile Include="src\sp\maths\vec2.cpp" />
     <ClCompile Include="src\sp\maths\vec3.cpp" />
     <ClCompile Include="src\sp\maths\vec4.cpp" />
@@ -252,6 +259,11 @@
     <ClInclude Include="src\sp\audio\Sound.h" />
     <ClInclude Include="src\sp\audio\SoundManager.h" />
     <ClInclude Include="src\sp\embedded\Embedded.h" />
+    <ClInclude Include="src\sp\entity\component\Component.h" />
+    <ClInclude Include="src\sp\entity\component\Components.h" />
+    <ClInclude Include="src\sp\entity\component\MeshComponent.h" />
+    <ClInclude Include="src\sp\entity\component\TransformComponent.h" />
+    <ClInclude Include="src\sp\entity\Entity.h" />
     <ClInclude Include="src\sp\events\Event.h" />
     <ClInclude Include="src\sp\events\IEventListener.h" />
     <ClInclude Include="src\sp\events\KeyEvent.h" />
@@ -261,6 +273,8 @@
     <ClInclude Include="src\sp\graphics\buffers\BufferLayout.h" />
     <ClInclude Include="src\sp\graphics\buffers\IndexBuffer.h" />
     <ClInclude Include="src\sp\graphics\buffers\VertexArray.h" />
+    <ClInclude Include="src\sp\graphics\camera\Camera.h" />
+    <ClInclude Include="src\sp\graphics\camera\MayaCamera.h" />
     <ClInclude Include="src\sp\graphics\Font.h" />
     <ClInclude Include="src\sp\graphics\FontManager.h" />
     <ClInclude Include="src\sp\graphics\ForwardRenderer.h" />
@@ -279,6 +293,7 @@
     <ClInclude Include="src\sp\graphics\postfx\PostEffects.h" />
     <ClInclude Include="src\sp\graphics\postfx\PostEffectsPass.h" />
     <ClInclude Include="src\sp\graphics\Renderable2D.h" />
+    <ClInclude Include="src\sp\graphics\RenderCommand.h" />
     <ClInclude Include="src\sp\graphics\Renderer2D.h" />
     <ClInclude Include="src\sp\graphics\Renderer3D.h" />
     <ClInclude Include="src\sp\graphics\Scene.h" />
@@ -294,6 +309,7 @@
     <ClInclude Include="src\sp\maths\mat4.h" />
     <ClInclude Include="src\sp\maths\maths.h" />
     <ClInclude Include="src\sp\maths\maths_func.h" />
+    <ClInclude Include="src\sp\maths\Quaternion.h" />
     <ClInclude Include="src\sp\maths\tvec2.h" />
     <ClInclude Include="src\sp\maths\vec2.h" />
     <ClInclude Include="src\sp\maths\vec3.h" />

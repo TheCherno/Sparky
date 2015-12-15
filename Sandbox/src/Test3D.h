@@ -8,11 +8,14 @@
 #include <sp/graphics/shaders/ShaderFactory.h>
 #include <sp/graphics/Model.h>
 
+#include <sp/entity/Entity.h>
+#include <sp/entity/component/Components.h>
+
 class Test3D : public sp::graphics::Layer3D
 {
 private:
-	sp::graphics::MaterialInstance* m_CubeMaterial;
-	sp::graphics::MaterialInstance* m_SphereMaterial;
+	sp::entity::Entity* m_Cube;
+	sp::entity::Entity* m_Sphere;
 	float m_Rotation;
 	bool m_SetUniforms[2];
 public:

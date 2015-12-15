@@ -2,6 +2,8 @@
 
 #include <sstream>
 
+#include "Quaternion.h"
+
 namespace sp { namespace maths {
 
 	mat4::mat4()
@@ -282,6 +284,35 @@ namespace sp { namespace maths {
 		result.elements[1 + 2 * 4] = y * z * omc - x * s;
 		result.elements[2 + 2 * 4] = z * omc + c;
 		
+		return result;
+	}
+
+	mat4 mat4::Rotate(const Quaternion& quat)
+	{
+		mat4 result = Identity();
+
+		float qx, qy, qz, qw, qx2, qy2, qz2, qxqx2, qyqy2, qzqz2, qxqy2, qyqz2, qzqw2, qxqz2, qyqw2, qxqw2;
+		qx = quat.x;
+		qy = quat.y;
+		qz = quat.z;
+		qw = quat.w;
+		qx2 = (qx + qx);
+		qy2 = (qy + qy);
+		qz2 = (qz + qz);
+		qxqx2 = (qx * qx2);
+		qxqy2 = (qx * qy2);
+		qxqz2 = (qx * qz2);
+		qxqw2 = (qw * qx2);
+		qyqy2 = (qy * qy2);
+		qyqz2 = (qy * qz2);
+		qyqw2 = (qw * qy2);
+		qzqz2 = (qz * qz2);
+		qzqw2 = (qw * qz2);
+
+		result.columns[0] = vec4(((1.0f - qyqy2) - qzqz2), (qxqy2 + qzqw2), (qxqz2 - qyqw2), 0.0f);
+		result.columns[1] = vec4((qxqy2 - qzqw2), ((1.0f - qxqx2) - qzqz2), (qyqz2 + qxqw2), 0.0f);
+		result.columns[2] = vec4((qxqz2 + qyqw2), (qyqz2 - qxqw2), ((1.0f - qxqx2) - qyqy2), 0.0f);
+
 		return result;
 	}
 

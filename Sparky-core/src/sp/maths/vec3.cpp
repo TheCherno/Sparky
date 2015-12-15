@@ -24,6 +24,46 @@ namespace sp { namespace maths {
 		this->z = 0.0f;
 	}
 
+	vec3 vec3::Up()
+	{
+		return vec3(0.0f, 1.0f, 0.0f);
+	}
+
+	vec3 vec3::Down()
+	{
+		return vec3(0.0f, -1.0f, 0.0f);
+	}
+
+	vec3 vec3::Left()
+	{
+		return vec3(-1.0f, 0.0f, 0.0f);
+	}
+
+	vec3 vec3::Right()
+	{
+		return vec3(1.0f, 1.0f, 0.0f);
+	}
+
+	vec3 vec3::Zero()
+	{
+		return vec3(0.0f, 0.0f, 0.0f);
+	}
+
+	vec3 vec3::XAxis()
+	{
+		return vec3(1.0f, 0.0f, 0.0f);
+	}
+
+	vec3 vec3::YAxis()
+	{
+		return vec3(0.0f, 1.0f, 0.0f);
+	}
+
+	vec3 vec3::ZAxis()
+	{
+		return vec3(0.0f, 0.0f, 1.0f);
+	}
+
 	vec3& vec3::Add(const vec3& other)
 	{
 		x += other.x;
@@ -60,6 +100,42 @@ namespace sp { namespace maths {
 		return *this;
 	}
 
+	vec3& vec3::Add(float other)
+	{
+		x += other;
+		y += other;
+		z += other;
+
+		return *this;
+	}
+
+	vec3& vec3::Subtract(float other)
+	{
+		x -= other;
+		y -= other;
+		z -= other;
+
+		return *this;
+	}
+
+	vec3& vec3::Multiply(float other)
+	{
+		x *= other;
+		y *= other;
+		z *= other;
+
+		return *this;
+	}
+
+	vec3& vec3::Divide(float other)
+	{
+		x /= other;
+		y /= other;
+		z /= other;
+
+		return *this;
+	}
+
 	vec3 operator+(vec3 left, const vec3& right)
 	{
 		return left.Add(right);
@@ -80,6 +156,26 @@ namespace sp { namespace maths {
 		return left.Divide(right);
 	}
 
+	vec3 operator+(vec3 left, float right)
+	{
+		return left.Add(right);
+	}
+
+	vec3 operator-(vec3 left, float right)
+	{
+		return left.Subtract(right);
+	}
+
+	vec3 operator*(vec3 left, float right)
+	{
+		return left.Multiply(right);
+	}
+
+	vec3 operator/(vec3 left, float right)
+	{
+		return left.Divide(right);
+	}
+
 	vec3& vec3::operator+=(const vec3& other)
 	{
 		return Add(other);
@@ -96,6 +192,26 @@ namespace sp { namespace maths {
 	}
 
 	vec3& vec3::operator/=(const vec3& other)
+	{
+		return Divide(other);
+	}
+
+	vec3& vec3::operator+=(float other)
+	{
+		return Add(other);
+	}
+
+	vec3& vec3::operator-=(float other)
+	{
+		return Subtract(other);
+	}
+
+	vec3& vec3::operator*=(float other)
+	{
+		return Multiply(other);
+	}
+
+	vec3& vec3::operator/=(float other)
 	{
 		return Divide(other);
 	}
@@ -128,6 +244,32 @@ namespace sp { namespace maths {
 	bool vec3::operator!=(const vec3& other) const
 	{
 		return !(*this == other);
+	}
+
+	vec3 operator-(const vec3& vector)
+	{
+		return vec3(-vector.x, -vector.y, -vector.z);
+	}
+
+	vec3 vec3::Cross(const vec3& other) const
+	{
+		return vec3(y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x);
+	}
+
+	float vec3::Dot(const vec3& other) const
+	{
+		return x * other.x + y * other.y + z * other.z;
+	}
+
+	float vec3::Magnitude() const
+	{
+		return sqrt(x * x + y * y + z * z);
+	}
+
+	vec3 vec3::Normalize() const
+	{
+		float length = Magnitude();
+		return vec3(x / length, y / length, z / length);
 	}
 
 	float vec3::Distance(const vec3& other) const
