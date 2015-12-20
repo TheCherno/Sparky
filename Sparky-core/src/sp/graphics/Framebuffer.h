@@ -1,17 +1,16 @@
 #pragma once
 
-#include <sp/Types.h>
+#include "sp/Common.h"
+#include "sp/Types.h"
 
-#include <sp/graphics/SPRenderAPI.h>
-
-#include <sp/maths/vec4.h>
-#include <sp/maths/tvec2.h>
+#include "sp/maths/vec4.h"
+#include "sp/maths/tvec2.h"
 
 #include "Texture.h"
 
 namespace sp { namespace graphics {
 
-	class Framebuffer
+	class SP_API Framebuffer
 	{
 	private:
 		struct FramebufferData

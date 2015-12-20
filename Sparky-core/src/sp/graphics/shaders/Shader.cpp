@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "Shader.h"
 
 #include <sp/utils/StringUtils.h>

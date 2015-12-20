@@ -1,5 +1,4 @@
-#include <sp/sparky.h>
-#include <sp/app/Application.h>
+#include <Sparky.h>
 
 #include "TestLayer.h"
 #include "Test3D.h"

@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "KeyEvent.h"
 
 namespace sp { namespace events {

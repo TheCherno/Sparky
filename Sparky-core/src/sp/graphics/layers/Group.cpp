@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "Group.h"
 
 namespace sp { namespace graphics {

@@ -1,4 +1,4 @@
-#include <sp/utils/Log.h>
+#include "sp/utils/Log.h"
 
 #ifdef SPARKY_PLATFORM_WEB
 	#define GLFW_INCLUDE_ES3

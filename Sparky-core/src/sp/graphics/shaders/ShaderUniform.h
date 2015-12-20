@@ -1,11 +1,12 @@
 #pragma once
 
-#include <sp/Types.h>
+#include "sp/Common.h"
+#include "sp/Types.h"
+#include "sp/String.h"
 
 namespace sp { namespace graphics { 
 
-
-	class ShaderUniformDeclaration
+	class SP_API ShaderUniformDeclaration
 	{
 	public:
 		enum class Type

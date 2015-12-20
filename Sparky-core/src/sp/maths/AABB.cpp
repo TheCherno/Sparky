@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "AABB.h"
 
 namespace sp { namespace maths {

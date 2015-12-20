@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "Event.h"
 
 namespace sp { namespace events {

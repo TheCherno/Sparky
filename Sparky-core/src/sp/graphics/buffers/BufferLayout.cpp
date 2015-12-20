@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "BufferLayout.h"
 
 namespace sp { namespace graphics {

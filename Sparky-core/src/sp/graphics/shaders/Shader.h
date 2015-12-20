@@ -1,12 +1,11 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
+#include "sp/sp.h"
+#include "sp/Common.h"
+#include "sp/Types.h"
 
-#include <sp/Types.h>
-
-#include <sp/maths/maths.h>
-#include <sp/utils/FileUtils.h>
+#include "sp/maths/maths.h"
+#include "sp/utils/FileUtils.h"
 
 #include "ShaderUniform.h"
 
@@ -23,7 +22,7 @@ namespace sp { namespace graphics {
 #define SHADER_UNIFORM_VIEW_MATRIX_NAME			"vw_matrix"
 #define SHADER_UNIFORM_MODEL_MATRIX_NAME		"ml_matrix"
 
-	class Shader
+	class SP_API Shader
 	{
 	private:
 		enum class ShaderType

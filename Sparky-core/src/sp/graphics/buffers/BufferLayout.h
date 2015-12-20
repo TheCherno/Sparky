@@ -1,14 +1,15 @@
 #pragma once
 
-#include <vector>
+#include "sp/sp.h"
+#include "sp/Common.h"
 #include <sp/Types.h>
 #include <sp/maths/maths.h>
 
-#include <GL/glew.h>
+#include "platform/opengl/SPOpenGLTypes.h"
 
 namespace sp { namespace graphics {
 
-	struct BufferLayoutType
+	struct SP_API BufferLayoutType
 	{
 		String name;
 		uint type;
@@ -18,7 +19,7 @@ namespace sp { namespace graphics {
 		bool normalized;
 	};
 
-	class BufferLayout
+	class SP_API BufferLayout
 	{
 	private:
 		uint m_Size;

@@ -1,6 +1,8 @@
+#include "sp/sp.h"
 #include "Font.h"
 
-#include <sp/utils/Log.h>
+#include "sp/utils/Log.h"
+#include <freetype-gl/freetype-gl.h>
 
 namespace sp { namespace graphics {
 
@@ -23,6 +25,11 @@ namespace sp { namespace graphics {
 	void Font::SetScale(float x, float y)
 	{
 		m_Scale = maths::vec2(x, y);
+	}
+
+	uint Font::GetID() const
+	{
+		return m_FTAtlas->id;
 	}
 
 } }

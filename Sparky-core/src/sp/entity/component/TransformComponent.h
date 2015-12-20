@@ -2,11 +2,12 @@
 
 #include "Component.h"
 
+#include "sp/Common.h"
 #include <sp/maths/maths.h>
 
 namespace sp { namespace entity { namespace component {
 
-	class TransformComponent : public Component
+	class SP_API TransformComponent : public Component
 	{
 	public:
 		maths::mat4 transform;

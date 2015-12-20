@@ -1,7 +1,11 @@
+#include "sp/sp.h"
 #include "Texture.h"
 
 #include <GL/glew.h>
-#include <sp/utils/Log.h>
+#include <FreeImage.h>
+
+#include <sp/utils/ImageLoad.h>
+#include "SPRenderAPI.h"
 
 namespace sp { namespace graphics {
 

@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "Sprite.h"
 
 namespace sp { namespace graphics {

@@ -1,5 +1,15 @@
+#include "sp/sp.h"
 #include "Sound.h"
 #include "SoundManager.h"
+
+#include "sp/utils/StringUtils.h"
+
+#ifdef SPARKY_PLATFORM_WEB
+	#include <emscripten/emscripten.h>
+#else
+	#include <ga.h>
+	#include <gau.h>
+#endif
 
 namespace sp { namespace audio {
 

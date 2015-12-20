@@ -1,13 +1,14 @@
 #pragma once
 
-#include <map>
+#include "sp/sp.h"
+#include "sp/Common.h"
 
-#include <sp/Types.h>
-#include <sp/graphics/shaders/Shader.h>
+#include "sp/Types.h"
+#include "sp/graphics/shaders/Shader.h"
 
 namespace sp { namespace graphics {
 
-	class Material
+	class SP_API Material
 	{
 	private:
 		friend class MaterialInstance;
@@ -54,7 +55,7 @@ namespace sp { namespace graphics {
 		const ShaderUniformDeclaration* GetUniformDeclaration(const String& name) const;
 	};
 
-	class MaterialInstance
+	class SP_API MaterialInstance
 	{
 	private:
 		Material* m_Material;

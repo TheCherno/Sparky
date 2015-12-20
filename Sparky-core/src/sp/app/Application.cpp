@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "Application.h"
 
 namespace sp {

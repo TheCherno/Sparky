@@ -1,5 +1,6 @@
 #pragma once
 
+#include "sp/Common.h"
 #include "buffers/VertexArray.h"
 #include "buffers/IndexBuffer.h"
 #include "Material.h"
@@ -10,14 +11,14 @@ namespace sp { namespace graphics {
 
 	class Renderer3D;
 
-	struct Vertex
+	struct SP_API Vertex
 	{
 		maths::vec3 position;
 		maths::vec3 normal;
 		maths::vec2 uv;
 	};
 
-	class Mesh : public IRenderable
+	class SP_API Mesh : public IRenderable
 	{
 	private:
 		VertexArray* m_VertexArray;

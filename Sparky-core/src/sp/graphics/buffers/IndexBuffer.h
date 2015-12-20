@@ -1,11 +1,13 @@
 #pragma once
 
-#include <sp/Types.h>
-#include "../SPRenderAPI.h"
+#include "sp/Common.h"
+#include "sp/Types.h"
+
+#include "platform/opengl/SPOpenGLBuffer.h"
 
 namespace sp { namespace graphics {
 
-	class IndexBuffer
+	class SP_API IndexBuffer
 	{
 	private:
 		uint m_Count;

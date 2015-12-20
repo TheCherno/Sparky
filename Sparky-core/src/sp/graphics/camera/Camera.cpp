@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "Camera.h"
 
 namespace sp { namespace graphics {

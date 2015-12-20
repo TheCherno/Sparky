@@ -1,11 +1,12 @@
 #pragma once
 
+#include "sp/Common.h"
 #include "../maths/maths.h"
 #include "Texture.h"
 
 namespace sp { namespace graphics {
 
-	struct Mask
+	struct SP_API Mask
 	{
 		Texture* texture;
 		maths::mat4 transform;

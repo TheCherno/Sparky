@@ -4,7 +4,7 @@
 
 namespace sp { namespace graphics {
 
-	class Sprite : public Renderable2D
+	class SP_API Sprite : public Renderable2D
 	{
 	public:
 		maths::vec3& position;

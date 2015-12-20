@@ -1,6 +1,7 @@
 #pragma once
 
-#include <vector>
+#include "sp/sp.h"
+#include "sp/Common.h"
 
 #include "../Framebuffer.h"
 #include "../buffers/VertexArray.h"
@@ -10,7 +11,7 @@
 namespace sp { namespace graphics {
 
 	// The Post Effects pipeline
-	class PostEffects
+	class SP_API PostEffects
 	{
 	private:
 		std::vector<PostEffectsPass*> m_Passes;

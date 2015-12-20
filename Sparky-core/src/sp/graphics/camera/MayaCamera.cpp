@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "MayaCamera.h"
 
 #include "../Window.h"

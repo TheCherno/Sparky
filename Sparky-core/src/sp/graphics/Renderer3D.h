@@ -1,6 +1,5 @@
 #pragma once
 
-#include "SPRenderAPI.h"
 #include "Mesh.h"
 #include "RenderCommand.h"
 #include "camera/Camera.h"
@@ -16,7 +15,7 @@ namespace sp { namespace graphics {
 	//		- ForwardRenderer.h  (WIP)
 	//		- DeferredRenderer.h (TBA)
 	//
-	class Renderer3D
+	class SP_API Renderer3D
 	{
 	protected:
 		CommandQueue m_CommandQueue;

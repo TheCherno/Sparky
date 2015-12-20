@@ -5,7 +5,7 @@
 
 namespace sp { namespace events {
 
-	class MouseButtonEvent : public Event
+	class SP_API MouseButtonEvent : public Event
 	{
 	protected:
 		int m_Button;
@@ -19,19 +19,19 @@ namespace sp { namespace events {
 		inline const maths::vec2& GetPosition() const { return m_Position; }
 	};
 
-	class MousePressedEvent : public MouseButtonEvent
+	class SP_API MousePressedEvent : public MouseButtonEvent
 	{
 	public:
 		MousePressedEvent(int button, float x, float y);
 	};
 
-	class MouseReleasedEvent : public MouseButtonEvent
+	class SP_API MouseReleasedEvent : public MouseButtonEvent
 	{
 	public:
 		MouseReleasedEvent(int button, float x, float y);
 	};
 
-	class MouseMovedEvent : public Event
+	class SP_API MouseMovedEvent : public Event
 	{
 	private:
 		maths::vec2 m_Position;

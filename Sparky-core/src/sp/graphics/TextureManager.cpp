@@ -1,3 +1,6 @@
+#include "sp/sp.h"
+#include "sp/Common.h"
+
 #include "TextureManager.h"
 
 namespace sp { namespace graphics {

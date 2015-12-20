@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "Scene.h"
 
 #include "Renderer3D.h"

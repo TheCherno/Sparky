@@ -2,11 +2,12 @@
 
 #include "Component.h"
 
+#include "sp/Common.h"
 #include <sp/graphics/Mesh.h>
 
 namespace sp { namespace entity { namespace component {
 
-	class MeshComponent : public Component
+	class SP_API MeshComponent : public Component
 	{
 	public:
 		graphics::Mesh* mesh;

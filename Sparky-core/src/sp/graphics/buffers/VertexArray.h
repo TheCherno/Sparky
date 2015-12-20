@@ -1,14 +1,14 @@
 #pragma once
 
-#include <vector>
-#include <sp/Types.h>
+#include "sp/sp.h"
+#include "sp/Common.h"
+#include "sp/Types.h"
 
 #include "Buffer.h"
-#include <sp/graphics/SPRenderAPI.h>
 
 namespace sp { namespace graphics {
 
-	class VertexArray
+	class SP_API VertexArray
 	{
 	private:
 		static uint s_CurrentBinding;

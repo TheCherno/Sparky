@@ -1,13 +1,14 @@
 #pragma once
 
-#include <iostream>
+#include "sp/sp.h"
+#include "sp/Common.h"
 
 #include "vec2.h"
 #include "vec3.h"
 
 namespace sp { namespace maths {
 
-	struct AABB
+	struct SP_API AABB
 	{
 		vec3 min, max;
 

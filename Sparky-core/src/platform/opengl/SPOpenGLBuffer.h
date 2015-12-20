@@ -19,7 +19,7 @@ namespace sp { namespace graphics { namespace API {
 		void SetData(uint size, const void* data);
 
 		template<typename T>
-		T* GetPointer(uint flags = GL_WRITE_ONLY)
+		T* GetPointer(uint flags = 0x88B9/*GL_WRITE_ONLY*/)
 		{
 			return (T*)API::GetBufferPointer(target, flags);
 		}

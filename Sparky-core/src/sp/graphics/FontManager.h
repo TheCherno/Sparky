@@ -1,13 +1,14 @@
 #pragma once
 
-#include <vector>
-#include <sp/Types.h>
+#include "sp/sp.h"
+#include "sp/Common.h"
+#include "sp/Types.h"
 
 #include "Font.h"
 
 namespace sp { namespace graphics {
 
-	class FontManager
+	class SP_API FontManager
 	{
 	private:
 		static std::vector<Font*> m_Fonts;

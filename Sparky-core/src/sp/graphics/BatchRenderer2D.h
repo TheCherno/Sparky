@@ -1,14 +1,12 @@
 #pragma once
 
-#include <cstddef>
-
-#include <sp/Types.h>
+#include "sp/sp.h"
+#include "sp/Common.h"
+#include "sp/Types.h"
 
 #include "Renderer2D.h"
 #include "Renderable2D.h"
 #include "Framebuffer.h"
-
-#include "SPRenderAPI.h"
 
 #include "buffers/VertexArray.h"
 #include "buffers/IndexBuffer.h"
@@ -21,20 +19,20 @@ namespace sp { namespace graphics {
 #define RENDERER_INDICES_SIZE	RENDERER_MAX_SPRITES * 6
 #define RENDERER_MAX_TEXTURES	32 - 1
 
-	class BatchRenderer2D : public Renderer2D
+	class SP_API BatchRenderer2D : public Renderer2D
 	{
 	private:
 		VertexArray* m_VertexArray;
-		GLuint m_VAO;
-		GLuint m_VBO;
+		uint m_VAO;
+		uint m_VBO;
 		IndexBuffer* m_IBO;
 		IndexBuffer* m_LineIBO;
-		GLsizei m_IndexCount, m_LineIndexCount;
+		uint m_IndexCount, m_LineIndexCount;
 		VertexData* m_Buffer;
 #ifdef SPARKY_PLATFORM_WEB
 		VertexData* m_BufferBase;
 #endif
-		std::vector<GLuint> m_TextureSlots;
+		std::vector<uint> m_TextureSlots;
 		Framebuffer* m_Framebuffer;
 		Framebuffer* m_PostEffectsBuffer;
 		int m_ScreenBuffer;

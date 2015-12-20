@@ -1,6 +1,7 @@
 #pragma once
 
-#include <sp/Types.h>
+#include "sp/Common.h"
+#include "sp/Types.h"
 
 #include "../../events/Event.h"
 #include "../../events/IEventListener.h"
@@ -8,7 +9,7 @@
 
 namespace sp { namespace graphics {
 
-	class Layer : public events::IEventListener
+	class SP_API Layer : public events::IEventListener
 	{
 	protected:
 		Window* m_Window;

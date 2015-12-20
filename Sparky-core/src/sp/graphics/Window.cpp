@@ -1,6 +1,10 @@
+#include "sp/sp.h"
 #include "Window.h"
 
+#include "sp/utils/Log.h"
+
 #include "../embedded/Embedded.h"
+#include <GL/glew.h>
 
 namespace sp { namespace graphics {
 

@@ -2,13 +2,14 @@
 
 #include "Layer.h"
 
+#include "sp/Common.h"
 #include "../../events/Event.h"
 #include "../Renderable2D.h"
 #include "../Mask.h"
 
 namespace sp { namespace graphics {
 
-	class Layer2D : public Layer
+	class SP_API Layer2D : public Layer
 	{
 	private:
 		Renderer2D* m_Renderer;

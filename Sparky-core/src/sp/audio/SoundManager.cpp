@@ -1,4 +1,13 @@
+#include "sp/sp.h"
 #include "SoundManager.h"
+
+#ifdef SPARKY_PLATFORM_WEB
+	#include <emscripten/emscripten.h>
+#else
+	#define GAU_THREAD_POLICY_MULTI 2
+	#include <ga.h>
+	#include <gau.h>
+#endif
 
 namespace sp { namespace audio {
 

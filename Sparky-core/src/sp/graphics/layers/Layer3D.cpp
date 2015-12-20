@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "Layer3D.h"
 
 #include "../ForwardRenderer.h"

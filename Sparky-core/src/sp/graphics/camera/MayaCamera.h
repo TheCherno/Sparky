@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Camera.h"
+#include "sp/Common.h"
 
 namespace sp { namespace graphics {
 
-	class MayaCamera : public Camera
+	class SP_API MayaCamera : public Camera
 	{
 	private:
 		bool m_Panning, m_Rotating;

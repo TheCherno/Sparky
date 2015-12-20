@@ -1,17 +1,8 @@
 #pragma once
 
-#include <vector>
-
+#include "sp/sp.h"
+#include "sp/Common.h"
 #include "Sound.h"
-
-#ifdef SPARKY_PLATFORM_WEB
-	#include <emscripten/emscripten.h>
-	#include <map>
-#else
-	#define GAU_THREAD_POLICY_MULTI 2
-	#include "../../../ext/gorilla-audio/ga.h"
-	#include "../../../ext/gorilla-audio/gau.h"
-#endif
 
 #ifdef SPARKY_PLATFORM_WEB
 extern "C" void SoundManagerAdd(const char* name, const char* filename);
@@ -22,9 +13,14 @@ extern "C" void SoundManagerLoop(const char* name);
 extern "C" void SoundManagerSetGain(const char* name, double gain);
 #endif
 
+#ifndef SP_PLATFORM_WEB
+	struct gau_Manager;
+	struct ga_Mixer;
+#endif
+
 namespace sp { namespace audio {
 
-	class SoundManager
+	class SP_API SoundManager
 	{
 	private:
 		friend class Sound;

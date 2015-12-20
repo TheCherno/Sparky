@@ -1,12 +1,17 @@
 #pragma once
 
-#include <sp/Types.h>
-#include "../maths/vec2.h"
-#include "../../../ext/freetype-gl/freetype-gl.h"
+#include "sp/Common.h"
+#include "sp/Types.h"
+#include "sp/maths/vec2.h"
+
+namespace ftgl {
+	struct texture_atlas_t;
+	struct texture_font_t;
+}
 
 namespace sp { namespace graphics {
 
-	class Font
+	class SP_API Font
 	{
 	private:
 		ftgl::texture_atlas_t* m_FTAtlas;
@@ -20,10 +25,9 @@ namespace sp { namespace graphics {
 		Font(const String& name, const byte* data, unsigned int datasize, float size);
 
 		void SetScale(float x, float y);
+		uint GetID() const;
 
 		inline ftgl::texture_font_t* GetFTFont() const { return m_FTFont; }
-
-		inline const unsigned int GetID() const { return m_FTAtlas->id; }
 		inline const maths::vec2& GetScale() const { return m_Scale; }
 		inline const String& GetName() const { return m_Name; }
 		inline const String& GetFileName() const { return m_Filename; }

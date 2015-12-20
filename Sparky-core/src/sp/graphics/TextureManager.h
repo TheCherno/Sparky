@@ -1,13 +1,12 @@
 #pragma once
 
-#include <vector>
-#include <sp/Types.h>
-
-#include "Texture.h"
+#include "sp/sp.h"
+#include "sp/Types.h"
+#include "sp/graphics/Texture.h"
 
 namespace sp { namespace graphics {
 
-	class TextureManager
+	class SP_API TextureManager
 	{
 	private:
 		static std::vector<Texture*> m_Textures;

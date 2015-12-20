@@ -1,8 +1,8 @@
 #pragma once
 
-#include <vector>
+#include "sp/sp.h"
+#include "sp/Common.h"
 
-#include <sp/sparkygl.h>
 #include <sp/Types.h>
 
 #include <sp/graphics/Window.h>
@@ -11,7 +11,7 @@
 
 namespace sp {
 
-	class Application
+	class SP_API Application
 	{
 	private:
 		static Application* s_Instance;

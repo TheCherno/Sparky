@@ -1,7 +1,12 @@
+#include "sp/sp.h"
+
 #include <Windows.h>
 #include <Windowsx.h>
 
-#include <sp/graphics/Window.h>
+#include "sp/utils/Log.h"
+#include "sp/graphics/Window.h"
+
+#include <GL/glew.h>
 
 EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 
@@ -128,7 +133,7 @@ namespace sp { namespace graphics {
 		POINT mouse;
 		GetCursorPos(&mouse);
 		ScreenToClient(hWnd, &mouse);
-		m_MousePosition = maths::vec2(mouse.x, mouse.y);
+		m_MousePosition = maths::vec2((float)mouse.x, (float)mouse.y);
 
 		SwapBuffers(hDc);
 	}
@@ -191,8 +196,8 @@ namespace sp { namespace graphics {
 		}
 
 		window->m_MouseButtons[button] = down;
-		window->m_MousePosition.x = x;
-		window->m_MousePosition.y = y;
+		window->m_MousePosition.x = (float)x;
+		window->m_MousePosition.y = (float)y;
 	}
 
 	void resize_callback(Window* window, int width, int height)

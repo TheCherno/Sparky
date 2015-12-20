@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "Entity.h"
 
 namespace sp { namespace entity {

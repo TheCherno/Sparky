@@ -1,4 +1,7 @@
+#include "sp/sp.h"
 #include "VertexArray.h"
+
+#include "sp/graphics/SPRenderAPI.h"
 
 namespace sp { namespace graphics {
 

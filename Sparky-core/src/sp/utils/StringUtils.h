@@ -1,9 +1,8 @@
 #pragma once
 
-#include <sp/Types.h>
-
-#include <sstream>
-#include <vector>
+#include "sp/sp.h"
+#include "sp/Types.h"
+#include "sp/String.h"
 
 namespace sp { namespace utils {
 

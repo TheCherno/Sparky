@@ -1,16 +1,17 @@
 #pragma once
 
+#include "sp/Common.h"
 #include "Mesh.h"
 
 namespace sp { namespace graphics {
 
-	struct RendererUniform
+	struct SP_API RendererUniform
 	{
 		String uniform;
 		byte* value;
 	};
 
-	struct RenderCommand
+	struct SP_API RenderCommand
 	{
 		Mesh* mesh;
 		std::vector<RendererUniform> uniforms;

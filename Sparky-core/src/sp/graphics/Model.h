@@ -1,15 +1,15 @@
 #pragma once
 
-#include <sp/Types.h>
-#include <sp/maths/maths.h>
-
-#include <unordered_map>
+#include "sp/sp.h"
+#include "sp/Common.h"
+#include "sp/Types.h"
+#include "sp/maths/maths.h"
 
 #include "Mesh.h"
 
 namespace sp { namespace graphics {
 
-	class Model : public IRenderable
+	class SP_API Model : public IRenderable
 	{
 	private:
 		Mesh* m_Mesh;

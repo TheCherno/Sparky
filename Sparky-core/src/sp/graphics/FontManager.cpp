@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "FontManager.h"
 
 namespace sp { namespace graphics {

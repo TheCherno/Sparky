@@ -1,14 +1,10 @@
 #pragma once
 
-#include <stdio.h>
-#include <algorithm>
-#include <string>
-#include <vector>
-#include <list>
-#include <map>
+#include "sp/sp.h"
+#include "sp/Common.h"
+#include "sp/Types.h"
 
-#include <sp/Types.h>
-#include <sp/maths/vec2.h>
+#include "sp/maths/vec2.h"
 
 #define SPARKY_LOG_LEVEL_FATAL 0
 #define SPARKY_LOG_LEVEL_ERROR 1
@@ -39,7 +35,7 @@ namespace sp { namespace internal {
 	
 	static char to_string_buffer[1024 * 10];
 
-	void PlatformLogMessage(uint level, const char* message);
+	SP_API void PlatformLogMessage(uint level, const char* message);
 
 	template <class T>
 	struct has_iterator
@@ -48,7 +44,6 @@ namespace sp { namespace internal {
 		template<class U> static char(&test(...))[2];
 		static const bool value = (sizeof(test<T>(0)) == 1);
 	};
-
 
 	template <typename T>
 	static const char* to_string(const T& t)
@@ -176,6 +171,11 @@ namespace sp { namespace internal {
 	}
 } }
 
+// Windows (wingdi.h) defines SP_ERROR
+#ifdef SP_ERROR
+	#undef SP_ERROR
+#endif
+
 #ifndef SPARKY_LOG_LEVEL
 #define SPARKY_LOG_LEVEL SPARKY_LOG_LEVEL_INFO
 #endif
@@ -227,21 +227,11 @@ namespace sp { namespace internal {
 #define SP_ASSERT(x, ...)
 #endif
 
-#include <GL/glew.h>
-
-static bool log_gl_call(const char* function, const char* file, int line)
-{
-	GLenum error = glGetError();
-	if (error != GL_NO_ERROR)
-	{
-		SP_ERROR("[OpenGL Error] (", error, "): ", function, " ", file, ":", line);
-		return false;
-	}
-	return true;
-}
+void check_error();
+bool log_gl_call(const char* function, const char* file, int line);
 
 #ifdef SP_DEBUG
-#define GLCall(x) glGetError();\
+#define GLCall(x) check_error();\
 		x; \
 		if (!log_gl_call(#x, __FILE__, __LINE__)) __debugbreak();
 #else

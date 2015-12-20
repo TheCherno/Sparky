@@ -1,8 +1,9 @@
+#include "sp/sp.h"
 #include "ShaderFactory.h"
 
 namespace sp { namespace graphics { namespace ShaderFactory {
 
-#if defined(SPARKY_PLATFORM_WIN32)
+#if defined(SP_PLATFORM_WINDOWS)
 
 	static const char* s_DefaultShader =
 #include "default/Default.shader"

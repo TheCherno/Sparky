@@ -1,8 +1,10 @@
 #pragma once
 
+#include "sp/Common.h"
+
 namespace sp { namespace events {
 
-	class Event
+	class SP_API Event
 	{
 	public:
 		enum class Type

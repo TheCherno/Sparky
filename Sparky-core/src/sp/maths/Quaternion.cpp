@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "Quaternion.h"
 
 namespace sp { namespace maths {

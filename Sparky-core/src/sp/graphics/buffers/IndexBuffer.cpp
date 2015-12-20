@@ -1,4 +1,7 @@
+#include "sp/sp.h"
 #include "IndexBuffer.h"
+
+#include "../SPRenderAPI.h"
 
 namespace sp { namespace graphics {
 

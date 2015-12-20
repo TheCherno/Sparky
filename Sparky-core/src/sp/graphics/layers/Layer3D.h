@@ -1,11 +1,13 @@
 #pragma once
 
+#include "sp/Common.h"
+
 #include "Layer.h"
 #include "../Scene.h"
 
 namespace sp { namespace graphics {
 
-	class Layer3D : public Layer
+	class SP_API Layer3D : public Layer
 	{
 	protected:
 		Scene* m_Scene;

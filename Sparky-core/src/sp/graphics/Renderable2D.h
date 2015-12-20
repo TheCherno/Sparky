@@ -1,6 +1,7 @@
 #pragma once
 
-#include <sp/Types.h>
+#include "sp/Common.h"
+#include "sp/Types.h"
 
 #include "Renderer2D.h"
 #include "Texture.h"
@@ -13,7 +14,7 @@
 
 namespace sp { namespace graphics {
 
-	struct VertexData
+	struct SP_API VertexData
 	{
 		maths::vec3 vertex;
 		maths::vec2 uv;
@@ -25,7 +26,7 @@ namespace sp { namespace graphics {
 
 #define RENDERER_VERTEX_SIZE	sizeof(VertexData)
 
-	class Renderable2D
+	class SP_API Renderable2D
 	{
 	protected:
 		maths::vec3 m_Position;
@@ -63,7 +64,7 @@ namespace sp { namespace graphics {
 		inline const unsigned int GetColor() const { return m_Color; }
 		inline const std::vector<maths::vec2>& GetUV() const { return m_UV; }
 
-		inline const GLuint GetTID() const { return m_Texture ? m_Texture->GetID() : 0; }
+		inline const uint GetTID() const { return m_Texture ? m_Texture->GetID() : 0; }
 		inline const Texture* GetTexture() const { return m_Texture; }
 	private:
 		void SetUVDefaults()

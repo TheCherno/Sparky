@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "Layer2D.h"
 
 #include "../BatchRenderer2D.h"
@@ -21,7 +22,7 @@ namespace sp { namespace graphics {
 		m_Shader->SetUniform1i("texture_6", 6);
 		m_Shader->SetUniform1i("texture_7", 7);
 #else
-		GLint texIDs[] =
+		int texIDs[] =
 		{
 			0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
 			10, 11, 12, 13, 14, 15, 16, 17, 18, 19,

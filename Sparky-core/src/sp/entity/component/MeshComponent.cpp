@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "MeshComponent.h"
 
 namespace sp { namespace entity { namespace component {

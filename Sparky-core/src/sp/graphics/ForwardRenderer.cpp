@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "ForwardRenderer.h"
 
 namespace sp { namespace graphics {

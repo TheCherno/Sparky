@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "Label.h"
 
 namespace sp { namespace graphics {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <stdlib.h>
-#include <string>
+#include "sp/sp.h"
+#include "sp/Common.h"
 
 typedef unsigned int uint;
 typedef std::string String;
@@ -10,7 +10,7 @@ namespace sp {
 
 #define STRINGFORMAT_BUFFER_SIZE 10 * 1024
 
-	class StringFormat
+	class SP_API StringFormat
 	{
 	private:
 		static char* s_Buffer;

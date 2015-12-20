@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "MouseEvent.h"
 
 namespace sp { namespace events {

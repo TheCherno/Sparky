@@ -1,9 +1,10 @@
 #pragma once
 
-#include <sp/sparkygl.h>
-#include <sp/maths/vec2.h>
+#include "sp/sp.h"
 
-#include <sp/audio/SoundManager.h>
+#include "sp/maths/vec2.h"
+
+#include "sp/audio/SoundManager.h"
 
 #include "FontManager.h"
 #include "TextureManager.h"
@@ -13,7 +14,7 @@ namespace sp { namespace graphics {
 #define MAX_KEYS	1024
 #define MAX_BUTTONS	32
 
-	class Window
+	class SP_API Window
 	{
 	private:
 		static std::map<void*, Window*> s_Handles;

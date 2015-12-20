@@ -1,33 +1,28 @@
 #pragma once
 
-#include <iostream>
-#include <string>
+#include "sp/sp.h"
+#include "sp/Common.h"
+#include "sp/Types.h"
+#include "sp/String.h"
 
-#include <sp/Types.h>
-
-#include <sp/utils/stringutils.h>
-
-#ifdef SPARKY_PLATFORM_WEB
-	#include <emscripten/emscripten.h>
-#else
-	#include "../../../ext/gorilla-audio/ga.h"
-	#include "../../../ext/gorilla-audio/gau.h"
+#ifndef SP_PLATFORM_WEB
+	struct ga_Sound;
+	struct ga_Handle;
 #endif
 
 namespace sp { namespace audio {
 
-	class Sound
+	class SP_API Sound
 	{
 	private:
 		String m_Name;
 		String m_Filename;
 		uint m_Count;
-#ifdef SPARKY_PLATFORM_WEB
-#else
+
 		ga_Sound* m_Sound;
 		ga_Handle* m_Handle;
-		gc_int32 m_Position;
-#endif
+		int m_Position;
+
 
 		bool m_Playing;
 		float m_Gain;

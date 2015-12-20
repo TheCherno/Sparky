@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "PostEffects.h"
 
 #include <sp/graphics/SPRenderAPI.h>

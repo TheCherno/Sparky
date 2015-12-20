@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "vec4.h"
 
 namespace sp { namespace maths {

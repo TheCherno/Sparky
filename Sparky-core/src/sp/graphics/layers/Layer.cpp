@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "Layer.h"
 
 namespace sp { namespace graphics {

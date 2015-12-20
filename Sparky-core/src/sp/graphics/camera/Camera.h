@@ -1,10 +1,11 @@
 #pragma once
 
-#include <sp/maths/maths.h>
+#include "sp/Common.h"
+#include "sp/maths/maths.h"
 
 namespace sp { namespace graphics {
 
-	class Camera
+	class SP_API Camera
 	{
 	protected:
 		maths::mat4 m_ProjectionMatrix, m_ViewMatrix;

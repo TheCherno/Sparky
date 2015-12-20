@@ -1,12 +1,13 @@
 #pragma once
 
-#include <vector>
+#include "sp/sp.h"
+#include "sp/Common.h"
 
 #include "component/Components.h"
 
 namespace sp { namespace entity {
 
-	class Entity
+	class SP_API Entity
 	{
 	protected:
 		std::vector<component::Component*> m_Components;

@@ -1,6 +1,7 @@
 #pragma once
 
-#include <iostream>
+#include "sp/sp.h"
+#include "sp/Common.h"
 
 namespace sp { namespace maths {
 

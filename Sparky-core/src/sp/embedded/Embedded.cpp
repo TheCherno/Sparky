@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "Embedded.h"
 
 namespace sp { namespace internal {

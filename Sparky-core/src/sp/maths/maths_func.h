@@ -3,64 +3,66 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+#include "sp/Common.h"
+
 namespace sp { namespace maths {
 
-	inline float toRadians(float degrees)
+	SP_API inline float toRadians(float degrees)
 	{
 		return (float)(degrees * (M_PI / 180.0));
 	}
 
-	inline float toDegrees(float radians)
+	SP_API inline float toDegrees(float radians)
 	{
 		return (float)(radians * (180.0f / M_PI));
 	}
 
-	inline int sign(float value)
+	SP_API inline int sign(float value)
 	{
 		return (value > 0) - (value < 0);
 	}
 
-	inline float sin(float angle)
+	SP_API inline float sin(float angle)
 	{
 		return ::sin(angle);
 	}
 
-	inline float cos(float angle)
+	SP_API inline float cos(float angle)
 	{
 		return ::cos(angle);
 	}
 
-	inline float tan(float angle)
+	SP_API inline float tan(float angle)
 	{
 		return ::tan(angle);
 	}
 
-	inline float sqrt(float value)
+	SP_API inline float sqrt(float value)
 	{
 		return ::sqrt(value);
 	}
 
-	inline float rsqrt(float value)
+	SP_API inline float rsqrt(float value)
 	{
 		return 1.0f / ::sqrt(value);
 	}
 
-	inline float asin(float value)
+	SP_API inline float asin(float value)
 	{
 		return ::asin(value);
 	}
 
-	inline float acos(float value)
+	SP_API inline float acos(float value)
 	{
 		return ::acos(value);
 	}
 
-	inline float atan(float value)
+	SP_API inline float atan(float value)
 	{
 		return ::atan(value);
 	}
 
-	inline float atan2(float y, float x)
+	SP_API inline float atan2(float y, float x)
 	{
 		return ::atan2(y, x);
 	}

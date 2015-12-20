@@ -4,7 +4,7 @@
 
 namespace sp { namespace events {
 
-	class IEventListener
+	class SP_API IEventListener
 	{
 	public:
 		virtual bool OnEvent(const Event& event) = 0;

@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "BatchRenderer2D.h"
 
 #include "shaders/ShaderFactory.h"
@@ -6,7 +7,10 @@
 #include "buffers/Buffer.h"
 #include "buffers/BufferLayout.h"
 
-#include <sp/utils/Log.h>
+#include "sp/utils/Log.h"
+#include "SPRenderAPI.h"
+
+#include <freetype-gl/freetype-gl.h>
 
 namespace sp { namespace graphics {
 
@@ -77,10 +81,10 @@ namespace sp { namespace graphics {
 		m_Framebuffer = new Framebuffer(m_ViewportSize);
 		m_SimpleShader = ShaderFactory::SimpleShader();
 		m_SimpleShader->Bind();
-		m_SimpleShader->SetUniformMat4("pr_matrix", maths::mat4::Orthographic(0, m_ScreenSize.x, m_ScreenSize.y, 0, -1.0f, 1.0f));
+		m_SimpleShader->SetUniformMat4("pr_matrix", maths::mat4::Orthographic(0, (float)m_ScreenSize.x, (float)m_ScreenSize.y, 0, -1.0f, 1.0f));
 		m_SimpleShader->SetUniform1i("tex", 0);
 		m_SimpleShader->Unbind();
-		m_ScreenQuad = MeshFactory::CreateQuad(0, 0, m_ScreenSize.x, m_ScreenSize.y);
+		m_ScreenQuad = MeshFactory::CreateQuad(0, 0, (float)m_ScreenSize.x, (float)m_ScreenSize.y);
 
 		m_PostEffects = new PostEffects();
 		m_PostEffectsBuffer = new Framebuffer(m_ViewportSize);

@@ -1,4 +1,7 @@
+#include "sp/sp.h"
 #include "Framebuffer.h"
+
+#include "sp/graphics/SPRenderAPI.h"
 
 namespace sp { namespace graphics {
 

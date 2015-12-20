@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <sp/sparkygl.h>
 
 #include "Font.h"
 #include "Texture.h"
@@ -13,13 +12,13 @@ namespace sp { namespace graphics {
 
 	class Renderable2D;
 
-	enum class RenderTarget
+	enum class SP_API RenderTarget
 	{
 		SCREEN = 0,
 		BUFFER = 1
 	};
 
-	class Renderer2D
+	class SP_API Renderer2D
 	{
 	protected:
 		std::vector<maths::mat4> m_TransformationStack;

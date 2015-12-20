@@ -1,33 +1,26 @@
 #pragma once
 
-#include <iostream>
-#include <string>
+#include "sp/Types.h"
+#include "sp/String.h"
 
-#include <FreeImage.h>
+namespace sp { namespace graphics {
 
-#include <sp/Types.h>
-#include "SPRenderAPI.h"
-
-#include <sp/utils/ImageLoad.h>
-
-namespace sp { namespace graphics{
-
-	enum class TextureWrap
+	enum class SP_API TextureWrap
 	{
-		REPEAT			= GL_REPEAT,
-		CLAMP			= GL_CLAMP,
-		MIRRORED_REPEAT = GL_MIRRORED_REPEAT,
-		CLAMP_TO_EDGE	= GL_CLAMP_TO_EDGE,
-		CLAMP_TO_BORDER	= GL_CLAMP_TO_BORDER
+		REPEAT			= 0x2901, // GL_REPEAT
+		CLAMP			= 0x2900, // GL_CLAMP
+		MIRRORED_REPEAT = 0x8370, // GL_MIRRORED
+		CLAMP_TO_EDGE	= 0x812F, // GL_CLAMP_TO_EDGE
+		CLAMP_TO_BORDER	= 0x812D  // GL_CLAMP_TO_BORDER
 	};
 
-	enum class TextureFilter
+	enum class SP_API TextureFilter
 	{
-		LINEAR = GL_LINEAR,
-		NEAREST = GL_NEAREST
+		LINEAR  = 0x2601, // GL_LINEAR
+		NEAREST = 0x2600  // GL_NEAREST
 	};
 
-	class Texture
+	class SP_API Texture
 	{
 	private:
 		static TextureWrap s_WrapMode;
@@ -45,14 +38,14 @@ namespace sp { namespace graphics{
 		void Unbind() const;
 		
 		inline const String& GetName() const { return m_Name; }
-		inline const unsigned int GetID() const { return m_TID; }
-		inline const unsigned int GetWidth() const { return m_Width; }
-		inline const unsigned int GetHeight() const { return m_Height; }
+		inline const uint GetID() const { return m_TID; }
+		inline const uint GetWidth() const { return m_Width; }
+		inline const uint GetHeight() const { return m_Height; }
 	public:
 		inline static void SetWrap(TextureWrap mode) { s_WrapMode = mode; }
 		inline static void SetFilter(TextureFilter mode) { s_FilterMode = mode; }
 	private:
-		GLuint Load();
+		uint Load();
 	};
 
 } }

@@ -586,8 +586,8 @@ static int mapping0_forward(vorbis_block *vb){
     float **couple_bundle=alloca(sizeof(*couple_bundle)*vi->channels);
     int *zerobundle=alloca(sizeof(*zerobundle)*vi->channels);
     int **sortindex=alloca(sizeof(*sortindex)*vi->channels);
-    float **mag_memo;
-    int **mag_sort;
+    float **mag_memo = NULL;
+    int **mag_sort = NULL;
 
     if(info->coupling_steps){
       mag_memo=_vp_quantize_couple_memo(vb,

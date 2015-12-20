@@ -1,3 +1,4 @@
+#include "sp/sp.h"
 #include "TransformComponent.h"
 
 namespace sp { namespace entity { namespace component {
