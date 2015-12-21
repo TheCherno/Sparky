@@ -1,6 +1,5 @@
 *.ilk
 *.pdb
-*.obj
 *.log
 *.idb
 *.tlog
@@ -9,3 +8,6 @@
 
 *.sdf
 *.user
+*.suo
+
+Intermediates/
