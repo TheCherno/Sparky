@@ -16,6 +16,7 @@ class Test3D : public sp::graphics::Layer3D
 private:
 	sp::entity::Entity* m_Cube;
 	sp::entity::Entity* m_Sphere;
+	sp::entity::Entity* m_Plane;
 	float m_Rotation;
 	bool m_SetUniforms[2];
 public:

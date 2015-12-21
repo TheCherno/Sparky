@@ -18,5 +18,6 @@ namespace sp { namespace graphics { namespace MeshFactory {
 	SP_API VertexArray* CreateQuad(const maths::vec2& position, const maths::vec2& size);
 
 	SP_API Mesh* CreateCube(float size, MaterialInstance* material);
+	SP_API Mesh* CreatePlane(float width, float height, const maths::vec3& normal, MaterialInstance* material);
 
 } } }

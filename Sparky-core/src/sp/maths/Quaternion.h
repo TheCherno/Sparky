@@ -2,6 +2,7 @@
 
 #include "sp/Common.h"
 
+#include "vec3.h"
 #include "mat4.h"
 
 namespace sp { namespace maths {
@@ -25,6 +26,7 @@ namespace sp { namespace maths {
 		Quaternion& SetElem(int idx, float value);
 		float GetElem(int idx) const;
 		vec3 GetAxis() const;
+		vec3 ToEulerAngles() const;
 
 		const Quaternion operator+(const Quaternion& Quaternion) const;
 		const Quaternion operator-(const Quaternion& Quaternion) const;

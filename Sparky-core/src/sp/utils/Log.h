@@ -92,6 +92,16 @@ namespace sp { namespace internal {
 		return result;
 	}
 
+	template <>
+	static const char* to_string<maths::vec3>(const maths::vec3& t)
+	{
+		// TODO: sprintf
+		String string = String("vec3: (") + std::to_string(t.x) + ", " + std::to_string(t.y) + ", " + std::to_string(t.z) + ")";
+		char* result = new char[string.length()];
+		strcpy(result, &string[0]);
+		return result;
+	}
+
 	template <typename T>
 	static String format_iterators(T& begin, T& end)
 	{

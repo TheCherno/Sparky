@@ -98,6 +98,13 @@ namespace sp { namespace maths {
 		return GetXYZ() / x2;
 	}
 
+	vec3 Quaternion::ToEulerAngles() const
+	{
+		return vec3(atan2(2 * x * w - 2 * y * z, 1 - 2 * x * x - 2 * z * z),
+			atan2(2 * y * w - 2 * x * z, 1 - 2 * y * y - 2 * z * z),
+			asin(2 * x * y + 2 * z * w));
+	}
+
 	const Quaternion Quaternion::operator+(const Quaternion& quaternion) const
 	{
 		return Quaternion(x + quaternion.x, y + quaternion.y, z + quaternion.z, w + quaternion.w);

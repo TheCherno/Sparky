@@ -33,8 +33,13 @@ void Test3D::OnInit(Renderer3D& renderer, Scene& scene)
 	m_Sphere->AddComponent(new MeshComponent(sphereModel->GetMesh()));
 	m_Sphere->AddComponent(new TransformComponent(mat4::Identity()));
 
+	m_Plane = new Entity();
+	m_Plane->AddComponent(new MeshComponent(MeshFactory::CreatePlane(32, 32, vec3(0, 1, 0), new MaterialInstance(material))));
+	m_Plane->AddComponent(new TransformComponent(mat4::Identity()));
+
 	m_Scene->Add(m_Cube);
 	m_Scene->Add(m_Sphere);
+	m_Scene->Add(m_Plane);
 }
 
 void Test3D::OnTick()
