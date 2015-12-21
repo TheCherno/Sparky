@@ -3,6 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "Sandbox\Sandbox.vcxproj", "{3A87EAB9-F0FF-4C31-905F-E3D07BF021FF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C737C239-3A40-4388-9C61-6CF779025785} = {C737C239-3A40-4388-9C61-6CF779025785}
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sparky-core", "Sparky-core\Sparky-core.vcxproj", "{C737C239-3A40-4388-9C61-6CF779025785}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DB3E5C17-038C-4F6B-9CB3-B69A18A4E1CB}"
@@ -10,11 +15,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libvorbis", "Dependencies\libvorbis\libvorbis.vcxproj", "{8ED62764-0D19-40AC-BC88-E82AADF1189B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libogg", "Dependencies\libogg\libogg.vcxproj", "{54CE06E0-6313-4F5E-8BDA-4E7815C8743C}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "Sandbox\Sandbox.vcxproj", "{3A87EAB9-F0FF-4C31-905F-E3D07BF021FF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C737C239-3A40-4388-9C61-6CF779025785} = {C737C239-3A40-4388-9C61-6CF779025785}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{CDF953E8-D5D6-4797-AA4A-5C7D86DE1F64}"
 EndProject
