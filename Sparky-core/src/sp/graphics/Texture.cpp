@@ -13,7 +13,7 @@ namespace sp { namespace graphics {
 	TextureFilter Texture::s_FilterMode = TextureFilter::LINEAR;
 
 	Texture::Texture(uint width, uint height, uint bits)
-		: m_Width(width), m_Height(height), m_Bits(24), m_FileName("NULL")
+		: m_Width(width), m_Height(height), m_Bits(bits), m_FileName("NULL")
 	{
 		m_TID = Load();
 	}

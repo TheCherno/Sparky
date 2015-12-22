@@ -20,14 +20,33 @@ namespace sp {
 		return layer;
 	}
 
+	void Application::PushOverlay(Layer* layer)
+	{
+		m_OverlayStack.push_back(layer);
+		layer->Init();
+	}
+
+	Layer* Application::PopOverlay()
+	{
+		Layer* layer = m_OverlayStack.back();
+		m_OverlayStack.pop_back();
+		return layer;
+	}
+
 	void Application::OnTick()
 	{
+		for (uint i = 0; i < m_OverlayStack.size(); i++)
+			m_OverlayStack[i]->OnTick();
+
 		for (uint i = 0; i < m_LayerStack.size(); i++)
 			m_LayerStack[i]->OnTick();
 	}
 
 	void Application::OnUpdate()
 	{
+		for (uint i = 0; i < m_OverlayStack.size(); i++)
+			m_OverlayStack[i]->OnUpdate();
+
 		for (uint i = 0; i < m_LayerStack.size(); i++)
 			m_LayerStack[i]->OnUpdate();
 	}
@@ -36,6 +55,9 @@ namespace sp {
 	{
 		for (uint i = 0; i < m_LayerStack.size(); i++)
 			m_LayerStack[i]->OnRender();
+
+		for (uint i = 0; i < m_OverlayStack.size(); i++)
+			m_OverlayStack[i]->OnRender();
 	}
 
 }

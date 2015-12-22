@@ -33,7 +33,7 @@ in DATA
 	vec2 uv;
 } fs_in;
 
-float resolution = 1024.0;
+float resolution = 960.0;
 float radius = 4.0;
 vec2 dir = vec2(1.0, 0.0);
 		
@@ -60,6 +60,5 @@ void main()
 	sum += texture(tex, vec2(tc.x + 3.0 * blur * hstep, tc.y + 3.0 * blur * vstep)) * 0.0540540541;
 	sum += texture(tex, vec2(tc.x + 4.0 * blur * hstep, tc.y + 4.0 * blur * vstep)) * 0.0162162162;
 
-	//discard alpha for our simple demo, multiply by vertex color and return
-	color = vec4(sum.rgb, 1.0);
+	color = vec4(sum);
 }
