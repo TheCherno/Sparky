@@ -575,7 +575,6 @@
     <ClCompile Include="src\sp\utils\ImageLoad.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ext\gorilla-audio\common\devices\ga_openal.h" />
     <ClInclude Include="src\platform\opengl\SPOpenGLTypes.h" />
     <ClInclude Include="src\Sparky.h" />
     <ClInclude Include="src\sp\app\Application.h" />

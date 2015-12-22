@@ -2,12 +2,11 @@
 
 #include "sp/sp.h"
 #include "sp/Common.h"
+#include "sp/Types.h"
 
-#include <sp/Types.h>
-
-#include <sp/graphics/Window.h>
-#include <sp/graphics/layers/Layer.h>
-#include <sp/utils/Timer.h>
+#include "sp/graphics/Window.h"
+#include "sp/graphics/layers/Layer.h"
+#include "sp/utils/Timer.h"
 
 namespace sp {
 
