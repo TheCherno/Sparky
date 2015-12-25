@@ -1,8 +1,9 @@
-#include <utils/Log.h>
+#include "sp/sp.h"
 
 #include <Windows.h>
+#include "sp/utils/Log.h"
 
-namespace sparky { namespace internal {
+namespace sp { namespace internal {
 
 	void PlatformLogMessage(uint level, const char* message)
 	{

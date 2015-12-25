@@ -2,4 +2,13 @@
  Sparky Core - TODO
 --------------------
 
-General things
+- SP_DEBUG macros
+- Cameras -> projection and view matrices
+- mat3 support
+- Events system
+- Better logging. Seriously.
+- Check for memory leaks. Likely.
+- Investigate transparent FBs
+- Some kind of Asset Server. This needs to support things like memory mapping and virtual file systems.
+- ivec<x>, uvec<x>
+- Hash functions for maths classes

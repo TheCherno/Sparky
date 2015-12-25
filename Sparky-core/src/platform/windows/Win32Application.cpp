@@ -1,11 +1,12 @@
-#include <app/Application.h>
+#include "sp/sp.h"
+#include <sp/app/Application.h>
 
-namespace sparky {
+namespace sp {
 
 	Application::Application(const char* name, uint width, uint height)
 		: m_Name(name), m_Width(width), m_Height(height)
 	{
-
+		s_Instance = this;
 	}
 
 	Application::~Application()
@@ -41,21 +42,6 @@ namespace sparky {
 		m_Running = false;
 	}
 
-	void Application::Tick()
-	{
-
-	}
-
-	void Application::Update()
-	{
-
-	}
-
-	void Application::Render()
-	{
-
-	}
-
 	void Application::Run()
 	{
 		m_Timer = new Timer();
@@ -70,11 +56,11 @@ namespace sparky {
 			if (m_Timer->Elapsed() - updateTimer > updateTick)
 			{
 				window->UpdateInput();
-				Update();
+				OnUpdate();
 				updates++;
 				updateTimer += updateTick;
 			}
-			Render();
+			OnRender();
 			frames++;
 			window->Update();
 			if (m_Timer->Elapsed() - timer > 1.0f)
@@ -84,7 +70,7 @@ namespace sparky {
 				m_UpdatesPerSecond = updates;
 				frames = 0;
 				updates = 0;
-				Tick();
+				OnTick();
 			}
 			if (window->Closed())
 				m_Running = false;
