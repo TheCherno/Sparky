@@ -1,2 +1,0 @@
-# Sparky
-The Sparky engine!
