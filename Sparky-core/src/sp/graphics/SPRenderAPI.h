@@ -18,7 +18,7 @@ namespace sp { namespace graphics { namespace API {
 	inline uint CreateRenderbuffer();
 
 	inline void CreateVertexArrays(uint size, uint* arrays);
-	inline void CreateVertexBuffers(uint size, uint* buffers);
+	inline void CreateBuffers(uint size, uint* buffers);
 	inline void CreateFramebuffers(uint size, uint* buffers);
 	inline void CreateRenderbuffers(uint size, uint* buffers);
 
