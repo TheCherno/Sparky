@@ -18,7 +18,7 @@ namespace sp { namespace graphics {
 		virtual ~Layer();
 
 		virtual void Init();
-		virtual bool OnEvent(const events::Event& event);
+		virtual void OnEvent(events::Event& event);
 		virtual void OnTick();
 		virtual void OnUpdate();
 		virtual void OnRender();

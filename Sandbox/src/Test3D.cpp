@@ -59,8 +59,7 @@ void Test3D::OnUpdate()
 	m_Rotation++;
 }
 
-bool Test3D::OnEvent(const sp::events::Event& event)
+void Test3D::OnEvent(sp::events::Event& event)
 {
-	return false;
 }
 

@@ -36,12 +36,18 @@ namespace sp { namespace graphics {
 		API::BindFramebuffer(GL_FRAMEBUFFER, m_Data.framebufferID);
 		API::FramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_Texture->GetID(), 0);
 		API::FramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_Data.depthbufferID);
+		API::BindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
 	void Framebuffer::Bind() const
 	{
 		API::BindFramebuffer(GL_FRAMEBUFFER, m_Data.framebufferID);
 		API::SetViewport(0, 0, m_Width, m_Height);
+	}
+
+	void Framebuffer::Unbind() const
+	{
+		API::BindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
 	void Framebuffer::Clear()

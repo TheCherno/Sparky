@@ -14,9 +14,10 @@ namespace sp {
 		delete window;
 	}
 
-	void Application::Init()
+	void Application::PlatformInit()
 	{
 		window = new graphics::Window(m_Name, m_Width, m_Height);
+		window->SetEventCallback(METHOD(&Application::OnEvent));
 	}
 
 	void Application::Start()

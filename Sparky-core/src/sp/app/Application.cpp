@@ -7,6 +7,14 @@ namespace sp {
 
 	Application* Application::s_Instance = nullptr;
 
+	void Application::Init()
+	{
+		PlatformInit();
+
+		m_DebugLayer = new debug::DebugLayer();
+		m_DebugLayer->Init();
+	}
+
 	void Application::PushLayer(Layer* layer)
 	{
 		m_LayerStack.push_back(layer);
@@ -33,8 +41,27 @@ namespace sp {
 		return layer;
 	}
 
+	void Application::OnEvent(events::Event& event)
+	{
+		for (int i = m_OverlayStack.size() - 1; i >= 0; i--)
+		{
+			m_OverlayStack[i]->OnEvent(event);
+			if (event.IsHandled())
+				return;
+		}
+
+		for (int i = m_LayerStack.size() - 1; i >= 0; i--)
+		{
+			m_LayerStack[i]->OnEvent(event);
+			if (event.IsHandled())
+				return;
+		}
+	}
+
 	void Application::OnTick()
 	{
+		m_DebugLayer->OnTick();
+
 		for (uint i = 0; i < m_OverlayStack.size(); i++)
 			m_OverlayStack[i]->OnTick();
 
@@ -44,6 +71,8 @@ namespace sp {
 
 	void Application::OnUpdate()
 	{
+		m_DebugLayer->OnUpdate();
+
 		for (uint i = 0; i < m_OverlayStack.size(); i++)
 			m_OverlayStack[i]->OnUpdate();
 
@@ -58,6 +87,8 @@ namespace sp {
 
 		for (uint i = 0; i < m_OverlayStack.size(); i++)
 			m_OverlayStack[i]->OnRender();
+
+		((Layer2D*)m_DebugLayer)->OnRender();
 	}
 
 }
