@@ -34,6 +34,7 @@ namespace sp { namespace graphics {
 		bool m_MouseState[MAX_BUTTONS];
 		bool m_MouseClicked[MAX_BUTTONS];
 		bool m_MouseGrabbed;
+		int m_KeyModifiers;
 
 		maths::vec2 m_MousePosition;
 		bool m_Vsync;
@@ -84,6 +85,13 @@ namespace sp { namespace graphics {
 #define SP_MOUSE_RIGHT    0x02
 
 #define SP_NO_CURSOR	  NULL
+
+#define SP_MODIFIER_LEFT_CONTROL	BIT(0)
+#define SP_MODIFIER_LEFT_ALT		BIT(1)
+#define SP_MODIFIER_LEFT_SHIFT		BIT(2)
+#define SP_MODIFIER_RIGHT_CONTROL	BIT(3)
+#define SP_MODIFIER_RIGHT_ALT		BIT(4)
+#define SP_MODIFIER_RIGHT_SHIFT		BIT(5)
 
 #define VK_TAB			  0x09
 

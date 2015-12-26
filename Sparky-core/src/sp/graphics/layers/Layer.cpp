@@ -4,7 +4,7 @@
 namespace sp { namespace graphics {
 
 	Layer::Layer()
-		: m_Window(Window::GetWindowClass(nullptr))
+		: m_Window(Window::GetWindowClass(nullptr)), m_Visible(true)
 	{
 	}
 

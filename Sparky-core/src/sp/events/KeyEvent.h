@@ -21,10 +21,13 @@ namespace sp { namespace events {
 	{
 	private:
 		int m_Repeat;
+		int m_Modifiers;
 	public:
-		KeyPressedEvent(int button, int repeat);
+		KeyPressedEvent(int button, int repeat, int modifiers);
 
 		inline int GetRepeat() const { return m_Repeat; }
+		inline int GetModifiers() const { return m_Modifiers; }
+		inline bool IsModifier(int modifier) const { return m_Modifiers & modifier; }
 
 		inline static Type GetStaticType() { return Event::Type::KEY_PRESSED; }
 	};

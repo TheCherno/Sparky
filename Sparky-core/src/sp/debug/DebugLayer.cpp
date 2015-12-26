@@ -15,7 +15,7 @@ namespace sp { namespace debug {
 	DebugLayer::DebugLayer()
 		: Layer2D(ShaderFactory::DefaultShader(), mat4::Orthographic(0.0f, 32.0f, 0.0f, 18.0f, -1.0f, 1.0f))
 	{
-
+		m_Visible = false;
 	}
 
 	DebugLayer::~DebugLayer()
@@ -30,8 +30,8 @@ namespace sp { namespace debug {
 		renderer.SetRenderTarget(RenderTarget::SCREEN);
 		for (int i = 0; i < 5; i++)
 		{
-			float y = 18.0f - i * 1.7f;
-			Add(new Sprite(0, y, 6, 1.5f, 0x7f7f7f7f));
+			float y = 18.0f - (i + 1) * 1.7f;
+			Add(new Sprite(0, y, 6, 1.5f, 0xcf7f7f7f));
 			Add(new Label(String("Item ") + std::to_string(i + 1), 0.2f, y + 0.4f, 0xffffffff));
 		}
 	}
@@ -63,10 +63,10 @@ namespace sp { namespace debug {
 		if (event.GetRepeat())
 			return false;
 
-		int key = event.GetKeyCode();
-		if ((key & VK_CONTROL) && (key && VK_TAB))
+		if (event.GetModifiers() == SP_MODIFIER_LEFT_CONTROL && event.GetKeyCode() == VK_TAB)
 		{
-
+			m_Visible = !m_Visible;
+			return true;
 		}
 		return false;
 	}
@@ -76,5 +76,4 @@ namespace sp { namespace debug {
 
 	}
 
-}
-}
+} }

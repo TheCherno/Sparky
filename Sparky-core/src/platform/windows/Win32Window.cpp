@@ -168,16 +168,55 @@ namespace sp { namespace graphics {
 		}
 	}
 
+	void UpdateKeyModifiers(Window* window, int key, bool pressed)
+	{
+// 		int modifier = 0;
+// 		switch (key)
+// 		{
+// 		case VK_CONTROL:
+// 			modifier = SP_MODIFIER_LEFT_CONTROL;
+// 			break;
+// 		case VK_ALT:
+// 			modifier = SP_MODIFIER_LEFT_ALT;
+// 			break;
+// 		case VK_SHIFT:
+// 			modifier = SP_MODIFIER_LEFT_SHIFT;
+// 			break;
+// 		}
+// 		if (pressed)
+// 			window->m_KeyModifiers |= modifier;
+// 		else
+// 			window->m_KeyModifiers &= ~(window->m_KeyModifiers & modifier);
+	}
+
 	void key_callback(Window* window, int flags, int key, uint message)
 	{
 		bool pressed = message == WM_KEYDOWN || message == WM_SYSKEYDOWN;
-		bool* keyState = window->m_KeyState;
-		keyState[key] = pressed;
+		window->m_KeyState[key] = pressed;
 
 		bool repeat = (flags >> 30) & 1;
 
+		// UpdateKeyModifiers(window, key, pressed);
+		int modifier = 0;
+		switch (key)
+		{
+		case VK_CONTROL:
+			modifier = SP_MODIFIER_LEFT_CONTROL;
+			break;
+		case VK_ALT:
+			modifier = SP_MODIFIER_LEFT_ALT;
+			break;
+		case VK_SHIFT:
+			modifier = SP_MODIFIER_LEFT_SHIFT;
+			break;
+		}
 		if (pressed)
-			window->m_EventCallback(KeyPressedEvent(key, repeat));
+			window->m_KeyModifiers |= modifier;
+		else
+			window->m_KeyModifiers &= ~(modifier);
+
+		if (pressed)
+			window->m_EventCallback(KeyPressedEvent(key, repeat, window->m_KeyModifiers));
 		else	
 			window->m_EventCallback(KeyReleasedEvent(key));
 	}

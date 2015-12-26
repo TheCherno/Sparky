@@ -8,8 +8,8 @@ namespace sp { namespace events {
 	{
 	}
 
-	KeyPressedEvent::KeyPressedEvent(int button, int repeat)
-		: KeyEvent(button, KeyPressedEvent::GetStaticType()), m_Repeat(repeat)
+	KeyPressedEvent::KeyPressedEvent(int button, int repeat, int modifiers)
+		: KeyEvent(button, KeyPressedEvent::GetStaticType()), m_Repeat(repeat), m_Modifiers(modifiers)
 	{
 	}
 

@@ -2,6 +2,7 @@
  Sparky Core - TODO
 --------------------
 
+- Handle Window going out of focus!
 - SP_DEBUG macros
 - Cameras -> projection and view matrices
 - mat3 support

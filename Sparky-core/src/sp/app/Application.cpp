@@ -43,6 +43,10 @@ namespace sp {
 
 	void Application::OnEvent(events::Event& event)
 	{
+		m_DebugLayer->OnEvent(event);
+		if (event.IsHandled()) // TODO(Yan): Maybe this shouldn't happen
+			return;
+
 		for (int i = m_OverlayStack.size() - 1; i >= 0; i--)
 		{
 			m_OverlayStack[i]->OnEvent(event);
@@ -83,12 +87,20 @@ namespace sp {
 	void Application::OnRender()
 	{
 		for (uint i = 0; i < m_LayerStack.size(); i++)
-			m_LayerStack[i]->OnRender();
+		{
+			if (m_LayerStack[i]->IsVisible())
+				m_LayerStack[i]->OnRender();
+		}
 
 		for (uint i = 0; i < m_OverlayStack.size(); i++)
-			m_OverlayStack[i]->OnRender();
+		{
+			if (m_OverlayStack[i]->IsVisible())
+				m_OverlayStack[i]->OnRender();
+		}
 
-		((Layer2D*)m_DebugLayer)->OnRender();
+		Layer2D* debugLayer = (Layer2D*)m_DebugLayer;
+		if (debugLayer->IsVisible())
+			debugLayer->OnRender();
 	}
 
 }

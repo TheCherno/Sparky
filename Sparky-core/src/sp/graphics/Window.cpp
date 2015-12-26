@@ -44,6 +44,7 @@ namespace sp { namespace graphics {
 			m_MouseClicked[i] = false;
 		}
 		m_MouseGrabbed = true;
+		m_KeyModifiers = 0;
 	}
 
 	Window::~Window()
