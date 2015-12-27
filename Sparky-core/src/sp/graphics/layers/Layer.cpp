@@ -4,7 +4,7 @@
 namespace sp { namespace graphics {
 
 	Layer::Layer()
-		: m_Window(Window::GetWindowClass(nullptr))
+		: m_Window(Window::GetWindowClass(nullptr)), m_Visible(true)
 	{
 	}
 
@@ -16,9 +16,8 @@ namespace sp { namespace graphics {
 	{
 	}
 
-	bool Layer::OnEvent(const events::Event& event)
+	void Layer::OnEvent(events::Event& event)
 	{
-		return false;
 	}
 
 	void Layer::OnTick()

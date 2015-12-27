@@ -5,6 +5,7 @@
 #include "sp/maths/vec2.h"
 
 #include "sp/audio/SoundManager.h"
+#include "sp/events/Events.h"
 
 #include "FontManager.h"
 #include "TextureManager.h"
@@ -13,6 +14,8 @@ namespace sp { namespace graphics {
 
 #define MAX_KEYS	1024
 #define MAX_BUTTONS	32
+
+	typedef std::function<void(events::Event& event)> WindowEventCallback;
 
 	class SP_API Window
 	{
@@ -24,16 +27,18 @@ namespace sp { namespace graphics {
 		bool m_Closed;
 		void* m_Handle;
 
-		bool m_Keys[MAX_KEYS];
 		bool m_KeyState[MAX_KEYS];
-		bool m_KeyTyped[MAX_KEYS];
+		bool m_LastKeyState[MAX_KEYS];
+
 		bool m_MouseButtons[MAX_BUTTONS];
 		bool m_MouseState[MAX_BUTTONS];
 		bool m_MouseClicked[MAX_BUTTONS];
 		bool m_MouseGrabbed;
+		int m_KeyModifiers;
 
 		maths::vec2 m_MousePosition;
 		bool m_Vsync;
+		WindowEventCallback m_EventCallback;
 	public:
 		Window(const char *name, uint width, uint height);
 		~Window();
@@ -46,7 +51,6 @@ namespace sp { namespace graphics {
 		inline uint GetHeight() const { return m_Height; }
 
 		bool IsKeyPressed(uint keycode) const;
-		bool IsKeyTyped(uint keycode) const;
 		bool IsMouseButtonPressed(uint button) const;
 		bool IsMouseButtonClicked(uint button) const;
 
@@ -58,6 +62,8 @@ namespace sp { namespace graphics {
 
 		void SetVsync(bool enabled);
 		bool IsVsync() const { return m_Vsync; }
+
+		void SetEventCallback(const WindowEventCallback& callback);
 	private:
 		bool Init();
 		
@@ -65,7 +71,7 @@ namespace sp { namespace graphics {
 		void PlatformUpdate();
 
 		friend void resize_callback(Window* window, int width, int height);
-		friend void key_callback(Window* window, int key, uint message);
+		friend void key_callback(Window* window, int flags, int key, uint message);
 		friend void mouse_button_callback(Window* window, int button, int x, int y);
 	public:
 		static void RegisterWindowClass(void* handle, Window* window);
@@ -79,6 +85,15 @@ namespace sp { namespace graphics {
 #define SP_MOUSE_RIGHT    0x02
 
 #define SP_NO_CURSOR	  NULL
+
+#define SP_MODIFIER_LEFT_CONTROL	BIT(0)
+#define SP_MODIFIER_LEFT_ALT		BIT(1)
+#define SP_MODIFIER_LEFT_SHIFT		BIT(2)
+#define SP_MODIFIER_RIGHT_CONTROL	BIT(3)
+#define SP_MODIFIER_RIGHT_ALT		BIT(4)
+#define SP_MODIFIER_RIGHT_SHIFT		BIT(5)
+
+#define VK_TAB			  0x09
 
 #define VK_0			  0x30
 #define VK_1			  0x31

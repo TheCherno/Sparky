@@ -5,6 +5,7 @@
 #include "sp/Types.h"
 
 #include "sp/maths/vec2.h"
+#include "sp/events/Events.h"
 
 #define SPARKY_LOG_LEVEL_FATAL 0
 #define SPARKY_LOG_LEVEL_ERROR 1
@@ -34,6 +35,7 @@ namespace std
 namespace sp { namespace internal {
 	
 	static char to_string_buffer[1024 * 10];
+	static char sprintf_buffer[1024 * 10];
 
 	SP_API void PlatformLogMessage(uint level, const char* message);
 
@@ -100,6 +102,81 @@ namespace sp { namespace internal {
 		char* result = new char[string.length()];
 		strcpy(result, &string[0]);
 		return result;
+	}
+
+	template <>
+	static const char* to_string<events::KeyPressedEvent>(const events::KeyPressedEvent& e)
+	{
+		sprintf(sprintf_buffer, "KeyPressedEvent: (%d, %d)", e.GetKeyCode(), e.GetRepeat());
+		char* result = new char[strlen(sprintf_buffer)];
+		strcpy(result, &sprintf_buffer[0]);
+		return result;
+	}
+
+	template <>
+	static const char* to_string<events::KeyReleasedEvent>(const events::KeyReleasedEvent& e)
+	{
+		sprintf(sprintf_buffer, "KeyReleasedEvent: (%d)", e.GetKeyCode());
+		char* result = new char[strlen(sprintf_buffer)];
+		strcpy(result, &sprintf_buffer[0]);
+		return result;
+	}
+
+	template <>
+	static const char* to_string<events::MousePressedEvent>(const events::MousePressedEvent& e)
+	{
+		sprintf(sprintf_buffer, "MousePressedEvent: (%d, %f, %f)", e.GetButton(), e.GetX(), e.GetY());
+		char* result = new char[strlen(sprintf_buffer)];
+		strcpy(result, &sprintf_buffer[0]);
+		return result;
+	}
+
+	template <>
+	static const char* to_string<events::MouseReleasedEvent>(const events::MouseReleasedEvent& e)
+	{
+		sprintf(sprintf_buffer, "MouseReleasedEvent: (%d, %f, %f)", e.GetButton(), e.GetX(), e.GetY());
+		char* result = new char[strlen(sprintf_buffer)];
+		strcpy(result, &sprintf_buffer[0]);
+		return result;
+	}
+
+	template <>
+	static const char* to_string<events::MouseMovedEvent>(const events::MouseMovedEvent& e)
+	{
+		sprintf(sprintf_buffer, "MouseMovedEvent: (%f, %f, %s)", e.GetX(), e.GetY(), e.IsDragged() ? "true" : "false");
+		char* result = new char[strlen(sprintf_buffer)];
+		strcpy(result, &sprintf_buffer[0]);
+		return result;
+	}
+
+	template <>
+	static const char* to_string<events::Event>(const events::Event& e)
+	{
+		sprintf(sprintf_buffer, "Event: %s (%d)", events::Event::TypeToString(e.GetType()).c_str(), e.GetType());
+		char* result = new char[strlen(sprintf_buffer)];
+		strcpy(result, &sprintf_buffer[0]);
+		return result;
+	}
+
+	template <>
+	static const char* to_string<events::Event*>(events::Event* const& e)
+	{
+		using namespace events;
+
+		switch (e->GetType())
+		{
+		case Event::Type::KEY_PRESSED:
+			return to_string(*(KeyPressedEvent*)e);
+		case Event::Type::KEY_RELEASED:
+			return to_string(*(KeyReleasedEvent*)e);
+		case Event::Type::MOUSE_PRESSED:
+			return to_string(*(MousePressedEvent*)e);
+		case Event::Type::MOUSE_RELEASED:
+			return to_string(*(MouseReleasedEvent*)e);
+		case Event::Type::MOUSE_MOVED:
+			return to_string(*(MouseMovedEvent*)e);
+		}
+		return "Unkown Event!";
 	}
 
 	template <typename T>

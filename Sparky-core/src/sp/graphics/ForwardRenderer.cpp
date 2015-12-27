@@ -1,6 +1,8 @@
 #include "sp/sp.h"
 #include "ForwardRenderer.h"
 
+#include <GL/glew.h> // TODO: Temp
+
 namespace sp { namespace graphics {
 
 	ForwardRenderer::ForwardRenderer()
@@ -59,6 +61,9 @@ namespace sp { namespace graphics {
 	void ForwardRenderer::Present()
 	{
 		// TODO: Shader binding, texture sorting, visibility testing, etc.
+
+		GLCall(glEnable(GL_DEPTH_TEST));
+		GLCall(glDepthFunc(GL_LEQUAL));
 
 		for (uint i = 0; i < m_CommandQueue.size(); i++)
 		{

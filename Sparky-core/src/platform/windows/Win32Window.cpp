@@ -12,6 +12,8 @@ EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 
 namespace sp { namespace graphics {
 
+	using namespace events;
+
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	static HINSTANCE hInstance;
@@ -130,10 +132,17 @@ namespace sp { namespace graphics {
 			DispatchMessage(&message);
 		}
 
+		// Mouse Events
 		POINT mouse;
 		GetCursorPos(&mouse);
 		ScreenToClient(hWnd, &mouse);
-		m_MousePosition = maths::vec2((float)mouse.x, (float)mouse.y);
+
+		maths::vec2 mousePos = maths::vec2((float)mouse.x, (float)mouse.y);
+		if (mousePos != m_MousePosition)
+		{
+			m_EventCallback(MouseMovedEvent(mousePos.x, mousePos.y, m_MouseButtons[SP_MOUSE_LEFT]));
+			m_MousePosition = mousePos;
+		}
 
 		SwapBuffers(hDc);
 	}
@@ -159,9 +168,57 @@ namespace sp { namespace graphics {
 		}
 	}
 
-	void key_callback(Window* window, int key, uint message)
+	void UpdateKeyModifiers(Window* window, int key, bool pressed)
 	{
-		window->m_Keys[key] = message == WM_KEYDOWN || message == WM_SYSKEYDOWN;
+// 		int modifier = 0;
+// 		switch (key)
+// 		{
+// 		case VK_CONTROL:
+// 			modifier = SP_MODIFIER_LEFT_CONTROL;
+// 			break;
+// 		case VK_ALT:
+// 			modifier = SP_MODIFIER_LEFT_ALT;
+// 			break;
+// 		case VK_SHIFT:
+// 			modifier = SP_MODIFIER_LEFT_SHIFT;
+// 			break;
+// 		}
+// 		if (pressed)
+// 			window->m_KeyModifiers |= modifier;
+// 		else
+// 			window->m_KeyModifiers &= ~(window->m_KeyModifiers & modifier);
+	}
+
+	void key_callback(Window* window, int flags, int key, uint message)
+	{
+		bool pressed = message == WM_KEYDOWN || message == WM_SYSKEYDOWN;
+		window->m_KeyState[key] = pressed;
+
+		bool repeat = (flags >> 30) & 1;
+
+		// UpdateKeyModifiers(window, key, pressed);
+		int modifier = 0;
+		switch (key)
+		{
+		case VK_CONTROL:
+			modifier = SP_MODIFIER_LEFT_CONTROL;
+			break;
+		case VK_ALT:
+			modifier = SP_MODIFIER_LEFT_ALT;
+			break;
+		case VK_SHIFT:
+			modifier = SP_MODIFIER_LEFT_SHIFT;
+			break;
+		}
+		if (pressed)
+			window->m_KeyModifiers |= modifier;
+		else
+			window->m_KeyModifiers &= ~(modifier);
+
+		if (pressed)
+			window->m_EventCallback(KeyPressedEvent(key, repeat, window->m_KeyModifiers));
+		else	
+			window->m_EventCallback(KeyReleasedEvent(key));
 	}
 
 	void mouse_button_callback(Window* window, int button, int x, int y)
@@ -198,6 +255,13 @@ namespace sp { namespace graphics {
 		window->m_MouseButtons[button] = down;
 		window->m_MousePosition.x = (float)x;
 		window->m_MousePosition.y = (float)y;
+
+		SP_ASSERT(window->m_EventCallback);
+
+		if (down)
+			window->m_EventCallback(MousePressedEvent(button, (float)x, (float)y));
+		else
+			window->m_EventCallback(MouseReleasedEvent(button, (float)x, (float)y));
 	}
 
 	void resize_callback(Window* window, int width, int height)
@@ -246,7 +310,7 @@ namespace sp { namespace graphics {
 		case WM_KEYUP:
 		case WM_SYSKEYDOWN:
 		case WM_SYSKEYUP:
-			key_callback(window, wParam, message);
+			key_callback(window, lParam, wParam, message);
 			break;
 		case WM_LBUTTONDOWN:
 		case WM_LBUTTONUP:

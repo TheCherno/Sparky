@@ -27,5 +27,5 @@ public:
 
 	void OnTick() override;
 	void OnUpdate() override;
-	bool OnEvent(const sp::events::Event& event) override;
+	void OnEvent(sp::events::Event& event) override;
 };

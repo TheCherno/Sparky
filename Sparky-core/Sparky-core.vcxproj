@@ -172,6 +172,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\sp\debug\DebugLayer.cpp" />
+    <ClCompile Include="src\sp\debug\DebugMenu.cpp" />
     <ClCompile Include="src\sp\embedded\Embedded.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sp/sp.h</PrecompiledHeaderFile>
@@ -581,6 +583,8 @@
     <ClInclude Include="src\sp\audio\Sound.h" />
     <ClInclude Include="src\sp\audio\SoundManager.h" />
     <ClInclude Include="src\sp\Common.h" />
+    <ClInclude Include="src\sp\debug\DebugLayer.h" />
+    <ClInclude Include="src\sp\debug\DebugMenu.h" />
     <ClInclude Include="src\sp\embedded\Embedded.h" />
     <ClInclude Include="src\sp\entity\component\Component.h" />
     <ClInclude Include="src\sp\entity\component\Components.h" />
@@ -588,6 +592,8 @@
     <ClInclude Include="src\sp\entity\component\TransformComponent.h" />
     <ClInclude Include="src\sp\entity\Entity.h" />
     <ClInclude Include="src\sp\events\Event.h" />
+    <ClInclude Include="src\sp\events\EventDispatcher.h" />
+    <ClInclude Include="src\sp\events\Events.h" />
     <ClInclude Include="src\sp\events\IEventListener.h" />
     <ClInclude Include="src\sp\events\KeyEvent.h" />
     <ClInclude Include="src\sp\events\MouseEvent.h" />

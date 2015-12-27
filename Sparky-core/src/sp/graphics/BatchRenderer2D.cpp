@@ -78,6 +78,8 @@ namespace sp { namespace graphics {
 
 		// Setup Framebuffer
 		m_ScreenBuffer = API::GetScreenBuffer();
+		SP_ASSERT(m_ScreenBuffer == 0);
+
 		m_Framebuffer = new Framebuffer(m_ViewportSize);
 		m_SimpleShader = ShaderFactory::SimpleShader();
 		m_SimpleShader->Bind();
@@ -258,7 +260,7 @@ namespace sp { namespace graphics {
 		{
 			char c = text[i];
 			texture_glyph_t* glyph = texture_font_get_glyph(ftFont, c);
-			if (glyph != NULL)
+			if (glyph)
 			{
 				if (i > 0)
 				{
@@ -276,25 +278,25 @@ namespace sp { namespace graphics {
 				float u1 = glyph->s1;
 				float v1 = glyph->t1;
 
-				m_Buffer->vertex = *m_TransformationBack * maths::vec3(x0, y0, 0);
+				m_Buffer->vertex = *m_TransformationBack * vec3(x0, y0, 0);
 				m_Buffer->uv = vec2(u0, v0);
 				m_Buffer->tid = ts;
 				m_Buffer->color = color;
 				m_Buffer++;
 
-				m_Buffer->vertex = *m_TransformationBack * maths::vec3(x0, y1, 0);
+				m_Buffer->vertex = *m_TransformationBack * vec3(x0, y1, 0);
 				m_Buffer->uv = vec2(u0, v1);
 				m_Buffer->tid = ts;
 				m_Buffer->color = color;
 				m_Buffer++;
 
-				m_Buffer->vertex = *m_TransformationBack * maths::vec3(x1, y1, 0);
+				m_Buffer->vertex = *m_TransformationBack * vec3(x1, y1, 0);
 				m_Buffer->uv = vec2(u1, v1);
 				m_Buffer->tid = ts;
 				m_Buffer->color = color;
 				m_Buffer++;
 
-				m_Buffer->vertex = *m_TransformationBack * maths::vec3(x1, y0, 0);
+				m_Buffer->vertex = *m_TransformationBack * vec3(x1, y0, 0);
 				m_Buffer->uv = vec2(u1, v0);
 				m_Buffer->tid = ts;
 				m_Buffer->color = color;
@@ -321,6 +323,9 @@ namespace sp { namespace graphics {
 
 	void BatchRenderer2D::Present()
 	{
+		GLCall(glDepthFunc(GL_NEVER));
+		GLCall(glDisable(GL_DEPTH_TEST));
+
 		for (uint i = 0; i < m_TextureSlots.size(); i++)
 		{
 			API::SetActiveTexture(GL_TEXTURE0 + i);

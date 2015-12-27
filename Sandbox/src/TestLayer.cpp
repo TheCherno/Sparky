@@ -15,7 +15,7 @@ using namespace maths;
 TestLayer::TestLayer()
 	: Layer2D(ShaderFactory::DefaultShader(), mat4::Orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f))
 {
-
+	m_Renderer = nullptr;
 }
 
 TestLayer::~TestLayer()
@@ -26,8 +26,8 @@ TestLayer::~TestLayer()
 void TestLayer::OnInit(Renderer2D& renderer, Shader& shader)
 {
 	// m_Window->SetVsync(false);
+	m_Renderer = &renderer;
 
-	FontManager::Get()->SetScale(m_Window->GetWidth() / 32.0f, m_Window->GetHeight() / 18.0f);
 	renderer.SetRenderTarget(RenderTarget::BUFFER);
 	renderer.AddPostEffectsPass(new PostEffectsPass(Shader::FromFile("Horizontal Blur", "shaders/postfx.shader")));
 	renderer.SetPostEffects(false);
@@ -48,7 +48,7 @@ void TestLayer::OnInit(Renderer2D& renderer, Shader& shader)
 	Texture::SetWrap(TextureWrap::CLAMP_TO_BORDER);
 	Mask* mask = new Mask(new Texture("Mask", "res/mask.png"));
 	mask->transform = mat4::Translate(vec3(-16.0f, -9.0f, 0.0f)) * mat4::Scale(vec3(32, 18, 1));
-	// layer->SetMask(mask);
+	SetMask(mask);
 }
 
 void TestLayer::OnTick()
@@ -62,19 +62,38 @@ void TestLayer::OnUpdate()
 {
 }
 
-bool TestLayer::OnEvent(const sp::events::Event& event)
+bool TestLayer::OnKeyPressedEvent(KeyPressedEvent& event)
 {
+	if (!m_Renderer)
+		return false;
+
+	Renderer2D& renderer = *m_Renderer;
+
+	if (event.GetRepeat())
+		return false;
+
+	if (event.GetKeyCode() == VK_T)
+	{
+		renderer.SetRenderTarget(renderer.GetRenderTarget() == RenderTarget::SCREEN ? RenderTarget::BUFFER : RenderTarget::SCREEN);
+		return true;
+	}
+	if (event.GetKeyCode() == VK_P)
+	{
+		renderer.SetPostEffects(!renderer.GetPostEffects());
+		return true;
+	}
+
 	return false;
+}
+
+void TestLayer::OnEvent(sp::events::Event& event)
+{
+	EventDispatcher dispatcher(event);
+	dispatcher.Dispatch<KeyPressedEvent>(METHOD(&TestLayer::OnKeyPressedEvent));
 }
 
 void TestLayer::OnRender(Renderer2D& renderer)
 {
-	// TODO: Move this into OnEvent!
-	if (m_Window->IsKeyTyped(VK_T))
-		renderer.SetRenderTarget(renderer.GetRenderTarget() == RenderTarget::SCREEN ? RenderTarget::BUFFER : RenderTarget::SCREEN);
-	if (m_Window->IsKeyTyped(VK_P))
-		renderer.SetPostEffects(!renderer.GetPostEffects());
-
 	debugInfo[0]->text = String("Target: ") + (renderer.GetRenderTarget() == RenderTarget::SCREEN ? "Screen" : "Buffer");
 	debugInfo[1]->text = String("PostFX: ") + (renderer.GetPostEffects() ? "On" : "Off");
 }

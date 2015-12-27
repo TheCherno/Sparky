@@ -55,6 +55,9 @@
     <Filter Include="sp\graphics\ShaderFactory\Shaders\gles">
       <UniqueIdentifier>{58659f55-dab6-4c52-80e6-faf0d518bf07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="sp\debug">
+      <UniqueIdentifier>{4b83c31a-69f4-4b45-b448-c3b61f9475d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\sp\audio\Sound.cpp">
@@ -228,6 +231,8 @@
     <ClCompile Include="src\platform\posix\PosixTimer.cpp">
       <Filter>sp\platform\posix</Filter>
     </ClCompile>
+    <ClCompile Include="src\sp\debug\DebugLayer.cpp" />
+    <ClCompile Include="src\sp\debug\DebugMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Application.h">
@@ -443,6 +448,12 @@
     <ClInclude Include="src\sp\graphics\SPRenderAPI.h">
       <Filter>sp\graphics\API</Filter>
     </ClInclude>
+    <ClInclude Include="src\sp\debug\DebugLayer.h">
+      <Filter>sp\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\events\Events.h" />
+    <ClInclude Include="src\sp\events\EventDispatcher.h" />
+    <ClInclude Include="src\sp\debug\DebugMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="SparkyCore-TODO.txt" />
