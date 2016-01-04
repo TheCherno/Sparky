@@ -94,6 +94,8 @@ namespace sp { namespace graphics {
 
 	float BatchRenderer2D::SubmitTexture(uint textureID)
 	{
+		if (!textureID)
+			SP_WARN("Invalid texture ID submitted!");
 		float result = 0.0f;
 		bool found = false;
 		for (uint i = 0; i < m_TextureSlots.size(); i++)
@@ -166,6 +168,9 @@ namespace sp { namespace graphics {
 
 	void BatchRenderer2D::Submit(const Renderable2D* renderable)
 	{
+		if (!renderable->IsVisible())
+			return;
+
 		const vec3& position = renderable->GetPosition();
 		const vec2& size = renderable->GetSize();
 		const uint color = renderable->GetColor();
@@ -243,7 +248,7 @@ namespace sp { namespace graphics {
 #endif
 	}
 
-	void BatchRenderer2D::DrawString(const String& text, const maths::vec3& position, const Font& font, unsigned int color)
+	void BatchRenderer2D::DrawString(const String& text, const maths::vec3& position, const Font& font, uint color)
 	{
 		using namespace ftgl;
 
@@ -307,6 +312,61 @@ namespace sp { namespace graphics {
 				x += glyph->advance_x / scale.x;
 			}
 		}
+	}
+
+	void BatchRenderer2D::FillRect(float x, float y, float width, float height, uint color)
+	{
+		vec3 position(x, y, 0.0f);
+		vec2 size(width, height);
+		const std::vector<vec2>& uv = Renderable2D::GetDefaultUVs();
+		float ts = 0.0f;
+		mat4 maskTransform = mat4::Identity();
+		uint mid = m_Mask ? m_Mask->texture->GetID() : 0;
+
+		float ms = 0.0f;
+		if (m_Mask != nullptr)
+		{
+			maskTransform = mat4::Invert(m_Mask->transform);
+			ms = SubmitTexture(m_Mask->texture);
+		}
+
+		vec3 vertex = *m_TransformationBack * position;
+		m_Buffer->vertex = vertex;
+		m_Buffer->uv = uv[0];
+		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
+		m_Buffer->color = color;
+		m_Buffer++;
+
+		vertex = *m_TransformationBack * vec3(position.x, position.y + size.y, position.z);
+		m_Buffer->vertex = vertex;
+		m_Buffer->uv = uv[1];
+		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
+		m_Buffer->color = color;
+		m_Buffer++;
+
+		vertex = *m_TransformationBack * vec3(position.x + size.x, position.y + size.y, position.z);
+		m_Buffer->vertex = vertex;
+		m_Buffer->uv = uv[2];
+		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
+		m_Buffer->color = color;
+		m_Buffer++;
+
+		vertex = *m_TransformationBack * vec3(position.x + size.x, position.y, position.z);
+		m_Buffer->vertex = vertex;
+		m_Buffer->uv = uv[3];
+		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
+		m_Buffer->color = color;
+		m_Buffer++;
+
+		m_IndexCount += 6;
 	}
 
 	void BatchRenderer2D::End()

@@ -2,7 +2,8 @@
  Sparky Core - TODO
 --------------------
 
-- Handle Window going out of focus!
+- Complete event system with additional events (focus, close, resize, etc.)
+- Font metrics
 - SP_DEBUG macros
 - Cameras -> projection and view matrices
 - mat3 support
@@ -13,3 +14,6 @@
 - Some kind of Asset Server. This needs to support things like memory mapping and virtual file systems.
 - ivec<x>, uvec<x>
 - Hash functions for maths classes
+- Raw Input instead of Win32 stuff
+- Memory management
+- String formatting

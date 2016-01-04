@@ -15,6 +15,7 @@ namespace sp { namespace graphics {
 		Renderer2D* m_Renderer;
 	protected:
 		std::vector<Renderable2D*> m_Renderables;
+		std::vector<Renderable2D*> m_SubmittedRenderables;
 		Shader* m_Shader;
 		maths::mat4 m_ProjectionMatrix;
 	public:
@@ -28,6 +29,8 @@ namespace sp { namespace graphics {
 		inline void SetMask(const Mask* mask) const { m_Renderer->SetMask(mask); }
 		virtual Renderable2D* Add(Renderable2D* renderable);
 		inline const std::vector<Renderable2D*>& GetRenderables() const { return m_Renderables; }
+
+		virtual Renderable2D* Submit(Renderable2D* renderable);
 
 		virtual void OnRender(Renderer2D& renderer);
 		void OnRender() override;

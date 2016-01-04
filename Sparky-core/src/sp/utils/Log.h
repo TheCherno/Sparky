@@ -85,6 +85,12 @@ namespace sp { namespace internal {
 	}
 
 	template <>
+	static const char* to_string<bool>(const bool& t)
+	{
+		return t ? "true" : "false";
+	}
+
+	template <>
 	static const char* to_string<maths::vec2>(const maths::vec2& t)
 	{
 		// TODO: sprintf

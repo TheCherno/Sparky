@@ -4,22 +4,24 @@
 #include "sp/Common.h"
 #include "sp/Types.h"
 
-#include "sp/graphics/Window.h"
+#include "sp/app/Window.h"
 #include "sp/graphics/layers/Layer.h"
 #include "sp/utils/Timer.h"
-
-#include "sp/debug/DebugLayer.h"
 
 #include "sp/events/Events.h"
 
 namespace sp {
+
+	namespace debug {
+		class DebugLayer;
+	}
 
 	class SP_API Application
 	{
 	private:
 		static Application* s_Instance;
 	public:
-		graphics::Window* window;
+		Window* window;
 		debug::DebugLayer* m_DebugLayer;
 	private:
 		bool m_Running, m_Suspended;

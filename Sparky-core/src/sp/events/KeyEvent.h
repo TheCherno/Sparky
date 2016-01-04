@@ -2,6 +2,7 @@
 
 #include "Event.h"
 
+
 namespace sp { namespace events {
 
 	class SP_API KeyEvent : public Event
@@ -17,6 +18,7 @@ namespace sp { namespace events {
 		inline static int GetStaticType() { return (int)Event::Type::KEY_PRESSED | (int)Event::Type::KEY_RELEASED; }
 	};
 
+#pragma warning(disable : 4800)
 	class SP_API KeyPressedEvent : public KeyEvent
 	{
 	private:
@@ -27,10 +29,11 @@ namespace sp { namespace events {
 
 		inline int GetRepeat() const { return m_Repeat; }
 		inline int GetModifiers() const { return m_Modifiers; }
-		inline bool IsModifier(int modifier) const { return m_Modifiers & modifier; }
+		inline bool IsModifier(int modifier) const { return (bool)(m_Modifiers & modifier); }
 
 		inline static Type GetStaticType() { return Event::Type::KEY_PRESSED; }
 	};
+#pragma warning(default : 4800)
 
 	class SP_API KeyReleasedEvent : public KeyEvent
 	{

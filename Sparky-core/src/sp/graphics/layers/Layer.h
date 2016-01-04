@@ -5,7 +5,7 @@
 
 #include "../../events/Event.h"
 #include "../../events/IEventListener.h"
-#include "../Window.h"
+#include "sp/app/Window.h"
 
 namespace sp { namespace graphics {
 

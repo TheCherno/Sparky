@@ -24,6 +24,12 @@ namespace sp { namespace graphics {
 		m_TID = Load();
 	}
 
+	Texture::Texture(uint glID)
+		: m_Name(std::to_string(glID)), m_FileName("NULL")
+	{
+		m_TID = glID;
+	}
+
 	Texture::~Texture()
 	{
 		API::FreeTexture(m_TID);

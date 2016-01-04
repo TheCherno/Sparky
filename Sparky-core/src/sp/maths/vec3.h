@@ -16,6 +16,7 @@ namespace sp { namespace maths {
 		vec3();
 		vec3(float x, float y, float z);
 		vec3(const vec2& other);
+		vec3(float x, float y);
 
 		static vec3 Up();
 		static vec3 Down();

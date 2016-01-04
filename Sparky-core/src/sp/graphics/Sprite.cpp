@@ -15,13 +15,13 @@ namespace sp { namespace graphics {
 		m_Texture = texture;
 	}
 
-	Sprite::Sprite(float x, float y, float width, float height, unsigned int color)
+	Sprite::Sprite(float x, float y, float width, float height, uint color)
 		: Renderable2D(maths::vec3(x, y, 0.0f), maths::vec2(width, height), color), position(m_Position), size(m_Size)
 	{
 
 	}
 
-	Sprite::Sprite(float x, float y, float width, float height, maths::vec4 color)
+	Sprite::Sprite(float x, float y, float width, float height, const maths::vec4& color)
 		: Renderable2D(maths::vec3(x, y, 0.0f), maths::vec2(width, height), 0xffffffff), position(m_Position), size(m_Size)
 	{
 		SetColor(color);
@@ -35,7 +35,7 @@ namespace sp { namespace graphics {
 
 	void Sprite::SetUV(const std::vector<maths::vec2>& uv)
 	{
-		m_UV = uv;
+		m_UVs = uv;
 	}
 
 } }

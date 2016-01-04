@@ -1,6 +1,8 @@
 #include "sp/sp.h"
 #include "Application.h"
 
+#include "sp/debug/DebugLayer.h"
+
 namespace sp {
 
 	using namespace graphics;
@@ -10,6 +12,8 @@ namespace sp {
 	void Application::Init()
 	{
 		PlatformInit();
+
+		debug::DebugMenu::Init();
 
 		m_DebugLayer = new debug::DebugLayer();
 		m_DebugLayer->Init();

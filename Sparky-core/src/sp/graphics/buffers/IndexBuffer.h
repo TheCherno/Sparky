@@ -3,7 +3,7 @@
 #include "sp/Common.h"
 #include "sp/Types.h"
 
-#include "platform/opengl/SPOpenGLBuffer.h"
+#include "sp/platform/opengl/SPOpenGLBuffer.h"
 
 namespace sp { namespace graphics {
 

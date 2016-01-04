@@ -33,6 +33,7 @@ namespace sp { namespace graphics {
 	public:
 		Texture(uint width, uint height, uint bits = 24);
 		Texture(const String& name, const String& filename);
+		Texture(uint glID);
 		~Texture();
 		void Bind() const;
 		void Unbind() const;

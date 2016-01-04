@@ -7,6 +7,7 @@
 #include "Renderer2D.h"
 #include "Renderable2D.h"
 #include "Framebuffer.h"
+#include "FontManager.h"
 
 #include "buffers/VertexArray.h"
 #include "buffers/IndexBuffer.h"
@@ -46,8 +47,11 @@ namespace sp { namespace graphics {
 
 		void Begin() override;
 		void Submit(const Renderable2D* renderable) override;
+
 		void DrawAABB(const maths::AABB& aabb, uint color = 0xffffffff);
-		void DrawString(const String& text, const maths::vec3& position, const Font& font, unsigned int color) override;
+		void DrawString(const String& text, const maths::vec3& position, const Font& font = *FontManager::Get(), uint color = 0xffffffff) override;
+		void FillRect(float x, float y, float width, float height, uint color = 0xffffffff) override;
+
 		void End() override;
 		void Present() override;
 
@@ -57,7 +61,10 @@ namespace sp { namespace graphics {
 		inline const maths::tvec2<uint>& GetViewportSize() const { return m_ViewportSize; }
 	private:
 		void Init();
+
+		// TODO: Deprecate. Only sp::graphics::Texture should be allowable.
 		float SubmitTexture(uint textureID);
+
 		float SubmitTexture(const Texture* texture);
 	};
 

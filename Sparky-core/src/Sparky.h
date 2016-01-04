@@ -5,6 +5,7 @@
 //
 
 #include <sp/app/Application.h>
+#include <sp/app/Window.h>
 
 #include <sp/audio/Sound.h>
 #include <sp/audio/SoundManager.h>
@@ -39,7 +40,6 @@
 #include <sp/graphics/Sprite.h>
 #include <sp/graphics/Texture.h>
 #include <sp/graphics/TextureManager.h>
-#include <sp/graphics/Window.h>
 
 #include <sp/graphics/buffers/Buffer.h>
 #include <sp/graphics/buffers/BufferLayout.h>

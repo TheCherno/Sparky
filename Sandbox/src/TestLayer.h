@@ -9,7 +9,6 @@
 class TestLayer : public sp::graphics::Layer2D
 {
 private:
-	sp::graphics::Label* m_Fps;
 	sp::graphics::Label** debugInfo;
 	sp::graphics::Renderer2D* m_Renderer;
 public:

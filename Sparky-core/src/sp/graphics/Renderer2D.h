@@ -3,8 +3,10 @@
 #include <vector>
 
 #include "Font.h"
+#include "FontManager.h"
 #include "Texture.h"
 #include "Mask.h"
+
 #include "../maths/maths.h"
 #include "postfx/PostEffects.h"
 
@@ -66,7 +68,11 @@ namespace sp { namespace graphics {
 
 		virtual void Begin() {}
 		virtual void Submit(const Renderable2D* renderable) = 0;
-		virtual void DrawString(const String& text, const maths::vec3& position, const Font& font, unsigned int color) { }
+
+		// Drawables
+		virtual void DrawString(const String& text, const maths::vec3& position, const Font& font = *FontManager::Get(), uint color = 0xffffffff) { }
+		virtual void FillRect(float x, float y, float width, float height, uint color = 0xffffffff) { }
+
 		virtual void End() {}
 		virtual void Present() = 0;
 	};
