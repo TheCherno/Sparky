@@ -42,24 +42,30 @@ namespace sp { namespace debug {
 	{
 	}
 
-	void DebugLayer::OnEvent(Event& event)
+	void DebugLayer::OnEvent(Event& e)
 	{
-		EventDispatcher dispatcher(event);
+		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<MouseMovedEvent>(METHOD(&DebugLayer::OnMouseMovedEvent));
 		dispatcher.Dispatch<KeyPressedEvent>(METHOD(&DebugLayer::OnKeyPressedEvent));
+		dispatcher.Dispatch<MousePressedEvent>(METHOD(&DebugLayer::OnMousePressedEvent));
 	}
 
-	bool DebugLayer::OnMouseMovedEvent(MouseMovedEvent& event)
+	bool DebugLayer::OnMouseMovedEvent(MouseMovedEvent& e)
 	{
 		return false;
 	}
 
-	bool DebugLayer::OnKeyPressedEvent(KeyPressedEvent& event)
+	bool DebugLayer::OnMousePressedEvent(events::MousePressedEvent& e)
 	{
-		if (event.GetRepeat())
+		return false;
+	}
+
+	bool DebugLayer::OnKeyPressedEvent(KeyPressedEvent& e)
+	{
+		if (e.GetRepeat())
 			return false;
 
-		if (event.GetModifiers() == SP_MODIFIER_LEFT_CONTROL && event.GetKeyCode() == SP_KEY_TAB)
+		if (e.GetModifiers() == SP_MODIFIER_LEFT_CONTROL && e.GetKeyCode() == SP_KEY_TAB)
 		{
 			DebugMenu::SetVisible(!DebugMenu::IsVisible());
 			return true;
