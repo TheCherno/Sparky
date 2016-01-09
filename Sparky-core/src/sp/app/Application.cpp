@@ -32,6 +32,20 @@ namespace sp {
 		return layer;
 	}
 
+	Layer* Application::PopLayer(Layer* layer)
+	{
+		for (uint i = 0; i < m_LayerStack.size(); i++)
+		{
+			if (m_LayerStack[i] == layer)
+			{
+				m_LayerStack.erase(m_LayerStack.begin() + i);
+				break;
+			}
+		}
+		return layer;
+	}
+
+
 	void Application::PushOverlay(Layer* layer)
 	{
 		m_OverlayStack.push_back(layer);
@@ -42,6 +56,19 @@ namespace sp {
 	{
 		Layer* layer = m_OverlayStack.back();
 		m_OverlayStack.pop_back();
+		return layer;
+	}
+
+	Layer* Application::PopOverlay(Layer* layer)
+	{
+		for (uint i = 0; i < m_OverlayStack.size(); i++)
+		{
+			if (m_OverlayStack[i] == layer)
+			{
+				m_OverlayStack.erase(m_OverlayStack.begin() + i);
+				break;
+			}
+		}
 		return layer;
 	}
 

@@ -1,15 +1,6 @@
 #pragma once
 
-#include <sp/app/Application.h>
-#include <sp/maths/maths.h>
-
-#include <sp/graphics/MeshFactory.h>
-#include <sp/graphics/layers/Layer3D.h>
-#include <sp/graphics/shaders/ShaderFactory.h>
-#include <sp/graphics/Model.h>
-
-#include <sp/entity/Entity.h>
-#include <sp/entity/component/Components.h>
+#include <Sparky.h>
 
 class Test3D : public sp::graphics::Layer3D
 {

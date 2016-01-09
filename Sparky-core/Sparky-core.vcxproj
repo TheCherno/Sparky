@@ -142,6 +142,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\sp\app\Input.cpp" />
+    <ClCompile Include="src\sp\debug\DebugMenuItem.cpp" />
+    <ClCompile Include="src\sp\debug\DebugMenuSlider.cpp" />
+    <ClCompile Include="src\sp\graphics\ui\Button.cpp" />
+    <ClCompile Include="src\sp\graphics\ui\Panel.cpp" />
+    <ClCompile Include="src\sp\graphics\ui\Slider.cpp" />
+    <ClCompile Include="src\sp\graphics\ui\Widget.cpp" />
+    <ClCompile Include="src\sp\maths\Rectangle.cpp" />
     <ClCompile Include="src\sp\platform\opengl\SPOpenGLError.cpp" />
     <ClCompile Include="src\sp\platform\posix\PosixTimer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -580,6 +587,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Input.h" />
+    <ClInclude Include="src\sp\debug\DebugMenuAction.h" />
+    <ClInclude Include="src\sp\debug\DebugMenuItem.h" />
+    <ClInclude Include="src\sp\debug\DebugMenuSlider.h" />
+    <ClInclude Include="src\sp\graphics\ui\Button.h" />
+    <ClInclude Include="src\sp\graphics\ui\Panel.h" />
+    <ClInclude Include="src\sp\graphics\ui\Slider.h" />
+    <ClInclude Include="src\sp\graphics\ui\Widget.h" />
+    <ClInclude Include="src\sp\maths\Rectangle.h" />
     <ClInclude Include="src\sp\platform\opengl\SPOpenGLTypes.h" />
     <ClInclude Include="src\Sparky.h" />
     <ClInclude Include="src\sp\app\Application.h" />

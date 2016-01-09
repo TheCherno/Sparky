@@ -58,6 +58,9 @@
     <Filter Include="sp\debug">
       <UniqueIdentifier>{4b83c31a-69f4-4b45-b448-c3b61f9475d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="sp\graphics\ui">
+      <UniqueIdentifier>{c298d8e5-9102-4126-a91d-fb8b67f81f1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\sp\audio\Sound.cpp">
@@ -204,8 +207,6 @@
     <ClCompile Include="src\sp\entity\component\TransformComponent.cpp">
       <Filter>sp\entity\component</Filter>
     </ClCompile>
-    <ClCompile Include="src\sp\debug\DebugLayer.cpp" />
-    <ClCompile Include="src\sp\debug\DebugMenu.cpp" />
     <ClCompile Include="src\sp\platform\opengl\SPOpenGLBuffer.cpp">
       <Filter>sp\graphics\API</Filter>
     </ClCompile>
@@ -230,11 +231,34 @@
     <ClCompile Include="src\sp\platform\windows\Win32Window.cpp">
       <Filter>sp\platform\win32</Filter>
     </ClCompile>
-    <ClCompile Include="src\sp\platform\windows\Win32Input.cpp" />
     <ClCompile Include="src\sp\app\Window.cpp">
       <Filter>sp\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\sp\app\Input.cpp" />
+    <ClCompile Include="src\sp\debug\DebugLayer.cpp">
+      <Filter>sp\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\debug\DebugMenu.cpp">
+      <Filter>sp\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\app\Input.cpp">
+      <Filter>sp\app</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\windows\Win32Input.cpp">
+      <Filter>sp\platform\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\maths\Rectangle.cpp">
+      <Filter>sp\maths</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\debug\DebugMenuItem.cpp">
+      <Filter>sp\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\debug\DebugMenuSlider.cpp">
+      <Filter>sp\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\ui\Panel.cpp" />
+    <ClCompile Include="src\sp\graphics\ui\Widget.cpp" />
+    <ClCompile Include="src\sp\graphics\ui\Button.cpp" />
+    <ClCompile Include="src\sp\graphics\ui\Slider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Application.h">
@@ -444,19 +468,45 @@
     <ClInclude Include="src\sp\debug\DebugLayer.h">
       <Filter>sp\debug</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\events\Events.h" />
-    <ClInclude Include="src\sp\events\EventDispatcher.h" />
-    <ClInclude Include="src\sp\debug\DebugMenu.h" />
     <ClInclude Include="src\sp\platform\opengl\SPOpenGLBuffer.h">
       <Filter>sp\graphics\API</Filter>
     </ClInclude>
     <ClInclude Include="src\sp\platform\opengl\SPOpenGLTypes.h">
       <Filter>sp\graphics\API</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\app\Input.h" />
     <ClInclude Include="src\sp\app\Window.h">
       <Filter>sp\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="src\sp\debug\DebugMenu.h">
+      <Filter>sp\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\events\Events.h">
+      <Filter>sp\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\events\EventDispatcher.h">
+      <Filter>sp\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\app\Input.h">
+      <Filter>sp\app</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\maths\Rectangle.h">
+      <Filter>sp\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\debug\DebugMenuAction.h">
+      <Filter>sp\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\debug\DebugMenuItem.h">
+      <Filter>sp\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\debug\DebugMenuSlider.h">
+      <Filter>sp\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\ui\Button.h">
+      <Filter>sp\graphics\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\ui\Widget.h" />
+    <ClInclude Include="src\sp\graphics\ui\Panel.h" />
+    <ClInclude Include="src\sp\graphics\ui\Slider.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="SparkyCore-TODO.txt" />

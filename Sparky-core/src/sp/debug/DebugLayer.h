@@ -31,6 +31,7 @@ namespace sp { namespace debug {
 		void OnEvent(events::Event& event) override;
 		bool OnMouseMovedEvent(events::MouseMovedEvent& e);
 		bool OnMousePressedEvent(events::MousePressedEvent& e);
+		bool OnMouseReleasedEvent(events::MouseReleasedEvent& e);
 		bool OnKeyPressedEvent(events::KeyPressedEvent& e);
 
 		void OnRender(graphics::Renderer2D& renderer) override;

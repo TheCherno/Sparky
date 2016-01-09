@@ -5,6 +5,7 @@
 #include "sp/Types.h"
 
 #include "sp/maths/vec2.h"
+#include "sp/maths/Rectangle.h"
 #include "sp/events/Events.h"
 
 #define SPARKY_LOG_LEVEL_FATAL 0
@@ -107,6 +108,15 @@ namespace sp { namespace internal {
 		String string = String("vec3: (") + std::to_string(t.x) + ", " + std::to_string(t.y) + ", " + std::to_string(t.z) + ")";
 		char* result = new char[string.length()];
 		strcpy(result, &string[0]);
+		return result;
+	}
+
+	template <>
+	static const char* to_string<maths::Rectangle>(const maths::Rectangle& r)
+	{
+		sprintf(sprintf_buffer, "Rectangle: (%f, %f, %f, %f)", r.x, r.y, r.width, r.height);
+		char* result = new char[strlen(sprintf_buffer)];
+		strcpy(result, &sprintf_buffer[0]);
 		return result;
 	}
 

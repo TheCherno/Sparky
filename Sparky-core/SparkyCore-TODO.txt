@@ -3,7 +3,10 @@
 --------------------
 
 - Complete event system with additional events (focus, close, resize, etc.)
+- Custom Allocators / Memory management
 - Font metrics
+- Eliminate hard coded projection matrices for 2D layers
+- Proper UI controls (eg. buttons for DebugMenuItem)
 - SP_DEBUG macros
 - Cameras -> projection and view matrices
 - mat3 support
@@ -15,5 +18,4 @@
 - ivec<x>, uvec<x>
 - Hash functions for maths classes
 - Raw Input instead of Win32 stuff
-- Memory management
 - String formatting

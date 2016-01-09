@@ -28,9 +28,6 @@ namespace sp { namespace debug {
 		renderer.SetRenderTarget(RenderTarget::SCREEN);
 		m_FPSLabel = new Label("", 30.0f, 17.2f, FontManager::Get(24), 0xffffffff);
 		Add(m_FPSLabel);
-
-		DebugMenu::Add("Example Item");
-		DebugMenu::Add("This is another example");
 	}
 
 	void DebugLayer::OnTick()
@@ -40,24 +37,26 @@ namespace sp { namespace debug {
 
 	void DebugLayer::OnUpdate()
 	{
+		DebugMenu::Get()->OnUpdate();
 	}
 
 	void DebugLayer::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<MouseMovedEvent>(METHOD(&DebugLayer::OnMouseMovedEvent));
 		dispatcher.Dispatch<KeyPressedEvent>(METHOD(&DebugLayer::OnKeyPressedEvent));
 		dispatcher.Dispatch<MousePressedEvent>(METHOD(&DebugLayer::OnMousePressedEvent));
-	}
-
-	bool DebugLayer::OnMouseMovedEvent(MouseMovedEvent& e)
-	{
-		return false;
+		dispatcher.Dispatch<MouseReleasedEvent>(METHOD(&DebugLayer::OnMouseReleasedEvent));
+		dispatcher.Dispatch<MouseMovedEvent>(METHOD(&DebugLayer::OnMouseMovedEvent));
 	}
 
 	bool DebugLayer::OnMousePressedEvent(events::MousePressedEvent& e)
 	{
-		return false;
+		return DebugMenu::IsVisible() ? DebugMenu::Get()->OnMousePressed(e) : false;
+	}
+
+	bool DebugLayer::OnMouseReleasedEvent(events::MouseReleasedEvent& e)
+	{
+		return DebugMenu::IsVisible() ? DebugMenu::Get()->OnMouseReleased(e) : false;
 	}
 
 	bool DebugLayer::OnKeyPressedEvent(KeyPressedEvent& e)
@@ -73,10 +72,15 @@ namespace sp { namespace debug {
 		return false;
 	}
 
+	bool DebugLayer::OnMouseMovedEvent(MouseMovedEvent& e)
+	{
+		return false;
+	}
+
 	void DebugLayer::OnRender(graphics::Renderer2D& renderer)
 	{
 		if (DebugMenu::IsVisible())
-			DebugMenu::OnRender(renderer);
+			DebugMenu::Get()->OnRender(renderer);
 	}
 
 } }

@@ -41,9 +41,11 @@ namespace sp {
 
 		void PushLayer(graphics::Layer* layer);
 		graphics::Layer* PopLayer();
-		
+		graphics::Layer* PopLayer(graphics::Layer* layer);
+
 		void PushOverlay(graphics::Layer* layer);
 		graphics::Layer* PopOverlay();
+		graphics::Layer* PopOverlay(graphics::Layer* layer);
 
 		void Start();
 		void Suspend();

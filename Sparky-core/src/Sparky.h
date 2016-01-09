@@ -10,6 +10,11 @@
 #include <sp/audio/Sound.h>
 #include <sp/audio/SoundManager.h>
 
+#include <sp/debug/DebugLayer.h>
+#include <sp/debug/DebugMenu.h>
+#include <sp/debug/DebugMenuAction.h>
+#include <sp/debug/DebugMenuItem.h>
+
 #include <sp/entity/Entity.h>
 #include <sp/entity/component/Component.h>
 #include <sp/entity/component/MeshComponent.h>

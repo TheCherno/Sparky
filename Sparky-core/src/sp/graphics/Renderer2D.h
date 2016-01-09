@@ -70,8 +70,14 @@ namespace sp { namespace graphics {
 		virtual void Submit(const Renderable2D* renderable) = 0;
 
 		// Drawables
-		virtual void DrawString(const String& text, const maths::vec3& position, const Font& font = *FontManager::Get(), uint color = 0xffffffff) { }
+		virtual void DrawLine(float x0, float y0, float x1, float y1, float thickness = 0.02f, uint color = 0xffffffff) { }
+		virtual void DrawLine(const maths::vec2& start, const maths::vec2& end, float thickness = 0.02f, uint color = 0xffffffff) { }
+		virtual void DrawRect(float x, float y, float width, float height, uint color = 0xffffffff) { }
+		virtual void DrawRect(const maths::Rectangle& rectangle, uint color = 0xffffffff) { }
+		virtual void DrawString(const String& text, const maths::vec2& position, const Font& font = *FontManager::Get(), uint color = 0xffffffff) { }
+
 		virtual void FillRect(float x, float y, float width, float height, uint color = 0xffffffff) { }
+		virtual void FillRect(const maths::Rectangle& rectangle, uint color = 0xffffffff) { }
 
 		virtual void End() {}
 		virtual void Present() = 0;

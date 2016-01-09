@@ -2,59 +2,56 @@
 
 #include "sp/sp.h"
 #include "sp/graphics/Renderer2D.h"
+#include "sp/graphics/ui/Panel.h"
+
+#include "DebugMenuAction.h"
+#include "DebugMenuItem.h"
+#include "DebugMenuSlider.h"
+#include "sp/graphics/ui/Slider.h"
 
 namespace sp { namespace debug {
 
-	struct IAction
-	{
-		String name;
-		IAction(const String& name)
-			: name(name) {}
+	typedef std::vector<IAction*> ActionList;
 
-		virtual String ToString() const { return name; }
+	struct DebugMenuSettings
+	{
+		float padding;
+		float fontSize;
 	};
 
-	template<typename T>
-	struct ValueAction : IAction
-	{
-	private:
-		using Getter = std::function<T()>;
-		using Setter = std::function<void(T)>;
-
-		Getter m_Getter;
-		Setter m_Setter;
-	public:
-		ValueAction(const String& name, const Getter& getter, const Setter& setter)
-			: IAction(name), m_Getter(getter), m_Setter(setter)
-		{
-		}
-		String ToString() const override
-		{
-			return name + " " + std::to_string(m_Getter());
-		}
-	};
-
-	typedef ValueAction<int>	IntAction;
-	typedef ValueAction<float>	FloatAction;
-
-	class DebugMenu
+	class SP_API DebugMenu
 	{
 	private:
 		static DebugMenu* s_Instance;
 	private:
 		bool m_Visible;
-		std::vector<IAction*> m_DebugMenuItems;
+		DebugMenuSettings m_Settings;
+		ActionList m_ActionList;
 
-		float m_Padding, m_FontSize;
+		// DebugMenuSlider* m_Slider;
+		graphics::ui::Panel* m_Panel;
+		graphics::ui::Slider* m_Slider;
 	public:
+		static DebugMenu* Get();
+
 		static void Init();
 		static void Add(const String& name);
 		static void Add(const String& name, float* value);
+		static void Add(const String& name, float* value, float mininmum, float maximum);
 
 		static bool IsVisible();
 		static void SetVisible(bool visible);
 
-		static void OnRender(graphics::Renderer2D& renderer);
+		static DebugMenuSettings& GetSettings();
+
+		void OnActivate();
+		void OnDeactivate();
+		void EditValue(float value, const graphics::ui::Slider::ValueChangedCallback& callback);
+
+		bool OnMousePressed(events::MousePressedEvent& e);
+		bool OnMouseReleased(events::MouseReleasedEvent& e);
+		void OnUpdate();
+		void OnRender(graphics::Renderer2D& renderer);
 	private:
 		DebugMenu();
 	};

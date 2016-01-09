@@ -67,4 +67,19 @@ namespace sp { namespace maths {
 		return ::atan2(y, x);
 	}
 
+	SP_API inline float min(float value, float minimum)
+	{
+		return (value < minimum) ? minimum : value;
+	}
+
+	SP_API inline float max(float value, float maximum)
+	{
+		return (value > maximum) ? maximum : value;
+	}
+
+	SP_API inline float clamp(float value, float minimum, float maximum)
+	{
+		return (value > minimum) ? (value < maximum) ? value : maximum : minimum;
+	}
+
 } }
