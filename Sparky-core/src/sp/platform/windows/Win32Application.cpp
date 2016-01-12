@@ -1,5 +1,5 @@
 #include "sp/sp.h"
-#include <sp/app/Application.h>
+#include "sp/app/Application.h"
 
 namespace sp {
 
@@ -16,7 +16,7 @@ namespace sp {
 
 	void Application::PlatformInit()
 	{
-		window = new graphics::Window(m_Name, m_Width, m_Height);
+		window = new Window(m_Name, m_Width, m_Height);
 		window->SetEventCallback(METHOD(&Application::OnEvent));
 	}
 
@@ -56,7 +56,6 @@ namespace sp {
 			window->Clear();
 			if (m_Timer->Elapsed() - updateTimer > updateTick)
 			{
-				window->UpdateInput();
 				OnUpdate();
 				updates++;
 				updateTimer += updateTick;

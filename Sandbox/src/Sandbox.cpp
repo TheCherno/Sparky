@@ -7,8 +7,8 @@ using namespace sp;
 using namespace graphics;
 using namespace maths;
 
-#define WIDTH 960
-#define HEIGHT 540
+#define WIDTH	1280
+#define HEIGHT	720
 
 class Game : public Application
 {
@@ -26,7 +26,7 @@ public:
 	{
 		Application::Init();
 		PushLayer(new Test3D());
-		PushOverlay(new TestLayer());
+		//PushOverlay(new TestLayer());
 	}
 };
 

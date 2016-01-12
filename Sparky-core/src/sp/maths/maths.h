@@ -7,6 +7,7 @@
 #include "vec4.h"
 
 #include "AABB.h"
+#include "Rectangle.h"
 
 #include "tvec2.h"
 

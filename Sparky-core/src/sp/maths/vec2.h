@@ -29,13 +29,18 @@ namespace sp { namespace maths {
 		friend vec2 operator+(vec2 left, float value);
 		friend vec2 operator*(vec2 left, float value);
 
-		bool operator==(const vec2& other);
-		bool operator!=(const vec2& other);
+		bool operator==(const vec2& other) const;
+		bool operator!=(const vec2& other) const;
 
 		vec2& operator+=(const vec2& other);
 		vec2& operator-=(const vec2& other);
 		vec2& operator*=(const vec2& other);
 		vec2& operator/=(const vec2& other);
+
+		bool operator<(const vec2& other) const;
+		bool operator<=(const vec2& other) const;
+		bool operator>(const vec2& other) const;
+		bool operator>=(const vec2& other) const;
 
 		float Magnitude() const;
 		vec2 Normalise() const;

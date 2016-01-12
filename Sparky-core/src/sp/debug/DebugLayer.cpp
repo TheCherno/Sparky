@@ -6,6 +6,8 @@
 #include "sp/graphics/Label.h"
 #include "sp/graphics/Sprite.h"
 
+#include "sp/embedded/Embedded.h"
+
 namespace sp { namespace debug {
 
 	using namespace maths;
@@ -13,67 +15,72 @@ namespace sp { namespace debug {
 	using namespace events;
 
 	DebugLayer::DebugLayer()
-		: Layer2D(ShaderFactory::DefaultShader(), mat4::Orthographic(0.0f, 32.0f, 0.0f, 18.0f, -1.0f, 1.0f))
+		: Layer2D(ShaderFactory::DefaultShader(), mat4::Orthographic(0.0f, 32.0f, 0.0f, 18.0f, -1.0f, 1.0f)), m_Application(Application::GetApplication())
 	{
-		m_Visible = false;
 	}
 
 	DebugLayer::~DebugLayer()
 	{
-
 	}
 
 	void DebugLayer::OnInit(graphics::Renderer2D& renderer, graphics::Shader& shader)
 	{
-		FontManager::Get()->SetScale(m_Window->GetWidth() / 32.0f, m_Window->GetHeight() / 18.0f);
-
 		renderer.SetRenderTarget(RenderTarget::SCREEN);
-		for (int i = 0; i < 5; i++)
-		{
-			float y = 18.0f - (i + 1) * 1.7f;
-			Add(new Sprite(0, y, 6, 1.5f, 0xcf7f7f7f));
-			Add(new Label(String("Item ") + std::to_string(i + 1), 0.2f, y + 0.4f, 0xffffffff));
-		}
+		m_FPSLabel = new Label("", 30.0f, 17.2f, FontManager::Get(24), 0xffffffff);
+		Add(m_FPSLabel);
 	}
 
 	void DebugLayer::OnTick()
 	{
-
+		m_FPSLabel->text = std::to_string(m_Application.GetFPS()) + " fps";
 	}
 
 	void DebugLayer::OnUpdate()
 	{
-
+		DebugMenu::Get()->OnUpdate();
 	}
 
-	void DebugLayer::OnEvent(Event& event)
+	void DebugLayer::OnEvent(Event& e)
 	{
-		EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<MouseMovedEvent>(METHOD(&DebugLayer::OnMouseMovedEvent));
+		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<KeyPressedEvent>(METHOD(&DebugLayer::OnKeyPressedEvent));
+		dispatcher.Dispatch<MousePressedEvent>(METHOD(&DebugLayer::OnMousePressedEvent));
+		dispatcher.Dispatch<MouseReleasedEvent>(METHOD(&DebugLayer::OnMouseReleasedEvent));
+		dispatcher.Dispatch<MouseMovedEvent>(METHOD(&DebugLayer::OnMouseMovedEvent));
 	}
 
-	bool DebugLayer::OnMouseMovedEvent(MouseMovedEvent& event)
+	bool DebugLayer::OnMousePressedEvent(events::MousePressedEvent& e)
 	{
-		return false;
+		return DebugMenu::IsVisible() ? DebugMenu::Get()->OnMousePressed(e) : false;
 	}
 
-	bool DebugLayer::OnKeyPressedEvent(KeyPressedEvent& event)
+	bool DebugLayer::OnMouseReleasedEvent(events::MouseReleasedEvent& e)
 	{
-		if (event.GetRepeat())
+		return DebugMenu::IsVisible() ? DebugMenu::Get()->OnMouseReleased(e) : false;
+	}
+
+	bool DebugLayer::OnKeyPressedEvent(KeyPressedEvent& e)
+	{
+		if (e.GetRepeat())
 			return false;
 
-		if (event.GetModifiers() == SP_MODIFIER_LEFT_CONTROL && event.GetKeyCode() == VK_TAB)
+		if (e.GetModifiers() == SP_MODIFIER_LEFT_CONTROL && e.GetKeyCode() == SP_KEY_TAB)
 		{
-			m_Visible = !m_Visible;
+			DebugMenu::SetVisible(!DebugMenu::IsVisible());
 			return true;
 		}
 		return false;
 	}
 
+	bool DebugLayer::OnMouseMovedEvent(MouseMovedEvent& e)
+	{
+		return false;
+	}
+
 	void DebugLayer::OnRender(graphics::Renderer2D& renderer)
 	{
-
+		if (DebugMenu::IsVisible())
+			DebugMenu::Get()->OnRender(renderer);
 	}
 
 } }

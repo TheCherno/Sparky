@@ -71,14 +71,6 @@ void *_alloca(size_t size);
 #  include <memory.h>
 #endif
 
-#ifndef min
-#  define min(x,y)  ((x)>(y)?(y):(x))
-#endif
-
-#ifndef max
-#  define max(x,y)  ((x)<(y)?(y):(x))
-#endif
-
 #if defined(__i386__) && defined(__GNUC__) && !defined(__BEOS__)
 #  define VORBIS_FPU_CONTROL
 /* both GCC and MSVC are kinda stupid about rounding/casting to int.

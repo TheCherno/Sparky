@@ -1,7 +1,8 @@
 #include "sp/sp.h"
 #include "MayaCamera.h"
 
-#include "../Window.h"
+#include "sp/app/Window.h"
+#include "sp/app/Input.h"
 
 namespace sp { namespace graphics {
 
@@ -27,19 +28,17 @@ namespace sp { namespace graphics {
 
 	void MayaCamera::Update()
 	{
-		Window* window = Window::GetWindowClass(nullptr);
-
-		if (window->IsKeyPressed(VK_ALT))
+		if (Input::IsKeyPressed(SP_KEY_ALT))
 		{
-			const vec2& mouse = window->GetMousePosition();
+			const vec2& mouse = Input::GetMousePosition();
 			vec2 delta = mouse - m_InitialMousePosition;
 			m_InitialMousePosition = mouse;
 
-			if (window->IsMouseButtonPressed(SP_MOUSE_MIDDLE))
+			if (Input::IsMouseButtonPressed(SP_MOUSE_MIDDLE))
 				MousePan(delta);
-			else if (window->IsMouseButtonPressed(SP_MOUSE_LEFT))
+			else if (Input::IsMouseButtonPressed(SP_MOUSE_LEFT))
 				MouseRotate(delta);
-			else if (window->IsMouseButtonPressed(SP_MOUSE_RIGHT))
+			else if (Input::IsMouseButtonPressed(SP_MOUSE_RIGHT))
 				MouseZoom(delta.y);
 
 		}

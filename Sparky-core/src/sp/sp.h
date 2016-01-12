@@ -18,3 +18,4 @@
 #include <math.h>
 
 #include "sp/Common.h"
+#include "sp/Types.h"

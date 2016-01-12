@@ -5,9 +5,15 @@
 //
 
 #include <sp/app/Application.h>
+#include <sp/app/Window.h>
 
 #include <sp/audio/Sound.h>
 #include <sp/audio/SoundManager.h>
+
+#include <sp/debug/DebugLayer.h>
+#include <sp/debug/DebugMenu.h>
+#include <sp/debug/DebugMenuAction.h>
+#include <sp/debug/DebugMenuItem.h>
 
 #include <sp/entity/Entity.h>
 #include <sp/entity/component/Component.h>
@@ -39,7 +45,6 @@
 #include <sp/graphics/Sprite.h>
 #include <sp/graphics/Texture.h>
 #include <sp/graphics/TextureManager.h>
-#include <sp/graphics/Window.h>
 
 #include <sp/graphics/buffers/Buffer.h>
 #include <sp/graphics/buffers/BufferLayout.h>

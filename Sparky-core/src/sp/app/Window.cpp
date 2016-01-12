@@ -3,10 +3,12 @@
 
 #include "sp/utils/Log.h"
 
-#include "../embedded/Embedded.h"
+#include "sp/embedded/Embedded.h"
 #include <GL/glew.h>
 
-namespace sp { namespace graphics {
+namespace sp {
+
+	using namespace graphics;
 
 	std::map<void*, Window*> Window::s_Handles;
 
@@ -22,6 +24,7 @@ namespace sp { namespace graphics {
 #ifdef SPARKY_PLATFORM_WEB
 		FontManager::Add(new Font("SourceSansPro", "res/SourceSansPro-Light.ttf", 32));
 #else
+		FontManager::SetScale(maths::vec2(m_Width / 32.0f, m_Height / 18.0f));
 		FontManager::Add(new Font("SourceSansPro", internal::DEFAULT_FONT, internal::DEFAULT_FONT_SIZE, 32));
 #endif
 
@@ -30,21 +33,7 @@ namespace sp { namespace graphics {
 #endif
 
 		audio::SoundManager::Init();
-
-		for (int i = 0; i < MAX_KEYS; i++)
-		{
-			m_KeyState[i] = false;
-			m_LastKeyState[i] = false;
-		}
-
-		for (int i = 0; i < MAX_BUTTONS; i++)
-		{
-			m_MouseButtons[i] = false;
-			m_MouseState[i] = false;
-			m_MouseClicked[i] = false;
-		}
-		m_MouseGrabbed = true;
-		m_KeyModifiers = 0;
+		m_InputManager = new InputManager();
 	}
 
 	Window::~Window()
@@ -74,49 +63,7 @@ namespace sp { namespace graphics {
 		SP_WARN("----------------------------------");
 		return true;
 	}
-
-	bool Window::IsKeyPressed(uint keycode) const
-	{
-		// TODO: Log this!
-		if (keycode >= MAX_KEYS)
-			return false;
-
-		return m_KeyState[keycode];
-	}
-
-	bool Window::IsMouseButtonPressed(uint button) const
-	{
-		// TODO: Log this!
-		if (button >= MAX_BUTTONS)
-			return false;
-
-		return m_MouseButtons[button];
-	}
-
-	bool Window::IsMouseButtonClicked(uint button) const
-	{
-		// TODO: Log this!
-		if (button >= MAX_BUTTONS)
-			return false;
-
-		return m_MouseClicked[button];
-	}
-
-	const maths::vec2& Window::GetMousePosition() const
-	{
-		return m_MousePosition;
-	}
-
-	const bool Window::IsMouseGrabbed() const
-	{
-		return m_MouseGrabbed;
-	}
-
-	void Window::SetMouseGrabbed(bool grabbed)
-	{
-		m_MouseGrabbed = grabbed;
-	}
-
+	
 	void Window::SetVsync(bool enabled)
 	{
 		// TODO: Not implemented
@@ -134,15 +81,6 @@ namespace sp { namespace graphics {
 		audio::SoundManager::Update();
 	}
 
-	void Window::UpdateInput()
-	{
-		for (int i = 0; i < MAX_BUTTONS; i++)
-			m_MouseClicked[i] = m_MouseButtons[i] && !m_MouseState[i];
-
-		memcpy(m_LastKeyState, m_KeyState, MAX_KEYS);
-		memcpy(m_MouseState, m_MouseButtons, MAX_BUTTONS);
-	}
-
 	bool Window::Closed() const
 	{
 		return m_Closed;
@@ -151,6 +89,7 @@ namespace sp { namespace graphics {
 	void Window::SetEventCallback(const WindowEventCallback& callback)
 	{
 		m_EventCallback = callback;
+		m_InputManager->SetEventCallback(m_EventCallback);
 	}
 
 	void Window::RegisterWindowClass(void* handle, Window* window)
@@ -166,4 +105,4 @@ namespace sp { namespace graphics {
 		return s_Handles[handle];
 	}
 
-} }
+}

@@ -2,7 +2,7 @@
 #include "Layer2D.h"
 
 #include "../BatchRenderer2D.h"
-#include "../Window.h"
+#include "sp/app/Window.h"
 
 namespace sp { namespace graphics {
 
@@ -59,6 +59,12 @@ namespace sp { namespace graphics {
 		return renderable;
 	}
 
+	Renderable2D* Layer2D::Submit(Renderable2D* renderable)
+	{
+		m_SubmittedRenderables.push_back(renderable);
+		return renderable;
+	}
+
 	void Layer2D::OnRender()
 	{
 		m_Shader->Bind();
@@ -67,10 +73,15 @@ namespace sp { namespace graphics {
 		for (const Renderable2D* renderable : m_Renderables)
 			renderable->Submit(m_Renderer);
 
+		for (const Renderable2D* renderable : m_SubmittedRenderables)
+			renderable->Submit(m_Renderer);
+
 		m_Renderer->End();
 		m_Renderer->Present();
 
 		OnRender(*m_Renderer);
+
+		m_SubmittedRenderables.clear();
 	}
 
 	void Layer2D::OnRender(Renderer2D& renderer)

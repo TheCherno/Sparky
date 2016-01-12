@@ -36,9 +36,6 @@ void TestLayer::OnInit(Renderer2D& renderer, Shader& shader)
 	Add(new Sprite(0.0f, 0.0f, 8, 8, new Texture("Tex", "res/tb.png")));
 	Add(new Sprite(-8.0f, -8.0f, 6, 6, 0xffff00ff));
 
-	m_Fps = new Label("", -15.5f, 7.8f, 0xffffffff);
-	Add(m_Fps);
-
 	debugInfo = new Label*[10];
 	debugInfo[0] = new Label("", -15.5f, 6.8f, 0xffffffff);
 	debugInfo[1] = new Label("", -15.5f, 5.8f, 0xffffffff);
@@ -54,7 +51,6 @@ void TestLayer::OnInit(Renderer2D& renderer, Shader& shader)
 void TestLayer::OnTick()
 {
 	Application& app = Application::GetApplication();
-	m_Fps->text = std::to_string(app.GetFPS()) + " fps";
 	SP_INFO(app.GetUPS(), " ups, ", app.GetFPS(), " fps");
 }
 
@@ -72,12 +68,12 @@ bool TestLayer::OnKeyPressedEvent(KeyPressedEvent& event)
 	if (event.GetRepeat())
 		return false;
 
-	if (event.GetKeyCode() == VK_T)
+	if (event.GetKeyCode() == SP_KEY_T)
 	{
 		renderer.SetRenderTarget(renderer.GetRenderTarget() == RenderTarget::SCREEN ? RenderTarget::BUFFER : RenderTarget::SCREEN);
 		return true;
 	}
-	if (event.GetKeyCode() == VK_P)
+	if (event.GetKeyCode() == SP_KEY_P)
 	{
 		renderer.SetPostEffects(!renderer.GetPostEffects());
 		return true;

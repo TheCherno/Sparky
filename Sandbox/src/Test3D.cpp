@@ -1,6 +1,7 @@
 #include "Test3D.h"
 
 using namespace sp;
+using namespace debug;
 using namespace graphics;
 using namespace maths;
 
@@ -18,6 +19,8 @@ Test3D::Test3D()
 Test3D::~Test3D()
 {
 }
+
+float xTransform = -4.0f;
 
 void Test3D::OnInit(Renderer3D& renderer, Scene& scene)
 {
@@ -40,6 +43,8 @@ void Test3D::OnInit(Renderer3D& renderer, Scene& scene)
 	m_Scene->Add(m_Cube);
 	m_Scene->Add(m_Sphere);
 	m_Scene->Add(m_Plane);
+
+	DebugMenu::Add("Cube X", &xTransform, -20.0f, 20.0f);
 }
 
 void Test3D::OnTick()
@@ -54,7 +59,7 @@ void Test3D::OnUpdate()
 	TransformComponent* sphereTransform = m_Sphere->GetComponent<TransformComponent>();
 
 	mat4 transform = mat4::Translate(vec3(0, 2.5f, 0)) * mat4::Rotate(m_Rotation, vec3(1, 0, 0)) * mat4::Rotate(m_Rotation, vec3(0, 1, 0)) * mat4::Rotate(m_Rotation, vec3(0, 0, 1));
-	cubeTransform->transform = mat4::Translate(vec3(-4, 0, 0)) * transform * mat4::Scale(vec3(1.4f, 1.4f, 1.4f));
+	cubeTransform->transform = mat4::Translate(vec3(xTransform, 0, 0)) * transform * mat4::Scale(vec3(1.4f, 1.4f, 1.4f));
 	sphereTransform->transform = mat4::Translate(vec3(4, 0, 0)) * transform;
 	m_Rotation++;
 }
@@ -62,4 +67,3 @@ void Test3D::OnUpdate()
 void Test3D::OnEvent(sp::events::Event& event)
 {
 }
-

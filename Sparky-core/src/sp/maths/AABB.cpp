@@ -18,6 +18,16 @@ namespace sp { namespace maths {
 	{
 	}
 
+	AABB::AABB(float x, float y, float width, float height)
+		: min(vec3(x, y, 0.0f)), max(vec3(width, height, 0.0f))
+	{
+	}
+
+	AABB::AABB(float x, float y, float z, float width, float height, float depth)
+		: min(vec3(x, y, z)), max(vec3(width, height, depth))
+	{
+	}
+
 	bool AABB::Intersects(const AABB& other) const
 	{
 		return (max > other.min && min < other.max) || (min > other.max && max < other.min);
@@ -38,12 +48,12 @@ namespace sp { namespace maths {
 		return (min - max) * 0.5f;
 	}
 
-	bool AABB::operator!=(const AABB& other) const
+	bool AABB::operator==(const AABB& other) const
 	{
 		return min == other.min && max == other.max;
 	}
 
-	bool AABB::operator==(const AABB& other) const
+	bool AABB::operator!=(const AABB& other) const
 	{
 		return !(*this == other);
 	}

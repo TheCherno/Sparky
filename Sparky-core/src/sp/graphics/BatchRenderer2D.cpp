@@ -94,6 +94,8 @@ namespace sp { namespace graphics {
 
 	float BatchRenderer2D::SubmitTexture(uint textureID)
 	{
+		if (!textureID)
+			SP_WARN("Invalid texture ID submitted!");
 		float result = 0.0f;
 		bool found = false;
 		for (uint i = 0; i < m_TextureSlots.size(); i++)
@@ -166,6 +168,9 @@ namespace sp { namespace graphics {
 
 	void BatchRenderer2D::Submit(const Renderable2D* renderable)
 	{
+		if (!renderable->IsVisible())
+			return;
+
 		const vec3& position = renderable->GetPosition();
 		const vec2& size = renderable->GetSize();
 		const uint color = renderable->GetColor();
@@ -225,25 +230,80 @@ namespace sp { namespace graphics {
 		m_IndexCount += 6;
 	}
 
-	void BatchRenderer2D::DrawAABB(const maths::AABB& aabb, uint color)
+	void BatchRenderer2D::DrawLine(float x0, float y0, float x1, float y1, float thickness, uint color)
 	{
-		// TODO: Draw 3D AABBs
-#if 0
-		m_DeferredLineVertexData.push_back({ aabb.min, vec2(), vec2(), 0, 0, color });
-		m_DeferredLineVertexData.push_back({ vec3(aabb.min.x, aabb.max.y, 0.0f), vec2(), vec2(), 0, 0, color });
+		const std::vector<vec2>& uv = Renderable2D::GetDefaultUVs();
+		float ts = 0.0f;
+		mat4 maskTransform = mat4::Identity();
+		uint mid = m_Mask ? m_Mask->texture->GetID() : 0;
 
- 		m_DeferredLineVertexData.push_back({ vec3(aabb.min.x, aabb.max.y, 0.0f), vec2(), vec2(), 0, 0, color });
- 		m_DeferredLineVertexData.push_back({ aabb.max, vec2(), vec2(), 0, 0, color });
+		float ms = 0.0f;
+		if (m_Mask != nullptr)
+		{
+			maskTransform = mat4::Invert(m_Mask->transform);
+			ms = SubmitTexture(m_Mask->texture);
+		}
 
- 		m_DeferredLineVertexData.push_back({ aabb.max, vec2(), vec2(), 0, 0, color });
- 		m_DeferredLineVertexData.push_back({ vec3(aabb.max.x, aabb.min.y, 0.0f), vec2(), vec2(), 0, 0, color });
- 
- 		m_DeferredLineVertexData.push_back({ vec3(aabb.max.x, aabb.min.y, 0.0f), vec2(), vec2(), 0, 0, color });
- 		m_DeferredLineVertexData.push_back({ aabb.min, vec2(), vec2(), 0, 0, color });
-#endif
+		vec2 normal = vec2(y1 - y0, -(x1 - x0)).Normalise() * thickness;
+
+		vec3 vertex = *m_TransformationBack * vec3(x0 + normal.x, y0 + normal.y, 0.0f);
+		m_Buffer->vertex = vertex;
+		m_Buffer->uv = uv[0];
+		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
+		m_Buffer->color = color;
+		m_Buffer++;
+
+		vertex = *m_TransformationBack * vec3(x1 + normal.x, y1 + normal.y, 0.0f);
+		m_Buffer->vertex = vertex;
+		m_Buffer->uv = uv[1];
+		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
+		m_Buffer->color = color;
+		m_Buffer++;
+
+		vertex = *m_TransformationBack * vec3(x1 - normal.x, y1 - normal.y, 0.0f);
+		m_Buffer->vertex = vertex;
+		m_Buffer->uv = uv[2];
+		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
+		m_Buffer->color = color;
+		m_Buffer++;
+
+		vertex = *m_TransformationBack * vec3(x0 - normal.x, y0 - normal.y, 0.0f);
+		m_Buffer->vertex = vertex;
+		m_Buffer->uv = uv[3];
+		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
+		m_Buffer->color = color;
+		m_Buffer++;
+
+		m_IndexCount += 6;
 	}
 
-	void BatchRenderer2D::DrawString(const String& text, const maths::vec3& position, const Font& font, unsigned int color)
+	void BatchRenderer2D::DrawLine(const maths::vec2& start, const maths::vec2& end, float thickness, uint color)
+	{
+		DrawLine(start.x, start.y, end.x, end.y, thickness, color);
+	}
+
+	void BatchRenderer2D::DrawRect(float x, float y, float width, float height, uint color)
+	{
+		DrawLine(x, y, x + width, y);
+		DrawLine(x + width, y, x + width, y + height);
+		DrawLine(x + width, y + height, x, y + height);
+		DrawLine(x, y + height, x, y);
+	}
+
+	void BatchRenderer2D::DrawRect(const Rectangle& rectangle, uint color)
+	{
+		DrawRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height, color);
+	}
+
+	void BatchRenderer2D::DrawString(const String& text, const maths::vec2& position, const Font& font, uint color)
 	{
 		using namespace ftgl;
 
@@ -307,6 +367,66 @@ namespace sp { namespace graphics {
 				x += glyph->advance_x / scale.x;
 			}
 		}
+	}
+
+	void BatchRenderer2D::FillRect(float x, float y, float width, float height, uint color)
+	{
+		vec3 position(x, y, 0.0f);
+		vec2 size(width, height);
+		const std::vector<vec2>& uv = Renderable2D::GetDefaultUVs();
+		float ts = 0.0f;
+		mat4 maskTransform = mat4::Identity();
+		uint mid = m_Mask ? m_Mask->texture->GetID() : 0;
+
+		float ms = 0.0f;
+		if (m_Mask != nullptr)
+		{
+			maskTransform = mat4::Invert(m_Mask->transform);
+			ms = SubmitTexture(m_Mask->texture);
+		}
+
+		vec3 vertex = *m_TransformationBack * position;
+		m_Buffer->vertex = vertex;
+		m_Buffer->uv = uv[0];
+		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
+		m_Buffer->color = color;
+		m_Buffer++;
+
+		vertex = *m_TransformationBack * vec3(position.x, position.y + size.y, position.z);
+		m_Buffer->vertex = vertex;
+		m_Buffer->uv = uv[1];
+		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
+		m_Buffer->color = color;
+		m_Buffer++;
+
+		vertex = *m_TransformationBack * vec3(position.x + size.x, position.y + size.y, position.z);
+		m_Buffer->vertex = vertex;
+		m_Buffer->uv = uv[2];
+		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
+		m_Buffer->color = color;
+		m_Buffer++;
+
+		vertex = *m_TransformationBack * vec3(position.x + size.x, position.y, position.z);
+		m_Buffer->vertex = vertex;
+		m_Buffer->uv = uv[3];
+		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
+		m_Buffer->color = color;
+		m_Buffer++;
+
+		m_IndexCount += 6;
+	}
+
+	void BatchRenderer2D::FillRect(const Rectangle& rectangle, uint color)
+	{
+		FillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height, color);
 	}
 
 	void BatchRenderer2D::End()
