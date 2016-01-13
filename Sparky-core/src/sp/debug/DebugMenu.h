@@ -37,7 +37,7 @@ namespace sp { namespace debug {
 		static void Init();
 		static void Add(const String& name);
 		static void Add(const String& name, float* value);
-		static void Add(const String& name, float* value, float mininmum, float maximum);
+		static void Add(const String& name, float* value, float minimum, float maximum);
 
 		static bool IsVisible();
 		static void SetVisible(bool visible);
