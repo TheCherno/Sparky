@@ -164,6 +164,9 @@ namespace sp { namespace graphics {
 		glLinkProgram(program);
 		glValidateProgram(program);
 
+		glDetachShader(program, vertex);
+		glDetachShader(program, fragment);
+
 		glDeleteShader(vertex);
 		glDeleteShader(fragment);
 
