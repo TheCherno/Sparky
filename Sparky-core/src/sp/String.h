@@ -8,7 +8,7 @@ typedef std::string String;
 
 namespace sp {
 
-#define STRINGFORMAT_BUFFER_SIZE 10 * 1024
+	constexpr auto STRINGFORMAT_BUFFER_SIZE  { 10 * 1024 };
 
 	class SP_API StringFormat
 	{
