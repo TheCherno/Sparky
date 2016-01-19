@@ -259,6 +259,8 @@
     <ClCompile Include="src\sp\graphics\ui\Widget.cpp" />
     <ClCompile Include="src\sp\graphics\ui\Button.cpp" />
     <ClCompile Include="src\sp\graphics\ui\Slider.cpp" />
+    <ClCompile Include="src\sp\graphics\Light.cpp" />
+    <ClCompile Include="src\sp\graphics\LightSetup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Application.h">
@@ -507,6 +509,8 @@
     <ClInclude Include="src\sp\graphics\ui\Widget.h" />
     <ClInclude Include="src\sp\graphics\ui\Panel.h" />
     <ClInclude Include="src\sp\graphics\ui\Slider.h" />
+    <ClInclude Include="src\sp\graphics\Light.h" />
+    <ClInclude Include="src\sp\graphics\LightSetup.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="SparkyCore-TODO.txt" />

@@ -6,6 +6,7 @@
 #include <sp/entity/Entity.h>
 
 #include "camera/Camera.h"
+#include "LightSetup.h"
 
 namespace sp { namespace graphics {
 
@@ -17,11 +18,16 @@ namespace sp { namespace graphics {
 	private:
 		std::vector<entity::Entity*> m_Entities;
 		Camera* m_Camera;
+		std::vector<LightSetup*> m_LightSetupStack;
 	public:
 		Scene();
 		Scene(Camera* camera);
 		~Scene();
+
 		void Add(entity::Entity* entity);
+		void PushLightSetup(LightSetup* lightSetup);
+		LightSetup* PopLightSetup();
+
 		void Update();
 		void Render(Renderer3D& renderer);
 
