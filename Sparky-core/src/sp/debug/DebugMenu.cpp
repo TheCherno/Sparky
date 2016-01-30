@@ -103,7 +103,6 @@ namespace sp { namespace debug {
 
 	void DebugMenu::EditValue(float value, const Slider::ValueChangedCallback& callback)
 	{
-		// m_Slider = new DebugMenuSlider(m_DebugMenuItems[0].GetBounds().x + m_DebugMenuItems[0].GetBounds().width, 0.5f);
 		m_Slider->SetCallback(callback);
 		m_Slider->SetActive(true);
 		m_Slider->SetValue(value);
@@ -111,18 +110,10 @@ namespace sp { namespace debug {
 
 	void DebugMenu::OnUpdate()
 	{
-		if (m_Slider && m_Slider->IsActive())
-		{
-			float value = m_Slider->GetValue();
-
-		}
 	}
 
 	void DebugMenu::OnRender(graphics::Renderer2D& renderer)
 	{
-		SP_WARN(m_Settings.fontSize);
-// 		if (m_Slider)
-// 			m_Slider->OnRender(renderer);
 	}
 
 } }
