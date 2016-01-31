@@ -14,6 +14,7 @@ namespace sp { namespace graphics {
 		shaders[1] = &m_FragmentSource;
 
 		PreProcess(source, shaders);
+		delete[] shaders;
 		m_ShaderID = Load(m_VertexSource, m_FragmentSource);
 		ResolveUniforms();
 		ValidateUniforms();
