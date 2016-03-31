@@ -9,6 +9,8 @@
 	#include <gau.h>
 #endif
 
+#include "sp/system/Memory.h"
+
 namespace sp { namespace audio {
 
 #ifndef SPARKY_PLATFORM_WEB
@@ -59,8 +61,8 @@ namespace sp { namespace audio {
 
 	void SoundManager::Clean()
 	{
-		for (int i = 0; i < m_Sounds.size(); i++)
-			delete m_Sounds[i];
+		for (uint i = 0; i < m_Sounds.size(); i++)
+			spdel m_Sounds[i];
 
 #ifdef SPARKY_PLATFORM_WEB
 #else

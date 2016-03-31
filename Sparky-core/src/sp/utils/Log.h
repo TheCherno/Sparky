@@ -1,6 +1,5 @@
 #pragma once
 
-#include "sp/sp.h"
 #include "sp/Common.h"
 #include "sp/Types.h"
 
@@ -12,6 +11,10 @@
 #define SPARKY_LOG_LEVEL_ERROR 1
 #define SPARKY_LOG_LEVEL_WARN  2
 #define SPARKY_LOG_LEVEL_INFO  3
+
+#ifdef MOUSE_MOVED
+	#undef MOUSE_MOVED // Defined in wincon.h
+#endif
 
 namespace std
 {
@@ -95,7 +98,7 @@ namespace sp { namespace internal {
 	static const char* to_string<maths::vec2>(const maths::vec2& t)
 	{
 		// TODO: sprintf
-		String string = String("vec2: (") + std::to_string(t.x) + ", " + std::to_string(t.y) + ")";
+		String string = String("vec2: (") + StringFormat::ToString(t.x) + ", " + StringFormat::ToString(t.y) + ")";
 		char* result = new char[string.length()];
 		strcpy(result, &string[0]);
 		return result;
@@ -105,7 +108,7 @@ namespace sp { namespace internal {
 	static const char* to_string<maths::vec3>(const maths::vec3& t)
 	{
 		// TODO: sprintf
-		String string = String("vec3: (") + std::to_string(t.x) + ", " + std::to_string(t.y) + ", " + std::to_string(t.z) + ")";
+		String string = String("vec3: (") + StringFormat::ToString(t.x) + ", " + StringFormat::ToString(t.y) + ", " + StringFormat::ToString(t.z) + ")";
 		char* result = new char[string.length()];
 		strcpy(result, &string[0]);
 		return result;
@@ -221,7 +224,7 @@ namespace sp { namespace internal {
 	template <typename T>
 	static const char* to_string_internal(const T& t, const std::false_type& ignored)
 	{
-		auto x = std::to_string(t);
+		auto x = StringFormat::ToString(t);
 		return strcpy(to_string_buffer, x.c_str());
 	}
 
@@ -239,19 +242,19 @@ namespace sp { namespace internal {
 	}
 
 	template <typename First>
-	static void print_log_internal(char* buffer, int& position, First&& first)
+	static void print_log_internal(char* buffer, int32& position, First&& first)
 	{
 		const char* formatted = sp::internal::to_string<First>(first);
-		int length = strlen(formatted);
+		int32 length = strlen(formatted);
 		memcpy(&buffer[position], formatted, length);
 		position += length;
 	}
 
 	template <typename First, typename... Args>
-	static void print_log_internal(char* buffer, int& position, First&& first, Args&&... args)
+	static void print_log_internal(char* buffer, int32& position, First&& first, Args&&... args)
 	{
 		const char* formatted = sp::internal::to_string<First>(first);
-		int length = strlen(formatted);
+		int32 length = strlen(formatted);
 		memcpy(&buffer[position], formatted, length);
 		position += length;
 		if (sizeof...(Args))
@@ -259,10 +262,10 @@ namespace sp { namespace internal {
 	}
 
 	template <typename... Args>
-	static void log_message(int level, bool newline, Args... args)
+	static void log_message(int32 level, bool newline, Args... args)
 	{
 		char buffer[1024 * 10];
-		int position = 0;
+		int32 position = 0;
 		print_log_internal(buffer, position, std::forward<Args>(args)...);
 
 		if (newline)
@@ -328,15 +331,4 @@ namespace sp { namespace internal {
 		}
 #else
 #define SP_ASSERT(x, ...)
-#endif
-
-void check_error();
-bool log_gl_call(const char* function, const char* file, int line);
-
-#ifdef SP_DEBUG
-#define GLCall(x) check_error();\
-		x; \
-		if (!log_gl_call(#x, __FILE__, __LINE__)) __debugbreak();
-#else
-#define GLCall(x) x
 #endif

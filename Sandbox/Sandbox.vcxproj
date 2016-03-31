@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3A87EAB9-F0FF-4C31-905F-E3D07BF021FF}</ProjectGuid>
     <RootNamespace>Sandbox</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -42,7 +43,7 @@
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\$(ProjectName)</IntDir>
+    <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
@@ -56,12 +57,18 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)Sparky-core\src\</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SP_PLATFORM_WINDOWS;SPARKY_PLATFORM_WIN32;GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SP_PLATFORM_WINDOWS;SPARKY_PLATFORM_WIN32;SP_DEBUG;GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -71,7 +78,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)Sparky-core\src\</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SP_PLATFORM_WINDOWS;SPARKY_PLATFORM_WIN32;GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SP_PLATFORM_WINDOWS;SPARKY_PLATFORM_WIN32;SP_RELEASE;GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -82,6 +89,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -90,17 +99,32 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="shaders\AdvancedLighting.shader" />
     <None Include="shaders\postfx.shader" />
     <None Include="shaders\Scene.shader" />
+    <None Include="shaders\ShadowPass.shader" />
+    <None Include="shaders\Skybox.shader" />
+    <None Include="shaders\StandardLighting.shader" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\DeferredTest.cpp" />
     <ClCompile Include="src\Sandbox.cpp" />
     <ClCompile Include="src\Test3D.cpp" />
-    <ClCompile Include="src\TestLayer.cpp" />
+    <ClCompile Include="src\Test2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\DeferredTest.h" />
     <ClInclude Include="src\Test3D.h" />
-    <ClInclude Include="src\TestLayer.h" />
+    <ClInclude Include="src\Test2D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shaders\AdvancedLighting.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
+    <None Include="shaders\Skybox.hlsl">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

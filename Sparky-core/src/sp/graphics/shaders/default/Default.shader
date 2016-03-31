@@ -10,9 +10,6 @@ layout (location = 4) in float mid;
 layout (location = 5) in vec4 color;
 
 uniform mat4 pr_matrix;
-uniform mat4 vw_matrix = mat4(1.0);
-uniform mat4 ml_matrix = mat4(1.0);
-
 uniform mat4 mask_matrix;
 
 out DATA
@@ -27,8 +24,8 @@ out DATA
 
 void main()
 {
-	gl_Position = pr_matrix * vw_matrix * ml_matrix * position;
-	vs_out.position = ml_matrix * position;
+	gl_Position = pr_matrix * position;
+	vs_out.position = position;
 	vs_out.uv = uv;
 	vs_out.tid = tid;
 	vs_out.mid = mid;
@@ -67,6 +64,6 @@ void main()
 		int mid = int(fs_in.mid - 0.5);
 		maskColor = texture(textures[mid], fs_in.mask_uv);
 	}
-	color = texColor * maskColor; // vec4(1.0 - maskColor.x, 1.0 - maskColor.y, 1.0 - maskColor.z, 1.0);
+	color = texColor /* maskColor*/; // vec4(1.0 - maskColor.x, 1.0 - maskColor.y, 1.0 - maskColor.z, 1.0);
 };
 )"

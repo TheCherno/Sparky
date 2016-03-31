@@ -42,7 +42,7 @@ namespace sp { namespace graphics {
 			if (font->GetSize() == size)
 				return font;
 		}
-		Font* result = new Font("SourceSansPro", internal::DEFAULT_FONT, internal::DEFAULT_FONT_SIZE, size);
+		Font* result = new Font("SourceSansPro", internal::DEFAULT_FONT, internal::DEFAULT_FONT_SIZE, (float)size);
 		result->SetScale(s_Scale);
 		Add(result);
 		return result;

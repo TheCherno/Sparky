@@ -4,38 +4,68 @@
 #include "sp/Common.h"
 
 #include "sp/Types.h"
+
+#include "sp/graphics/API/Texture.h"
+#include "sp/graphics/API/Texture2D.h"
+#include "sp/graphics/API/TextureCube.h"
+
 #include "sp/graphics/shaders/Shader.h"
 
 namespace sp { namespace graphics {
 
 	class SP_API Material
 	{
+	public:
+		enum class RenderFlags
+		{
+			NONE				= 0,
+			DISABLE_DEPTH_TEST	= BIT(0),
+			WIREFRAME			= BIT(1)
+		};
 	private:
 		friend class MaterialInstance;
+	protected:
+		API::Shader* m_Shader;
 
-		Shader* m_Shader;
-		byte* m_UniformData;
-		uint m_UniformDataSize;
+		byte* m_VSUserUniformBuffer;
+		uint m_VSUserUniformBufferSize;
+
+		byte* m_PSUserUniformBuffer;
+		uint m_PSUserUniformBufferSize;
+
+		std::vector<API::Texture*> m_Textures;
+
+		const API::ShaderUniformList* m_VSUserUniforms;
+		const API::ShaderUniformList* m_PSUserUniforms;
+		const API::ShaderResourceList* m_Resources;
+
+		int m_RenderFlags;
 	public:
-		Material(Shader* shader);
+		Material(API::Shader* shader);
 		~Material();
 
-		void Bind() const;
-		void Unbind() const;
-		void DumpUniformData() const;
+		void Bind();
+		void Unbind();
+		void SetUniformData(const String& uniform, byte* data);
+		void SetTexture(const String& name, API::Texture* texture);
 
-		inline Shader* GetShader() const { return m_Shader; }
+		inline int GetRenderFlags() const { return m_RenderFlags; }
+		void SetRenderFlags(int flags) { m_RenderFlags = flags; }
+		void SetRenderFlag(Material::RenderFlags flag) { m_RenderFlags |= (int)flag; }
+
+		inline API::Shader* GetShader() { return m_Shader; }
 
 		template<typename T>
-		void SetUniform(const String& name, const T& value)
+		void SetUniform(const String& name, const T& data)
 		{
-			const ShaderUniformDeclaration* uniform = GetUniformDeclaration(name);
-			if (!uniform)
+			byte* buffer;
+			API::ShaderUniformDeclaration* declaration = FindUniformDeclaration(name, &buffer);
+			if (!declaration)
 			{
-				SP_ERROR("Could not find uniform '", name, "'!");
+				SP_ERROR("Could not find uniform with name '", name, "'!");
 				return;
 			}
-			memcpy(m_UniformData + uniform->GetOffset(), &value, uniform->GetSize());
+			memcpy(buffer + declaration->GetOffset(), &data, declaration->GetSize());
 		}
 
 		template<typename T>
@@ -45,49 +75,66 @@ namespace sp { namespace graphics {
 		}
 
 		template<typename T>
-		const T* GetUniform(const ShaderUniformDeclaration* uniform) const
+		const T* GetUniform(const API::ShaderUniformDeclaration* uniform) const
 		{
 			return (T*)&m_UniformData[uniform->GetOffset()];
 		}
-
-	private:
-		void InitUniformStorage();
-		const ShaderUniformDeclaration* GetUniformDeclaration(const String& name) const;
+	protected:
+		void AllocateStorage();
+		API::ShaderUniformDeclaration* FindUniformDeclaration(const String& name, byte** outBuffer = nullptr);
+		API::ShaderResourceDeclaration* FindResourceDeclaration(const String& name);
 	};
 
 	class SP_API MaterialInstance
 	{
 	private:
 		Material* m_Material;
-		byte* m_UniformData;
-		uint m_UniformDataSize;
-		uint m_SetUniforms;
+
+		byte* m_VSUserUniformBuffer;
+		uint m_VSUserUniformBufferSize;
+
+		byte* m_PSUserUniformBuffer;
+		uint m_PSUserUniformBufferSize;
+
+		std::vector<API::Texture*> m_Textures;
+
+		const API::ShaderUniformList* m_VSUserUniforms;
+		const API::ShaderUniformList* m_PSUserUniforms;
+		const API::ShaderResourceList* m_Resources;
+
+		int m_RenderFlags;
 	public:
 		MaterialInstance(Material* material);
 
 		inline Material* GetMaterial() const { return m_Material; }
 
-		void Bind() const;
-		void Unbind() const;
-		void UnsetUniform(const String& name);
+		void Bind();
+		void Unbind();
+		void SetUniformData(const String& uniform, byte* data);
+		void SetTexture(const String& name, API::Texture* texture);
+
+		inline int GetRenderFlags() const { return m_RenderFlags; }
+		void SetRenderFlags(int flags) { m_RenderFlags = flags; }
+		void SetRenderFlag(Material::RenderFlags flag) { m_RenderFlags |= (int)flag; }
 
 		template<typename T>
-		void SetUniform(const String& name, const T& value)
+		void SetUniform(const String& name, const T& data)
 		{
-			int index = GetUniformDeclarationIndex(name);
-			if (index == -1)
-			{
-				SP_ERROR("Could not find uniform '", name, "'!");
-				return;
-			}
-			ShaderUniformDeclaration* uniform = m_Material->m_Shader->GetUniformDeclarations()[index];
-			memcpy(m_UniformData + uniform->GetOffset(), &value, uniform->GetSize());
+			byte* buffer;
+			API::ShaderUniformDeclaration* declaration = FindUniformDeclaration(name, &buffer);
+			SP_ASSERT(declaration);
+			memcpy(buffer + declaration->GetOffset(), &data, declaration->GetSize());
+		}
 
-			m_SetUniforms |= 1 << index;
+		template<typename T>
+		const T* GetUniform(const String& name) const
+		{
+			return GetUniform<T>(GetUniformDeclaration(name));
 		}
 	private:
-		void InitUniformStorage();
-		int GetUniformDeclarationIndex(const String& name) const;
+		void AllocateStorage();
+		API::ShaderUniformDeclaration* FindUniformDeclaration(const String& name, byte** outBuffer = nullptr);
+		API::ShaderResourceDeclaration* FindResourceDeclaration(const String& name);
 	};
 
 } }

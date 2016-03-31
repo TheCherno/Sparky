@@ -17,24 +17,38 @@
   <ItemGroup>
     <None Include="shaders\postfx.shader" />
     <None Include="shaders\Scene.shader" />
+    <None Include="shaders\StandardLighting.shader" />
+    <None Include="shaders\AdvancedLighting.shader" />
+    <None Include="shaders\ShadowPass.shader" />
+    <None Include="shaders\Skybox.hlsl" />
+    <None Include="shaders\Skybox.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Sandbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\TestLayer.cpp">
+    <ClCompile Include="src\Test3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Test3D.cpp">
+    <ClCompile Include="src\DeferredTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\TestLayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Test3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\DeferredTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shaders\AdvancedLighting.hlsl" />
   </ItemGroup>
 </Project>

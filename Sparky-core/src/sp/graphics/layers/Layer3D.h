@@ -5,6 +5,8 @@
 #include "Layer.h"
 #include "../Scene.h"
 
+#include "../ForwardRenderer.h"
+
 namespace sp { namespace graphics {
 
 	class SP_API Layer3D : public Layer
@@ -13,7 +15,7 @@ namespace sp { namespace graphics {
 		Scene* m_Scene;
 		Renderer3D* m_Renderer;
 	public:
-		Layer3D(Scene* scene);
+		Layer3D(Scene* scene, Renderer3D* renderer = new ForwardRenderer());
 		~Layer3D();
 
 		virtual void Init();
@@ -23,6 +25,8 @@ namespace sp { namespace graphics {
 
 		void OnRender() override;
 		virtual void OnRender(Renderer3D& renderer);
+	protected:
+		virtual bool OnResize(uint width, uint height) override;
 	};
 
 } }

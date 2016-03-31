@@ -55,23 +55,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(SolutionDir)Dependencies\Box2D\src;$(SolutionDir)Dependencies\gorilla-audio\src;$(SolutionDir)Dependencies\FreeType;$(SolutionDir)Dependencies\FreeType\include;$(SolutionDir)Dependencies\FreeImage\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\GLFW\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies\libogg\bin;$(SolutionDir)Dependencies\OpenAL\libs\Win32;$(SolutionDir)Dependencies\FreeImage\lib;$(SolutionDir)Dependencies\GLEW\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2013;$(SolutionDir)Dependencies\libvorbis\bin;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\$(ProjectName)\</IntDir>
+    <LibraryPath>$(SolutionDir)Dependencies\libogg\bin;$(SolutionDir)Dependencies\OpenAL\libs\Win32;$(SolutionDir)Dependencies\GLEW\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2013;$(SolutionDir)Dependencies\libvorbis\bin;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)bin\Release\</OutDir>
+    <IntDir>$(SolutionDir)bin\Release\Intermediates\$(ProjectName)\</IntDir>
     <TargetName>SPCore</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">
     <IncludePath>C:\Program Files\Emscripten\emscripten\1.30.0\system\include;$(SolutionDir)Dependencies\libvorbis\include;$(SolutionDir)Dependencies\OpenAL\include;$(ProjectDir)ext\freetype\include;$(SolutionDir)Dependencies\FreeImage\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\GLFW\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies\libogg\bin;$(SolutionDir)Dependencies\OpenAL\libs\Win32;$(SolutionDir)Dependencies\FreeImage\lib;$(SolutionDir)Dependencies\GLEW\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2013;$(SolutionDir)Dependencies\libvorbis\bin;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Dependencies\libogg\bin;$(SolutionDir)Dependencies\OpenAL\libs\Win32;$(SolutionDir)Dependencies\GLEW\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2013;$(SolutionDir)Dependencies\libvorbis\bin;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\$(ProjectName)\</IntDir>
     <TargetName>SPCore</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(SolutionDir)Dependencies\Box2D\src;$(SolutionDir)Dependencies\gorilla-audio\src;$(SolutionDir)Dependencies\FreeType;$(SolutionDir)Dependencies\FreeType\include;$(SolutionDir)Dependencies\FreeImage\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\GLFW\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies\libogg\bin;$(SolutionDir)Dependencies\OpenAL\libs\Win32;$(SolutionDir)Dependencies\FreeImage\lib;$(SolutionDir)Dependencies\GLEW\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2013;$(SolutionDir)Dependencies\libvorbis\bin;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\$(ProjectName)\</IntDir>
+    <LibraryPath>$(SolutionDir)Dependencies\libogg\bin;$(SolutionDir)Dependencies\OpenAL\libs\Win32;$(SolutionDir)Dependencies\GLEW\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2013;$(SolutionDir)Dependencies\libvorbis\bin;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)bin\Debug\</OutDir>
+    <IntDir>$(SolutionDir)bin\Debug\Intermediates\$(ProjectName)\</IntDir>
     <TargetName>SPCore</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -79,7 +79,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>SP_PLATFORM_WINDOWS;SP_CORE_DLL;SP_DEBUG;GLEW_STATIC;_WIN32;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SP_PLATFORM_WINDOWS;NOGDI;SP_RENDERAPI_OPENGL;SP_CORE_DLL;FREEIMAGE_LIB;OPJ_STATIC;SP_DEBUG;GLEW_STATIC;_WIN32;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
       <AdditionalIncludeDirectories>src</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -87,8 +87,15 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>FreeImage.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /f /y $(SolutionDir)Dependencies\FreeImage\bin\FreeImage.dll $(SolutionDir)bin\$(Configuration)\*
+xcopy /f /y $(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll $(SolutionDir)bin\$(Configuration)\*</Command>
+      <Message>Copying dependencies...</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -97,7 +104,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>SP_PLATFORM_WINDOWS;SP_CORE_DLL;SPARKY_PLATFORM_WIN32;GLEW_STATIC;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SP_PLATFORM_WINDOWS;NOGDI;SP_RENDERAPI_OPENGL;SP_CORE_DLL;FREEIMAGE_LIB;OPJ_STATIC;SPARKY_PLATFORM_WIN32;SP_RELEASE;GLEW_STATIC;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -111,9 +118,16 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>FreeImage.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /f /y $(SolutionDir)Dependencies\FreeImage\bin\FreeImage.dll $(SolutionDir)bin\$(Configuration)\*
+xcopy /f /y $(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll $(SolutionDir)bin\$(Configuration)\*</Command>
+      <Message>Copying dependencies...</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">
     <ClCompile>
@@ -122,7 +136,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>SP_PLATFORM_WINDOWS;SP_CORE_DLL;SPARKY_PLATFORM_WIN32;SPARKY_PLATFORM_WEB;GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SP_PLATFORM_WINDOWS;NOGDI;SP_RENDERAPI_OPENGL;SP_CORE_DLL;FREEIMAGE_LIB;OPJ_STATIC;SPARKY_PLATFORM_WIN32;SPARKY_PLATFORM_WEB;GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -136,29 +150,84 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>FreeImage.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /f /y $(SolutionDir)Dependencies\FreeImage\bin\FreeImage.dll $(SolutionDir)bin\$(Configuration)\*
+xcopy /f /y $(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll $(SolutionDir)bin\$(Configuration)\*</Command>
+      <Message>Copying dependencies...</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\sp\app\Input.cpp" />
     <ClCompile Include="src\sp\debug\DebugMenuItem.cpp" />
     <ClCompile Include="src\sp\debug\DebugMenuSlider.cpp" />
+    <ClCompile Include="src\sp\events\WindowEvent.cpp" />
+    <ClCompile Include="src\sp\graphics\API\Texture2D.cpp" />
+    <ClCompile Include="src\sp\graphics\API\TextureCube.cpp" />
+    <ClCompile Include="src\sp\graphics\API\TextureDepth.cpp" />
+    <ClCompile Include="src\sp\graphics\API\VertexBuffer.cpp" />
+    <ClCompile Include="src\sp\graphics\camera\FPSCamera.cpp" />
+    <ClCompile Include="src\sp\debug\DebugRenderer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\API\Context.cpp" />
+    <ClCompile Include="src\sp\graphics\DeferredRenderer.cpp" />
+    <ClCompile Include="src\sp\graphics\API\Framebuffer2D.cpp" />
+    <ClCompile Include="src\sp\graphics\API\FramebufferDepth.cpp" />
+    <ClCompile Include="src\sp\graphics\GBuffer.cpp" />
     <ClCompile Include="src\sp\graphics\Light.cpp" />
     <ClCompile Include="src\sp\graphics\LightSetup.cpp" />
+    <ClCompile Include="src\sp\graphics\Model.cpp" />
+    <ClCompile Include="src\sp\graphics\PBRMaterial.cpp" />
+    <ClCompile Include="src\sp\graphics\postfx\PostEffects.cpp" />
+    <ClCompile Include="src\sp\graphics\postfx\PostEffectsPass.cpp" />
+    <ClCompile Include="src\sp\graphics\Renderer.cpp" />
+    <ClCompile Include="src\sp\graphics\shaders\ShaderManager.cpp" />
+    <ClCompile Include="src\sp\platform\directx\DXFramebufferDepth.cpp" />
+    <ClCompile Include="src\sp\platform\directx\DXRenderer.cpp" />
+    <ClCompile Include="src\sp\platform\directx\DXShaderResource.cpp" />
+    <ClCompile Include="src\sp\platform\directx\DXShaderUniform.cpp" />
+    <ClCompile Include="src\sp\platform\directx\DXTexture2D.cpp" />
+    <ClCompile Include="src\sp\platform\directx\DXIndexBuffer.cpp" />
+    <ClCompile Include="src\sp\platform\directx\DXTextureCube.cpp" />
+    <ClCompile Include="src\sp\platform\directx\DXTextureDepth.cpp" />
+    <ClCompile Include="src\sp\platform\directx\DXFramebuffer2D.cpp" />
+    <ClCompile Include="src\sp\platform\opengl\GLError.cpp" />
+    <ClCompile Include="src\sp\platform\opengl\GLFramebuffer2D.cpp" />
+    <ClCompile Include="src\sp\platform\opengl\GLFramebufferDepth.cpp" />
+    <ClCompile Include="src\sp\platform\opengl\GLRenderer.cpp" />
+    <ClCompile Include="src\sp\platform\opengl\GLTexture2D.cpp" />
+    <ClCompile Include="src\sp\platform\opengl\GLTextureCube.cpp" />
+    <ClCompile Include="src\sp\platform\opengl\GLTextureDepth.cpp" />
     <ClCompile Include="src\sp\graphics\ui\Button.cpp" />
     <ClCompile Include="src\sp\graphics\ui\Panel.cpp" />
     <ClCompile Include="src\sp\graphics\ui\Slider.cpp" />
     <ClCompile Include="src\sp\graphics\ui\Widget.cpp" />
     <ClCompile Include="src\sp\maths\Rectangle.cpp" />
-    <ClCompile Include="src\sp\platform\opengl\SPOpenGLError.cpp" />
+    <ClCompile Include="src\sp\platform\directx\DXVertexBuffer.cpp" />
+    <ClCompile Include="src\sp\platform\directx\DXContext.cpp" />
+    <ClCompile Include="src\sp\platform\directx\DXShader.cpp" />
+    <ClCompile Include="src\sp\platform\directx\DXVertexArray.cpp" />
+    <ClCompile Include="src\sp\platform\opengl\GLVertexBuffer.cpp" />
+    <ClCompile Include="src\sp\platform\opengl\GLContext.cpp" />
+    <ClCompile Include="src\sp\platform\opengl\GLShader.cpp" />
+    <ClCompile Include="src\sp\platform\opengl\GLShaderResource.cpp" />
+    <ClCompile Include="src\sp\platform\opengl\GLVertexArray.cpp" />
+    <ClCompile Include="src\sp\platform\opengl\GLShaderUniform.cpp" />
+    <ClCompile Include="src\sp\platform\opengl\GLIndexBuffer.cpp" />
     <ClCompile Include="src\sp\platform\posix\PosixTimer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="src\sp\platform\windows\Win32Input.cpp" />
-    <ClCompile Include="src\sp\platform\windows\Win32Timer.cpp" />
+    <ClCompile Include="src\sp\platform\windows\Win32Timer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="src\sp\app\Application.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sp/sp.h</PrecompiledHeaderFile>
@@ -257,7 +326,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\sp\graphics\buffers\BufferLayout.cpp">
+    <ClCompile Include="src\sp\graphics\API\BufferLayout.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sp/sp.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">Use</PrecompiledHeader>
@@ -265,7 +334,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\sp\graphics\buffers\IndexBuffer.cpp">
+    <ClCompile Include="src\sp\graphics\API\IndexBuffer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sp/sp.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">Use</PrecompiledHeader>
@@ -273,7 +342,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\sp\graphics\buffers\VertexArray.cpp">
+    <ClCompile Include="src\sp\graphics\API\VertexArray.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sp/sp.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">Use</PrecompiledHeader>
@@ -321,7 +390,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\sp\graphics\Framebuffer.cpp">
+    <ClCompile Include="src\sp\graphics\API\Framebuffer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sp/sp.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">Use</PrecompiledHeader>
@@ -393,23 +462,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\sp\graphics\Model.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sp/sp.h</PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">sp/sp.h</PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\sp\graphics\postfx\PostEffects.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sp/sp.h</PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">sp/sp.h</PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\sp\graphics\postfx\PostEffectsPass.cpp">
+    <ClCompile Include="src\sp\graphics\OBJModel.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sp/sp.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">Use</PrecompiledHeader>
@@ -457,7 +510,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\sp\graphics\Texture.cpp">
+    <ClCompile Include="src\sp\graphics\API\Texture.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sp/sp.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">Use</PrecompiledHeader>
@@ -529,22 +582,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\sp\platform\opengl\SPOpenGLBuffer.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sp/sp.h</PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">sp/sp.h</PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\sp\platform\opengl\SPOpenGLRenderAPI.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sp/sp.h</PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">sp/sp.h</PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="src\sp\platform\windows\Win32Application.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sp/sp.h</PrecompiledHeaderFile>
@@ -585,6 +622,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\sp\system\Allocator.cpp" />
+    <ClCompile Include="src\sp\system\Memory.cpp" />
+    <ClCompile Include="src\sp\system\MemoryManager.cpp" />
+    <ClCompile Include="src\sp\system\System.cpp" />
+    <ClCompile Include="src\sp\utils\FileUtils.cpp" />
     <ClCompile Include="src\sp\utils\ImageLoad.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -592,14 +634,62 @@
     <ClInclude Include="src\sp\debug\DebugMenuAction.h" />
     <ClInclude Include="src\sp\debug\DebugMenuItem.h" />
     <ClInclude Include="src\sp\debug\DebugMenuSlider.h" />
+    <ClInclude Include="src\sp\events\WindowEvent.h" />
+    <ClInclude Include="src\sp\graphics\API\VertexBuffer.h" />
+    <ClInclude Include="src\sp\graphics\camera\FPSCamera.h" />
+    <ClInclude Include="src\sp\debug\DebugRenderer.h" />
+    <ClInclude Include="src\sp\graphics\API\Context.h" />
+    <ClInclude Include="src\sp\graphics\DeferredRenderer.h" />
+    <ClInclude Include="src\sp\graphics\API\Framebuffer2D.h" />
+    <ClInclude Include="src\sp\graphics\API\FramebufferDepth.h" />
+    <ClInclude Include="src\sp\graphics\GBuffer.h" />
     <ClInclude Include="src\sp\graphics\Light.h" />
     <ClInclude Include="src\sp\graphics\LightSetup.h" />
+    <ClInclude Include="src\sp\graphics\PBRMaterial.h" />
+    <ClInclude Include="src\sp\graphics\postfx\PostEffects.h" />
+    <ClInclude Include="src\sp\graphics\postfx\PostEffectsPass.h" />
+    <ClInclude Include="src\sp\graphics\Renderer.h" />
+    <ClInclude Include="src\sp\graphics\shaders\ShaderManager.h" />
+    <ClInclude Include="src\sp\graphics\shaders\ShaderResource.h" />
+    <ClInclude Include="src\sp\graphics\API\Texture2D.h" />
+    <ClInclude Include="src\sp\graphics\API\TextureCube.h" />
+    <ClInclude Include="src\sp\graphics\API\TextureDepth.h" />
     <ClInclude Include="src\sp\graphics\ui\Button.h" />
     <ClInclude Include="src\sp\graphics\ui\Panel.h" />
     <ClInclude Include="src\sp\graphics\ui\Slider.h" />
     <ClInclude Include="src\sp\graphics\ui\Widget.h" />
     <ClInclude Include="src\sp\maths\Rectangle.h" />
-    <ClInclude Include="src\sp\platform\opengl\SPOpenGLTypes.h" />
+    <ClInclude Include="src\sp\platform\directx\DXCommon.h" />
+    <ClInclude Include="src\sp\platform\directx\DXContext.h" />
+    <ClInclude Include="src\sp\platform\directx\DXFramebufferDepth.h" />
+    <ClInclude Include="src\sp\platform\directx\DXRenderer.h" />
+    <ClInclude Include="src\sp\platform\directx\DXShader.h" />
+    <ClInclude Include="src\sp\platform\directx\DXShaderResource.h" />
+    <ClInclude Include="src\sp\platform\directx\DXShaderUniform.h" />
+    <ClInclude Include="src\sp\platform\directx\DXTexture2D.h" />
+    <ClInclude Include="src\sp\platform\directx\DXTextureCube.h" />
+    <ClInclude Include="src\sp\platform\directx\DXTextureDepth.h" />
+    <ClInclude Include="src\sp\platform\directx\DXTextureHandle.h" />
+    <ClInclude Include="src\sp\platform\directx\DXTypes.h" />
+    <ClInclude Include="src\sp\platform\directx\DXVertexArray.h" />
+    <ClInclude Include="src\sp\platform\directx\DXVertexBuffer.h" />
+    <ClInclude Include="src\sp\platform\directx\DXIndexBuffer.h" />
+    <ClInclude Include="src\sp\platform\directx\DXFramebuffer2D.h" />
+    <ClInclude Include="src\sp\platform\opengl\GLFramebuffer2D.h" />
+    <ClInclude Include="src\sp\platform\opengl\GLFramebufferDepth.h" />
+    <ClInclude Include="src\sp\platform\opengl\GLRenderer.h" />
+    <ClInclude Include="src\sp\platform\opengl\GLCommon.h" />
+    <ClInclude Include="src\sp\platform\opengl\GLContext.h" />
+    <ClInclude Include="src\sp\platform\opengl\GLIndexBuffer.h" />
+    <ClInclude Include="src\sp\platform\opengl\GLShader.h" />
+    <ClInclude Include="src\sp\platform\opengl\GLShaderUniform.h" />
+    <ClInclude Include="src\sp\platform\opengl\GLShaderResource.h" />
+    <ClInclude Include="src\sp\platform\opengl\GLTexture2D.h" />
+    <ClInclude Include="src\sp\platform\opengl\GLTextureCube.h" />
+    <ClInclude Include="src\sp\platform\opengl\GLTextureDepth.h" />
+    <ClInclude Include="src\sp\platform\opengl\GLTypes.h" />
+    <ClInclude Include="src\sp\platform\opengl\GLVertexArray.h" />
+    <ClInclude Include="src\sp\platform\opengl\GLVertexBuffer.h" />
     <ClInclude Include="src\Sparky.h" />
     <ClInclude Include="src\sp\app\Application.h" />
     <ClInclude Include="src\sp\audio\Sound.h" />
@@ -621,15 +711,15 @@
     <ClInclude Include="src\sp\events\MouseEvent.h" />
     <ClInclude Include="src\sp\graphics\BatchRenderer2D.h" />
     <ClInclude Include="src\sp\graphics\buffers\Buffer.h" />
-    <ClInclude Include="src\sp\graphics\buffers\BufferLayout.h" />
-    <ClInclude Include="src\sp\graphics\buffers\IndexBuffer.h" />
-    <ClInclude Include="src\sp\graphics\buffers\VertexArray.h" />
+    <ClInclude Include="src\sp\graphics\API\BufferLayout.h" />
+    <ClInclude Include="src\sp\graphics\API\IndexBuffer.h" />
+    <ClInclude Include="src\sp\graphics\API\VertexArray.h" />
     <ClInclude Include="src\sp\graphics\camera\Camera.h" />
     <ClInclude Include="src\sp\graphics\camera\MayaCamera.h" />
     <ClInclude Include="src\sp\graphics\Font.h" />
     <ClInclude Include="src\sp\graphics\FontManager.h" />
     <ClInclude Include="src\sp\graphics\ForwardRenderer.h" />
-    <ClInclude Include="src\sp\graphics\Framebuffer.h" />
+    <ClInclude Include="src\sp\graphics\API\Framebuffer.h" />
     <ClInclude Include="src\sp\graphics\IRenderable.h" />
     <ClInclude Include="src\sp\graphics\Label.h" />
     <ClInclude Include="src\sp\graphics\layers\Group.h" />
@@ -641,8 +731,6 @@
     <ClInclude Include="src\sp\graphics\Mesh.h" />
     <ClInclude Include="src\sp\graphics\MeshFactory.h" />
     <ClInclude Include="src\sp\graphics\Model.h" />
-    <ClInclude Include="src\sp\graphics\postfx\PostEffects.h" />
-    <ClInclude Include="src\sp\graphics\postfx\PostEffectsPass.h" />
     <ClInclude Include="src\sp\graphics\Renderable2D.h" />
     <ClInclude Include="src\sp\graphics\RenderCommand.h" />
     <ClInclude Include="src\sp\graphics\Renderer2D.h" />
@@ -651,9 +739,8 @@
     <ClInclude Include="src\sp\graphics\shaders\Shader.h" />
     <ClInclude Include="src\sp\graphics\shaders\ShaderFactory.h" />
     <ClInclude Include="src\sp\graphics\shaders\ShaderUniform.h" />
-    <ClInclude Include="src\sp\graphics\SPRenderAPI.h" />
     <ClInclude Include="src\sp\graphics\Sprite.h" />
-    <ClInclude Include="src\sp\graphics\Texture.h" />
+    <ClInclude Include="src\sp\graphics\API\Texture.h" />
     <ClInclude Include="src\sp\graphics\TextureManager.h" />
     <ClInclude Include="src\sp\app\Window.h" />
     <ClInclude Include="src\sp\maths\AABB.h" />
@@ -665,14 +752,17 @@
     <ClInclude Include="src\sp\maths\vec2.h" />
     <ClInclude Include="src\sp\maths\vec3.h" />
     <ClInclude Include="src\sp\maths\vec4.h" />
-    <ClInclude Include="src\sp\platform\opengl\SPOpenGLBuffer.h" />
+    <ClCompile Include="src\sp\platform\windows\Win32MemoryManager.cpp" />
     <ClInclude Include="src\sp\sp.h" />
     <ClInclude Include="src\sp\String.h" />
+    <ClInclude Include="src\sp\system\Allocator.h" />
+    <ClInclude Include="src\sp\system\Memory.h" />
+    <ClInclude Include="src\sp\system\MemoryManager.h" />
+    <ClInclude Include="src\sp\system\System.h" />
     <ClInclude Include="src\sp\Types.h" />
     <ClInclude Include="src\sp\utils\FileUtils.h" />
     <ClInclude Include="src\sp\utils\ImageLoad.h" />
     <ClInclude Include="src\sp\utils\Log.h" />
-    <ClInclude Include="src\sp\utils\StringUtils.h" />
     <ClInclude Include="src\sp\utils\Timer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -680,9 +770,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\sp\embedded\files\SourceSansPro-Light.embed" />
-    <None Include="src\sp\platform\opengl\SPOpenGLRenderAPI.inl" />
+    <None Include="src\sp\graphics\shaders\default\Debug.shader" />
+    <None Include="src\sp\graphics\shaders\default\GeometryPass.shader" />
     <None Include="src\sp\graphics\shaders\default\BasicLight.shader" />
-    <None Include="src\sp\graphics\shaders\default\Default.shader" />
+    <None Include="src\sp\platform\opengl\shaders\BatchRenderer.shader" />
     <None Include="src\sp\graphics\shaders\default\gles\Default.shader" />
     <None Include="src\sp\graphics\shaders\default\gles\Simple.shader" />
     <None Include="src\sp\graphics\shaders\default\Simple.shader" />
@@ -691,12 +782,22 @@
     <ProjectReference Include="..\Dependencies\Box2D\Box2D.vcxproj">
       <Project>{bce9869c-cde3-4935-99ab-4522493ce0b3}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Dependencies\FreeImage\FreeImage.vcxproj">
+      <Project>{6f2ff135-e343-4138-a6fb-2d1f2540a3f8}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Dependencies\FreeType\FreeType.vcxproj">
       <Project>{1b0bc2c5-1a09-4017-bdf5-9f9c1718bfe7}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Dependencies\gorilla-audio\gorilla-audio.vcxproj">
       <Project>{e9a0f826-3688-4461-8e49-7ccc543f9e40}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="src\sp\platform\directx\shaders\BatchRenderer.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

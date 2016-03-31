@@ -2,6 +2,10 @@
 #include "Application.h"
 
 #include "sp/debug/DebugLayer.h"
+#include "sp/debug/DebugRenderer.h"
+
+#include "sp/system/System.h"
+#include "sp/system/Memory.h"
 
 namespace sp {
 
@@ -11,11 +15,13 @@ namespace sp {
 
 	void Application::Init()
 	{
+		internal::System::Init();
 		PlatformInit();
 
 		debug::DebugMenu::Init();
+		//debug::DebugRenderer::Init();
 
-		m_DebugLayer = new debug::DebugLayer();
+		m_DebugLayer = spnew debug::DebugLayer();
 		m_DebugLayer->Init();
 	}
 
@@ -78,14 +84,14 @@ namespace sp {
 		if (event.IsHandled()) // TODO(Yan): Maybe this shouldn't happen
 			return;
 
-		for (int i = m_OverlayStack.size() - 1; i >= 0; i--)
+		for (int32 i = m_OverlayStack.size() - 1; i >= 0; i--)
 		{
 			m_OverlayStack[i]->OnEvent(event);
 			if (event.IsHandled())
 				return;
 		}
 
-		for (int i = m_LayerStack.size() - 1; i >= 0; i--)
+		for (int32 i = m_LayerStack.size() - 1; i >= 0; i--)
 		{
 			m_LayerStack[i]->OnEvent(event);
 			if (event.IsHandled())
@@ -132,6 +138,8 @@ namespace sp {
 		Layer2D* debugLayer = (Layer2D*)m_DebugLayer;
 		if (debugLayer->IsVisible())
 			debugLayer->OnRender();
+
+		// debug::DebugRenderer::Present();
 	}
 
 }

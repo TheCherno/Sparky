@@ -18,6 +18,7 @@ namespace sp { namespace graphics {
 		float m_Pitch, m_Yaw;
 	public:
 		MayaCamera(const maths::mat4& projectionMatrix);
+		void Focus() override;
 		void Update() override;
 	private:
 		void MousePan(const maths::vec2& delta);
@@ -29,7 +30,7 @@ namespace sp { namespace graphics {
 		maths::vec3 GetRightDirection();
 		maths::vec3 GetForwardDirection();
 
-		maths::vec3 GetPosition();
+		maths::vec3 CalculatePosition();
 		maths::Quaternion GetOrientation();
 	};
 

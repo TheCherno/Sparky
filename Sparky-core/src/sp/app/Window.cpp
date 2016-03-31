@@ -1,10 +1,12 @@
 #include "sp/sp.h"
 #include "Window.h"
 
+#include "sp/graphics/Renderer.h"
+
 #include "sp/utils/Log.h"
 
 #include "sp/embedded/Embedded.h"
-#include <GL/glew.h>
+#include <FreeImage.h>
 
 namespace sp {
 
@@ -12,8 +14,8 @@ namespace sp {
 
 	std::map<void*, Window*> Window::s_Handles;
 
-	Window::Window(const char *title, uint width, uint height)
-		: m_Title(title), m_Width(width), m_Height(height), m_Handle(nullptr), m_Closed(false), m_EventCallback(nullptr)
+	Window::Window(const char *title, uint width, uint height, bool fullscreen)
+		: m_Properties({ String(title), width, height, fullscreen }), m_Handle(nullptr), m_Closed(false), m_EventCallback(nullptr)
 	{
 		if (!Init())
 		{
@@ -24,13 +26,11 @@ namespace sp {
 #ifdef SPARKY_PLATFORM_WEB
 		FontManager::Add(new Font("SourceSansPro", "res/SourceSansPro-Light.ttf", 32));
 #else
-		FontManager::SetScale(maths::vec2(m_Width / 32.0f, m_Height / 18.0f));
+		FontManager::SetScale(maths::vec2(m_Properties.width / 32.0f, m_Properties.height / 18.0f)); // TODO: Seriously
 		FontManager::Add(new Font("SourceSansPro", internal::DEFAULT_FONT, internal::DEFAULT_FONT_SIZE, 32));
 #endif
 
-#ifdef SPARKY_PLATFORM_WEB
 		FreeImage_Initialise();
-#endif
 
 		audio::SoundManager::Init();
 		m_InputManager = new InputManager();
@@ -50,17 +50,10 @@ namespace sp {
 			SP_FATAL("Failed to initialize platform!");
 			return false;
 		}
-		
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		SP_WARN("----------------------------------");
-		SP_WARN(" OpenGL:");
-		SP_WARN("    ", glGetString(GL_VERSION));
-		SP_WARN("    ", glGetString(GL_VENDOR));
-		SP_WARN("    ", glGetString(GL_RENDERER));
-		SP_WARN("----------------------------------");
+		Renderer::Init();
+		
+		SetTitle(m_Properties.title);
 		return true;
 	}
 	
@@ -72,7 +65,7 @@ namespace sp {
 
 	void Window::Clear() const
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		Renderer::Clear(RENDERER_BUFFER_COLOR | RENDERER_BUFFER_DEPTH);
 	}
 
  	void Window::Update()

@@ -3,9 +3,9 @@
 #include "sp/sp.h"
 #include "sp/Common.h"
 
-#include "../Framebuffer.h"
-#include "../buffers/VertexArray.h"
-#include "../buffers/IndexBuffer.h"
+#include "sp/graphics/API/Framebuffer.h"
+#include "sp/graphics/API/VertexArray.h"
+#include "sp/graphics/API/IndexBuffer.h"
 #include "PostEffectsPass.h"
 
 namespace sp { namespace graphics {
@@ -21,7 +21,7 @@ namespace sp { namespace graphics {
 		void Push(PostEffectsPass* pass);
 		void Pop();
 
-		void RenderPostEffects(Framebuffer* source, Framebuffer* target, VertexArray* quad, IndexBuffer* indices);
+		void RenderPostEffects(Framebuffer* source, Framebuffer* target, API::VertexArray* quad, API::IndexBuffer* indices);
 	};
 
 } }

@@ -15,6 +15,7 @@ namespace sp { namespace graphics {
 		static maths::vec2 s_Scale;
 	public:
 		static void SetScale(const maths::vec2& scale);
+		static inline const maths::vec2& GetScale() { return s_Scale; }
 
 		static void Add(Font* font);
 		static Font* Get();

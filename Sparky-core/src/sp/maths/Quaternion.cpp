@@ -45,12 +45,20 @@ namespace sp { namespace maths {
 		this->w = w;
 	}
 
-	const Quaternion Quaternion::Identity()
+	Quaternion Quaternion::Identity()
 	{
 		return Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 
-	Quaternion & Quaternion::operator =(const Quaternion & Quaternion)
+	Quaternion Quaternion::FromEulerAngles(const vec3& angles)
+	{
+		Quaternion pitch(vec3(1.0, 0.0, 0.0), angles.x);
+		Quaternion yaw(vec3(0.0, 1.0, 0.0), angles.y);
+		Quaternion roll(vec3(0.0, 0.0, 1.0), angles.z);
+		return pitch * yaw * roll;
+	}
+
+	Quaternion& Quaternion::operator =(const Quaternion & Quaternion)
 	{
 		x = Quaternion.x;
 		y = Quaternion.y;
@@ -59,7 +67,7 @@ namespace sp { namespace maths {
 		return *this;
 	}
 
-	Quaternion & Quaternion::SetXYZ(const vec3 & vec)
+	Quaternion& Quaternion::SetXYZ(const vec3 & vec)
 	{
 		x = vec.x;
 		y = vec.y;
@@ -72,18 +80,18 @@ namespace sp { namespace maths {
 		return vec3(x, y, z);
 	}
 
-	Quaternion & Quaternion::SetElem(int idx, float value)
+	Quaternion& Quaternion::SetElem(int32 idx, float value)
 	{
 		*(&x + idx) = value;
 		return *this;
 	}
 
-	float Quaternion::GetElem(int idx) const
+	float Quaternion::GetElem(int32 idx) const
 	{
 		return *(&x + idx);
 	}
 
-	float Quaternion::operator [](int idx) const
+	float Quaternion::operator [](int32 idx) const
 	{
 		return *(&x + idx);
 	}
@@ -140,35 +148,35 @@ namespace sp { namespace maths {
 		return !(*this == Quaternion);
 	}
 
-	float Norm(const Quaternion & Quaternion)
+	float Norm(const Quaternion& quaternion)
 	{
 		float result;
-		result = (Quaternion.x * Quaternion.x);
-		result = (result + (Quaternion.y * Quaternion.y));
-		result = (result + (Quaternion.z * Quaternion.z));
-		result = (result + (Quaternion.w * Quaternion.w));
+		result = (quaternion.x * quaternion.x);
+		result = (result + (quaternion.y * quaternion.y));
+		result = (result + (quaternion.z * quaternion.z));
+		result = (result + (quaternion.w * quaternion.w));
 		return result;
 	}
 
-	float Length(const Quaternion & Quaternion)
+	float Length(const Quaternion& quaternion)
 	{
-		return sqrt(Norm(Quaternion));
+		return sqrt(Norm(quaternion));
 	}
 
-	const Quaternion Normalize(const Quaternion & Quaternion)
+	const Quaternion Normalize(const Quaternion& quaternion)
 	{
 		float lenSqr, lenInv;
-		lenSqr = Norm(Quaternion);
+		lenSqr = Norm(quaternion);
 		lenInv = rsqrt(lenSqr);
-		return Quaternion * lenInv;
+		return quaternion * lenInv;
 	}
 
-	const Quaternion NormalizeEst(const Quaternion & Quaternion)
+	const Quaternion NormalizeEst(const Quaternion& quaternion)
 	{
 		float lenSqr, lenInv;
-		lenSqr = Norm(Quaternion);
+		lenSqr = Norm(quaternion);
 		lenInv = rsqrt(lenSqr);
-		return Quaternion * lenInv;
+		return quaternion * lenInv;
 	}
 
 	const Quaternion Quaternion::Rotation(const vec3& unitVec0, const vec3& unitVec1)
@@ -187,15 +195,15 @@ namespace sp { namespace maths {
 
 	const Quaternion Quaternion::operator*(const Quaternion& quat) const
 	{
-		return Quaternion(
+		return Normalize(Quaternion(
 			(((w * quat.x) + (x * quat.w)) + (y * quat.z)) - (z * quat.y),
 			(((w * quat.y) + (y * quat.w)) + (z * quat.x)) - (x * quat.z),
 			(((w * quat.z) + (z * quat.w)) + (x * quat.y)) - (y * quat.x),
 			(((w * quat.w) - (x * quat.x)) - (y * quat.y)) - (z * quat.z)
-			);
+			));
 	}
 
-	vec3 Quaternion::Rotate(const Quaternion & quat, const vec3 & vec)
+	vec3 Quaternion::Rotate(const Quaternion& quat, const vec3& vec)
 	{
 		float tmpX, tmpY, tmpZ, tmpW;
 		tmpX = (((quat.w * vec.x) + (quat.y * vec.z)) - (quat.z * vec.y));
