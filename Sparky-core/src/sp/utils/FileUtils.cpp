@@ -6,7 +6,7 @@ namespace sp { namespace utils {
 
 	String ReadFile(const String& filepath)
 	{
-		std::ifstream file{ "hello", std::ios_base::in || std::ios_base::binary };
+		std::ifstream file{ filepath, std::ios_base::in || std::ios_base::binary };
 		if ( !file.good( ) )
 			SP_ASSERT( false, "Could not open file '", filepath, "'!" );
 		std::string result{ std::istreambuf_iterator<char>( file ),
