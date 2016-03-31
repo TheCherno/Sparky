@@ -11,7 +11,7 @@ namespace sp { namespace maths {
 		float x, y, z, w;
 
 		Quaternion();
-		Quaternion(const Quaternion& Quaternion);
+		Quaternion(const Quaternion& quaternion);
 		Quaternion(float x, float y, float z, float w);
 		Quaternion(const vec3& xyz, float w);
 		Quaternion(const vec4& vec);
@@ -22,8 +22,8 @@ namespace sp { namespace maths {
 		Quaternion& SetXYZ(const vec3& vec);
 		const vec3 GetXYZ() const;
 
-		Quaternion& SetElem(int idx, float value);
-		float GetElem(int idx) const;
+		Quaternion& SetElem(int32 idx, float value);
+		float GetElem(int32 idx) const;
 		vec3 GetAxis() const;
 		vec3 ToEulerAngles() const;
 
@@ -32,7 +32,7 @@ namespace sp { namespace maths {
 		const Quaternion operator*(const Quaternion& Quaternion) const;
 		const Quaternion operator*(float scalar) const;
 		const Quaternion operator/(float scalar) const;
-		float operator[](int idx) const;
+		float operator[](int32 idx) const;
 
 		Quaternion& operator+=(const Quaternion& Quaternion)
 		{
@@ -65,14 +65,15 @@ namespace sp { namespace maths {
 		}
 
 		const Quaternion operator-() const;
-		bool operator==(const Quaternion & Quaternion) const;
-		bool operator!=(const Quaternion & Quaternion) const;
-		static const Quaternion Identity();
+		bool operator==(const Quaternion& quaternion) const;
+		bool operator!=(const Quaternion& quaternion) const;
+		static Quaternion Identity();
+		static Quaternion FromEulerAngles(const vec3& angles);
 
 		static vec3 Rotate(const Quaternion & quat, const vec3 & vec);
 
-		static const Quaternion Rotation(const vec3 & unitVec0, const vec3 & unitVec1);
-		static const Quaternion Rotation(float radians, const vec3 & unitVec);
+		static const Quaternion Rotation(const vec3& unitVec0, const vec3& unitVec1);
+		static const Quaternion Rotation(float radians, const vec3& unitVec);
 
 		static const Quaternion RotationX(float radians)
 		{

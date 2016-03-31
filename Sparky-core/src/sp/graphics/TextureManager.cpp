@@ -5,16 +5,17 @@
 
 namespace sp { namespace graphics {
 
-	std::vector<Texture*> TextureManager::m_Textures;
+	std::vector<API::Texture*> TextureManager::m_Textures;
 
-	void TextureManager::Add(Texture* texture)
+	API::Texture* TextureManager::Add(API::Texture* texture)
 	{
 		m_Textures.push_back(texture);
+		return texture;
 	}
 
-	Texture* TextureManager::Get(const String& name)
+	API::Texture* TextureManager::Get(const String& name)
 	{
-		for (Texture* texture : m_Textures)
+		for (API::Texture* texture : m_Textures)
 		{
 			if (texture->GetName() == name)
 				return texture;

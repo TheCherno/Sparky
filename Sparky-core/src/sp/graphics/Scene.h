@@ -27,6 +27,7 @@ namespace sp { namespace graphics {
 		void Add(entity::Entity* entity);
 		void PushLightSetup(LightSetup* lightSetup);
 		LightSetup* PopLightSetup();
+		void SetCamera(Camera* camera);
 
 		void Update();
 		void Render(Renderer3D& renderer);

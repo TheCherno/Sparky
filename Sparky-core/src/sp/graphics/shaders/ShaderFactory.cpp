@@ -1,12 +1,18 @@
 #include "sp/sp.h"
 #include "ShaderFactory.h"
 
+#include "sp/graphics/API/Context.h"
+
 namespace sp { namespace graphics { namespace ShaderFactory {
 
 #if defined(SP_PLATFORM_WINDOWS)
 
-	static const char* s_DefaultShader =
-#include "default/Default.shader"
+	static const char* s_BatchRendererShaderGL =
+#include "sp/platform/opengl/shaders/BatchRenderer.shader"
+		;
+
+	static const char* s_BatchRendererShaderD3D =
+	#include "sp/platform/directx/shaders/BatchRenderer.hlsl"
 		;
 
 	static const char* s_SimpleShader =
@@ -17,23 +23,45 @@ namespace sp { namespace graphics { namespace ShaderFactory {
 #include "default/BasicLight.shader"
 		;
 
+	static const char* s_GeometryPassShader =
+#include "default/GeometryPass.shader"
+		;
+
+	static const char* s_DebugShader =
+#include "default/Debug.shader"
+		;
 #else
 #error TODO: GLES shaders!
 #endif
 
-	Shader* DefaultShader()
+	API::Shader* BatchRendererShader()
 	{
-		return Shader::FromSource("Default Shader", s_DefaultShader);
+		switch (API::Context::GetRenderAPI())
+		{
+			case API::RenderAPI::OPENGL: return API::Shader::CreateFromSource("BatchRenderer", s_BatchRendererShaderGL);
+			case API::RenderAPI::DIRECT3D: return API::Shader::CreateFromSource("BatchRenderer", s_BatchRendererShaderD3D);
+		}
+		return nullptr;
 	}
 
-	Shader* SimpleShader()
+	API::Shader* SimpleShader()
 	{
-		return Shader::FromSource("Simple Shader", s_SimpleShader);
+		return API::Shader::CreateFromSource("Simple Shader", s_SimpleShader);
 	}
 
-	Shader* BasicLightShader()
+	API::Shader* BasicLightShader()
 	{
-		return Shader::FromSource("Basic Light Shader", s_BasicLightShader);
+		return API::Shader::CreateFromSource("Basic Light Shader", s_BasicLightShader);
+	}
+
+	API::Shader* GeometryPassShader()
+	{
+		return API::Shader::CreateFromSource("Geometry Pass Shader", s_GeometryPassShader);
+	}
+
+	API::Shader* DebugShader()
+	{
+		return API::Shader::CreateFromSource("Debug Shader", s_DebugShader);
 	}
 
 } } }

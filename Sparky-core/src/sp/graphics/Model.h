@@ -15,7 +15,7 @@ namespace sp { namespace graphics {
 		Mesh* m_Mesh;
 	public:
 		// This eventually needs to be replaced by a global Asset Server.
-		Model(const String& path, MaterialInstance* materialInstance);
+		Model(const String& path, MaterialInstance* materialInstance = nullptr);
 		~Model();
 
 		void Render(Renderer3D& renderer) override;
@@ -37,14 +37,14 @@ namespace sp { namespace graphics {
 
 			bool operator==(const IndexSet& other) const
 			{
-				return position == other.position && uv == other.uv && normal == other.uv;
+				return position == other.position && uv == other.uv && normal == other.normal;
 			}
 		};
 
 		friend struct std::hash<IndexSet>;
 
 		void Load(const String& path);
-		void InsertVertex(std::vector<Vertex>& vertices, std::vector<uint>& indices, std::unordered_map<IndexSet, int>& mapping, VertexSet& inputVertices, IndexSet& indexSet);
+		void InsertVertex(std::vector<Vertex>& vertices, std::vector<uint>& indices, std::unordered_map<IndexSet, int32>& mapping, VertexSet& inputVertices, IndexSet& indexSet);
 	};
 
 } }

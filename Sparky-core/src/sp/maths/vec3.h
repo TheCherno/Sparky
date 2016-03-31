@@ -8,12 +8,14 @@
 namespace sp { namespace maths {
 
 	struct vec2;
+	struct mat4;
 
 	struct SP_API vec3
 	{
 		float x, y, z;
 
 		vec3();
+		vec3(float scalar);
 		vec3(float x, float y, float z);
 		vec3(const vec2& other);
 		vec3(float x, float y);
@@ -37,6 +39,8 @@ namespace sp { namespace maths {
 		vec3& Subtract(float other);
 		vec3& Multiply(float other);
 		vec3& Divide(float other);
+
+		vec3 Multiply(const mat4& transform) const;
 
 		friend vec3 operator+(vec3 left, const vec3& right);
 		friend vec3 operator-(vec3 left, const vec3& right);

@@ -8,23 +8,23 @@ namespace sp { namespace events {
 	class SP_API MouseButtonEvent : public Event
 	{
 	protected:
-		int m_Button;
+		int32 m_Button;
 		maths::vec2 m_Position;
 	protected:
-		MouseButtonEvent(int button, float x, float y, Event::Type type);
+		MouseButtonEvent(int32 button, float x, float y, Event::Type type);
 	public:
-		inline const int GetButton() const { return m_Button; }
+		inline const int32 GetButton() const { return m_Button; }
 		inline const float GetX() const { return m_Position.x; }
 		inline const float GetY() const { return m_Position.y; }
 		inline const maths::vec2& GetPosition() const { return m_Position; }
 
-		inline static int GetStaticType() { return (int)Event::Type::MOUSE_PRESSED | (int)Event::Type::MOUSE_RELEASED; }
+		inline static int32 GetStaticType() { return (int32)Event::Type::MOUSE_PRESSED | (int32)Event::Type::MOUSE_RELEASED; }
 	};
 
 	class SP_API MousePressedEvent : public MouseButtonEvent
 	{
 	public:
-		MousePressedEvent(int button, float x, float y);
+		MousePressedEvent(int32 button, float x, float y);
 
 		String ToString() const override;
 
@@ -34,7 +34,7 @@ namespace sp { namespace events {
 	class SP_API MouseReleasedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseReleasedEvent(int button, float x, float y);
+		MouseReleasedEvent(int32 button, float x, float y);
 
 		inline static Type GetStaticType() { return Event::Type::MOUSE_RELEASED; }
 	};

@@ -16,13 +16,19 @@ namespace sp {
 
 	typedef std::function<void(events::Event& event)> WindowEventCallback;
 
+	struct WindowProperties
+	{
+		String title;
+		uint width, height;
+		bool fullscreen;
+	};
+
 	class SP_API Window
 	{
 	private:
 		static std::map<void*, Window*> s_Handles;
 	private:
-		const char *m_Title;
-		int m_Width, m_Height;
+		WindowProperties m_Properties;
 		bool m_Closed;
 		void* m_Handle;
 
@@ -30,14 +36,16 @@ namespace sp {
 		WindowEventCallback m_EventCallback;
 		InputManager* m_InputManager;
 	public:
-		Window(const char *name, uint width, uint height);
+		Window(const char *name, uint width, uint height, bool fullscreen = false);
 		~Window();
 		void Clear() const;
 		void Update();
 		bool Closed() const;
 
-		inline uint GetWidth() const { return m_Width; }
-		inline uint GetHeight() const { return m_Height; }
+		void SetTitle(const String& title);
+
+		inline uint GetWidth() const { return m_Properties.width; }
+		inline uint GetHeight() const { return m_Properties.height; }
 
 		void SetVsync(bool enabled);
 		inline bool IsVsync() const { return m_Vsync; }
@@ -52,7 +60,7 @@ namespace sp {
 		void PlatformUpdate();
 
 		// Window event callbacks (TODO: more platform independent)
-		friend void ResizeCallback(Window* window, int width, int height);
+		friend void ResizeCallback(Window* window, int32 width, int32 height);
 		friend void FocusCallback(Window* window, bool focused);
 	public:
 		static void RegisterWindowClass(void* handle, Window* window);

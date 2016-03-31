@@ -1,7 +1,8 @@
 #include <Sparky.h>
 
-#include "TestLayer.h"
+#include "Test2D.h"
 #include "Test3D.h"
+#include "DeferredTest.h"
 
 using namespace sp;
 using namespace graphics;
@@ -14,7 +15,7 @@ class Game : public Application
 {
 public:
 	Game()
-		: Application("Sandbox", WIDTH, HEIGHT)
+		: Application("Sandbox", WIDTH, HEIGHT, sp::graphics::API::RenderAPI::DIRECT3D)
 	{
 	}
 
@@ -25,8 +26,9 @@ public:
 	void Init() override
 	{
 		Application::Init();
+		// PushLayer(new DeferredTest());
 		PushLayer(new Test3D());
-		//PushOverlay(new TestLayer());
+		// PushLayer(new Test2D());
 	}
 };
 

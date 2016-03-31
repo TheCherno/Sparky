@@ -6,11 +6,11 @@
 
 #include "Renderer2D.h"
 #include "Renderable2D.h"
-#include "Framebuffer.h"
+#include "API/Framebuffer2D.h"
 #include "FontManager.h"
 
-#include "buffers/VertexArray.h"
-#include "buffers/IndexBuffer.h"
+#include "API/VertexArray.h"
+#include "API/IndexBuffer.h"
 
 namespace sp { namespace graphics {
 
@@ -20,30 +20,56 @@ namespace sp { namespace graphics {
 #define RENDERER_INDICES_SIZE	RENDERER_MAX_SPRITES * 6
 #define RENDERER_MAX_TEXTURES	32 - 1
 
+	struct UniformBuffer
+	{
+		byte* buffer;
+		uint size;
+
+		UniformBuffer() {}
+		UniformBuffer(byte* buffer, uint size)
+			: buffer(buffer), size(size)
+		{
+			memset(buffer, 0, size);
+		}
+	};
+
+	struct BR2DSystemUniform
+	{
+		UniformBuffer buffer;
+		uint offset;
+
+		BR2DSystemUniform() {}
+		BR2DSystemUniform(const UniformBuffer& buffer, uint offset)
+			: buffer(buffer), offset(offset)
+		{
+		}
+	};
+
 	class SP_API BatchRenderer2D : public Renderer2D
 	{
 	private:
-		VertexArray* m_VertexArray;
-		uint m_VAO;
-		uint m_VBO;
-		IndexBuffer* m_IBO;
-		IndexBuffer* m_LineIBO;
+		API::Shader* m_Shader;
+		std::vector<BR2DSystemUniform> m_SystemUniforms;
+		std::vector<UniformBuffer> m_SystemUniformBuffers;
+
+		API::VertexArray* m_VertexArray;
+		API::IndexBuffer* m_IndexBuffer;
+		API::IndexBuffer* m_LineIBO;
 		uint m_IndexCount, m_LineIndexCount;
 		VertexData* m_Buffer;
-#ifdef SPARKY_PLATFORM_WEB
-		VertexData* m_BufferBase;
-#endif
-		std::vector<uint> m_TextureSlots;
-		Framebuffer* m_Framebuffer;
-		Framebuffer* m_PostEffectsBuffer;
-		int m_ScreenBuffer;
+		std::vector<API::Texture*> m_Textures;
+		Framebuffer2D* m_Framebuffer;
+		Framebuffer2D* m_PostEffectsBuffer;
 		maths::tvec2<uint> m_ViewportSize, m_ScreenSize;
-		Shader* m_SimpleShader;
-		VertexArray* m_ScreenQuad;
+		Material* m_FramebufferMaterial;
+		API::VertexArray* m_ScreenQuad;
+		Camera* m_Camera;
 	public:
 		BatchRenderer2D(uint width, uint height);
 		BatchRenderer2D(const maths::tvec2<uint>& screenSize);
 		~BatchRenderer2D();
+
+		void SetCamera(Camera* camera) override;
 
 		void Begin() override;
 		void Submit(const Renderable2D* renderable) override;
@@ -66,11 +92,7 @@ namespace sp { namespace graphics {
 		inline const maths::tvec2<uint>& GetViewportSize() const { return m_ViewportSize; }
 	private:
 		void Init();
-
-		// TODO: Deprecate. Only sp::graphics::Texture should be allowable.
-		float SubmitTexture(uint textureID);
-
-		float SubmitTexture(const Texture* texture);
+		float SubmitTexture(API::Texture* texture);
 	};
 
 } }

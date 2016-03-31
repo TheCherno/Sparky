@@ -4,6 +4,9 @@
 #include "Renderer3D.h"
 
 #include "camera/MayaCamera.h"
+#include "camera/FPSCamera.h"
+
+#include "sp/debug/DebugRenderer.h"
 
 namespace sp { namespace graphics {
 
@@ -11,7 +14,7 @@ namespace sp { namespace graphics {
 	using namespace component;
 
 	Scene::Scene()
-		: m_Camera(new MayaCamera(maths::mat4::Perspective(65.0f, 16.0f / 9.0f, 0.1f, 1000.0f)))
+		: m_Camera(spnew MayaCamera(maths::mat4::Perspective(65.0f, 16.0f / 9.0f, 0.1f, 1000.0f)))
 	{
 	}
 
@@ -23,9 +26,10 @@ namespace sp { namespace graphics {
 	Scene::~Scene()
 	{
 		for (uint i = 0; i < m_Entities.size(); i++)
-			delete m_Entities[i];
+			spdel m_Entities[i];
 
 		m_Entities.clear();
+		spdel m_Camera;
 	}
 
 	void Scene::Add(Entity* entity)
@@ -50,6 +54,12 @@ namespace sp { namespace graphics {
 		return result;
 	}
 
+	void Scene::SetCamera(Camera* camera)
+	{
+		m_Camera = camera;
+		m_Camera->Focus();
+	}
+
 	void Scene::Update()
 	{
 	}
@@ -58,8 +68,10 @@ namespace sp { namespace graphics {
 	{
 		Camera* camera = m_Camera;
 		camera->Update();
+		debug::DebugRenderer::SetCamera(camera);
 
 		renderer.Begin();
+		renderer.BeginScene(camera);
 		for (uint i = 0; i < m_LightSetupStack.size(); i++)
 			renderer.SubmitLightSetup(*m_LightSetupStack[i]);
 
@@ -70,10 +82,10 @@ namespace sp { namespace graphics {
 			{
 				TransformComponent* tc = entity->GetComponent<TransformComponent>();
 				SP_ASSERT(tc, "Mesh does not have transform!"); // Meshes MUST have transforms
-				renderer.SubmitMesh(camera, mesh->mesh, tc->transform);
+				renderer.SubmitMesh(mesh->mesh, tc->transform);
 			}
 		}
-
+		renderer.EndScene();
 		renderer.End();
 	}
 

@@ -13,11 +13,14 @@ namespace sp {
 		m_MouseGrabbed = true;
 
 		Input::s_InputManager = this;
+
+		// m_KeyState = spnew bool[MAX_KEYS];
+		// m_LastKeyState = spnew bool[MAX_KEYS];
 	}
 
 	void InputManager::Update()
 	{
-		for (int i = 0; i < MAX_BUTTONS; i++)
+		for (int32 i = 0; i < MAX_BUTTONS; i++)
 			m_MouseClicked[i] = m_MouseButtons[i] && !m_MouseState[i];
 
 		memcpy(m_LastKeyState, m_KeyState, MAX_KEYS);
@@ -26,7 +29,7 @@ namespace sp {
 
 	void InputManager::ClearKeys()
 	{
-		for (int i = 0; i < MAX_KEYS; i++)
+		for (int32 i = 0; i < MAX_KEYS; i++)
 		{
 			m_KeyState[i] = false;
 			m_LastKeyState[i] = false;
@@ -36,7 +39,7 @@ namespace sp {
 
 	void InputManager::ClearMouseButtons()
 	{
-		for (int i = 0; i < MAX_BUTTONS; i++)
+		for (int32 i = 0; i < MAX_BUTTONS; i++)
 		{
 			m_MouseButtons[i] = false;
 			m_MouseState[i] = false;

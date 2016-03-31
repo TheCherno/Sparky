@@ -4,17 +4,29 @@
 #include "shaders/ShaderFactory.h"
 #include "MeshFactory.h"
 
-#include "buffers/Buffer.h"
-#include "buffers/BufferLayout.h"
+#include "API/VertexBuffer.h"
+#include "API/VertexArray.h"
+#include "API/BufferLayout.h"
 
 #include "sp/utils/Log.h"
-#include "SPRenderAPI.h"
+
+#include "Renderer.h"
 
 #include <freetype-gl/freetype-gl.h>
 
 namespace sp { namespace graphics {
 
 	using namespace maths;
+
+	const uint g_RequiredSystemUniformsCount = 2;
+	const String g_RequiredSystemUniforms[g_RequiredSystemUniformsCount] =
+	{
+		"sys_ProjectionMatrix",
+		"sys_ViewMatrix"
+	};
+
+	const uint sys_ProjectionMatrixIndex = 0;
+	const uint sys_ViewMatrixIndex = 1;
 
 	BatchRenderer2D::BatchRenderer2D(uint width, uint height)
 		: m_IndexCount(0), m_ScreenSize(tvec2<uint>(width, height)), m_ViewportSize(tvec2<uint>(width, height))
@@ -30,33 +42,58 @@ namespace sp { namespace graphics {
 
 	BatchRenderer2D::~BatchRenderer2D()
 	{
-		delete m_ScreenQuad;
-		delete m_IBO;
-		API::FreeBuffer(m_VBO);
-		API::FreeVertexArray(m_VAO);
+		spdel m_IndexBuffer;
+		spdel m_VertexArray;
+		spdel m_ScreenQuad;
 	}
 
 	void BatchRenderer2D::Init()
 	{
-		API::Buffer* buffer = new API::Buffer(GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW);
-		buffer->Bind();
+		m_PostEffectsEnabled = false;
+
+		m_SystemUniforms.resize(g_RequiredSystemUniformsCount);
+
+		m_Shader = ShaderFactory::BatchRendererShader();
+		const API::ShaderUniformBufferList& vssu = m_Shader->GetVSSystemUniforms();
+		SP_ASSERT(vssu.size());
+		for (uint i = 0; i < vssu.size(); i++)
+		{
+			API::ShaderUniformBufferDeclaration* ub = vssu[i];
+			UniformBuffer buffer(spnew byte[ub->GetSize()], ub->GetSize());
+			m_SystemUniformBuffers.push_back(buffer);
+			for (API::ShaderUniformDeclaration* decl : ub->GetUniformDeclarations())
+			{
+				for (uint j = 0; j < g_RequiredSystemUniformsCount; j++)
+				{
+					if (decl->GetName() == g_RequiredSystemUniforms[j])
+						m_SystemUniforms[j] = BR2DSystemUniform(buffer, decl->GetOffset());
+				}
+			}
+		}
+
+		SetCamera(spnew Camera(mat4::Orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f)));
+		
+		m_Shader->Bind();
+
+		API::VertexBuffer* buffer = API::VertexBuffer::Create(API::BufferUsage::DYNAMIC);
 		buffer->Resize(RENDERER_BUFFER_SIZE);
 
-		buffer->layout.Push<vec3>("position");
-		buffer->layout.Push<vec2>("uv");
-		buffer->layout.Push<vec2>("mask_uv");
-		buffer->layout.Push<float>("tid");
-		buffer->layout.Push<float>("mid");
-		buffer->layout.Push<byte>("color", 4, true);
+		API::BufferLayout layout;
+		layout.Push<vec3>("POSITION"); // Position
+		layout.Push<vec2>("TEXCOORD"); // UV
+		layout.Push<vec2>("MASKUV"); // Mask UV
+		layout.Push<float>("ID"); // Texture Index
+		layout.Push<float>("MASKID"); // Mask Index
+		layout.Push<byte>("COLOR", 4, true); // Color
+		buffer->SetLayout(layout);
 
-		m_VertexArray = new VertexArray();
-		m_VertexArray->Bind();
+		m_VertexArray = API::VertexArray::Create();
 		m_VertexArray->PushBuffer(buffer);
 
 		uint* indices = new uint[RENDERER_INDICES_SIZE];
 
-		int offset = 0;
-		for (int i = 0; i < RENDERER_INDICES_SIZE; i += 6)
+		int32 offset = 0;
+		for (int32 i = 0; i < RENDERER_INDICES_SIZE; i += 6)
 		{
 			indices[i] = offset + 0;
 			indices[i + 1] = offset + 1;
@@ -69,38 +106,34 @@ namespace sp { namespace graphics {
 			offset += 4;
 		}
 
-		m_IBO = new IndexBuffer(indices, RENDERER_INDICES_SIZE);
+		m_IndexBuffer = API::IndexBuffer::Create(indices, RENDERER_INDICES_SIZE);
 		m_VertexArray->Unbind();
 
-#ifdef SPARKY_PLATFORM_WEB
-		m_BufferBase = new VertexData[RENDERER_MAX_SPRITES * 4];
-#endif
-
 		// Setup Framebuffer
-		m_ScreenBuffer = API::GetScreenBuffer();
-		SP_ASSERT(m_ScreenBuffer == 0);
 
-		m_Framebuffer = new Framebuffer(m_ViewportSize);
-		m_SimpleShader = ShaderFactory::SimpleShader();
-		m_SimpleShader->Bind();
-		m_SimpleShader->SetUniformMat4("pr_matrix", maths::mat4::Orthographic(0, (float)m_ScreenSize.x, (float)m_ScreenSize.y, 0, -1.0f, 1.0f));
-		m_SimpleShader->SetUniform1i("tex", 0);
-		m_SimpleShader->Unbind();
+#if 0
+		m_Framebuffer = Framebuffer2D::Create(m_ViewportSize.x, m_ViewportSize.y);
+		m_FramebufferMaterial = new Material(ShaderFactory::SimpleShader());
+		m_FramebufferMaterial->SetUniform("pr_matrix", maths::mat4::Orthographic(0, (float)m_ScreenSize.x, (float)m_ScreenSize.y, 0, -1.0f, 1.0f));
+		m_FramebufferMaterial->SetTexture("u_Texture", m_Framebuffer->GetTexture());
 		m_ScreenQuad = MeshFactory::CreateQuad(0, 0, (float)m_ScreenSize.x, (float)m_ScreenSize.y);
 
 		m_PostEffects = new PostEffects();
-		m_PostEffectsBuffer = new Framebuffer(m_ViewportSize);
+		m_PostEffectsBuffer = Framebuffer2D::Create(m_ViewportSize.x, m_ViewportSize.y);
+#endif
 	}
 
-	float BatchRenderer2D::SubmitTexture(uint textureID)
+	float BatchRenderer2D::SubmitTexture(API::Texture* texture)
 	{
+#if 0
 		if (!textureID)
 			SP_WARN("Invalid texture ID submitted!");
+#endif
 		float result = 0.0f;
 		bool found = false;
-		for (uint i = 0; i < m_TextureSlots.size(); i++)
+		for (uint i = 0; i < m_Textures.size(); i++)
 		{
-			if (m_TextureSlots[i] == textureID)
+			if (m_Textures[i] == texture)
 			{
 				result = (float)(i + 1);
 				found = true;
@@ -110,36 +143,41 @@ namespace sp { namespace graphics {
 
 		if (!found)
 		{
-			if (m_TextureSlots.size() >= RENDERER_MAX_TEXTURES)
+			if (m_Textures.size() >= RENDERER_MAX_TEXTURES)
 			{
 				End();
 				Present();
 				Begin();
 			}
-			m_TextureSlots.push_back(textureID);
-			result = (float)(m_TextureSlots.size());
+			m_Textures.push_back(texture);
+			result = (float)(m_Textures.size());
 		}
 		return result;
 	}
 
-	float BatchRenderer2D::SubmitTexture(const Texture* texture)
+	void BatchRenderer2D::SetCamera(Camera* camera)
 	{
-		return SubmitTexture(texture->GetID());
+		m_Camera = camera;
+
+		memcpy(m_SystemUniforms[sys_ProjectionMatrixIndex].buffer.buffer + m_SystemUniforms[sys_ProjectionMatrixIndex].offset, &camera->GetProjectionMatrix(), sizeof(mat4));
+		memcpy(m_SystemUniforms[sys_ViewMatrixIndex].buffer.buffer + m_SystemUniforms[sys_ViewMatrixIndex].offset, &camera->GetViewMatrix(), sizeof(mat4));
 	}
 
 	void BatchRenderer2D::Begin()
 	{
 		if (m_Target == RenderTarget::BUFFER)
 		{
+			SP_ASSERT(false); // Currently Unsupported
+#if 0
 			if (m_ViewportSize != m_Framebuffer->GetSize())
 			{
 				delete m_Framebuffer;
-				m_Framebuffer = new Framebuffer(m_ViewportSize);
+				m_Framebuffer = new API::Framebuffer2D(m_ViewportSize);
 				
 				if (m_PostEffectsEnabled)
 				{
 					delete m_PostEffectsBuffer;
-					m_PostEffectsBuffer = new Framebuffer(m_ViewportSize);
+					m_PostEffectsBuffer = new API::Framebuffer2D(m_ViewportSize);
 				}
 			}
 
@@ -151,19 +189,16 @@ namespace sp { namespace graphics {
 
 			m_Framebuffer->Bind();
 			m_Framebuffer->Clear(); // TODO: Clear somewhere else, since this basically limits to one draw call
-			glBlendFunc(GL_ONE, GL_ZERO);
+			Renderer::SetBlendFunction(RendererBlendFunction::ONE, RendererBlendFunction::ZERO);
+#endif
 		}
 		else
 		{
-			API::BindFramebuffer(GL_FRAMEBUFFER, m_ScreenBuffer);
-			API::SetViewport(0, 0, m_ScreenSize.x, m_ScreenSize.y);
+			// GLCall(glBindFramebuffer(GL_FRAMEBUFFER, m_ScreenBuffer));
+			Renderer::SetViewport(0, 0, m_ScreenSize.x, m_ScreenSize.y);
 		}
-		m_VertexArray->GetBuffer()->Bind();
-#ifdef SPARKY_PLATFORM_WEB
-		m_Buffer = m_BufferBase;
-#else
+		m_VertexArray->Bind();
 		m_Buffer = m_VertexArray->GetBuffer()->GetPointer<VertexData>();
-#endif
 	}
 
 	void BatchRenderer2D::Submit(const Renderable2D* renderable)
@@ -175,14 +210,14 @@ namespace sp { namespace graphics {
 		const vec2& size = renderable->GetSize();
 		const uint color = renderable->GetColor();
 		const std::vector<vec2>& uv = renderable->GetUV();
-		const GLuint tid = renderable->GetTID();
+		const API::Texture* texture = renderable->GetTexture();
 
-		float ts = 0.0f;
-		if (tid > 0)
-			ts = SubmitTexture(renderable->GetTexture());
+		float textureSlot = 0.0f;
+		if (texture)
+			textureSlot = SubmitTexture(renderable->GetTexture());
 
 		mat4 maskTransform = mat4::Identity();
-		const uint mid = m_Mask ? m_Mask->texture->GetID() : 0;
+		float mid = m_Mask ? SubmitTexture(m_Mask->texture) : 0.0f;
 		float ms = 0.0f;
 
 		if (m_Mask != nullptr)
@@ -195,16 +230,16 @@ namespace sp { namespace graphics {
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[0];
 		m_Buffer->mask_uv = maskTransform * vertex;
-		m_Buffer->tid = ts;
+		m_Buffer->tid = textureSlot;
 		m_Buffer->mid = ms;
 		m_Buffer->color = color;
 		m_Buffer++;
 
-		vertex = *m_TransformationBack * vec3(position.x, position.y + size.y, position.z);
+		vertex = *m_TransformationBack * vec3(position.x + size.x, position.y, position.z);
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[1];
 		m_Buffer->mask_uv = maskTransform * vertex;
-		m_Buffer->tid = ts;
+		m_Buffer->tid = textureSlot;
 		m_Buffer->mid = ms;
 		m_Buffer->color = color;
 		m_Buffer++;
@@ -213,16 +248,16 @@ namespace sp { namespace graphics {
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[2];
 		m_Buffer->mask_uv = maskTransform * vertex;
-		m_Buffer->tid = ts;
+		m_Buffer->tid = textureSlot;
 		m_Buffer->mid = ms;
 		m_Buffer->color = color;
 		m_Buffer++;
 
-		vertex = *m_TransformationBack * vec3(position.x + size.x, position.y, position.z);
+		vertex = *m_TransformationBack * vec3(position.x, position.y + size.y, position.z);
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[3];
 		m_Buffer->mask_uv = maskTransform * vertex;
-		m_Buffer->tid = ts;
+		m_Buffer->tid = textureSlot;
 		m_Buffer->mid = ms;
 		m_Buffer->color = color;
 		m_Buffer++;
@@ -235,7 +270,7 @@ namespace sp { namespace graphics {
 		const std::vector<vec2>& uv = Renderable2D::GetDefaultUVs();
 		float ts = 0.0f;
 		mat4 maskTransform = mat4::Identity();
-		uint mid = m_Mask ? m_Mask->texture->GetID() : 0;
+		float mid = m_Mask ? SubmitTexture(m_Mask->texture) : 0.0f;
 
 		float ms = 0.0f;
 		if (m_Mask != nullptr)
@@ -307,10 +342,11 @@ namespace sp { namespace graphics {
 	{
 		using namespace ftgl;
 
-		float ts = 0.0f;
-		ts = SubmitTexture(font.GetID());
+		API::Texture2D* texture = font.GetTexture();
+		SP_ASSERT(texture);
+		float ts = SubmitTexture(texture);
 
-		const maths::vec2& scale = font.GetScale();
+		const maths::vec2& scale = font.GetScale(); // FontManager::GetScale();
 
 		float x = position.x;
 
@@ -376,7 +412,7 @@ namespace sp { namespace graphics {
 		const std::vector<vec2>& uv = Renderable2D::GetDefaultUVs();
 		float ts = 0.0f;
 		mat4 maskTransform = mat4::Identity();
-		uint mid = m_Mask ? m_Mask->texture->GetID() : 0;
+		float mid = m_Mask ? SubmitTexture(m_Mask->texture) : 0.0f;
 
 		float ms = 0.0f;
 		if (m_Mask != nullptr)
@@ -394,7 +430,7 @@ namespace sp { namespace graphics {
 		m_Buffer->color = color;
 		m_Buffer++;
 
-		vertex = *m_TransformationBack * vec3(position.x, position.y + size.y, position.z);
+		vertex = *m_TransformationBack * vec3(position.x + size.x, position.y, position.z);
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[1];
 		m_Buffer->mask_uv = maskTransform * vertex;
@@ -412,7 +448,7 @@ namespace sp { namespace graphics {
 		m_Buffer->color = color;
 		m_Buffer++;
 
-		vertex = *m_TransformationBack * vec3(position.x + size.x, position.y, position.z);
+		vertex = *m_TransformationBack * vec3(position.x, position.y + size.y, position.z);
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[3];
 		m_Buffer->mask_uv = maskTransform * vertex;
@@ -431,66 +467,60 @@ namespace sp { namespace graphics {
 
 	void BatchRenderer2D::End()
 	{
-#ifdef SPARKY_PLATFORM_WEB
-		API::BindBuffer(GL_ARRAY_BUFFER, m_VBO);
-		API::SetBufferSubData(GL_ARRAY_BUFFER, 0, (m_Buffer - m_BufferBase) * RENDERER_VERTEX_SIZE, m_BufferBase);
-		m_Buffer = m_BufferBase;
-#else
 		m_VertexArray->GetBuffer()->ReleasePointer();
-#endif
-		m_VertexArray->GetBuffer()->Unbind();
+		m_VertexArray->Unbind();
 	}
 
 	void BatchRenderer2D::Present()
 	{
-		GLCall(glDepthFunc(GL_NEVER));
-		GLCall(glDisable(GL_DEPTH_TEST));
+		Renderer::SetDepthTesting(false);
 
-		for (uint i = 0; i < m_TextureSlots.size(); i++)
-		{
-			API::SetActiveTexture(GL_TEXTURE0 + i);
-			API::BindTexture(GL_TEXTURE_2D, m_TextureSlots[i]);
-		}
+		m_Shader->Bind();
+		for (uint i = 0; i < m_SystemUniformBuffers.size(); i++)
+			m_Shader->SetVSSystemUniformBuffer(m_SystemUniformBuffers[i].buffer, m_SystemUniformBuffers[i].size, i);
 
-		// Draw buffers here
-		{
-			m_VertexArray->Bind();
-			m_IBO->Bind();
+		for (uint i = 0; i < m_Textures.size(); i++)
+			m_Textures[i]->Bind(i);
 
-			API::DrawElements(GL_TRIANGLES, m_IndexCount, GL_UNSIGNED_INT, NULL);
+		m_VertexArray->Bind();
+		m_IndexBuffer->Bind();
+		m_VertexArray->Draw(m_IndexCount);
+		m_IndexBuffer->Unbind();
+		m_VertexArray->Unbind();
 
-			m_IBO->Unbind();
-			m_VertexArray->Unbind();
-		}
+		for (uint i = 0; i < m_Textures.size(); i++)
+			m_Textures[i]->Unbind(i);
 
 		m_IndexCount = 0;
-		m_TextureSlots.clear();
+		m_Textures.clear();
 		
 		if (m_Target == RenderTarget::BUFFER)
 		{
+			SP_ASSERT(false); // Currently unsupported
+#if 0
 			// Post Effects pass should go here!
 			if (m_PostEffectsEnabled)
 				m_PostEffects->RenderPostEffects(m_Framebuffer, m_PostEffectsBuffer, m_ScreenQuad, m_IBO);
 
 			// Display Framebuffer - potentially move to Framebuffer class
-			API::BindFramebuffer(GL_FRAMEBUFFER, m_ScreenBuffer);
-			API::SetViewport(0, 0, m_ScreenSize.x, m_ScreenSize.y);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			m_SimpleShader->Bind();
+			GLCall(glBindFramebuffer(GL_FRAMEBUFFER, m_ScreenBuffer));
+			Renderer::SetViewport(0, 0, m_ScreenSize.x, m_ScreenSize.y);
+			Renderer::SetBlendFunction(RendererBlendFunction::SOURCE_ALPHA, RendererBlendFunction::ONE_MINUS_SOURCE_ALPHA));
+			m_FramebufferMaterial->Bind();
 
-			API::SetActiveTexture(GL_TEXTURE0);
+			// TODO: None of this should be done here
+			GLCall(glActiveTexture(GL_TEXTURE0));
 			if (m_PostEffectsEnabled)
-				m_PostEffectsBuffer->GetTexture()->Bind();
+				m_PostEffectsBuffer->GetTexture()->Bind(m_FramebufferMaterial->GetShader());
 			else
-				m_Framebuffer->GetTexture()->Bind();
+				m_Framebuffer->GetTexture()->Bind(m_FramebufferMaterial->GetShader());
 
 			m_ScreenQuad->Bind();
 			m_IBO->Bind();
-			API::DrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
+			GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
 			m_IBO->Unbind();
 			m_ScreenQuad->Unbind();
-
-			m_SimpleShader->Unbind();
+#endif
 		}
 	}
 

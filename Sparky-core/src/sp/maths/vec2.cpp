@@ -6,15 +6,18 @@
 namespace sp { namespace maths {
 
 	vec2::vec2()
+		: x(0.0f), y(0.0f)
 	{
-		x = 0.0f;
-		y = 0.0f;
 	}
 
-	vec2::vec2(const float& x, const float& y)
+	vec2::vec2(float scalar)
+		: x(scalar), y(scalar)
 	{
-		this->x = x;
-		this->y = y;
+	}
+
+	vec2::vec2(float x, float y)
+		: x(x), y(y)
+	{
 	}
 
 	vec2::vec2(const vec3& vector)
@@ -55,6 +58,38 @@ namespace sp { namespace maths {
 		return *this;
 	}
 
+	vec2& vec2::Add(float value)
+	{
+		x += value;
+		y += value;
+
+		return *this;
+	}
+
+	vec2& vec2::Subtract(float value)
+	{
+		x -= value;
+		y -= value;
+
+		return *this;
+	}
+
+	vec2& vec2::Multiply(float value)
+	{
+		x *= value;
+		y *= value;
+
+		return *this;
+	}
+
+	vec2& vec2::Divide(float value)
+	{
+		x /= value;
+		y /= value;
+
+		return *this;
+	}
+
 	vec2 operator+(vec2 left, const vec2& right)
 	{
 		return left.Add(right);
@@ -80,9 +115,19 @@ namespace sp { namespace maths {
 		return vec2(left.x + value, left.y + value);
 	}
 
+	vec2 operator-(vec2 left, float value)
+	{
+		return vec2(left.x - value, left.y - value);
+	}
+
 	vec2 operator*(vec2 left, float value)
 	{
 		return vec2(left.x * value, left.y * value);
+	}
+
+	vec2 operator/(vec2 left, float value)
+	{
+		return vec2(left.x / value, left.y / value);
 	}
 
 	vec2& vec2::operator+=(const vec2& other)
@@ -103,6 +148,26 @@ namespace sp { namespace maths {
 	vec2& vec2::operator/=(const vec2& other)
 	{
 		return Divide(other);
+	}
+
+	vec2& vec2::operator+=(float value)
+	{
+		return Add(value);
+	}
+
+	vec2& vec2::operator-=(float value)
+	{
+		return Subtract(value);
+	}
+
+	vec2& vec2::operator*=(float value)
+	{
+		return Multiply(value);
+	}
+
+	vec2& vec2::operator/=(float value)
+	{
+		return Divide(value);
 	}
 
 	bool vec2::operator==(const vec2& other) const

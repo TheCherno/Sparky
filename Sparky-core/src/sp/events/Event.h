@@ -23,7 +23,9 @@ namespace sp { namespace events {
 
 			MOUSE_PRESSED	= BIT(2),
 			MOUSE_RELEASED	= BIT(3),
-			MOUSE_MOVED		= BIT(4)
+			MOUSE_MOVED		= BIT(4),
+
+			WINDOW_RESIZE	= BIT(5)
 		};
 	protected:
 		bool m_Handled;

@@ -4,9 +4,11 @@
 #include <FreeImage.h>
 #include <FreeImage/Utilities.h>
 
+#include "sp/system/Memory.h"
+
 namespace sp {
 
-	byte* load_image(const char* filename, uint* width, uint* height, uint* bits)
+	byte* LoadImage(const char* filename, uint* width, uint* height, uint* bits, bool flipY)
 	{
 		FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
 		FIBITMAP* dib = nullptr;
@@ -21,20 +23,37 @@ namespace sp {
 
 		SP_ASSERT(dib, "Could not load image '", filename, "'!");
 
-		BYTE* pixels = FreeImage_GetBits(dib);
-		*width = FreeImage_GetWidth(dib);
-		*height = FreeImage_GetHeight(dib);
-		*bits = FreeImage_GetBPP(dib);
-
-#ifdef SPARKY_PLATFORM_WEB
-		SwapRedBlue32(dib);
-#endif
-
-		int size = *width * *height * (*bits / 8);
-		BYTE* result = new BYTE[size];
-		memcpy(result, pixels, size);
+		FIBITMAP* bitmap = FreeImage_ConvertTo32Bits(dib);
 		FreeImage_Unload(dib);
+
+		byte* pixels = FreeImage_GetBits(bitmap);
+		uint w = FreeImage_GetWidth(bitmap);
+		uint h = FreeImage_GetHeight(bitmap);
+		uint b = FreeImage_GetBPP(bitmap);
+
+		if (flipY)
+			FreeImage_FlipVertical(bitmap);
+
+		if (FreeImage_GetRedMask(bitmap) == 0xff0000)
+			SwapRedBlue32(bitmap);
+
+		if (width)
+			*width = w;
+		if (height)
+			*height = h;
+		if (bits)
+			*bits = b;
+
+		int32 size = w * h * (b / 8);
+		byte* result = spnew byte[size];
+		memcpy(result, pixels, size);
+		FreeImage_Unload(bitmap);
 		return result;
+	}
+
+	byte* LoadImage(const String& filename, uint* width, uint* height, uint* bits,bool flipY)
+	{
+		return LoadImage(filename.c_str(), width, height, bits, flipY);
 	}
 
 }

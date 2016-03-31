@@ -13,7 +13,7 @@ namespace sp { namespace graphics { namespace ui {
 	using namespace maths;
 
 	Panel::Panel()
-		: Layer2D(ShaderFactory::DefaultShader(), maths::mat4::Orthographic(0.0f, 32.0f, 0.0f, 18.0f, -1.0f, 1.0f))
+		: Layer2D(maths::mat4::Orthographic(0.0f, 32.0f, 0.0f, 18.0f, -1.0f, 1.0f))
 	{
 		Application::GetApplication().PushOverlay(this);
 	}
@@ -34,7 +34,7 @@ namespace sp { namespace graphics { namespace ui {
 
 	void Panel::Remove(Widget* widget)
 	{
-		int index = 0;
+		int32 index = 0;
 		for (uint i = 0; i < m_Widgets.size(); i++)
 		{
 			if (m_Widgets[i] == widget)
@@ -60,6 +60,9 @@ namespace sp { namespace graphics { namespace ui {
 		dispatcher.Dispatch<MousePressedEvent>(METHOD(&Panel::OnMousePressedEvent));
 		dispatcher.Dispatch<MouseReleasedEvent>(METHOD(&Panel::OnMouseReleasedEvent));
 		dispatcher.Dispatch<MouseMovedEvent>(METHOD(&Panel::OnMouseMovedEvent));
+		
+		// TODO: Temporary fix
+		dispatcher.Dispatch<ResizeWindowEvent>([this](events::ResizeWindowEvent& e) { return Layer2D::OnResize(e.GetWidth(), e.GetHeight());  });
 	}
 
 	bool Panel::OnMousePressedEvent(events::MousePressedEvent& e)

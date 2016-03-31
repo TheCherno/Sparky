@@ -10,6 +10,8 @@
 
 #include "sp/events/Events.h"
 
+#include "sp/graphics/API/Context.h"
+
 namespace sp {
 
 	namespace debug {
@@ -27,14 +29,15 @@ namespace sp {
 		bool m_Running, m_Suspended;
 		Timer* m_Timer;
 		uint m_UpdatesPerSecond, m_FramesPerSecond;
+		float m_Frametime;
 
 		const char* m_Name;
-		uint m_Width, m_Height;
+		uint m_InitialWidth, m_InitialHeight;
 
 		std::vector<graphics::Layer*> m_LayerStack;
 		std::vector<graphics::Layer*> m_OverlayStack;
 	public:
-		Application(const char* name, uint width, uint height);
+		Application(const char* name, uint width, uint height, graphics::API::RenderAPI api = graphics::API::RenderAPI::OPENGL);
 		virtual ~Application();
 
 		virtual void Init();
@@ -52,8 +55,13 @@ namespace sp {
 		void Resume();
 		void Stop();
 
-		const uint GetFPS() const { return m_FramesPerSecond; }
-		const uint GetUPS() const { return m_UpdatesPerSecond; }
+		inline uint GetFPS() const { return m_FramesPerSecond; }
+		inline uint GetUPS() const { return m_UpdatesPerSecond; }
+		inline float GetFrametime() const { return m_Frametime; }
+
+		inline uint GetWindowWidth() const { return window->GetWidth(); }
+		inline uint GetWindowHeight() const { return window->GetHeight(); }
+		inline maths::vec2 GetWindowSize() const { return maths::vec2((float)window->GetWidth(), (float)window->GetHeight()); }
 	private:
 		void PlatformInit();
 		void Run();

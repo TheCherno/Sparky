@@ -43,9 +43,6 @@
     <Filter Include="sp\graphics\ShaderFactory">
       <UniqueIdentifier>{bbf7d1bc-4bdb-4634-9ec6-0173ba64c92f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="sp\graphics\API">
-      <UniqueIdentifier>{a9f1d2b4-20f1-49cb-b030-fa3277e6dc62}</UniqueIdentifier>
-    </Filter>
     <Filter Include="sp\platform\posix">
       <UniqueIdentifier>{49090165-a900-4281-ad83-5ed37e094e19}</UniqueIdentifier>
     </Filter>
@@ -60,6 +57,21 @@
     </Filter>
     <Filter Include="sp\graphics\ui">
       <UniqueIdentifier>{c298d8e5-9102-4126-a91d-fb8b67f81f1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sp\platform\opengl">
+      <UniqueIdentifier>{a8a0b3a9-7305-47c4-909b-9c23da093581}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sp\platform\directx">
+      <UniqueIdentifier>{46a34b0e-73b8-4c5d-9c72-c8699ec64003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sp\system">
+      <UniqueIdentifier>{f3220443-5c8f-48d1-b8a5-58849106a25f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sp\platform\directx\shaders">
+      <UniqueIdentifier>{0faffb7b-341e-4159-a833-ee2b747c0102}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sp\platform\opengl\shaders">
+      <UniqueIdentifier>{8ccdc53f-69fa-402f-b225-c04eb3661a47}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -84,9 +96,6 @@
     <ClCompile Include="src\sp\graphics\FontManager.cpp">
       <Filter>sp\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\sp\graphics\Framebuffer.cpp">
-      <Filter>sp\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\sp\graphics\Label.cpp">
       <Filter>sp\graphics</Filter>
     </ClCompile>
@@ -94,9 +103,6 @@
       <Filter>sp\graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\sp\graphics\Sprite.cpp">
-      <Filter>sp\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sp\graphics\Texture.cpp">
       <Filter>sp\graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\sp\graphics\TextureManager.cpp">
@@ -114,9 +120,6 @@
     <ClCompile Include="src\sp\maths\vec4.cpp">
       <Filter>sp\maths</Filter>
     </ClCompile>
-    <ClCompile Include="src\sp\utils\ImageLoad.cpp">
-      <Filter>sp</Filter>
-    </ClCompile>
     <ClCompile Include="src\sp\sp.cpp">
       <Filter>sp</Filter>
     </ClCompile>
@@ -128,9 +131,6 @@
     </ClCompile>
     <ClCompile Include="src\sp\app\Application.cpp">
       <Filter>sp\app</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sp\graphics\buffers\BufferLayout.cpp">
-      <Filter>sp\graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\sp\graphics\camera\Camera.cpp">
       <Filter>sp\graphics</Filter>
@@ -162,12 +162,6 @@
     <ClCompile Include="src\sp\graphics\layers\Layer.cpp">
       <Filter>sp\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\sp\graphics\buffers\IndexBuffer.cpp">
-      <Filter>sp\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sp\graphics\buffers\VertexArray.cpp">
-      <Filter>sp\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\sp\graphics\shaders\Shader.cpp">
       <Filter>sp\graphics</Filter>
     </ClCompile>
@@ -183,19 +177,10 @@
     <ClCompile Include="src\sp\entity\component\MeshComponent.cpp">
       <Filter>sp\entity\component</Filter>
     </ClCompile>
-    <ClCompile Include="src\sp\graphics\Model.cpp">
-      <Filter>sp\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\sp\events\MouseEvent.cpp">
       <Filter>sp\events</Filter>
     </ClCompile>
     <ClCompile Include="src\sp\graphics\shaders\ShaderUniform.cpp">
-      <Filter>sp\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sp\graphics\postfx\PostEffects.cpp">
-      <Filter>sp\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sp\graphics\postfx\PostEffectsPass.cpp">
       <Filter>sp\graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\sp\maths\Quaternion.cpp">
@@ -206,15 +191,6 @@
     </ClCompile>
     <ClCompile Include="src\sp\entity\component\TransformComponent.cpp">
       <Filter>sp\entity\component</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sp\platform\opengl\SPOpenGLBuffer.cpp">
-      <Filter>sp\graphics\API</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sp\platform\opengl\SPOpenGLError.cpp">
-      <Filter>sp\graphics\API</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sp\platform\opengl\SPOpenGLRenderAPI.cpp">
-      <Filter>sp\graphics\API</Filter>
     </ClCompile>
     <ClCompile Include="src\sp\platform\posix\PosixTimer.cpp">
       <Filter>sp\platform\posix</Filter>
@@ -255,12 +231,198 @@
     <ClCompile Include="src\sp\debug\DebugMenuSlider.cpp">
       <Filter>sp\debug</Filter>
     </ClCompile>
-    <ClCompile Include="src\sp\graphics\ui\Panel.cpp" />
-    <ClCompile Include="src\sp\graphics\ui\Widget.cpp" />
-    <ClCompile Include="src\sp\graphics\ui\Button.cpp" />
-    <ClCompile Include="src\sp\graphics\ui\Slider.cpp" />
-    <ClCompile Include="src\sp\graphics\Light.cpp" />
-    <ClCompile Include="src\sp\graphics\LightSetup.cpp" />
+    <ClCompile Include="src\sp\utils\ImageLoad.cpp">
+      <Filter>sp\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\Light.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\LightSetup.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\ui\Widget.cpp">
+      <Filter>sp\graphics\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\ui\Slider.cpp">
+      <Filter>sp\graphics\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\ui\Panel.cpp">
+      <Filter>sp\graphics\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\ui\Button.cpp">
+      <Filter>sp\graphics\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\OBJModel.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\debug\DebugRenderer.cpp">
+      <Filter>sp\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\API\VertexArray.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\opengl\GLTexture2D.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\opengl\GLTextureCube.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\API\Texture.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\API\Framebuffer.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\API\Framebuffer2D.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\API\FramebufferDepth.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\API\BufferLayout.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\API\IndexBuffer.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\directx\DXContext.cpp">
+      <Filter>sp\platform\directx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\directx\DXFramebuffer2D.cpp">
+      <Filter>sp\platform\directx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\directx\DXFramebufferDepth.cpp">
+      <Filter>sp\platform\directx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\directx\DXIndexBuffer.cpp">
+      <Filter>sp\platform\directx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\directx\DXRenderer.cpp">
+      <Filter>sp\platform\directx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\directx\DXShader.cpp">
+      <Filter>sp\platform\directx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\directx\DXShaderResource.cpp">
+      <Filter>sp\platform\directx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\directx\DXShaderUniform.cpp">
+      <Filter>sp\platform\directx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\directx\DXTexture2D.cpp">
+      <Filter>sp\platform\directx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\directx\DXTextureCube.cpp">
+      <Filter>sp\platform\directx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\directx\DXTextureDepth.cpp">
+      <Filter>sp\platform\directx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\directx\DXVertexArray.cpp">
+      <Filter>sp\platform\directx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\directx\DXVertexBuffer.cpp">
+      <Filter>sp\platform\directx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\opengl\GLContext.cpp">
+      <Filter>sp\platform\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\opengl\GLError.cpp">
+      <Filter>sp\platform\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\opengl\GLFramebuffer2D.cpp">
+      <Filter>sp\platform\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\opengl\GLFramebufferDepth.cpp">
+      <Filter>sp\platform\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\opengl\GLIndexBuffer.cpp">
+      <Filter>sp\platform\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\opengl\GLRenderer.cpp">
+      <Filter>sp\platform\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\opengl\GLShader.cpp">
+      <Filter>sp\platform\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\opengl\GLShaderResource.cpp">
+      <Filter>sp\platform\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\opengl\GLShaderUniform.cpp">
+      <Filter>sp\platform\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\opengl\GLTextureDepth.cpp">
+      <Filter>sp\platform\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\opengl\GLVertexArray.cpp">
+      <Filter>sp\platform\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\opengl\GLVertexBuffer.cpp">
+      <Filter>sp\platform\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\camera\FPSCamera.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\system\Memory.cpp">
+      <Filter>sp\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\system\MemoryManager.cpp">
+      <Filter>sp\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\postfx\PostEffects.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\postfx\PostEffectsPass.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\Renderer.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\shaders\ShaderManager.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\API\Texture2D.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\API\TextureCube.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\API\TextureDepth.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\API\VertexBuffer.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\GBuffer.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\Model.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\PBRMaterial.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\DeferredRenderer.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\API\Context.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\utils\FileUtils.cpp">
+      <Filter>sp\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\system\Allocator.cpp">
+      <Filter>sp\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\system\System.cpp">
+      <Filter>sp\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\events\WindowEvent.cpp">
+      <Filter>sp\events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\windows\Win32MemoryManager.cpp">
+      <Filter>sp\platform\win32</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Application.h">
@@ -299,9 +461,6 @@
     <ClInclude Include="src\sp\graphics\FontManager.h">
       <Filter>sp\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\graphics\Framebuffer.h">
-      <Filter>sp\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="src\sp\graphics\Label.h">
       <Filter>sp\graphics</Filter>
     </ClInclude>
@@ -318,9 +477,6 @@
       <Filter>sp\graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\sp\graphics\Sprite.h">
-      <Filter>sp\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\graphics\Texture.h">
       <Filter>sp\graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\sp\graphics\TextureManager.h">
@@ -359,9 +515,6 @@
     <ClInclude Include="src\sp\utils\Log.h">
       <Filter>sp\utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\utils\StringUtils.h">
-      <Filter>sp\utils</Filter>
-    </ClInclude>
     <ClInclude Include="src\sp\utils\Timer.h">
       <Filter>sp\utils</Filter>
     </ClInclude>
@@ -369,9 +522,6 @@
       <Filter>sp\maths</Filter>
     </ClInclude>
     <ClInclude Include="src\sp\graphics\buffers\Buffer.h">
-      <Filter>sp\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\graphics\buffers\BufferLayout.h">
       <Filter>sp\graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\sp\graphics\camera\Camera.h">
@@ -413,12 +563,6 @@
     <ClInclude Include="src\sp\graphics\layers\Layer.h">
       <Filter>sp\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\graphics\buffers\VertexArray.h">
-      <Filter>sp\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\graphics\buffers\IndexBuffer.h">
-      <Filter>sp\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="src\sp\graphics\shaders\Shader.h">
       <Filter>sp\graphics</Filter>
     </ClInclude>
@@ -443,12 +587,6 @@
     <ClInclude Include="src\sp\graphics\shaders\ShaderUniform.h">
       <Filter>sp\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\graphics\postfx\PostEffects.h">
-      <Filter>sp\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\graphics\postfx\PostEffectsPass.h">
-      <Filter>sp\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="src\sp\maths\Quaternion.h">
       <Filter>sp\maths</Filter>
     </ClInclude>
@@ -464,17 +602,8 @@
     <ClInclude Include="src\sp\entity\component\TransformComponent.h">
       <Filter>sp\entity\component</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\graphics\SPRenderAPI.h">
-      <Filter>sp\graphics\API</Filter>
-    </ClInclude>
     <ClInclude Include="src\sp\debug\DebugLayer.h">
       <Filter>sp\debug</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\platform\opengl\SPOpenGLBuffer.h">
-      <Filter>sp\graphics\API</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\platform\opengl\SPOpenGLTypes.h">
-      <Filter>sp\graphics\API</Filter>
     </ClInclude>
     <ClInclude Include="src\sp\app\Window.h">
       <Filter>sp\graphics</Filter>
@@ -506,11 +635,195 @@
     <ClInclude Include="src\sp\graphics\ui\Button.h">
       <Filter>sp\graphics\ui</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\graphics\ui\Widget.h" />
-    <ClInclude Include="src\sp\graphics\ui\Panel.h" />
-    <ClInclude Include="src\sp\graphics\ui\Slider.h" />
-    <ClInclude Include="src\sp\graphics\Light.h" />
-    <ClInclude Include="src\sp\graphics\LightSetup.h" />
+    <ClInclude Include="src\sp\graphics\Light.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\LightSetup.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\ui\Widget.h">
+      <Filter>sp\graphics\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\ui\Slider.h">
+      <Filter>sp\graphics\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\ui\Panel.h">
+      <Filter>sp\graphics\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\debug\DebugRenderer.h">
+      <Filter>sp\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\API\VertexArray.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\API\Texture.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\API\Texture2D.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\API\TextureCube.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\API\Framebuffer.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\API\Framebuffer2D.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\API\FramebufferDepth.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\API\BufferLayout.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\API\IndexBuffer.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\directx\DXCommon.h">
+      <Filter>sp\platform\directx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\directx\DXContext.h">
+      <Filter>sp\platform\directx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\directx\DXFramebuffer2D.h">
+      <Filter>sp\platform\directx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\directx\DXFramebufferDepth.h">
+      <Filter>sp\platform\directx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\directx\DXIndexBuffer.h">
+      <Filter>sp\platform\directx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\directx\DXRenderer.h">
+      <Filter>sp\platform\directx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\directx\DXShader.h">
+      <Filter>sp\platform\directx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\directx\DXShaderResource.h">
+      <Filter>sp\platform\directx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\directx\DXShaderUniform.h">
+      <Filter>sp\platform\directx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\directx\DXTexture2D.h">
+      <Filter>sp\platform\directx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\directx\DXTextureCube.h">
+      <Filter>sp\platform\directx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\directx\DXTextureDepth.h">
+      <Filter>sp\platform\directx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\directx\DXTextureHandle.h">
+      <Filter>sp\platform\directx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\directx\DXTypes.h">
+      <Filter>sp\platform\directx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\directx\DXVertexArray.h">
+      <Filter>sp\platform\directx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\directx\DXVertexBuffer.h">
+      <Filter>sp\platform\directx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\opengl\GLCommon.h">
+      <Filter>sp\platform\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\opengl\GLContext.h">
+      <Filter>sp\platform\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\opengl\GLFramebuffer2D.h">
+      <Filter>sp\platform\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\opengl\GLFramebufferDepth.h">
+      <Filter>sp\platform\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\opengl\GLIndexBuffer.h">
+      <Filter>sp\platform\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\opengl\GLRenderer.h">
+      <Filter>sp\platform\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\opengl\GLShader.h">
+      <Filter>sp\platform\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\opengl\GLShaderResource.h">
+      <Filter>sp\platform\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\opengl\GLShaderUniform.h">
+      <Filter>sp\platform\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\opengl\GLTexture2D.h">
+      <Filter>sp\platform\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\opengl\GLTextureCube.h">
+      <Filter>sp\platform\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\opengl\GLTextureDepth.h">
+      <Filter>sp\platform\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\opengl\GLTypes.h">
+      <Filter>sp\platform\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\opengl\GLVertexArray.h">
+      <Filter>sp\platform\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\platform\opengl\GLVertexBuffer.h">
+      <Filter>sp\platform\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\camera\FPSCamera.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\system\Memory.h">
+      <Filter>sp\system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\system\MemoryManager.h">
+      <Filter>sp\system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\postfx\PostEffects.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\postfx\PostEffectsPass.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\Renderer.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\shaders\ShaderManager.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\shaders\ShaderResource.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\API\TextureDepth.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\API\VertexBuffer.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\GBuffer.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\PBRMaterial.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\DeferredRenderer.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\API\Context.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\system\Allocator.h">
+      <Filter>sp\system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\system\System.h">
+      <Filter>sp\system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\events\WindowEvent.h">
+      <Filter>sp\events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="SparkyCore-TODO.txt" />
@@ -522,9 +835,6 @@
     <None Include="src\sp\graphics\shaders\default\BasicLight.shader">
       <Filter>sp\graphics\ShaderFactory\Shaders</Filter>
     </None>
-    <None Include="src\sp\graphics\shaders\default\Default.shader">
-      <Filter>sp\graphics\ShaderFactory\Shaders</Filter>
-    </None>
     <None Include="src\sp\graphics\shaders\default\Simple.shader">
       <Filter>sp\graphics\ShaderFactory\Shaders</Filter>
     </None>
@@ -534,8 +844,19 @@
     <None Include="src\sp\graphics\shaders\default\gles\Simple.shader">
       <Filter>sp\graphics\ShaderFactory\Shaders\gles</Filter>
     </None>
-    <None Include="src\sp\platform\opengl\SPOpenGLRenderAPI.inl">
-      <Filter>sp\graphics\API</Filter>
+    <None Include="src\sp\graphics\shaders\default\Debug.shader">
+      <Filter>sp\graphics\ShaderFactory\Shaders</Filter>
     </None>
+    <None Include="src\sp\platform\opengl\shaders\BatchRenderer.shader">
+      <Filter>sp\platform\opengl\shaders</Filter>
+    </None>
+    <None Include="src\sp\graphics\shaders\default\GeometryPass.shader">
+      <Filter>sp\platform\opengl\shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="src\sp\platform\directx\shaders\BatchRenderer.hlsl">
+      <Filter>sp\platform\directx\shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

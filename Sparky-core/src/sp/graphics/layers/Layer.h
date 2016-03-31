@@ -26,6 +26,8 @@ namespace sp { namespace graphics {
 		virtual void OnTick();
 		virtual void OnUpdate();
 		virtual void OnRender();
+	protected:
+		virtual bool OnResize(uint width, uint height);
 	};
 
 } }

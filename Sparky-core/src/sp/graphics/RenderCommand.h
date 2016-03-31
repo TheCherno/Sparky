@@ -14,6 +14,8 @@ namespace sp { namespace graphics {
 	struct SP_API RenderCommand
 	{
 		Mesh* mesh;
+		maths::mat4 transform;
+		API::Shader* shader;
 		std::vector<RendererUniform> uniforms;
 	};
 

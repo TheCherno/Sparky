@@ -1,11 +1,15 @@
 #include "sp/sp.h"
 
 #define NOMINMAX
+#undef NOGDI
 #include <Windows.h>
 #include <Windowsx.h>
+#define NOGDI
 
 #include "sp/utils/Log.h"
 #include "sp/app/Window.h"
+#include "sp/graphics/API/Context.h"
+#include "sp/graphics/Renderer.h"
 
 #include <GL/glew.h>
 
@@ -14,16 +18,17 @@ EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 namespace sp {
 
 	using namespace events;
+	using namespace graphics;
 
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-	extern void MouseButtonCallback(InputManager* inputManager, int button, int x, int y);
-	extern void KeyCallback(InputManager* inputManager, int flags, int key, uint message);
+	extern void MouseButtonCallback(InputManager* inputManager, int32 button, int32 x, int32 y);
+	extern void KeyCallback(InputManager* inputManager, int32 flags, int32 key, uint message);
 
-	static HINSTANCE hInstance;
-	static HDC hDc;
+	HINSTANCE hInstance;
+	HDC hDc;
 	HWND hWnd;
 
-	static PIXELFORMATDESCRIPTOR get_pixel_format()
+	static PIXELFORMATDESCRIPTOR GetPixelFormat()
 	{
 		PIXELFORMATDESCRIPTOR result = {};
 		result.nSize = sizeof(PIXELFORMATDESCRIPTOR);
@@ -57,14 +62,14 @@ namespace sp {
 			return false;
 		}
 
-		RECT size = { 0, 0, m_Width, m_Height };
+		RECT size = { 0, 0, (LONG)m_Properties.width, (LONG)m_Properties.height };
 		AdjustWindowRectEx(&size, WS_OVERLAPPEDWINDOW | WS_CLIPSIBLINGS | WS_CLIPCHILDREN, false, WS_EX_APPWINDOW | WS_EX_WINDOWEDGE);
 
 		hWnd = CreateWindowExA(WS_EX_APPWINDOW | WS_EX_WINDOWEDGE,
-			winClass.lpszClassName, m_Title,
+			winClass.lpszClassName, m_Properties.title.c_str(),
 			WS_OVERLAPPEDWINDOW | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
-			GetSystemMetrics(SM_CXSCREEN) / 2 - m_Width / 2,
-			GetSystemMetrics(SM_CYSCREEN) / 2 - m_Height / 2,
+			GetSystemMetrics(SM_CXSCREEN) / 2 - m_Properties.width / 2,
+			GetSystemMetrics(SM_CYSCREEN) / 2 - m_Properties.height / 2,
 			// TODO: This requires some... attention
 			size.right + (-size.left), size.bottom + (-size.top), NULL, NULL, hInstance, NULL);
 			
@@ -77,8 +82,8 @@ namespace sp {
 		RegisterWindowClass(hWnd, this);
 
 		hDc = GetDC(hWnd);
-		PIXELFORMATDESCRIPTOR pfd = get_pixel_format();
-		int pixelFormat = ChoosePixelFormat(hDc, &pfd);
+		PIXELFORMATDESCRIPTOR pfd = GetPixelFormat();
+		int32 pixelFormat = ChoosePixelFormat(hDc, &pfd);
 		if (pixelFormat)
 		{
 			if (!SetPixelFormat(hDc, pixelFormat, &pfd))
@@ -93,26 +98,7 @@ namespace sp {
 			return false;
 		}
 
-		HGLRC hrc = wglCreateContext(hDc);
-		if (hrc)
-		{
-			if (!wglMakeCurrent(hDc, hrc))
-			{
-				SP_ERROR("Failed setting OpenGL context!");
-				return false;
-			}
-		}
-		else
-		{
-			SP_ERROR("Failed creating OpenGL context!");
-			return false;
-		}
-
-		if (glewInit() != GLEW_OK)
-		{
-			SP_FATAL("Could not initialize GLEW!");
-			return false;
-		}
+		graphics::API::Context::Create(m_Properties, hWnd);
 
 		ShowWindow(hWnd, SW_SHOW);
 		SetFocus(hWnd);
@@ -124,7 +110,7 @@ namespace sp {
 	void Window::PlatformUpdate()
 	{
 		MSG message;
-		while (PeekMessage(&message, hWnd, NULL, NULL, PM_REMOVE) > 0)
+		while (PeekMessage(&message, NULL, NULL, NULL, PM_REMOVE) > 0)
 		{
 			if (message.message == WM_QUIT)
 			{
@@ -136,13 +122,23 @@ namespace sp {
 		}
 
 		m_InputManager->PlatformUpdate();
-		SwapBuffers(hDc);
+		Renderer::Present();
 	}
 
-	void ResizeCallback(Window* window, int width, int height)
+	void Window::SetTitle(const String& title)
 	{
-		window->m_Width = width;
-		window->m_Height = height;
+		m_Properties.title = title + "  |  Renderer: " + Renderer::GetTitle();
+		SetWindowText(hWnd, m_Properties.title.c_str());
+	}
+
+	void ResizeCallback(Window* window, int32 width, int32 height)
+	{
+		window->m_Properties.width = width;
+		window->m_Properties.height = height;
+		FontManager::SetScale(maths::vec2(window->m_Properties.width / 32.0f, window->m_Properties.height / 18.0f));
+
+		if (window->m_EventCallback)
+			window->m_EventCallback(ResizeWindowEvent((uint)width, (uint)height));
 	}
 
 	void FocusCallback(Window* window, bool focused)

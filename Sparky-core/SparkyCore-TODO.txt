@@ -3,19 +3,16 @@
 --------------------
 
 - Complete event system with additional events (focus, close, resize, etc.)
-- Custom Allocators / Memory management
+- Custom Allocators / Memory management (in-progress)
+- Really need string formatting!
+- DirectX for Windows
+- Bring back GLFW for OpenGL (at least on Mac/Linux)
 - Font metrics
 - Eliminate hard coded projection matrices for 2D layers
-- Proper UI controls (eg. buttons for DebugMenuItem)
 - SP_DEBUG macros
-- Cameras -> projection and view matrices
 - mat3 support
-- Events system
 - Better logging. Seriously.
 - Check for memory leaks. Likely.
-- Investigate transparent FBs
 - Some kind of Asset Server. This needs to support things like memory mapping and virtual file systems.
-- ivec<x>, uvec<x>
 - Hash functions for maths classes
 - Raw Input instead of Win32 stuff
-- String formatting
