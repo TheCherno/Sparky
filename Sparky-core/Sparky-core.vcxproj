@@ -144,6 +144,8 @@
     <ClCompile Include="src\sp\app\Input.cpp" />
     <ClCompile Include="src\sp\debug\DebugMenuItem.cpp" />
     <ClCompile Include="src\sp\debug\DebugMenuSlider.cpp" />
+    <ClCompile Include="src\sp\graphics\Light.cpp" />
+    <ClCompile Include="src\sp\graphics\LightSetup.cpp" />
     <ClCompile Include="src\sp\graphics\ui\Button.cpp" />
     <ClCompile Include="src\sp\graphics\ui\Panel.cpp" />
     <ClCompile Include="src\sp\graphics\ui\Slider.cpp" />
@@ -590,6 +592,8 @@
     <ClInclude Include="src\sp\debug\DebugMenuAction.h" />
     <ClInclude Include="src\sp\debug\DebugMenuItem.h" />
     <ClInclude Include="src\sp\debug\DebugMenuSlider.h" />
+    <ClInclude Include="src\sp\graphics\Light.h" />
+    <ClInclude Include="src\sp\graphics\LightSetup.h" />
     <ClInclude Include="src\sp\graphics\ui\Button.h" />
     <ClInclude Include="src\sp\graphics\ui\Panel.h" />
     <ClInclude Include="src\sp\graphics\ui\Slider.h" />
