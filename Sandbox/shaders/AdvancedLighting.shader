@@ -229,7 +229,7 @@ vec3 GGX(Light light, Material material, vec3 eye)
 
 vec3 RadianceIBLIntegration(float NdotV, float roughness, vec3 specular)
 {
-	vec2 preintegratedFG = texture(u_PreintegratedFG, vec2(roughness, 1.0 - NdotV)).rg;A
+	vec2 preintegratedFG = texture(u_PreintegratedFG, vec2(roughness, 1.0 - NdotV)).rg;
 	return specular * preintegratedFG.r + preintegratedFG.g;
 }
 
