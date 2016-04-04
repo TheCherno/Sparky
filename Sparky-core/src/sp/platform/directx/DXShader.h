@@ -65,7 +65,7 @@ namespace sp { namespace graphics { namespace API {
 		inline const ShaderUniformBufferDeclaration* GetPSUserUniformBuffer() const override { return m_PSUserUniformBuffer; }
 		inline const ShaderResourceList& GetResources() const override { return m_Resources; }
 	private:
-		ID3DBlob* Compile(const String& source, const String& profile, const String& main);
+		static ID3DBlob* Compile(const String& source, const String& profile, const String& main);
 		void Load(const String& source);
 
 		String RemoveComments(const String& source);
@@ -78,6 +78,8 @@ namespace sp { namespace graphics { namespace API {
 		void CreateBuffers();
 		ShaderStruct* FindStruct(const String& name);
 	public:
+		static bool TryCompile(const String& source, String& error);
+		static bool TryCompileFromFile(const String& filepath, String& error);
 		static D3DShader* FromFile(const String& name, const String& filepath, void* address);
 		static D3DShader* FromSource(const String& name, const String& source);
 	public:
