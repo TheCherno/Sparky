@@ -11,6 +11,30 @@ namespace sp { namespace graphics { namespace API {
 
 	const D3DShader* D3DShader::s_CurrentlyBound = nullptr;
 
+	bool D3DShader::TryCompile(const String& source, String& error)
+	{
+		D3DShaderErrorInfo info;
+
+		if (!Compile(source, "vs_4_0", "VSMain", info))
+		{
+			error += info.message;
+			return false;
+		}
+		
+		if (!Compile(source, "ps_4_0", "PSMain", info))
+		{
+			error += info.message;
+			return false;
+		}
+		return true;
+	}
+
+	bool D3DShader::TryCompileFromFile(const String& filepath, String& error)
+	{
+		String source = utils::ReadFile(filepath);
+		return TryCompile(source, error);
+	}
+
 	D3DShader::D3DShader(const String& name, const String& source)
 		: m_Name(name)
 	{
@@ -30,28 +54,37 @@ namespace sp { namespace graphics { namespace API {
 
 	void D3DShader::Load(const String& source)
 	{
-		m_Data.vs = Compile(source, "vs_4_0", "VSMain");
+		D3DShaderErrorInfo info;
+		m_Data.vs = Compile(source, "vs_4_0", "VSMain",info);
+		if (!m_Data.vs)
+			SP_ERROR(info.message);
 		SP_ASSERT(m_Data.vs);
-		m_Data.ps = Compile(source, "ps_4_0", "PSMain");
+		m_Data.ps = Compile(source, "ps_4_0", "PSMain",info);
+		if (!m_Data.ps)
+			SP_ERROR(info.message);
 		SP_ASSERT(m_Data.ps);
 		D3DContext::GetDevice()->CreateVertexShader(m_Data.vs->GetBufferPointer(), m_Data.vs->GetBufferSize(), NULL, &m_Data.vertexShader);
 		D3DContext::GetDevice()->CreatePixelShader(m_Data.ps->GetBufferPointer(), m_Data.ps->GetBufferSize(), NULL, &m_Data.pixelShader);
 	}
 
-	ID3DBlob* D3DShader::Compile(const String& source, const String& profile, const String& main)
+	ID3DBlob* D3DShader::Compile(const String& source, const String& profile, const String& main, D3DShaderErrorInfo& info)
 	{
 		ID3DBlob* shaderBlob;
 		ID3DBlob* errorBlob;
 		HRESULT status = D3DCompile(source.c_str(), source.size(), NULL, NULL, NULL, main.c_str(), profile.c_str(), D3DCOMPILE_DEBUG, 0, &shaderBlob, &errorBlob);
 		if (status != S_OK)
-			std::cout << "Unable to compile shader from source" << std::endl;
+			info.message = "Unable to compile shader from source\n";
 		if (errorBlob)
 		{
-			std::cout << "Shader Compilation Error: " << profile << std::endl;
+			info.profile += profile;
 			if (errorBlob->GetBufferSize())
-				std::cout << "Shader Compile Errors" << std::endl << (const char*)errorBlob->GetBufferPointer() << std::endl;
+			{
+				String errorMessage = (const char*)errorBlob->GetBufferPointer();
+				info.message += "Shader Compile Errors\n" + errorMessage + "\n";
+			}
 			errorBlob->Release();
 		}
+		
 		if (status == S_OK)
 			return shaderBlob;
 		return NULL;
