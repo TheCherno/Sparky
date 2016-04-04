@@ -3,6 +3,7 @@
 #include "Test2D.h"
 #include "Test3D.h"
 #include "DeferredTest.h"
+#include "Sponza.h"
 
 using namespace sp;
 using namespace graphics;
@@ -27,7 +28,8 @@ public:
 	{
 		Application::Init();
 		// PushLayer(new DeferredTest());
-		PushLayer(new Test3D());
+		//PushLayer(new Test3D());
+		PushLayer(new Sponza());
 		// PushLayer(new Test2D());
 	}
 };
