@@ -7,9 +7,6 @@ class Sponza : public sp::graphics::Layer3D
 private:
 	sp::graphics::Camera* m_MayaCamera;
 	sp::graphics::Camera* m_FPSCamera;
-
-	std::vector<sp::graphics::PBRMaterial*> m_Materials;
-	std::vector<sp::entity::Entity*> m_Entities;
 	sp::graphics::MaterialInstance* m_SkyboxMaterial;
 
 public:

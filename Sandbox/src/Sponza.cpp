@@ -23,35 +23,6 @@ Sponza::~Sponza()
 
 }
 
-enum Materials : uint
-{
-	MAT_ROOF = 0,
-	MAT_FLOOR,
-	MAT_BRICKS,
-	MAT_DETAILS,
-	MAT_VASE,
-	MAT_COL1,
-	MAT_CEIL,
-	MAT_COL2,
-	MAT_ARCHES,
-	MAT_BACKPLATES,
-	MAT_LIONS,
-	MAT_COL3,
-	MAT_POLE,
-	MAT_VASE_ROUND,
-	MAT_VASE_HANGING,
-	MAT_FLOWERS1,
-	MAT_FLOWERS2,
-	MAT_CHAINS,
-	MAT_FABRIC_R,
-	MAT_FABRIC_G,
-	MAT_FABRIC_B,
-	MAT_CURTAIN_R,
-	MAT_CURTAIN_G,
-	MAT_CURTAIN_B
-
-};
-
 void Sponza::OnInit(Renderer3D& renderer, Scene& scene)
 {
 	String environmentFiles[11] =
@@ -89,7 +60,8 @@ void Sponza::OnInit(Renderer3D& renderer, Scene& scene)
 	//Models parts
 	std::vector<std::string> models = { "arch", "backplate", "walls1", "walls2", "walls3", "ceiling", "column1", "column2", "column3", "curtain_blue", "curtain_green", "curtain_red", "details",
 										"fabric_blue", "fabric_green", "fabric_red", "floor", "floor2", "chain", "lion", "pole", "roof", "vase", "vase_round", "vase_hanging","flower", "flower2" };
-
+	//Set texture Wrap to work on OpenGL (or there are texture glitches when texture is repeating)
+	Texture::SetWrap(TextureWrap::REPEAT);
 	//Loop
 	for (int i = 0; i < models.size(); i++) {
 		PBRMaterial* material = spnew PBRMaterial(pbrShader);
@@ -101,13 +73,13 @@ void Sponza::OnInit(Renderer3D& renderer, Scene& scene)
 			material->SetGlossMap(Texture2D::CreateFromFile("res/Sponza/" + models[i] + "/gloss.tga", options));
 			material->SetNormalMap(Texture2D::CreateFromFile("res/Sponza/" + models[i] + "/normal.tga", options));
 		}
-		m_Materials.push_back(material);
 
 		Model* model = spnew Model("res/Sponza/" + models[i] + "/model.spm", spnew MaterialInstance(material));
 		Entity* entity = spnew Entity(model->GetMesh(), mat4::Translate(vec3(0, 0, 0))* mat4::Rotate(-90, vec3::XAxis()));
 		m_Scene->Add(entity);
-		m_Entities.push_back(entity);
 	}
+	//Reset it
+	Texture::SetWrap(TextureWrap::CLAMP);
 
 	//LIGHT(S)
 	LightSetup* lights = spnew LightSetup();
