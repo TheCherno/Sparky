@@ -28,6 +28,7 @@ namespace sp { namespace graphics { namespace API {
 	void D3DContext::InitD3D(HWND hWnd)
 	{
 		m_MSAAEnabled = true;
+		m_Vsync = true;
 
 		HRESULT hr = D3D11CreateDevice(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, D3D11_CREATE_DEVICE_DEBUG, NULL, NULL, D3D11_SDK_VERSION, &dev, &m_D3DFeatureLevel, &devcon);
 		dev->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &m_MSAAQuality);
@@ -146,7 +147,7 @@ namespace sp { namespace graphics { namespace API {
 
 	void D3DContext::Present()
 	{
-		swapchain->Present(0, 0);
+		swapchain->Present(m_Vsync, 0);
 	}
 
 	String D3DContext::GetD3DVersionStringInternal() const

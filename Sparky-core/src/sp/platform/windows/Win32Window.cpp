@@ -11,6 +11,8 @@
 #include "sp/graphics/API/Context.h"
 #include "sp/graphics/Renderer.h"
 
+#include "sp/platform/directx/DXContext.h"
+
 #include <GL/glew.h>
 #include <GL/wglew.h>
 
@@ -137,6 +139,8 @@ namespace sp {
 		m_Vsync = enabled;
 		if (graphics::API::Context::GetRenderAPI() == graphics::API::RenderAPI::OPENGL) {
 			wglSwapIntervalEXT(m_Vsync);
+		} else if (graphics::API::Context::GetRenderAPI() == graphics::API::RenderAPI::DIRECT3D) {
+			graphics::API::D3DContext::SetVsync(m_Vsync);
 		}
 	}
 

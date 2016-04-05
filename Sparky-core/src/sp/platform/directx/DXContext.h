@@ -16,6 +16,7 @@ namespace sp { namespace graphics { namespace API {
 		D3D_FEATURE_LEVEL m_D3DFeatureLevel;
 		uint m_MSAAQuality;
 		bool m_MSAAEnabled;
+		bool m_Vsync;
 
 		ID3D11RenderTargetView* m_RenderTargetView;
 		ID3D11DepthStencilView* m_DepthStencilView;
@@ -38,6 +39,8 @@ namespace sp { namespace graphics { namespace API {
 
 		String GetD3DVersionStringInternal() const;
 	public:
+		inline static void SetVsync(bool vsync) { Get()->m_Vsync = vsync; }
+
 		inline static D3DContext* GetContext() { return (D3DContext*)s_Context; }
 
 		inline static IDXGISwapChain* GetSwapChain() { return GetContext()->swapchain; }
