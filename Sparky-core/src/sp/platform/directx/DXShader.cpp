@@ -10,6 +10,28 @@
 namespace sp { namespace graphics { namespace API {
 
 	const D3DShader* D3DShader::s_CurrentlyBound = nullptr;
+#if 1
+	bool D3DShader::TryCompile(const String& source, String& error)
+	{
+		const D3DShader* currentBound = s_CurrentlyBound;
+		HRESULT result = S_FALSE;
+		if ( Compile(source, "vs_4_0", "VSMain") )
+		{
+			if ( Compile(source, "ps_4_0", "PSMain") )
+			{
+				result = D3DContext::GetDevice()->CreateVertexShader(currentBound->m_Data.vs->GetBufferPointer(), currentBound->m_Data.vs->GetBufferSize(), NULL, &currentBound->m_Data.vertexShader);
+				result &= D3DContext::GetDevice()->CreatePixelShader(currentBound->m_Data.ps->GetBufferPointer(), currentBound->m_Data.ps->GetBufferSize(), NULL, &currentBound->m_Data.pixelShader);
+			}
+		}
+		return result == S_OK ? true : false;
+	}
+
+	bool D3DShader::TryCompileFromFile(const String& filepath, String& error)
+	{
+		String source = utils::ReadFile(filepath);
+		return TryCompile(source, error);
+	}
+#endif
 
 	D3DShader::D3DShader(const String& name, const String& source)
 		: m_Name(name)
