@@ -51,9 +51,7 @@ namespace sp { namespace graphics { namespace API {
 		Parse(m_VertexSource, m_FragmentSource);
 		GLShaderErrorInfo error;
 		m_Handle = Compile(shaders, error);
-		if (!m_Handle)
-			SP_ERROR(error.message[error.shader]);
-		SP_ASSERT(m_Handle);
+		SP_ASSERT(m_Handle, error.shader, error.message[error.shader]);
 		ResolveUniforms();
 		ValidateUniforms();
 	}

@@ -56,13 +56,10 @@ namespace sp { namespace graphics { namespace API {
 	{
 		D3DShaderErrorInfo info;
 		m_Data.vs = Compile(source, "vs_4_0", "VSMain",info);
-		if (!m_Data.vs)
-			SP_ERROR(info.message);
-		SP_ASSERT(m_Data.vs);
+		SP_ASSERT(m_Data.vs, info.profile, info.message);
 		m_Data.ps = Compile(source, "ps_4_0", "PSMain",info);
-		if (!m_Data.ps)
-			SP_ERROR(info.message);
-		SP_ASSERT(m_Data.ps);
+		SP_ASSERT(m_Data.ps, info.profile, info.message);
+
 		D3DContext::GetDevice()->CreateVertexShader(m_Data.vs->GetBufferPointer(), m_Data.vs->GetBufferSize(), NULL, &m_Data.vertexShader);
 		D3DContext::GetDevice()->CreatePixelShader(m_Data.ps->GetBufferPointer(), m_Data.ps->GetBufferSize(), NULL, &m_Data.pixelShader);
 	}
@@ -76,7 +73,7 @@ namespace sp { namespace graphics { namespace API {
 			info.message = "Unable to compile shader from source\n";
 		if (errorBlob)
 		{
-			info.profile += profile;
+			info.profile += profile + "\n";
 			if (errorBlob->GetBufferSize())
 			{
 				String errorMessage = (const char*)errorBlob->GetBufferPointer();
