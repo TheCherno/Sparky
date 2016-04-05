@@ -2,7 +2,7 @@
 
 #include <Sparky.h>
 
-class Sponza : public sp::graphics::Layer3D
+class SponzaTest : public sp::graphics::Layer3D
 {
 private:
 	sp::graphics::Camera* m_MayaCamera;
@@ -10,8 +10,8 @@ private:
 	sp::graphics::MaterialInstance* m_SkyboxMaterial;
 
 public:
-	Sponza();
-	~Sponza();
+	SponzaTest();
+	~SponzaTest();
 
 	void OnInit(sp::graphics::Renderer3D& renderer, sp::graphics::Scene& scene) override;
 

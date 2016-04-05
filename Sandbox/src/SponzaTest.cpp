@@ -1,4 +1,4 @@
-#include "Sponza.h"
+#include "SponzaTest.h"
 
 using namespace sp;
 using namespace debug;
@@ -11,19 +11,19 @@ using namespace component;
 
 using namespace API;
 
-Sponza::Sponza()
+SponzaTest::SponzaTest()
 	: Layer3D(spnew Scene())
 {
 	m_MayaCamera = m_Scene->GetCamera();
 	m_FPSCamera = spnew FPSCamera(maths::mat4::Perspective(65.0f, 16.0f / 9.0f, 0.1f, 1000.0f));
 }
 
-Sponza::~Sponza()
+SponzaTest::~SponzaTest()
 {
 
 }
 
-void Sponza::OnInit(Renderer3D& renderer, Scene& scene)
+void SponzaTest::OnInit(Renderer3D& renderer, Scene& scene)
 {
 	String environmentFiles[11] =
 	{
@@ -87,18 +87,18 @@ void Sponza::OnInit(Renderer3D& renderer, Scene& scene)
 	m_Scene->PushLightSetup(lights);
 }
 
-void Sponza::OnTick()
+void SponzaTest::OnTick()
 {
 }
 
-void Sponza::OnUpdate()
+void SponzaTest::OnUpdate()
 {
 	// Still OpenGL maths style (column-major)
 	mat4 vp = m_Scene->GetCamera()->GetProjectionMatrix() * m_Scene->GetCamera()->GetViewMatrix();
 	m_SkyboxMaterial->SetUniform("invViewProjMatrix", mat4::Invert(vp));
 }
 
-void Sponza::OnEvent(sp::events::Event& event)
+void SponzaTest::OnEvent(sp::events::Event& event)
 {
 	if (event.GetType() == Event::Type::KEY_PRESSED)
 	{
@@ -119,7 +119,7 @@ void Sponza::OnEvent(sp::events::Event& event)
 	Layer::OnEvent(event);
 }
 
-void Sponza::OnRender(Renderer3D& renderer)
+void SponzaTest::OnRender(Renderer3D& renderer)
 {
 	Layer3D::OnRender(renderer);
 }

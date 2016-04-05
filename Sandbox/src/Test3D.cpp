@@ -175,7 +175,7 @@ void Test3D::OnInit(Renderer3D& renderer, Scene& scene)
 
 	PBRMaterial* cubeMaterial = spnew PBRMaterial(pbrShader);
 	cubeMaterial->SetEnviromentMap(environment);
-	Model* cubeModel = spnew Model("res/models/RoundedCube.spm", spnew MaterialInstance(cubeMaterial));
+	Model* cubeModel = spnew Model("res/models/Curtains.spm", spnew MaterialInstance(cubeMaterial));
 	m_Cube = spnew Entity(cubeModel->GetMesh(), mat4::Rotate(90.0f, vec3(0, 0, 1)) * mat4::Translate(g_CubeTransform));
 	m_Scene->Add(m_Cube);
 
