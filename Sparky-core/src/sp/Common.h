@@ -16,3 +16,9 @@
 
 #define METHOD_1(x) std::bind(x, this, std::placeholders::_1)
 #define METHOD(x) METHOD_1(x)
+
+#ifdef SP_DEBUG
+	#define SP_DEBUG_METHOD_V(x) x;
+#else
+	#define SP_DEBUG_METHOD_V(x) x {}
+#endif

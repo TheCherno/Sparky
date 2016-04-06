@@ -21,7 +21,7 @@ namespace sp { namespace audio {
 
 		ga_Sound* m_Sound;
 		ga_Handle* m_Handle;
-		int m_Position;
+		int32 m_Position;
 
 
 		bool m_Playing;

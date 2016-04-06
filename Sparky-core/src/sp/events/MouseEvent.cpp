@@ -3,12 +3,12 @@
 
 namespace sp { namespace events {
 
-	MouseButtonEvent::MouseButtonEvent(int button, float x, float y, Type type)
+	MouseButtonEvent::MouseButtonEvent(int32 button, float x, float y, Type type)
 		: Event(type), m_Button(button), m_Position(maths::vec2(x, y))
 	{
 	}
 
-	MousePressedEvent::MousePressedEvent(int button, float x, float y)
+	MousePressedEvent::MousePressedEvent(int32 button, float x, float y)
 		: MouseButtonEvent(button, x, y, MousePressedEvent::GetStaticType())
 	{
 	}
@@ -20,7 +20,7 @@ namespace sp { namespace events {
 		return String(buffer);
 	}
 
-	MouseReleasedEvent::MouseReleasedEvent(int button, float x, float y)
+	MouseReleasedEvent::MouseReleasedEvent(int32 button, float x, float y)
 		: MouseButtonEvent(button, x, y, MouseReleasedEvent::GetStaticType())
 	{
 	}

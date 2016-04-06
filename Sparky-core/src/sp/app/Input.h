@@ -25,7 +25,7 @@ namespace sp {
 		bool m_MouseState[MAX_BUTTONS];
 		bool m_MouseClicked[MAX_BUTTONS];
 		bool m_MouseGrabbed;
-		int m_KeyModifiers;
+		int32 m_KeyModifiers;
 
 		maths::vec2 m_MousePosition;
 		WindowEventCallback m_EventCallback;
@@ -45,13 +45,13 @@ namespace sp {
 		void SetMousePosition(const maths::vec2& position);
 		const bool IsMouseGrabbed() const;
 		void SetMouseGrabbed(bool grabbed);
-		void SetMouseCursor(int cursor);
+		void SetMouseCursor(int32 cursor);
 
 		void ClearKeys();
 		void ClearMouseButtons();
 	private:
-		friend void KeyCallback(InputManager* inputManager, int flags, int key, uint message);
-		friend void MouseButtonCallback(InputManager* inputManager, int button, int x, int y);
+		friend void KeyCallback(InputManager* inputManager, int32 flags, int32 key, uint message);
+		friend void MouseButtonCallback(InputManager* inputManager, int32 button, int32 x, int32 y);
 	};
 
 	class SP_API Input
@@ -66,6 +66,8 @@ namespace sp {
 		inline static bool IsMouseButtonClicked(uint button) { return s_InputManager->IsMouseButtonClicked(button); }
 
 		inline static const maths::vec2& GetMousePosition() { return s_InputManager->GetMousePosition(); }
+
+		inline static InputManager* GetInputManager() { return s_InputManager; }
 	};
 
 }

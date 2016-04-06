@@ -36,7 +36,7 @@ namespace sp {
 		SetCursorPos(pt.x, pt.y);
 	}
 
-	void InputManager::SetMouseCursor(int cursor)
+	void InputManager::SetMouseCursor(int32 cursor)
 	{
 		if (cursor == SP_NO_CURSOR)
 		{
@@ -50,14 +50,14 @@ namespace sp {
 		}
 	}
 
-	void KeyCallback(InputManager* inputManager, int flags, int key, uint message)
+	void KeyCallback(InputManager* inputManager, int32 flags, int32 key, uint message)
 	{
 		bool pressed = message == WM_KEYDOWN || message == WM_SYSKEYDOWN;
 		inputManager->m_KeyState[key] = pressed;
 
 		bool repeat = (flags >> 30) & 1;
 
-		int modifier = 0;
+		int32 modifier = 0;
 		switch (key)
 		{
 		case SP_KEY_CONTROL:
@@ -81,37 +81,42 @@ namespace sp {
 			inputManager->m_EventCallback(KeyReleasedEvent(key));
 	}
 
-	void MouseButtonCallback(InputManager* inputManager, int button, int x, int y)
+	void MouseButtonCallback(InputManager* inputManager, int32 button, int32 x, int32 y)
 	{
 		bool down = false;
 		switch (button)
 		{
 		case WM_LBUTTONDOWN:
+			SetCapture(hWnd);
 			button = SP_MOUSE_LEFT;
 			down = true;
 			break;
 		case WM_LBUTTONUP:
+			ReleaseCapture();
 			button = SP_MOUSE_LEFT;
 			down = false;
 			break;
 		case WM_RBUTTONDOWN:
+			SetCapture(hWnd);
 			button = SP_MOUSE_RIGHT;
 			down = true;
 			break;
 		case WM_RBUTTONUP:
+			ReleaseCapture();
 			button = SP_MOUSE_RIGHT;
 			down = false;
 			break;
 		case WM_MBUTTONDOWN:
+			SetCapture(hWnd);
 			button = SP_MOUSE_MIDDLE;
 			down = true;
 			break;
 		case WM_MBUTTONUP:
+			ReleaseCapture();
 			button = SP_MOUSE_MIDDLE;
 			down = false;
 			break;
 		}
-
 		inputManager->m_MouseButtons[button] = down;
 		inputManager->m_MousePosition.x = (float)x;
 		inputManager->m_MousePosition.y = (float)y;

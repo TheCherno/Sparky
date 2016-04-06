@@ -1,0 +1,58 @@
+==================================
+  Sparky March 2016 Release Notes
+==================================
+
+Major New Features:
+- Sparky now support Physically-Based Rendering (PBR)
+- Sparky now supports rendering in both OpenGL and Direct3D 11
+- Custom 3D model format (SPM - Sparky Model)
+- Build tool for converting from Autodesk FBX to SPM
+- Custom memory allocation and control
+- Matrix maths is now row-major
+
+
+The following is the full list of changes included in this month's release:
+---------------------------------------------------------------------------
+- Sparky now supports OpenGL and Direct3D 11 as rendering APIs
+- Refactored entire graphics engine to support multiple rendering APIs
+- Changed FreeType-GL to provide pixel data rather than OpenGL textures, so that it could be used with DX
+- Fixed window sometimes not closing when the close button was pressed (Win32)
+- Fixed mouse release events getting lost because the window was not capturing mouse clicks properly (Win32)
+- Added window focus and resize events (Win32)
+- Fixed window resizing not propagating to appropriate renderers
+- Changed font rendering to work with OpenGL and Direct3D
+- Sparky now supports Physically-Based Rendering (PBR)
+- Added normal mapping support for PBR
+- Added Disney diffuse model and GGX specular model for PBR lighting (mostly taken from Frostbite's PBR paper)
+- Added Image-Based Lighting (IBL) for PBR (similar to Frostbite's model)
+- Added Depth Textures and basic shadow rendering (now obsolete after render API changes)
+- Added basic deferred rendering support (now obsolete after render API changes)
+- Sparky now uses a custom 3D model format (SPM - Sparky Model) for meshes
+- Added SPMBuild tool for FBX-to-SPM conversion
+- Created PBRMaterial class for convenience
+- Added cubemap texture support (TextureCube) (GL and DX)
+- Added Material render flags
+- Fixed uniform struct alignment to work with DX (16-byte aligned, MSVC only)
+- Created Renderer class for render API specific states (eg. depth-testing, blend modes, etc.)
+- Added FreeImage to Solution. Sparky now compiles FreeImage as a static library, along with selected FreeImage utilities
+- Created render API independent blend modes and buffer types
+- BufferLayouts now work with GL and DX
+- Rewrote Shader class
+- Converted Forward Renderer to use system uniforms
+- Added booleans to debug menu
+- Added first-person camera (FPSCamera)
+- Added custom Allocator class for future development
+- Added spnew and spdel macros for memory management
+- Added MemoryManager for tracking memory allocations
+- Added dynamic shader reloading (GL only)
+- Added Debug Renderer (currently broken due to API changes)
+- Added plenty of resources to Sandbox (PBR materials, cubemaps, models)
+- Added signed and unsigned integer typedefs (int8, int16, int32, etc.)
+- Fixed MSVC compiler warnings
+- Organised Visual Studio filters for Sparky-core project
+- Removed ChernoCraft
+---------------------------------------------------------------------------
+
+Known Issues:
+-------------
+See Github issues.

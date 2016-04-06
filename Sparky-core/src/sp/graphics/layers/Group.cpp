@@ -10,8 +10,8 @@ namespace sp { namespace graphics {
 
 	Group::~Group()
 	{
-		for (int i = 0; i < m_Renderables.size(); i++)
-			delete m_Renderables[i];
+		for (uint i = 0; i < m_Renderables.size(); i++)
+			spdel m_Renderables[i];
 	}
 
 	void Group::Add(Renderable2D* renderable)

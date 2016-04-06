@@ -4,10 +4,10 @@
 #include "sp/Types.h"
 
 #include "Renderer2D.h"
-#include "Texture.h"
+#include "API/Texture.h"
 
-#include "buffers/Buffer.h"
-#include "buffers/IndexBuffer.h"
+#include "API/VertexBuffer.h"
+#include "API/IndexBuffer.h"
 #include "shaders/Shader.h"
 
 #include "../maths/maths.h"
@@ -21,7 +21,7 @@ namespace sp { namespace graphics {
 		maths::vec2 mask_uv;
 		float tid;
 		float mid;
-		unsigned int color;
+		uint color;
 	};
 
 #define RENDERER_VERTEX_SIZE	sizeof(VertexData)
@@ -33,7 +33,7 @@ namespace sp { namespace graphics {
 		maths::vec2 m_Size;
 		uint m_Color;
 		std::vector<maths::vec2> m_UVs;
-		Texture* m_Texture;
+		API::Texture* m_Texture;
 		bool m_Visible;
 	protected:
 		Renderable2D() : m_Texture(nullptr) { m_UVs = GetDefaultUVs(); }
@@ -49,7 +49,7 @@ namespace sp { namespace graphics {
 			renderer->Submit(this);
 		}
 
-		void SetColor(unsigned int color) { m_Color = color; }
+		void SetColor(uint color) { m_Color = color; }
 		void SetColor(const maths::vec4& color)
 		{ 
 			uint r = (uint)(color.x * 255.0f);
@@ -62,11 +62,10 @@ namespace sp { namespace graphics {
 
 		inline const maths::vec3& GetPosition() const { return m_Position; }
 		inline const maths::vec2& GetSize() const { return m_Size; }
-		inline const unsigned int GetColor() const { return m_Color; }
+		inline const uint GetColor() const { return m_Color; }
 		inline const std::vector<maths::vec2>& GetUV() const { return m_UVs; }
 
-		inline const uint GetTID() const { return m_Texture ? m_Texture->GetID() : 0; }
-		inline const Texture* GetTexture() const { return m_Texture; }
+		inline API::Texture* GetTexture() const { return m_Texture; }
 
 		inline bool IsVisible() const { return m_Visible; }
 		inline void SetVisible(bool visible) { m_Visible = visible; }
@@ -76,10 +75,10 @@ namespace sp { namespace graphics {
 			static std::vector<maths::vec2> results;
 			if (!results.size())
 			{
-				results.push_back(maths::vec2(0, 0));
 				results.push_back(maths::vec2(0, 1));
 				results.push_back(maths::vec2(1, 1));
 				results.push_back(maths::vec2(1, 0));
+				results.push_back(maths::vec2(0, 0));
 			}
 			return results;
 		}

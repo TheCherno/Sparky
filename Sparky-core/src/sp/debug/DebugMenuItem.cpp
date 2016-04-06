@@ -1,5 +1,6 @@
 #include "sp/sp.h"
 #include "DebugMenuItem.h"
+#include "DebugMenuAction.h"
 
 #include "sp/graphics/FontManager.h"
 
@@ -17,7 +18,7 @@ namespace sp { namespace debug {
 	void DebugMenuItem::OnUpdate()
 	{
 		m_Label = m_Action->ToString();
-		m_Font = FontManager::Get(DebugMenu::Get()->GetSettings().fontSize);
+		m_Font = FontManager::Get((uint)DebugMenu::Get()->GetSettings().fontSize);
 	}
 
 } }

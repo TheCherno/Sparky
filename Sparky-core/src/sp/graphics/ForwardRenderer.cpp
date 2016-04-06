@@ -1,24 +1,87 @@
 #include "sp/sp.h"
 #include "ForwardRenderer.h"
 
-#include <GL/glew.h> // TODO: Temp
+#include "sp/app/Application.h"
+#include "sp/graphics/Renderer.h"
 
 namespace sp { namespace graphics {
 
+	using namespace maths;
+
+	enum VSSystemUniformIndices : int32
+	{
+		VSSystemUniformIndex_ProjectionMatrix	= 0,
+		VSSystemUniformIndex_ViewMatrix			= 1,
+		VSSystemUniformIndex_ModelMatrix		= 2,
+		VSSystemUniformIndex_CameraPosition		= 3,
+		VSSystemUniformIndex_Size
+	};
+
+	enum PSSystemUniformIndices : int32
+	{
+		PSSystemUniformIndex_Lights = 0,
+		PSSystemUniformIndex_Size
+	};
+
 	ForwardRenderer::ForwardRenderer()
 	{
+		SetScreenBufferSize(Application::GetApplication().GetWindowWidth(), Application::GetApplication().GetWindowHeight());
+		Init();
+	}
 
+	ForwardRenderer::ForwardRenderer(uint width, uint height)
+	{
+		SetScreenBufferSize(width, height);
+		Init();
 	}
 
 	void ForwardRenderer::Init()
 	{
+		m_CommandQueue.reserve(1000);
+
+		//
+		// Vertex shader system uniforms
+		//
+		m_VSSystemUniformBufferSize = sizeof(mat4) + sizeof(mat4) + sizeof(vec3) + sizeof(mat4);
+		m_VSSystemUniformBuffer = spnew byte[m_VSSystemUniformBufferSize];
+		memset(m_VSSystemUniformBuffer, 0, m_VSSystemUniformBufferSize);
+		m_VSSystemUniformBufferOffsets.resize(VSSystemUniformIndex_Size);
+
+		// Per Scene System Uniforms
+		m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ProjectionMatrix] = 0;
+		m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ViewMatrix] = m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ProjectionMatrix] + sizeof(mat4);
+		m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ModelMatrix] = m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ViewMatrix] + sizeof(mat4);
+
+		// Per Mesh System Uniforms
+		// Note: Model Matrix should be here instead of camera position; this will get sorted when it gets moved to a separate buffer
+		m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_CameraPosition] = m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ModelMatrix] + sizeof(mat4);
+
+		//
+		// Pixel/fragment shader system uniforms
+		//
+		m_PSSystemUniformBufferSize = sizeof(Light);
+		m_PSSystemUniformBuffer = spnew byte[m_PSSystemUniformBufferSize];
+		memset(m_PSSystemUniformBuffer, 0, m_PSSystemUniformBufferSize);
+		m_PSSystemUniformBufferOffsets.resize(PSSystemUniformIndex_Size);
+
+		// Per Scene System Uniforms
+		m_PSSystemUniformBufferOffsets[PSSystemUniformIndex_Lights] = 0;
 
 	}
 
 	void ForwardRenderer::Begin()
 	{
+		Renderer::SetViewport(0, 0, m_ScreenBufferWidth, m_ScreenBufferHeight);
+
 		m_CommandQueue.clear();
 		m_SystemUniforms.clear();
+	}
+
+	void ForwardRenderer::BeginScene(Camera* camera)
+	{
+		memcpy(m_VSSystemUniformBuffer + m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ProjectionMatrix], &camera->GetProjectionMatrix(), sizeof(mat4));
+		memcpy(m_VSSystemUniformBuffer + m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ViewMatrix], &camera->GetViewMatrix(), sizeof(mat4));
+		memcpy(m_VSSystemUniformBuffer + m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_CameraPosition], &camera->GetPosition(), sizeof(vec3));
 	}
 
 	void ForwardRenderer::Submit(const RenderCommand& command)
@@ -26,43 +89,25 @@ namespace sp { namespace graphics {
 		m_CommandQueue.push_back(command);
 	}
 
-	void ForwardRenderer::SubmitMesh(Camera* camera, Mesh* mesh, const maths::mat4& transform)
+	void ForwardRenderer::SubmitMesh(Mesh* mesh, const maths::mat4& transform)
 	{
-		RendererUniform pr_matrix;
-		pr_matrix.uniform = SHADER_UNIFORM_PROJECTION_MATRIX_NAME;
-		pr_matrix.value = (byte*)&camera->GetProjectionMatrix();
-
-		RendererUniform vw_matrix;
-		vw_matrix.uniform = SHADER_UNIFORM_VIEW_MATRIX_NAME;
-		vw_matrix.value = (byte*)&camera->GetViewMatrix();
-
-		RendererUniform ml_matrix;
-		ml_matrix.uniform = SHADER_UNIFORM_MODEL_MATRIX_NAME;
-		ml_matrix.value = (byte*)&transform;
-
 		RenderCommand command;
 		command.mesh = mesh;
-		command.uniforms.push_back(pr_matrix);
-		command.uniforms.push_back(vw_matrix);
-		command.uniforms.push_back(ml_matrix);
-
-		for (uint i = 0; i < m_SystemUniforms.size(); i++)
-			command.uniforms.push_back(m_SystemUniforms[i]);
-
-		m_CommandQueue.push_back(command);
+		command.transform = transform; // TODO: Come up with a better solution to per-mesh system uniforms
+		command.shader = mesh->GetMaterialInstance()->GetMaterial()->GetShader();
+		Submit(command);
 	}
 
 	void ForwardRenderer::SubmitLightSetup(const LightSetup& lightSetup)
 	{
-		auto lights = lightSetup.GetLights();
+		const auto& lights = lightSetup.GetLights();
 		SP_ASSERT(lights.size() <= 1, "Only one light is supported at the moment!");
 		for (uint i = 0; i < lights.size(); i++)
-		{
-			Light* light = lights[i];
-			m_SystemUniforms.push_back({ "u_LightPosition",  (byte*)&light->position });
-			m_SystemUniforms.push_back({ "u_LightAttenuation",  (byte*)&light->attenuation });
-			m_SystemUniforms.push_back({ "u_LightColor",  (byte*)&light->color });
-		}
+			memcpy(m_PSSystemUniformBuffer + m_PSSystemUniformBufferOffsets[PSSystemUniformIndex_Lights], lights[i], sizeof(Light));
+	}
+
+	void ForwardRenderer::EndScene()
+	{
 	}
 
 	void ForwardRenderer::End()
@@ -70,33 +115,37 @@ namespace sp { namespace graphics {
 		// TODO: Batching and sorting
 	}
 
-	void ForwardRenderer::SetRequiredUniforms(Shader* shader, const std::vector<RendererUniform>& uniforms)
+	void ForwardRenderer::SetSystemUniforms(API::Shader* shader)
 	{
-		for (uint i = 0; i < uniforms.size(); i++)
-			shader->SetUniform(uniforms[i].uniform, uniforms[i].value);
-	}
-
-	void ForwardRenderer::SetSystemUniforms(Shader* shader)
-	{
-		const SystemUniformList& uniforms = m_SystemUniforms;
-		for (uint i = 0; i < uniforms.size(); i++)
-			shader->SetUniform(uniforms[i].uniform, uniforms[i].value);
+		// TODO: Set per-mesh buffer to slot 1
+		shader->SetVSSystemUniformBuffer(m_VSSystemUniformBuffer, m_VSSystemUniformBufferSize, 0);
+		shader->SetPSSystemUniformBuffer(m_PSSystemUniformBuffer, m_PSSystemUniformBufferSize, 0);
 	}
 
 	void ForwardRenderer::Present()
 	{
 		// TODO: Shader binding, texture sorting, visibility testing, etc.
-
-		GLCall(glEnable(GL_DEPTH_TEST));
-		GLCall(glDepthFunc(GL_LEQUAL));
-
 		for (uint i = 0; i < m_CommandQueue.size(); i++)
 		{
-			const RenderCommand& command = m_CommandQueue[i];
-			command.mesh->GetMaterialInstance()->GetMaterial()->GetShader()->Bind();
-			SetRequiredUniforms(command.mesh->GetMaterialInstance()->GetMaterial()->GetShader(), command.uniforms);
-			//SetSystemUniforms(command.mesh->GetMaterialInstance()->GetMaterial()->GetShader());
+			RenderCommand& command = m_CommandQueue[i];
+			MaterialInstance* material = command.mesh->GetMaterialInstance();
+			int materialRenderFlags = material->GetRenderFlags();
+			Renderer::SetDepthTesting((materialRenderFlags & (int)Material::RenderFlags::DISABLE_DEPTH_TEST) == 0);
+			memcpy(m_VSSystemUniformBuffer + m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ModelMatrix], &command.transform, sizeof(mat4));
+			SetSystemUniforms(command.shader);
 			command.mesh->Render(*this);
+
+#if defined(SP_DEBUG) && 0
+			uint j;
+			for (j = 0; j < command.uniforms.size(); j++)
+			{
+				if (command.uniforms[j].uniform == "ml_matrix")
+				{
+					command.mesh->DebugRender(*(maths::mat4*)command.uniforms[j].value);
+					break;
+				}
+			}
+#endif
 		}
 	}
 

@@ -8,52 +8,50 @@
 
 #include <GL/glew.h>
 
-#define SPARKY_VERTEX_ARRAYS 1
-
 namespace sp { namespace graphics { namespace MeshFactory {
 
-	VertexArray* CreateQuad(float x, float y, float width, float height)
+	Mesh* CreateQuad(float x, float y, float width, float height, MaterialInstance* material)
 	{
 		using namespace maths;
 
-		VertexData data[4];
+		struct QuadVertex
+		{
+			maths::vec3 position;
+			maths::vec2 uv;
+		};
 
-		data[0].vertex = maths::vec3(x, y, 0);
+		QuadVertex data[4];
+
+		data[0].position = maths::vec3(x, y, 0);
 		data[0].uv = maths::vec2(0, 1);
 
-		data[1].vertex = maths::vec3(x, y + height, 0);
+		data[1].position = maths::vec3(x + width, y, 0);
 		data[1].uv = maths::vec2(0, 0);
 
-		data[2].vertex = maths::vec3(x + width, y + height, 0);
+		data[2].position = maths::vec3(x + width, y + height, 0);
 		data[2].uv = maths::vec2(1, 0);
 
-		data[3].vertex = maths::vec3(x + width, y, 0);
+		data[3].position = maths::vec3(x, y + height, 0);
 		data[3].uv = maths::vec2(1, 1);
 
-#if SPARKY_VERTEX_ARRAYS
-		API::Buffer* buffer = new API::Buffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW);
-		buffer->Bind();
-		buffer->SetData(RENDERER_VERTEX_SIZE * 4, data);
+		API::VertexBuffer* buffer = API::VertexBuffer::Create(API::BufferUsage::STATIC);
+		buffer->SetData(sizeof(QuadVertex) * 4, data);
 
-		buffer->layout.Push<vec3>("position");
-		buffer->layout.Push<vec2>("uv");
-		buffer->layout.Push<vec2>("mask_uv");
-		buffer->layout.Push<float>("tid");
-		buffer->layout.Push<float>("mid");
-		buffer->layout.Push<byte>("color", 4, true);
+		API::BufferLayout layout;
+		layout.Push<vec3>("POSITION");
+		layout.Push<vec2>("TEXCOORD");
+		buffer->SetLayout(layout);
 
-		VertexArray* result = new VertexArray();
-		result->Bind();
-		result->PushBuffer(buffer);
-#else
-#error Sparky non-vertex arrays are not yet implemented!
-#endif
-		return result;
+		API::VertexArray* va = API::VertexArray::Create();
+		va->PushBuffer(buffer);
+		uint* indices = new uint[6] { 0, 1, 2, 2, 3, 0, };
+		API::IndexBuffer* ib = API::IndexBuffer::Create(indices, 6);
+		return new Mesh(va, ib, material);
 	}
 
-	VertexArray* CreateQuad(const maths::vec2& position, const maths::vec2& size)
+	Mesh* CreateQuad(const maths::vec2& position, const maths::vec2& size, MaterialInstance* material)
 	{
-		return CreateQuad(position.x, position.y, size.x, size.y);
+		return CreateQuad(position.x, position.y, size.x, size.y, material);
 	}
 
 	Mesh* CreateCube(float size, MaterialInstance* material)
@@ -84,15 +82,16 @@ namespace sp { namespace graphics { namespace MeshFactory {
 		data[6].normal = vec3(1.0f, 1.0f, -1.0f);
 		data[7].normal = vec3(-1.0f, 1.0f, -1.0f);
 
-		API::Buffer* buffer = new API::Buffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW);
-		buffer->Bind();
+		API::VertexBuffer* buffer = API::VertexBuffer::Create(API::BufferUsage::STATIC);
 		buffer->SetData(8 * sizeof(Vertex), data);
 
-		buffer->layout.Push<vec3>("position");
-		buffer->layout.Push<vec3>("normal");
-		buffer->layout.Push<vec2>("uv");
+		API::BufferLayout layout;
+		layout.Push<vec3>("position");
+		layout.Push<vec3>("normal");
+		layout.Push<vec2>("uv");
+		buffer->SetLayout(layout);
 
-		VertexArray* va = new VertexArray();
+		API::VertexArray* va = API::VertexArray::Create();
 		va->Bind();
 		va->PushBuffer(buffer);
 	
@@ -106,7 +105,7 @@ namespace sp { namespace graphics { namespace MeshFactory {
 			1, 5, 6, 6, 2, 1
 		};
 
-		IndexBuffer* ib = new IndexBuffer(indices, 36);
+		API::IndexBuffer* ib = API::IndexBuffer::Create(indices, 36);
 		return new Mesh(va, ib, material);
 	}
 
@@ -122,26 +121,40 @@ namespace sp { namespace graphics { namespace MeshFactory {
 
 		data[0].position = rotation * vec3(-width / 2.0f, 0.0f, -height / 2.0f);
 		data[0].normal = normal;
+		data[0].uv = vec2(0.0f, 0.0f);
+		data[0].binormal = mat4::Rotate(90.0f, vec3(0, 1, 0)) * normal;
+		data[0].tangent = mat4::Rotate(90.0f, vec3(0, 0, 1)) * normal;
 
 		data[1].position = rotation * vec3(-width / 2.0f, 0.0f,  height / 2.0f);
 		data[1].normal = normal;
+		data[1].uv = vec2(0.0f, 1.0f);
+		data[1].binormal = mat4::Rotate(90.0f, vec3(0, 1, 0)) * normal;
+		data[1].tangent = mat4::Rotate(90.0f, vec3(0, 0, 1)) * normal;
 
 		data[2].position = rotation * vec3( width / 2.0f, 0.0f,  height / 2.0f);
 		data[2].normal = normal;
+		data[2].uv = vec2(1.0f, 1.0f);
+		data[2].binormal = mat4::Rotate(90.0f, vec3(0, 1, 0)) * normal;
+		data[2].tangent = mat4::Rotate(90.0f, vec3(0, 0, 1)) * normal;
 
 		data[3].position = rotation * vec3( width / 2.0f, 0.0f, -height / 2.0f);
 		data[3].normal = normal;
+		data[3].uv = vec2(1.0f, 0.0f);
+		data[3].binormal = mat4::Rotate(90.0f, vec3(0, 1, 0)) * normal;
+		data[3].tangent = mat4::Rotate(90.0f, vec3(0, 0, 1)) * normal;
 
-		API::Buffer* buffer = new API::Buffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW);
-		buffer->Bind();
+		API::VertexBuffer* buffer = API::VertexBuffer::Create(API::BufferUsage::STATIC);
 		buffer->SetData(8 * sizeof(Vertex), data);
 
-		buffer->layout.Push<vec3>("position");
-		buffer->layout.Push<vec3>("normal");
-		buffer->layout.Push<vec2>("uv");
+		API::BufferLayout layout;
+		layout.Push<vec3>("POSITION");
+		layout.Push<vec3>("NORMAL");
+		layout.Push<vec2>("TEXCOORD");
+		layout.Push<vec3>("BINORMAL");
+		layout.Push<vec3>("TANGENT");
+		buffer->SetLayout(layout);
 
-		VertexArray* va = new VertexArray();
-		va->Bind();
+		API::VertexArray* va = API::VertexArray::Create();
 		va->PushBuffer(buffer);
 
 		uint* indices = new uint[6]
@@ -150,7 +163,7 @@ namespace sp { namespace graphics { namespace MeshFactory {
 			2, 3, 0
 		};
 
-		IndexBuffer* ib = new IndexBuffer(indices, 6);
+		API::IndexBuffer* ib = API::IndexBuffer::Create(indices, 6);
 		return new Mesh(va, ib, material);
 	}
 

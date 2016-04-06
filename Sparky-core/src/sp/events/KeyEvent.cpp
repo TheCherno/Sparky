@@ -3,17 +3,17 @@
 
 namespace sp { namespace events {
 
-	KeyEvent::KeyEvent(int keyCode, Event::Type type)
+	KeyEvent::KeyEvent(int32 keyCode, Event::Type type)
 		: Event(type), m_KeyCode(keyCode)
 	{
 	}
 
-	KeyPressedEvent::KeyPressedEvent(int button, int repeat, int modifiers)
+	KeyPressedEvent::KeyPressedEvent(int32 button, int32 repeat, int32 modifiers)
 		: KeyEvent(button, KeyPressedEvent::GetStaticType()), m_Repeat(repeat), m_Modifiers(modifiers)
 	{
 	}
 
-	KeyReleasedEvent::KeyReleasedEvent(int button)
+	KeyReleasedEvent::KeyReleasedEvent(int32 button)
 		: KeyEvent(button, KeyReleasedEvent::GetStaticType())
 	{
 	}

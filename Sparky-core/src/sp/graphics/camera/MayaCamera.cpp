@@ -4,6 +4,8 @@
 #include "sp/app/Window.h"
 #include "sp/app/Input.h"
 
+#include "sp/utils/Log.h"
+
 namespace sp { namespace graphics {
 
 	using namespace maths;
@@ -22,8 +24,13 @@ namespace sp { namespace graphics {
 		m_FocalPoint = vec3::Zero();
 		m_Distance = m_Position.Distance(m_FocalPoint);
 
-		m_Yaw = 3.0f * M_PI / 4.0f;
-		m_Pitch = M_PI / 4.0f;
+		m_Yaw = 3.0f * SP_PI / 4.0f;
+		m_Pitch = SP_PI / 4.0f;
+	}
+
+	void MayaCamera::Focus()
+	{
+		Input::GetInputManager()->SetMouseCursor(1);
 	}
 
 	void MayaCamera::Update()
@@ -40,15 +47,16 @@ namespace sp { namespace graphics {
 				MouseRotate(delta);
 			else if (Input::IsMouseButtonPressed(SP_MOUSE_RIGHT))
 				MouseZoom(delta.y);
-
 		}
 
 		// MouseZoom(window->GetMouseScrollPosition().y);
 
+		m_Position = CalculatePosition();
+
 		Quaternion orientation = GetOrientation();
-		m_Rotation = orientation.ToEulerAngles() * (180.0f / M_PI);
-		m_ViewMatrix = mat4::Rotate(orientation.Conjugate());
-		m_ViewMatrix *= mat4::Translate(-GetPosition());
+		m_Rotation = orientation.ToEulerAngles() * (180.0f / SP_PI);
+
+		m_ViewMatrix = mat4::Translate(vec3(0, 0, 1)) * mat4::Rotate(orientation.Conjugate()) * mat4::Translate(-m_Position);
 	}
 
 	void MayaCamera::MousePan(const maths::vec2& delta)
@@ -67,6 +75,11 @@ namespace sp { namespace graphics {
 	void MayaCamera::MouseZoom(float delta)
 	{
 		m_Distance -= delta * m_ZoomSpeed;
+		if (m_Distance < 1.0f)
+		{
+			m_FocalPoint += GetForwardDirection();
+			m_Distance = 1.0f;
+		}
 	}
 
 	vec3 MayaCamera::GetUpDirection()
@@ -84,9 +97,9 @@ namespace sp { namespace graphics {
 		return Quaternion::Rotate(GetOrientation(), -vec3::ZAxis());
 	}
 
-	vec3 MayaCamera::GetPosition()
+	vec3 MayaCamera::CalculatePosition()
 	{
-		return m_FocalPoint - m_Distance * GetForwardDirection();
+		return m_FocalPoint - GetForwardDirection() * m_Distance;
 	}
 
 	Quaternion MayaCamera::GetOrientation()

@@ -19,7 +19,7 @@ namespace sp { namespace graphics {
 		Label(const String& text, float x, float y, const String& font, uint color);
 		Label(const String& text, float x, float y, const String& font, uint size, uint color);
 		void Submit(Renderer2D* renderer) const override;
-		void ValidateFont(const String& name, int size = -1);
+		void ValidateFont(const String& name, int32 size = -1);
 	};
 
 } }

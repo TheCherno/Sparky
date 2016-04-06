@@ -27,7 +27,7 @@ void main()
 
 layout (location = 0) out vec4 color;
 
-uniform sampler2D tex;
+uniform sampler2D u_Texture;
 
 in DATA
 {
@@ -36,6 +36,6 @@ in DATA
 
 void main()
 {
-	color = texture(tex, fs_in.uv);
+	color = texture(u_Texture, fs_in.uv);
 };
 )"

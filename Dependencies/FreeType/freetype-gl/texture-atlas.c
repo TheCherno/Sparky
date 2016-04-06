@@ -65,6 +65,7 @@ texture_atlas_new( const size_t width,
     self->height = height;
     self->depth = depth;
     self->id = 0;
+	self->dirty = 0;
 
     vector_push_back( self->nodes, &node );
     self->data = (unsigned char *)
@@ -93,7 +94,7 @@ texture_atlas_delete( texture_atlas_t *self )
     }
     if( self->id )
     {
-        glDeleteTextures( 1, &self->id );
+        // SP: glDeleteTextures( 1, &self->id );
     }
     free( self );
 }
@@ -325,6 +326,9 @@ texture_atlas_upload( texture_atlas_t * self )
     assert( self );
     assert( self->data );
 
+	self->dirty = 1;
+
+#if 0
     if( !self->id )
     {
         glGenTextures( 1, &self->id );
@@ -360,5 +364,5 @@ texture_atlas_upload( texture_atlas_t * self )
         glTexImage2D( GL_TEXTURE_2D, 0, GL_RED, self->width, self->height,
 			0, GL_RED, GL_UNSIGNED_BYTE, self->data);
     }
+#endif
 }
-

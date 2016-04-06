@@ -1,24 +1,36 @@
 #include "sp/sp.h"
 #include "Model.h"
 
-#include <sp/String.h>
-#include <sp/utils/StringUtils.h>
-#include <sp/utils/FileUtils.h>
-
 #include <GL/glew.h>
 
-template<>
-struct std::hash<sp::graphics::Model::IndexSet>
-{
-	const size_t operator()(const sp::graphics::Model::IndexSet& key) const
-	{
-		return (key.position) ^ (key.normal << 14) ^ (key.uv << 23);
-	}
-};
+#include "sp/system/Memory.h"
+#include "sp/graphics/shaders/ShaderManager.h"
 
 namespace sp { namespace graphics {
 
 	using namespace maths;
+
+	enum VertexAttribute
+	{
+		POSITION = BIT(0),
+		NORMAL = BIT(1),
+		UV = BIT(2),
+		BINORMAL = BIT(3),
+		TANGENT = BIT(4),
+	};
+
+	struct SPMFormat
+	{
+		char* header = "SPMF";
+		byte nameLength;
+		char* name;
+		uint attributes;
+		uint vertexBufferSize;
+		byte* vertexData;
+		uint indexBufferSize;
+		byte* indexData;
+		char* footer = "1234";
+	};
 
 	Model::Model(const String& path, MaterialInstance* materialInstance)
 	{
@@ -31,91 +43,94 @@ namespace sp { namespace graphics {
 		delete m_Mesh;
 	}
 
-	void Model::Load(const String& path)
+	byte* ReadBytes(FILE* file, byte* buffer, uint size)
 	{
-		std::vector<String> lines = utils::SplitString(utils::ReadFile(path), '\n');
-		VertexSet inputVertices;
-		std::vector<Vertex> vertices;
-		std::vector<uint> indices;
-		std::unordered_map<IndexSet, int> mapping;
-
-		for (String line : lines)
-		{
-			const char* cstr = line.c_str();
-			if (strstr(cstr, "#")) // Comment
-			{
-				continue;
-			}
-			else if (strstr(cstr, "v"))
-			{
-				if (strstr(cstr, "vt"))
-				{
-					vec2 uv;
-					int result = sscanf(cstr, "%*s %f %f", &uv.x, &uv.y);
-					if (result == 0)
-						continue;
-					inputVertices.uvs.push_back(uv);
-				}
-				else if (strstr(cstr, "vn"))
-				{
-					vec3 normal;
-					int result = sscanf(cstr, "%*s %f %f %f", &normal.x, &normal.y, &normal.z);
-					if (result == 0)
-						continue;
-					inputVertices.normals.push_back(normal);
-				}
-				else
-				{
-					vec3 position;
-					int result = sscanf(cstr, "%*s %f %f %f", &position.x, &position.y, &position.z);
-					if (result == 0)
-						continue;
-					inputVertices.positions.push_back(position);
-				}
-			}
-			else if (strstr(cstr, "f"))
-			{
-				IndexSet indexSet[3];
-				int result = sscanf(cstr, "%*s %d/%d/%d %d/%d/%d %d/%d/%d", &indexSet[0].position, &indexSet[0].uv, &indexSet[0].normal, &indexSet[1].position, &indexSet[1].uv, &indexSet[1].normal, &indexSet[2].position, &indexSet[2].uv, &indexSet[2].normal);
-				if (result == 0)
-					continue;
-
-				InsertVertex(vertices, indices, mapping, inputVertices, indexSet[0]);
-				InsertVertex(vertices, indices, mapping, inputVertices, indexSet[1]);
-				InsertVertex(vertices, indices, mapping, inputVertices, indexSet[2]);
-			}
-		}
-
-		API::Buffer* buffer = new API::Buffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW);
-		buffer->Bind();
-		buffer->SetData(vertices.size() * sizeof(Vertex), &vertices[0]);
-
-		buffer->layout.Push<vec3>("position");
-		buffer->layout.Push<vec3>("normal");
-		buffer->layout.Push<vec2>("uv");
-
-		VertexArray* va = new VertexArray();
-		va->Bind();
-		va->PushBuffer(buffer);
-
-		IndexBuffer* ib = new IndexBuffer(&indices[0], indices.size());
-		m_Mesh = new Mesh(va, ib, nullptr);
+		fread(buffer, 1, size, file);
+		return buffer;
 	}
 
-	void Model::InsertVertex(std::vector<Vertex>& vertices, std::vector<uint>& indices, std::unordered_map<IndexSet, int>& mapping, VertexSet& inputVertices, IndexSet& indexSet)
+	void Model::Load(const String& path)
 	{
-		auto lookup = mapping.find(indexSet);
-		if (lookup != mapping.end())
+		SPMFormat format;
+		FILE* f = fopen(path.c_str(), "rb");
+		SP_ASSERT(f);
 		{
-			indices.push_back(lookup->second);
+			byte header[4];
+			ReadBytes(f, header, 4);
+			SP_ASSERT(memcmp(header, format.header, 4) == 0);
 		}
-		else
+
 		{
-			mapping[indexSet] = (int)vertices.size();
-			indices.push_back(vertices.size());
-			Vertex vertex = { inputVertices.positions[indexSet.position - 1], inputVertices.normals[indexSet.normal - 1], inputVertices.uvs[indexSet.uv - 1] };
-			vertices.push_back(vertex);
+			byte buffer[1];
+			ReadBytes(f, buffer, 1);
+			format.nameLength = *buffer;
 		}
+
+		{
+			format.name = new char[format.nameLength + 1];
+			ReadBytes(f, (byte*)format.name, format.nameLength);
+			format.name[format.nameLength] = '\0';
+		}
+
+		{
+			byte buffer[4];
+			ReadBytes(f, buffer, 4);
+			format.attributes = *(uint*)buffer;
+		}
+
+		{
+			byte buffer[4];
+			ReadBytes(f, buffer, 4);
+			format.vertexBufferSize = *(uint*)buffer;
+		}
+
+		{
+			format.vertexData = spnew byte[format.vertexBufferSize];
+			ReadBytes(f, format.vertexData, format.vertexBufferSize);
+		}
+
+		{
+			byte buffer[4];
+			ReadBytes(f, buffer, 4);
+			format.indexBufferSize = *(uint*)buffer;
+		}
+
+		{
+			format.indexData = spnew byte[format.indexBufferSize];
+			ReadBytes(f, format.indexData, format.indexBufferSize);
+		}
+
+		{
+			byte footer[4];
+			ReadBytes(f, footer, 4);
+			SP_ASSERT(memcmp(footer, format.footer, 4) == 0);
+		}
+
+		fclose(f);
+
+		ShaderManager::Get("AdvancedLighting")->Bind();
+
+		API::VertexBuffer* buffer = API::VertexBuffer::Create(API::BufferUsage::STATIC);
+		buffer->SetData(format.vertexBufferSize, format.vertexData);
+
+		API::BufferLayout layout;
+		layout.Push<vec3>("POSITION");
+		layout.Push<vec3>("NORMAL");
+		layout.Push<vec2>("TEXCOORD");
+		layout.Push<vec3>("BINORMAL");
+		layout.Push<vec3>("TANGENT");
+		buffer->SetLayout(layout);
+
+		API::VertexArray* va = API::VertexArray::Create();
+		va->PushBuffer(buffer);
+
+		API::IndexBuffer* ib = API::IndexBuffer::Create((uint*)format.indexData, format.indexBufferSize / sizeof(uint));
+		m_Mesh = spnew Mesh(va, ib, nullptr);
+
+#ifdef SP_DEBUG
+		m_Mesh->SetDebugData((Vertex*)format.vertexData, format.vertexBufferSize / sizeof(Vertex));
+#else
+#endif
 	}
 
 	void Model::Render(Renderer3D& renderer)

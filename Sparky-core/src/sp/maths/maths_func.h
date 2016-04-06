@@ -1,23 +1,24 @@
 #pragma once
 
-#define _USE_MATH_DEFINES
+#include "sp/Common.h"
+
 #include <math.h>
 
-#include "sp/Common.h"
+#define SP_PI 3.14159265358f
 
 namespace sp { namespace maths {
 
 	SP_API inline float toRadians(float degrees)
 	{
-		return (float)(degrees * (M_PI / 180.0));
+		return (float)(degrees * (SP_PI / 180.0f));
 	}
 
 	SP_API inline float toDegrees(float radians)
 	{
-		return (float)(radians * (180.0f / M_PI));
+		return (float)(radians * (180.0f / SP_PI));
 	}
 
-	SP_API inline int sign(float value)
+	SP_API inline int32 sign(float value)
 	{
 		return (value > 0) - (value < 0);
 	}
@@ -67,12 +68,12 @@ namespace sp { namespace maths {
 		return ::atan2(y, x);
 	}
 
-	SP_API inline float min(float value, float minimum)
+	SP_API inline float _min(float value, float minimum)
 	{
 		return (value < minimum) ? minimum : value;
 	}
 
-	SP_API inline float max(float value, float maximum)
+	SP_API inline float _max(float value, float maximum)
 	{
 		return (value > maximum) ? maximum : value;
 	}

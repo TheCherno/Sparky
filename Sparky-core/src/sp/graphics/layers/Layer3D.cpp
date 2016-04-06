@@ -1,12 +1,12 @@
 #include "sp/sp.h"
 #include "Layer3D.h"
 
-#include "../ForwardRenderer.h"
+#include "../DeferredRenderer.h"
 
 namespace sp { namespace graphics {
 
-	Layer3D::Layer3D(Scene* scene)
-		: m_Scene(scene), m_Renderer(new ForwardRenderer())
+	Layer3D::Layer3D(Scene* scene, Renderer3D* renderer)
+		: m_Scene(scene), m_Renderer(renderer)
 	{
 	}
 
@@ -23,6 +23,12 @@ namespace sp { namespace graphics {
 
 	void Layer3D::OnInit(Renderer3D& renderer, Scene& scene)
 	{
+	}
+
+	bool Layer3D::OnResize(uint width, uint height)
+	{
+		m_Renderer->SetScreenBufferSize(width, height);
+		return false;
 	}
 
 	void Layer3D::OnRender()

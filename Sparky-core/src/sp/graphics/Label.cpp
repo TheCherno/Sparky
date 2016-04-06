@@ -40,7 +40,7 @@ namespace sp { namespace graphics {
 		renderer->DrawString(text, position, *m_Font, m_Color);
 	}
 
-	void Label::ValidateFont(const String& name, int size)
+	void Label::ValidateFont(const String& name, int32 size)
 	{
 		if (m_Font != nullptr)
 			return;

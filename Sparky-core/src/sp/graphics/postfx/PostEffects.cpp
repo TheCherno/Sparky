@@ -1,8 +1,6 @@
 #include "sp/sp.h"
 #include "PostEffects.h"
 
-#include <sp/graphics/SPRenderAPI.h>
-
 namespace sp { namespace graphics {
 
 	PostEffects::PostEffects()
@@ -25,11 +23,11 @@ namespace sp { namespace graphics {
 		m_Passes.pop_back();
 	}
 
-	void PostEffects::RenderPostEffects(Framebuffer* source, Framebuffer* target, VertexArray* quad, IndexBuffer* indices)
+	void PostEffects::RenderPostEffects(Framebuffer* source, Framebuffer* target, API::VertexArray* quad, API::IndexBuffer* indices)
 	{
 		target->Bind();
-		API::SetActiveTexture(GL_TEXTURE0);
-		source->GetTexture()->Bind();
+		// API::SetActiveTexture(GL_TEXTURE0);
+		// source->GetTexture()->Bind(nullptr);
 
 		quad->Bind();
 		indices->Bind();

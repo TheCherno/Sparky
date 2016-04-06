@@ -9,16 +9,30 @@ namespace sp { namespace graphics {
 	Font::Font(const String& name, const String& filename, float size)
 		: m_Name(name), m_Filename(filename), m_Size(size), m_Scale(maths::vec2(1.0f, 1.0f)), m_Texture(nullptr)
 	{
+		using namespace API;
+
 		m_FTAtlas = ftgl::texture_atlas_new(512, 512, 2);
 		m_FTFont = ftgl::texture_font_new_from_file(m_FTAtlas, size, filename.c_str());
+
+		TextureParameters parameters = { TextureFormat::LUMINANCE_ALPHA, TextureFilter::LINEAR, TextureWrap::CLAMP_TO_EDGE };
+		m_Texture = Texture2D::Create(512, 512, parameters);
+		m_Texture->SetData(m_FTAtlas->data);
+
 		SP_ASSERT(m_FTFont, "Failed to load font '", filename.c_str(), "'!");
 	}
 
 	Font::Font(const String& name, const byte* data, uint datasize, float size)
 		: m_Name(name), m_Filename("NULL"), m_Size(size), m_Scale(maths::vec2(1.0f, 1.0f)), m_Texture(nullptr)
 	{
+		using namespace API;
+
 		m_FTAtlas = ftgl::texture_atlas_new(512, 512, 2);
 		m_FTFont = ftgl::texture_font_new_from_memory(m_FTAtlas, size, data, datasize);
+
+		TextureParameters parameters = { TextureFormat::LUMINANCE_ALPHA, TextureFilter::LINEAR, TextureWrap::CLAMP_TO_EDGE };
+		m_Texture = Texture2D::Create(512, 512, parameters);
+		m_Texture->SetData(m_FTAtlas->data);
+
 		SP_ASSERT(m_FTFont, "Failed to load font from data!");
 	}
 
@@ -27,17 +41,16 @@ namespace sp { namespace graphics {
 		m_Scale = maths::vec2(x, y);
 	}
 
-	uint Font::GetID() const
+	API::Texture2D* Font::GetTexture() const
 	{
-		return m_FTAtlas->id;
+		UpdateAtlas();
+		return m_Texture;
 	}
 
-	Texture* Font::GetTexture() const
+	void Font::UpdateAtlas() const
 	{
-		if (m_Texture != nullptr || !m_FTAtlas->id)
-			return m_Texture;
-
-		m_Texture = new Texture(m_FTAtlas->id);
+		if (m_FTAtlas->dirty)
+			m_Texture->SetData(m_FTAtlas->data);
 	}
 
 } }

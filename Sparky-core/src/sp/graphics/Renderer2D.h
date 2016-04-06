@@ -4,11 +4,13 @@
 
 #include "Font.h"
 #include "FontManager.h"
-#include "Texture.h"
+#include "API/Texture.h"
 #include "Mask.h"
 
 #include "../maths/maths.h"
 #include "postfx/PostEffects.h"
+
+#include "sp/graphics/camera/Camera.h"
 
 namespace sp { namespace graphics {
 
@@ -65,6 +67,8 @@ namespace sp { namespace graphics {
 		inline void AddPostEffectsPass(PostEffectsPass* pass) { m_PostEffects->Push(pass); }
 
 		virtual void SetMask(const Mask* mask) { m_Mask = mask; }
+
+		virtual void SetCamera(Camera* camera) {}
 
 		virtual void Begin() {}
 		virtual void Submit(const Renderable2D* renderable) = 0;
