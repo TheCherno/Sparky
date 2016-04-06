@@ -11,7 +11,10 @@
 #include "sp/graphics/API/Context.h"
 #include "sp/graphics/Renderer.h"
 
+#include "sp/platform/directx/DXContext.h"
+
 #include <GL/glew.h>
+#include <GL/wglew.h>
 
 EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 
@@ -129,6 +132,16 @@ namespace sp {
 	{
 		m_Properties.title = title + "  |  Renderer: " + Renderer::GetTitle();
 		SetWindowText(hWnd, m_Properties.title.c_str());
+	}
+
+	void Window::SetVsync(bool enabled) {
+		// TODO: Not implemented
+		m_Vsync = enabled;
+		if (graphics::API::Context::GetRenderAPI() == graphics::API::RenderAPI::OPENGL) {
+			wglSwapIntervalEXT(m_Vsync);
+		} else if (graphics::API::Context::GetRenderAPI() == graphics::API::RenderAPI::DIRECT3D) {
+			graphics::API::D3DContext::SetVsync(m_Vsync);
+		}
 	}
 
 	void ResizeCallback(Window* window, int32 width, int32 height)

@@ -2,6 +2,7 @@
 #include "Window.h"
 
 #include "sp/graphics/Renderer.h"
+#include "sp/graphics/API/Context.h"
 
 #include "sp/utils/Log.h"
 
@@ -57,11 +58,6 @@ namespace sp {
 		return true;
 	}
 	
-	void Window::SetVsync(bool enabled)
-	{
-		// TODO: Not implemented
-		m_Vsync = enabled;
-	}
 
 	void Window::Clear() const
 	{
