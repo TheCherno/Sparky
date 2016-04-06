@@ -10,20 +10,23 @@
 namespace sp { namespace graphics { namespace API {
 
 	const D3DShader* D3DShader::s_CurrentlyBound = nullptr;
-#if 1
+
 	bool D3DShader::TryCompile(const String& source, String& error)
 	{
-		const D3DShader* currentBound = s_CurrentlyBound;
-		HRESULT result = S_FALSE;
-		if ( Compile(source, "vs_4_0", "VSMain") )
+		D3DShaderErrorInfo info;
+
+		if ( !Compile(source, "vs_4_0", "VSMain", info) )
 		{
-			if ( Compile(source, "ps_4_0", "PSMain") )
-			{
-				result = D3DContext::GetDevice()->CreateVertexShader(currentBound->m_Data.vs->GetBufferPointer(), currentBound->m_Data.vs->GetBufferSize(), NULL, &currentBound->m_Data.vertexShader);
-				result &= D3DContext::GetDevice()->CreatePixelShader(currentBound->m_Data.ps->GetBufferPointer(), currentBound->m_Data.ps->GetBufferSize(), NULL, &currentBound->m_Data.pixelShader);
-			}
+			error += info.message;
+			return false;
 		}
-		return result == S_OK ? true : false;
+
+		if ( !Compile(source, "ps_4_0", "PSMain", info) )
+		{
+			error += info.message;
+			return false;
+		}
+		return true;
 	}
 
 	bool D3DShader::TryCompileFromFile(const String& filepath, String& error)
@@ -31,7 +34,6 @@ namespace sp { namespace graphics { namespace API {
 		String source = utils::ReadFile(filepath);
 		return TryCompile(source, error);
 	}
-#endif
 
 	D3DShader::D3DShader(const String& name, const String& source)
 		: m_Name(name)
@@ -52,24 +54,25 @@ namespace sp { namespace graphics { namespace API {
 
 	void D3DShader::Load(const String& source)
 	{
-		m_Data.vs = Compile(source, "vs_4_0", "VSMain");
-		SP_ASSERT(m_Data.vs);
-		m_Data.ps = Compile(source, "ps_4_0", "PSMain");
-		SP_ASSERT(m_Data.ps);
+		D3DShaderErrorInfo info;
+		m_Data.vs = Compile(source, "vs_4_0", "VSMain", info);
+		SP_ASSERT(m_Data.vs, info.profile, info.message);
+		m_Data.ps = Compile(source, "ps_4_0", "PSMain", info);
+		SP_ASSERT(m_Data.ps, info.profile, info.message);
 		D3DContext::GetDevice()->CreateVertexShader(m_Data.vs->GetBufferPointer(), m_Data.vs->GetBufferSize(), NULL, &m_Data.vertexShader);
 		D3DContext::GetDevice()->CreatePixelShader(m_Data.ps->GetBufferPointer(), m_Data.ps->GetBufferSize(), NULL, &m_Data.pixelShader);
 	}
 
-	ID3DBlob* D3DShader::Compile(const String& source, const String& profile, const String& main)
+	ID3DBlob* D3DShader::Compile(const String& source, const String& profile, const String& main, D3DShaderErrorInfo& info)
 	{
 		ID3DBlob* shaderBlob;
 		ID3DBlob* errorBlob;
 		HRESULT status = D3DCompile(source.c_str(), source.size(), NULL, NULL, NULL, main.c_str(), profile.c_str(), D3DCOMPILE_DEBUG, 0, &shaderBlob, &errorBlob);
 		if (status != S_OK)
-			std::cout << "Unable to compile shader from source" << std::endl;
+			info.message = "Unable to compile shader from source\n";
 		if (errorBlob)
 		{
-			std::cout << "Shader Compilation Error: " << profile << std::endl;
+			info.profile += profile + "\n";
 			if (errorBlob->GetBufferSize())
 				std::cout << "Shader Compile Errors" << std::endl << (const char*)errorBlob->GetBufferPointer() << std::endl;
 			errorBlob->Release();

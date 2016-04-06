@@ -9,6 +9,12 @@
 
 namespace sp { namespace graphics { namespace API {
 
+	struct D3DShaderErrorInfo
+	{
+		String profile;
+		String message;
+	};
+
 	class D3DShader : public Shader
 	{
 	private:
@@ -65,7 +71,7 @@ namespace sp { namespace graphics { namespace API {
 		inline const ShaderUniformBufferDeclaration* GetPSUserUniformBuffer() const override { return m_PSUserUniformBuffer; }
 		inline const ShaderResourceList& GetResources() const override { return m_Resources; }
 	private:
-		static ID3DBlob* Compile(const String& source, const String& profile, const String& main);
+		static ID3DBlob* Compile(const String& source, const String& profile, const String& main, D3DShaderErrorInfo& info);
 		void Load(const String& source);
 
 		String RemoveComments(const String& source);
