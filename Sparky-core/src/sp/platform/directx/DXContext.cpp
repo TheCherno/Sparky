@@ -146,7 +146,7 @@ namespace sp { namespace graphics { namespace API {
 
 	void D3DContext::Present()
 	{
-		swapchain->Present(0, 0);
+		swapchain->Present(m_SyncInterval, 0);
 	}
 
 	String D3DContext::GetD3DVersionStringInternal() const

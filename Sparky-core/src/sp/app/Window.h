@@ -12,6 +12,9 @@
 
 #include "sp/app/Input.h"
 
+#define VSYNC_DISABLED 0
+#define VSYNC_ENABLED 1
+
 namespace sp {
 
 	typedef std::function<void(events::Event& event)> WindowEventCallback;
@@ -32,7 +35,7 @@ namespace sp {
 		bool m_Closed;
 		void* m_Handle;
 
-		bool m_Vsync;
+		uint m_Vsync;
 		WindowEventCallback m_EventCallback;
 		InputManager* m_InputManager;
 	public:
@@ -47,8 +50,8 @@ namespace sp {
 		inline uint GetWidth() const { return m_Properties.width; }
 		inline uint GetHeight() const { return m_Properties.height; }
 
-		void SetVsync(bool enabled);
-		inline bool IsVsync() const { return m_Vsync; }
+		void SetVsync(uint syncInterval);
+		inline bool IsVsync() const { return m_Vsync != 0; }
 
 		inline InputManager* GetInputManager() const { return m_InputManager; }
 		 
