@@ -15,8 +15,13 @@ namespace sp { namespace graphics { namespace API {
 		GLTextureDepth(uint width, uint height);
 		~GLTextureDepth();
 
+		void Clear() override;
+
 		void Bind(uint slot = 0) const override;
 		void Unbind(uint slot = 0) const override;
+
+		void BindForWriting() const override {}
+		void UnbindForWriting() const override {}
 
 		inline uint GetHandle() const { return m_Handle; }
 

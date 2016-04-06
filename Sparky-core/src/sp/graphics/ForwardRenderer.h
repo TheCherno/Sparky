@@ -2,7 +2,8 @@
 
 #include "sp/Common.h"
 #include "Renderer3D.h"
-#include"shaders/Shader.h"
+#include "shaders/Shader.h"
+#include "API/TextureDepth.h"
 
 namespace sp { namespace graphics {
 
@@ -16,6 +17,8 @@ namespace sp { namespace graphics {
 
 		std::vector<uint> m_VSSystemUniformBufferOffsets;
 		std::vector<uint> m_PSSystemUniformBufferOffsets;
+
+		API::TextureDepth* m_DepthTexture;
 	public:
 		ForwardRenderer();
 		ForwardRenderer(uint width, uint height);
@@ -30,6 +33,7 @@ namespace sp { namespace graphics {
 		void End() override;
 		void Present() override;
 	private:
+		void ShadowPass();
 		void SetSystemUniforms(API::Shader* shader);
 	};
 

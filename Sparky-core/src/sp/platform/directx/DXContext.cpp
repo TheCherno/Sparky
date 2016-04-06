@@ -17,6 +17,7 @@ namespace sp { namespace graphics { namespace API {
 
 	D3DContext::D3DContext(WindowProperties properties, void* deviceContext)
 	{
+		s_Context = this;
 		m_RenderTargetView = nullptr;
 		m_DepthStencilView = nullptr;
 		m_DepthStencilBuffer = nullptr;
@@ -141,7 +142,7 @@ namespace sp { namespace graphics { namespace API {
 
 	void D3DContext::SetRenderTargets(ID3D11RenderTargetView* target, ID3D11DepthStencilView* view)
 	{
-		devcon->OMSetRenderTargets(1, &target, view);
+		Get()->devcon->OMSetRenderTargets(1, &target, view);
 	}
 
 	void D3DContext::Present()

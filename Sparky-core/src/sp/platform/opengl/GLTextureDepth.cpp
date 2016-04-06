@@ -17,18 +17,6 @@ namespace sp { namespace graphics { namespace API {
 		GLCall(glDeleteTextures(1, &m_Handle));
 	}
 
-	void GLTextureDepth::Bind(uint slot) const
-	{
-		GLCall(glActiveTexture(GL_TEXTURE0 + slot));
-		GLCall(glBindTexture(GL_TEXTURE_2D, m_Handle));
-	}
-
-	void GLTextureDepth::Unbind(uint slot) const
-	{
-		GLCall(glActiveTexture(GL_TEXTURE0 + slot));
-		GLCall(glBindTexture(GL_TEXTURE_2D, 0));
-	}
-
 	void GLTextureDepth::Init()
 	{
 		GLCall(glGenTextures(1, &m_Handle));
@@ -43,6 +31,22 @@ namespace sp { namespace graphics { namespace API {
 		GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE));
 
 		GLCall(glBindTexture(GL_TEXTURE_2D, 0));
+	}
+
+	void GLTextureDepth::Bind(uint slot) const
+	{
+		GLCall(glActiveTexture(GL_TEXTURE0 + slot));
+		GLCall(glBindTexture(GL_TEXTURE_2D, m_Handle));
+	}
+
+	void GLTextureDepth::Unbind(uint slot) const
+	{
+		GLCall(glActiveTexture(GL_TEXTURE0 + slot));
+		GLCall(glBindTexture(GL_TEXTURE_2D, 0));
+	}
+
+	void GLTextureDepth::Clear()
+	{
 	}
 
 } } }

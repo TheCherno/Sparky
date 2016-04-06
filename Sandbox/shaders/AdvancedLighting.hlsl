@@ -116,6 +116,8 @@ SamplerState u_PreintegratedFGSampler : register(s4);
 TextureCube u_EnvironmentMap : register(t5);
 SamplerState u_EnvironmentMapSampler : register(s5);
 
+Texture2D u_ShadowMap : register(t10);
+
 struct Material
 {
 	float4 albedo;
@@ -126,25 +128,6 @@ struct Material
 
 #define PI 3.1415926535897932384626433832795f
 #define GAMMA 2.2f
-
-/*float2 poissonDisk[16] = float2[](
-	float2(-0.94201624, -0.39906216),
-	float2(0.94558609, -0.76890725),
-	float2(-0.094184101, -0.92938870),
-	float2(0.34495938, 0.29387760),
-	float2(-0.91588581, 0.45771432),
-	float2(-0.81544232, -0.87912464),
-	float2(-0.38277543, 0.27676845),
-	float2(0.97484398, 0.75648379),
-	float2(0.44323325, -0.97511554),
-	float2(0.53742981, -0.47373420),
-	float2(-0.26496911, -0.41893023),
-	float2(0.79197514, 0.19090188),
-	float2(-0.24188840, 0.99706507),
-	float2(-0.81409955, 0.91437590),
-	float2(0.19984126, 0.78641367),
-	float2(0.14383161, -0.14100790)
-	);*/
 
 float4 GammaCorrectTexture(Texture2D t, SamplerState s, float2 uv)
 {
@@ -331,13 +314,34 @@ float4 PSMain(in VSOutput input) : SV_TARGET
 		light.intensity /= 2.0;
 		light.lightVector = -light.lightVector;
 	}
+
+	float2 poissonDisk[16] = {
+		float2(-0.94201624, -0.39906216),
+		float2(0.94558609, -0.76890725),
+		float2(-0.094184101, -0.92938870),
+		float2(0.34495938, 0.29387760),
+		float2(-0.91588581, 0.45771432),
+		float2(-0.81544232, -0.87912464),
+		float2(-0.38277543, 0.27676845),
+		float2(0.97484398, 0.75648379),
+		float2(0.44323325, -0.97511554),
+		float2(0.53742981, -0.47373420),
+		float2(-0.26496911, -0.41893023),
+		float2(0.79197514, 0.19090188),
+		float2(-0.24188840, 0.99706507),
+		float2(-0.81409955, 0.91437590),
+		float2(0.19984126, 0.78641367),
+		float2(0.14383161, -0.14100790)
+	};
+
 	// Shadows
 	float bias = 0.005;
 	float visibility = 1.0;
 	for (int i = 0; i < 1; i++)
 	{
-		// int index = int(16.0 * random(floor(attributes.position.xyz * 1000.0), i)) % 16;
-		// visibility -= (1.0 / 4.0) * (1.0 - texture(u_ShadowMap, float3(fs_in.shadowCoord.xy + poissonDisk[index] / 700.0, (fs_in.shadowCoord.z - bias) / fs_in.shadowCoord.w)));
+		int index = int(16.0 * random(floor(attributes.position.xyz * 1000.0), i)) % 16;
+		float2 texCoord = attributes.position.xy + poissonDisk[index] / 700.0;
+		visibility -= (1.0 / 4.0) * (1.0 - u_ShadowMap.Sample(AnisoClamp, texCoord));
 	}
 
 	float3 finalColor = material.albedo.rgb * diffuse.rgb * visibility + (specular + IBL(attributes, light, material, eye)) * visibility;

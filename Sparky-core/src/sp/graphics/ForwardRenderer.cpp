@@ -3,9 +3,11 @@
 
 #include "sp/app/Application.h"
 #include "sp/graphics/Renderer.h"
+#include "shaders/ShaderManager.h"
 
 namespace sp { namespace graphics {
 
+	using namespace API;
 	using namespace maths;
 
 	enum VSSystemUniformIndices : int32
@@ -67,6 +69,7 @@ namespace sp { namespace graphics {
 		// Per Scene System Uniforms
 		m_PSSystemUniformBufferOffsets[PSSystemUniformIndex_Lights] = 0;
 
+		m_DepthTexture = TextureDepth::Create(1024, 1024);
 	}
 
 	void ForwardRenderer::Begin()
@@ -122,8 +125,32 @@ namespace sp { namespace graphics {
 		shader->SetPSSystemUniformBuffer(m_PSSystemUniformBuffer, m_PSSystemUniformBufferSize, 0);
 	}
 
+	void ForwardRenderer::ShadowPass()
+	{
+		m_DepthTexture->BindForWriting();
+		m_DepthTexture->Clear();
+
+		ShaderManager::Get("Depth")->Bind();
+		for (uint i = 0; i < m_CommandQueue.size(); i++)
+		{
+			RenderCommand& command = m_CommandQueue[i];
+			MaterialInstance* material = command.mesh->GetMaterialInstance();
+			int materialRenderFlags = material->GetRenderFlags();
+			Renderer::SetDepthTesting((materialRenderFlags & (int)Material::RenderFlags::DISABLE_DEPTH_TEST) == 0);
+			memcpy(m_VSSystemUniformBuffer + m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ModelMatrix], &command.transform, sizeof(mat4));
+			SetSystemUniforms(command.shader);
+
+			command.mesh->Render(*this);
+		}
+		ShaderManager::Get("Depth")->Unbind();
+		m_DepthTexture->UnbindForWriting();
+	}
+
 	void ForwardRenderer::Present()
 	{
+		ShadowPass();
+		m_DepthTexture->Bind(10);
+
 		// TODO: Shader binding, texture sorting, visibility testing, etc.
 		for (uint i = 0; i < m_CommandQueue.size(); i++)
 		{
@@ -133,7 +160,9 @@ namespace sp { namespace graphics {
 			Renderer::SetDepthTesting((materialRenderFlags & (int)Material::RenderFlags::DISABLE_DEPTH_TEST) == 0);
 			memcpy(m_VSSystemUniformBuffer + m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ModelMatrix], &command.transform, sizeof(mat4));
 			SetSystemUniforms(command.shader);
+			material->Bind();
 			command.mesh->Render(*this);
+			material->Unbind();
 
 #if defined(SP_DEBUG) && 0
 			uint j;

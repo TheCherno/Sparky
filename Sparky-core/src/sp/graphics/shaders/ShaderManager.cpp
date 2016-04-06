@@ -19,6 +19,7 @@ namespace sp { namespace graphics {
 			if (shader->GetName() == name)
 				return shader;
 		}
+		SP_ASSERT(false, "Could not find '", name, "' shader!");
 		return nullptr;
 	}
 

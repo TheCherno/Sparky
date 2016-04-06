@@ -1,60 +1,85 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="src">
+      <UniqueIdentifier>{5453600e-cf98-4a8f-a8ae-699db2c73a10}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="src\tests">
+      <UniqueIdentifier>{4af261c0-286d-4924-a446-487daf86bea2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="src\shaders">
+      <UniqueIdentifier>{21830850-5767-4f40-b429-22836825279f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\postfx.shader" />
-    <None Include="shaders\Scene.shader" />
-    <None Include="shaders\StandardLighting.shader" />
-    <None Include="shaders\AdvancedLighting.shader" />
-    <None Include="shaders\ShadowPass.shader" />
-    <None Include="shaders\Skybox.hlsl" />
-    <None Include="shaders\Skybox.shader" />
+    <None Include="shaders\AdvancedLighting.shader">
+      <Filter>src\shaders</Filter>
+    </None>
+    <None Include="shaders\postfx.shader">
+      <Filter>src\shaders</Filter>
+    </None>
+    <None Include="shaders\Scene.shader">
+      <Filter>src\shaders</Filter>
+    </None>
+    <None Include="shaders\ShadowPass.shader">
+      <Filter>src\shaders</Filter>
+    </None>
+    <None Include="shaders\Skybox.hlsl">
+      <Filter>src\shaders</Filter>
+    </None>
+    <None Include="shaders\Skybox.shader">
+      <Filter>src\shaders</Filter>
+    </None>
+    <None Include="shaders\StandardLighting.shader">
+      <Filter>src\shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Sandbox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Test3D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\DeferredTest.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>src\tests</Filter>
     </ClCompile>
-    <ClCompile Include="src\Test2D.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\ShadowTest.cpp">
+      <Filter>src\tests</Filter>
     </ClCompile>
     <ClCompile Include="src\SponzaTest.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>src\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test2D.cpp">
+      <Filter>src\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test3D.cpp">
+      <Filter>src\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sandbox.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Test3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\DeferredTest.h">
-      <Filter>Header Files</Filter>
+      <Filter>src\tests</Filter>
     </ClInclude>
-    <ClInclude Include="src\Test2D.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\ShadowTest.h">
+      <Filter>src\tests</Filter>
     </ClInclude>
     <ClInclude Include="src\SponzaTest.h">
-      <Filter>Header Files</Filter>
+      <Filter>src\tests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test2D.h">
+      <Filter>src\tests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test3D.h">
+      <Filter>src\tests</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="shaders\AdvancedLighting.hlsl" />
+    <FxCompile Include="shaders\AdvancedLighting.hlsl">
+      <Filter>src\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\Shadow.hlsl">
+      <Filter>src\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\DepthPass.hlsl">
+      <Filter>src\shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
