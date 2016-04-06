@@ -52,6 +52,7 @@ namespace sp { namespace graphics {
 			const static vec3 GasHalide;
 			const static vec3 GasSodiumHP;
 			
+			
 			/*
 			General Colors
 			*/
@@ -181,9 +182,6 @@ namespace sp { namespace graphics {
 		const vec3 ColorF::GasSodium = vec3(1.0f, 0.956f, 0.898f);
 		const vec3 ColorF::GasHalide = vec3(1.0f, 0.956f, 0.898f);
 		const vec3 ColorF::GasSodiumHP = vec3(1.0f, 0.956f, 0.898f);
-
-		
-
 
 		const vec3 ColorF::AquaMarine = vec3(0.4392157f, 0.85882354f, 0.5764706f);
 		const vec3 ColorF::BakerChocolate = vec3(0.36078432f, 0.2f, 0.09019608f);
