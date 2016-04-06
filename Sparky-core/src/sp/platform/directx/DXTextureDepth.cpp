@@ -2,6 +2,8 @@
 #include "DXTextureDepth.h"
 #include "DXContext.h"
 
+#include "sp/utils/Log.h"
+
 namespace sp { namespace graphics { namespace API {
 
 	D3DTextureDepth::D3DTextureDepth(uint width, uint height)
@@ -104,6 +106,18 @@ namespace sp { namespace graphics { namespace API {
 		{
 		}
 
+		ZeroMemory(&m_SamplerDesc, sizeof(D3D11_SAMPLER_DESC));
+		m_SamplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+		m_SamplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+		m_SamplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+		m_SamplerDesc.MinLOD = 0;
+		m_SamplerDesc.MaxLOD = 11;
+		m_SamplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+		m_SamplerDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+		m_SamplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+		DXCall(D3DContext::GetDevice()->CreateSamplerState(&m_SamplerDesc, &m_SamplerState));
+
 		// Setup the viewport for rendering.
 		m_Viewport.Width = (float)m_Width;
 		m_Viewport.Height = (float)m_Height;
@@ -123,8 +137,7 @@ namespace sp { namespace graphics { namespace API {
 	void D3DTextureDepth::Bind(uint slot) const
 	{
 		D3DContext::GetDeviceContext()->PSSetShaderResources(slot, 1, &m_ShaderResourceView);
-		// D3DContext::GetDeviceContext()->PSSetSamplers(slot, 1, &m_SamplerState);
-
+		D3DContext::GetDeviceContext()->PSSetSamplers(slot, 1, &m_SamplerState);
 	}
 
 	void D3DTextureDepth::Unbind(uint slot) const

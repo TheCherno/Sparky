@@ -17,6 +17,8 @@ namespace sp { namespace graphics { namespace API {
 		ID3D11Texture2D* m_DepthStencilBuffer;
 		ID3D11DepthStencilView* m_DepthStencilView;
 		D3D11_VIEWPORT m_Viewport;
+		ID3D11SamplerState* m_SamplerState;
+		D3D11_SAMPLER_DESC m_SamplerDesc;
 	public:
 		D3DTextureDepth(uint width, uint height);
 		~D3DTextureDepth();

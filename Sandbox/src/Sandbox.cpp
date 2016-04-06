@@ -29,8 +29,8 @@ public:
 	{
 		Application::Init();
 		// PushLayer(new Test2D());
-		PushLayer(new Test3D());
-		// PushLayer(new ShadowTest());
+		// PushLayer(new Test3D());
+		PushLayer(new ShadowTest());
 		// PushLayer(new SponzaTest());
 		// PushLayer(new DeferredTest()); // Doesn't work atm
 	}

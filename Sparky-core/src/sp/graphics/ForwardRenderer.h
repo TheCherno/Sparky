@@ -19,6 +19,7 @@ namespace sp { namespace graphics {
 		std::vector<uint> m_PSSystemUniformBufferOffsets;
 
 		API::TextureDepth* m_DepthTexture;
+		const LightSetup* m_LightSetup;
 	public:
 		ForwardRenderer();
 		ForwardRenderer(uint width, uint height);
@@ -32,7 +33,10 @@ namespace sp { namespace graphics {
 		void EndScene() override;
 		void End() override;
 		void Present() override;
+
+		inline API::TextureDepth* GetDepthTexture() const { return m_DepthTexture; }
 	private:
+		void PrepareLights();
 		void ShadowPass();
 		void SetSystemUniforms(API::Shader* shader);
 	};

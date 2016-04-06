@@ -15,7 +15,8 @@ namespace sp { namespace graphics {
 		VSSystemUniformIndex_ProjectionMatrix	= 0,
 		VSSystemUniformIndex_ViewMatrix			= 1,
 		VSSystemUniformIndex_ModelMatrix		= 2,
-		VSSystemUniformIndex_CameraPosition		= 3,
+		VSSystemUniformIndex_LightViewMatrix	= 3,
+		VSSystemUniformIndex_CameraPosition		= 4,
 		VSSystemUniformIndex_Size
 	};
 
@@ -44,7 +45,7 @@ namespace sp { namespace graphics {
 		//
 		// Vertex shader system uniforms
 		//
-		m_VSSystemUniformBufferSize = sizeof(mat4) + sizeof(mat4) + sizeof(vec3) + sizeof(mat4);
+		m_VSSystemUniformBufferSize = sizeof(mat4) + sizeof(mat4) + sizeof(mat4) + sizeof(mat4) + sizeof(vec3);
 		m_VSSystemUniformBuffer = spnew byte[m_VSSystemUniformBufferSize];
 		memset(m_VSSystemUniformBuffer, 0, m_VSSystemUniformBufferSize);
 		m_VSSystemUniformBufferOffsets.resize(VSSystemUniformIndex_Size);
@@ -53,10 +54,11 @@ namespace sp { namespace graphics {
 		m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ProjectionMatrix] = 0;
 		m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ViewMatrix] = m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ProjectionMatrix] + sizeof(mat4);
 		m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ModelMatrix] = m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ViewMatrix] + sizeof(mat4);
+		m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_LightViewMatrix] = m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ModelMatrix] + sizeof(mat4);
 
 		// Per Mesh System Uniforms
 		// Note: Model Matrix should be here instead of camera position; this will get sorted when it gets moved to a separate buffer
-		m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_CameraPosition] = m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ModelMatrix] + sizeof(mat4);
+		m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_CameraPosition] = m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_LightViewMatrix] + sizeof(mat4);
 
 		//
 		// Pixel/fragment shader system uniforms
@@ -70,6 +72,8 @@ namespace sp { namespace graphics {
 		m_PSSystemUniformBufferOffsets[PSSystemUniformIndex_Lights] = 0;
 
 		m_DepthTexture = TextureDepth::Create(1024, 1024);
+
+		ShaderManager::Add(Shader::CreateFromFile("DepthPass", "shaders/DepthPass.hlsl"));
 	}
 
 	void ForwardRenderer::Begin()
@@ -80,11 +84,20 @@ namespace sp { namespace graphics {
 		m_SystemUniforms.clear();
 	}
 
+	static int first = 0;
+
 	void ForwardRenderer::BeginScene(Camera* camera)
 	{
 		memcpy(m_VSSystemUniformBuffer + m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ProjectionMatrix], &camera->GetProjectionMatrix(), sizeof(mat4));
 		memcpy(m_VSSystemUniformBuffer + m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ViewMatrix], &camera->GetViewMatrix(), sizeof(mat4));
 		memcpy(m_VSSystemUniformBuffer + m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_CameraPosition], &camera->GetPosition(), sizeof(vec3));
+
+ 		if (first == 0)
+ 		{
+ 			mat4 vp = camera->GetProjectionMatrix() * camera->GetViewMatrix();
+ 			memcpy(m_VSSystemUniformBuffer + m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_LightViewMatrix], &vp, sizeof(mat4));
+ 			first = 2;
+ 		}
 	}
 
 	void ForwardRenderer::Submit(const RenderCommand& command)
@@ -107,6 +120,8 @@ namespace sp { namespace graphics {
 		SP_ASSERT(lights.size() <= 1, "Only one light is supported at the moment!");
 		for (uint i = 0; i < lights.size(); i++)
 			memcpy(m_PSSystemUniformBuffer + m_PSSystemUniformBufferOffsets[PSSystemUniformIndex_Lights], lights[i], sizeof(Light));
+
+		m_LightSetup = &lightSetup;
 	}
 
 	void ForwardRenderer::EndScene()
@@ -125,24 +140,36 @@ namespace sp { namespace graphics {
 		shader->SetPSSystemUniformBuffer(m_PSSystemUniformBuffer, m_PSSystemUniformBufferSize, 0);
 	}
 
+	void ForwardRenderer::PrepareLights()
+	{
+		mat4 view = mat4::LookAt(m_LightSetup->GetLights()[0]->direction, vec3(0.0f, 0.0f, 0.0f), vec3(0, 1, 0));
+		mat4 proj = mat4::Orthographic(-100, 100, -100, 100, -10, 20);
+		mat4 vp = proj * view;
+		memcpy(m_VSSystemUniformBuffer + m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_LightViewMatrix], &vp, sizeof(mat4));
+	}
+
 	void ForwardRenderer::ShadowPass()
 	{
+		// PrepareLights();
 		m_DepthTexture->BindForWriting();
 		m_DepthTexture->Clear();
 
-		ShaderManager::Get("Depth")->Bind();
+		Shader* shader = ShaderManager::Get("DepthPass");
+		shader->Bind();
+		Renderer::SetDepthTesting(true);
 		for (uint i = 0; i < m_CommandQueue.size(); i++)
 		{
 			RenderCommand& command = m_CommandQueue[i];
 			MaterialInstance* material = command.mesh->GetMaterialInstance();
 			int materialRenderFlags = material->GetRenderFlags();
-			Renderer::SetDepthTesting((materialRenderFlags & (int)Material::RenderFlags::DISABLE_DEPTH_TEST) == 0);
+			if (materialRenderFlags & (int)Material::RenderFlags::DISABLE_DEPTH_TEST)
+				continue;
 			memcpy(m_VSSystemUniformBuffer + m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ModelMatrix], &command.transform, sizeof(mat4));
-			SetSystemUniforms(command.shader);
+			SetSystemUniforms(shader);
 
 			command.mesh->Render(*this);
 		}
-		ShaderManager::Get("Depth")->Unbind();
+		shader->Unbind();
 		m_DepthTexture->UnbindForWriting();
 	}
 

@@ -127,9 +127,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
     </Text>
-    <Text Include="shaders\Shadow.hlsl">
-      <FileType>Document</FileType>
-    </Text>
     <None Include="shaders\Skybox.hlsl">
       <FileType>Document</FileType>
     </None>

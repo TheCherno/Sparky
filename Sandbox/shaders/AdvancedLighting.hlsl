@@ -22,6 +22,7 @@ struct VSOutput
 	float3 tangent : TANGENT;
 	float3 color : COLOR;
 	float4 shadowCoord : SHADOW_POSITION;
+	float4 lightViewPos : LIGHT_VIEW;
 };
 
 cbuffer VSSystemUniforms : register(b0)
@@ -29,6 +30,7 @@ cbuffer VSSystemUniforms : register(b0)
 	float4x4 sys_ProjectionMatrix;
 	float4x4 sys_ViewMatrix;
 	float4x4 sys_ModelMatrix;
+	float4x4 sys_LightViewMatrix;
 	float3	 sys_CameraPosition;
 	// float4x4 sys_DepthBiasMatrix;
 };
@@ -46,6 +48,7 @@ VSOutput VSMain(in VSInput input)
 	output.uv = input.uv;
 	output.color = float3(1.0f, 1.0f, 1.0f);
 	output.shadowCoord = float4(0.0f, 0.0f, 0.0f, 0.0f); // output.shadowCoord = mul(output.position, depthBias);
+	output.lightViewPos = mul(output.position, sys_LightViewMatrix);
 
 	output.cameraPosition = sys_CameraPosition;
 
@@ -117,6 +120,7 @@ TextureCube u_EnvironmentMap : register(t5);
 SamplerState u_EnvironmentMapSampler : register(s5);
 
 Texture2D u_ShadowMap : register(t10);
+SamplerState u_ShadowMapSampler : register(s10);
 
 struct Material
 {
@@ -335,14 +339,26 @@ float4 PSMain(in VSOutput input) : SV_TARGET
 	};
 
 	// Shadows
-	float bias = 0.005;
-	float visibility = 1.0;
-	for (int i = 0; i < 1; i++)
+	float2 stc = float2(input.lightViewPos.x / input.lightViewPos.w / 2.0f + 0.5f, -input.lightViewPos.y / input.lightViewPos.w / 2.0f + 0.5f);
+	float bias = 0.005f;
+	float visibility = 1.0f;
+
+	float depthValue = u_ShadowMap.Sample(u_ShadowMapSampler, stc).r;
+	float lightDepthValue = input.lightViewPos.z / input.lightViewPos.w - 0.001f;
+	if (saturate(stc.x) == stc.x && saturate(stc.y) == stc.y)
+	{
+		if (depthValue < lightDepthValue)
+		{
+			visibility -= 0.5f;
+		}
+	}
+
+/*	for (int i = 0; i < 1; i++)
 	{
 		int index = int(16.0 * random(floor(attributes.position.xyz * 1000.0), i)) % 16;
 		float2 texCoord = attributes.position.xy + poissonDisk[index] / 700.0;
 		visibility -= (1.0 / 4.0) * (1.0 - u_ShadowMap.Sample(AnisoClamp, texCoord));
-	}
+	}*/
 
 	float3 finalColor = material.albedo.rgb * diffuse.rgb * visibility + (specular + IBL(attributes, light, material, eye)) * visibility;
 	finalColor = FinalGamma(finalColor);

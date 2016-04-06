@@ -38,9 +38,6 @@
     <ClCompile Include="src\DeferredTest.cpp">
       <Filter>src\tests</Filter>
     </ClCompile>
-    <ClCompile Include="src\ShadowTest.cpp">
-      <Filter>src\tests</Filter>
-    </ClCompile>
     <ClCompile Include="src\SponzaTest.cpp">
       <Filter>src\tests</Filter>
     </ClCompile>
@@ -53,12 +50,10 @@
     <ClCompile Include="src\Sandbox.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\ShadowTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DeferredTest.h">
-      <Filter>src\tests</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ShadowTest.h">
       <Filter>src\tests</Filter>
     </ClInclude>
     <ClInclude Include="src\SponzaTest.h">
@@ -70,16 +65,10 @@
     <ClInclude Include="src\Test3D.h">
       <Filter>src\tests</Filter>
     </ClInclude>
+    <ClInclude Include="src\ShadowTest.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="shaders\AdvancedLighting.hlsl">
-      <Filter>src\shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="shaders\Shadow.hlsl">
-      <Filter>src\shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="shaders\DepthPass.hlsl">
-      <Filter>src\shaders</Filter>
-    </FxCompile>
+    <Text Include="shaders\AdvancedLighting.hlsl" />
+    <Text Include="shaders\DepthPass.hlsl" />
   </ItemGroup>
 </Project>
