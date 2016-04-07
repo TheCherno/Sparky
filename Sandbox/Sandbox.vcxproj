@@ -109,11 +109,13 @@
   <ItemGroup>
     <ClCompile Include="src\DeferredTest.cpp" />
     <ClCompile Include="src\Sandbox.cpp" />
+    <ClCompile Include="src\SponzaTest.cpp" />
     <ClCompile Include="src\Test3D.cpp" />
     <ClCompile Include="src\Test2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DeferredTest.h" />
+    <ClInclude Include="src\SponzaTest.h" />
     <ClInclude Include="src\Test3D.h" />
     <ClInclude Include="src\Test2D.h" />
   </ItemGroup>

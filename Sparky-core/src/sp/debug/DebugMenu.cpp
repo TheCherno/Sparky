@@ -75,6 +75,20 @@ namespace sp { namespace debug {
 		s_Instance->m_ActionList.push_back(new Vec4Action(name, [value]() { return *value; }, [value](vec4 v) { *value = v; }, vec4(minimum), vec4(maximum)));
 	}
 
+	void DebugMenu::Remove(const String& name)
+	{
+		auto& actions = s_Instance->m_ActionList;
+		for (uint i = 0; i < actions.size(); i++)
+		{
+			if (actions[i]->name == name)
+			{
+				spdel actions[i];
+				actions.erase(actions.begin() + i);
+				break;
+			}
+		}
+	}
+
 	bool DebugMenu::IsVisible()
 	{
 		return s_Instance->m_Visible;
