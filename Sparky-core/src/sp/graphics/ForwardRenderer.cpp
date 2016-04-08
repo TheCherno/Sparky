@@ -4,6 +4,7 @@
 #include "sp/app/Application.h"
 #include "sp/graphics/Renderer.h"
 #include "shaders/ShaderManager.h"
+#include "sp/debug/DebugMenu.h"
 
 namespace sp { namespace graphics {
 
@@ -71,9 +72,11 @@ namespace sp { namespace graphics {
 		// Per Scene System Uniforms
 		m_PSSystemUniformBufferOffsets[PSSystemUniformIndex_Lights] = 0;
 
+		m_Shadows = true;
 		m_DepthTexture = TextureDepth::Create(1024, 1024);
 
 		ShaderManager::Add(Shader::CreateFromFile("DepthPass", "shaders/DepthPass.hlsl"));
+		debug::DebugMenu::Add("Shadows", &m_Shadows);
 	}
 
 	void ForwardRenderer::Begin()
@@ -142,34 +145,37 @@ namespace sp { namespace graphics {
 
 	void ForwardRenderer::PrepareLights()
 	{
-		mat4 view = mat4::LookAt(m_LightSetup->GetLights()[0]->direction, vec3(0.0f, 0.0f, 0.0f), vec3(0, 1, 0));
-		mat4 proj = mat4::Orthographic(-100, 100, -100, 100, -10, 20);
-		mat4 vp = proj * view;
+		mat4 view = mat4::LookAt(vec3(0.0f, 0.0f, 0.0f), m_LightSetup->GetLights()[0]->position, vec3(0, 1, 0));
+		mat4 proj = mat4::Orthographic(-20, 20, -20, 20, 0.1f, 100);
+		mat4 vp = view * proj;
 		memcpy(m_VSSystemUniformBuffer + m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_LightViewMatrix], &vp, sizeof(mat4));
 	}
 
 	void ForwardRenderer::ShadowPass()
 	{
-		// PrepareLights();
+		PrepareLights();
 		m_DepthTexture->BindForWriting();
 		m_DepthTexture->Clear();
 
-		Shader* shader = ShaderManager::Get("DepthPass");
-		shader->Bind();
-		Renderer::SetDepthTesting(true);
-		for (uint i = 0; i < m_CommandQueue.size(); i++)
+		if (m_Shadows)
 		{
-			RenderCommand& command = m_CommandQueue[i];
-			MaterialInstance* material = command.mesh->GetMaterialInstance();
-			int materialRenderFlags = material->GetRenderFlags();
-			if (materialRenderFlags & (int)Material::RenderFlags::DISABLE_DEPTH_TEST)
-				continue;
-			memcpy(m_VSSystemUniformBuffer + m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ModelMatrix], &command.transform, sizeof(mat4));
-			SetSystemUniforms(shader);
+			Shader* shader = ShaderManager::Get("DepthPass");
+			shader->Bind();
+			Renderer::SetDepthTesting(true);
+			for (uint i = 0; i < m_CommandQueue.size(); i++)
+			{
+				RenderCommand& command = m_CommandQueue[i];
+				MaterialInstance* material = command.mesh->GetMaterialInstance();
+				int materialRenderFlags = material->GetRenderFlags();
+				if (materialRenderFlags & (int)Material::RenderFlags::DISABLE_DEPTH_TEST)
+					continue;
+				memcpy(m_VSSystemUniformBuffer + m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ModelMatrix], &command.transform, sizeof(mat4));
+				SetSystemUniforms(shader);
 
-			command.mesh->Render(*this);
+				command.mesh->Render(*this);
+			}
+			shader->Unbind();
 		}
-		shader->Unbind();
 		m_DepthTexture->UnbindForWriting();
 	}
 

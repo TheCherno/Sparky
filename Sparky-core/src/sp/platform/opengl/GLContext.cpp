@@ -1,12 +1,11 @@
 #include "sp/sp.h"
-#include "GLContext.h"
 
 #undef NOGDI
 #include <Windows.h>
-#define NOGDI
-#include "sp/utils/Log.h"
-
 #include <GL/glew.h>
+
+#include "GLContext.h"
+#include "sp/utils/Log.h"
 
 namespace sp { namespace graphics { namespace API {
 
@@ -16,25 +15,9 @@ namespace sp { namespace graphics { namespace API {
 	{
 		hDc = GetDC((HWND)deviceContext);
 		HGLRC hrc = wglCreateContext(hDc);
-		if (hrc)
-		{
-			if (!wglMakeCurrent(hDc, hrc))
-			{
-				SP_ERROR("Failed setting OpenGL context!");
-				SP_ASSERT(false);
-			}
-		}
-		else
-		{
-			SP_ERROR("Failed creating OpenGL context!");
-			SP_ASSERT(false);
-		}
-
-		if (glewInit() != GLEW_OK)
-		{
-			SP_FATAL("Could not initialize GLEW!");
-			SP_ASSERT(false);
-		}
+		SP_ASSERT(hrc, "Failed creating OpenGL context!");
+		SP_ASSERT(wglMakeCurrent(hDc, hrc), "Failed setting OpenGL context!");
+		SP_ASSERT(glewInit() == GLEW_OK, "Could not initialize GLEW!");
 	}
 
 	void GLContext::Present()

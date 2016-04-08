@@ -22,3 +22,9 @@
 #else
 	#define SP_DEBUG_METHOD_V(x) x {}
 #endif
+
+#ifdef SP_PLATFORM_WINDOWS
+	#define SP_INLINE __forceinline
+#else
+	#define SP_INLINE inline
+#endif

@@ -31,7 +31,7 @@ cbuffer VSUniforms : register(b0)
 VSOutput VSMain(VSInput input)
 {
 	VSOutput output;
-	output.positionCS = mul(input.position, sys_ProjectionMatrix);
+	output.positionCS = mul(sys_ProjectionMatrix, input.position);
 	output.position = input.position;
 	output.uv = input.uv;
 	output.tid = input.tid;

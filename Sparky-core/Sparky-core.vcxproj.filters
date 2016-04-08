@@ -108,9 +108,6 @@
     <ClCompile Include="src\sp\graphics\TextureManager.cpp">
       <Filter>sp\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\sp\maths\mat4.cpp">
-      <Filter>sp\maths</Filter>
-    </ClCompile>
     <ClCompile Include="src\sp\maths\vec2.cpp">
       <Filter>sp\maths</Filter>
     </ClCompile>
@@ -423,6 +420,10 @@
     <ClCompile Include="src\sp\platform\windows\Win32MemoryManager.cpp">
       <Filter>sp\platform\win32</Filter>
     </ClCompile>
+    <ClCompile Include="src\sp\utils\Log.cpp">
+      <Filter>sp\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\maths\mat4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Application.h">
@@ -823,6 +824,9 @@
     </ClInclude>
     <ClInclude Include="src\sp\events\WindowEvent.h">
       <Filter>sp\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\maths\mat4.inl">
+      <Filter>sp\maths</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

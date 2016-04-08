@@ -40,15 +40,15 @@ VSOutput VSMain(in VSInput input)
 	float3x3 wsTransform = (float3x3)sys_ModelMatrix;
 
 	VSOutput output;
-	output.position = mul(input.position, sys_ModelMatrix);
-	output.positionCS = mul(output.position, mul(sys_ViewMatrix, sys_ProjectionMatrix));
-	output.normal = mul(input.normal, wsTransform);
-	output.binormal = mul(input.binormal, wsTransform);
-	output.tangent = mul(input.tangent, wsTransform);
+	output.position = mul(sys_ModelMatrix, input.position);
+	output.positionCS = mul(mul(sys_ProjectionMatrix, sys_ViewMatrix), output.position);
+	output.normal = mul(wsTransform, input.normal);
+	output.binormal = mul(wsTransform, input.binormal);
+	output.tangent = mul(wsTransform, input.tangent);
 	output.uv = input.uv;
 	output.color = float3(1.0f, 1.0f, 1.0f);
 	output.shadowCoord = float4(0.0f, 0.0f, 0.0f, 0.0f); // output.shadowCoord = mul(output.position, depthBias);
-	output.lightViewPos = mul(output.position, sys_LightViewMatrix);
+	output.lightViewPos = mul(sys_LightViewMatrix, output.position);
 
 	output.cameraPosition = sys_CameraPosition;
 
@@ -347,10 +347,8 @@ float4 PSMain(in VSOutput input) : SV_TARGET
 	float lightDepthValue = input.lightViewPos.z / input.lightViewPos.w - 0.001f;
 	if (saturate(stc.x) == stc.x && saturate(stc.y) == stc.y)
 	{
-		if (depthValue < lightDepthValue)
-		{
+		if (depthValue > lightDepthValue)
 			visibility -= 0.5f;
-		}
 	}
 
 /*	for (int i = 0; i < 1; i++)

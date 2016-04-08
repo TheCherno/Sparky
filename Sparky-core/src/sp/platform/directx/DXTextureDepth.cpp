@@ -129,7 +129,7 @@ namespace sp { namespace graphics { namespace API {
 
 	void D3DTextureDepth::Clear()
 	{
-		float color[4]{ 0.0f, 0.0f, 0.0f, 1.0f };
+		float color[4]{ 1.0f, 1.0f, 1.0f, 1.0f };
 		D3DContext::GetDeviceContext()->ClearRenderTargetView(m_RenderTargetView, color);
 		D3DContext::GetDeviceContext()->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 	}
@@ -157,7 +157,6 @@ namespace sp { namespace graphics { namespace API {
 		// TODO: Implement in DXRenderer
 		D3DContext::SetRenderTargets(D3DContext::GetBackBuffer(), D3DContext::GetDepthStencilBuffer());
 		D3DContext::GetDeviceContext()->RSSetViewports(1, D3DContext::GetViewport());
-
 	}
 
 } } }

@@ -61,7 +61,7 @@ void ShadowTest::OnInit(Renderer3D& renderer, Scene& scene)
 	cubeMaterial->SetAlbedo(vec4(0.2f, 0.3f, 0.8f, 1.0f));
 	cubeMaterial->SetSpecular(vec3(0.2f, 0.3f, 0.8f));
 	Model* cubeModel = spnew Model("res/models/RoundedCube.spm", cubeMaterial);
-	m_Cube = spnew Entity(cubeModel->GetMesh(), mat4::Rotate(90.0f, vec3(0, 0, 1)) * mat4::Translate(vec3(5, 0, 0)));
+	m_Cube = spnew Entity(cubeModel->GetMesh(), mat4::Translate(vec3(5, 0, 0)) * mat4::Rotate(90.0f, vec3(0, 0, 1)));
 	m_Scene->Add(m_Cube);
 
 	Entity* plane = spnew Entity(MeshFactory::CreatePlane(128, 128, vec3(0, 1, 0), spnew PBRMaterialInstance(material)));
@@ -69,10 +69,12 @@ void ShadowTest::OnInit(Renderer3D& renderer, Scene& scene)
 
 	LightSetup* lights = spnew LightSetup();
 	Light* light = spnew Light(vec3(0.8f));
+	light->position = vec3(2, 2, 2);
 	lights->Add(light);
 	m_Scene->PushLightSetup(lights);
 
-	DebugMenu::Add("Light Dir", &light->direction, -20.0f, 20.0f);
+	DebugMenu::Add("Light Dir", &light->direction, -1.0f, 1.0f);
+	DebugMenu::Add("Light Pos", &light->position, -20.0f, 20.0f);
 	DebugMenu::Add("Show Shadow Map", &m_ShowShadowMap);
 	DebugMenu::Add("Cube", &m_CubePosition, -100.0f, 100.0f);
 }
@@ -84,7 +86,7 @@ void ShadowTest::OnTick()
 void ShadowTest::OnUpdate()
 {
 	// Still OpenGL maths style (column-major)
-	mat4 vp = m_Scene->GetCamera()->GetProjectionMatrix() * m_Scene->GetCamera()->GetViewMatrix();
+	mat4 vp = m_Scene->GetCamera()->GetViewMatrix() * m_Scene->GetCamera()->GetProjectionMatrix();
 	m_SkyboxMaterial->SetUniform("invViewProjMatrix", mat4::Invert(vp));
 
 	TransformComponent* cubeTransform = m_Cube->GetComponent<TransformComponent>();
@@ -115,6 +117,6 @@ void ShadowTest::OnEvent(sp::events::Event& event)
 void ShadowTest::OnRender(Renderer3D& renderer)
 {
 	if (m_ShowShadowMap)
-		DebugLayer::DrawTexture(((ForwardRenderer&)renderer).GetDepthTexture());
+		DebugLayer::DrawTexture(((ForwardRenderer&)renderer).GetDepthTexture(), vec2(24.0f, 0.0f));
 	Layer3D::OnRender(renderer);
 }

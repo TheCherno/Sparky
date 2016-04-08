@@ -162,6 +162,8 @@ xcopy /f /y $(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll $(SolutionDir
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\sp\maths\mat4.cpp" />
+    <ClCompile Include="src\sp\utils\Log.cpp" />
     <ClCompile Include="src\sp\app\Input.cpp" />
     <ClCompile Include="src\sp\debug\DebugMenuItem.cpp" />
     <ClCompile Include="src\sp\debug\DebugMenuSlider.cpp" />
@@ -542,14 +544,15 @@ xcopy /f /y $(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll $(SolutionDir
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\sp\maths\mat4.cpp">
+    <ClInclude Include="src\sp\maths\mat4.inl">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sp/sp.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">sp/sp.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
-    </ClCompile>
+      <FileType>CppCode</FileType>
+    </ClInclude>
     <ClCompile Include="src\sp\maths\Quaternion.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sp/sp.h</PrecompiledHeaderFile>

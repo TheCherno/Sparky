@@ -2,11 +2,13 @@
 #include "sp/app/Input.h"
 #include "sp/utils/Log.h"
 
-#include <Windows.h>
-#include <Windowsx.h>
-
 #include "sp/app/Window.h"
 #include "sp/events/Events.h"
+
+#include "DirectXMath.h"
+
+#include <Windows.h>
+#include <Windowsx.h>
 
 namespace sp {
 

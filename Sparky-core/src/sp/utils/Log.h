@@ -2,10 +2,7 @@
 
 #include "sp/Common.h"
 #include "sp/Types.h"
-
-#include "sp/maths/vec2.h"
-#include "sp/maths/Rectangle.h"
-#include "sp/events/Events.h"
+#include "sp/String.h"
 
 #define SPARKY_LOG_LEVEL_FATAL 0
 #define SPARKY_LOG_LEVEL_ERROR 1
@@ -52,151 +49,27 @@ namespace sp { namespace internal {
 	};
 
 	template <typename T>
-	static const char* to_string(const T& t)
+	const char* to_string(const T& t)
 	{
 		return to_string_internal<T>(t, std::integral_constant<bool, has_iterator<T>::value>());
 	}
 
-	template <>
-	static const char* to_string<char>(char const& t)
-	{
-		return &t;
-	}
-
-	template <>
-	static const char* to_string<char*>(char* const& t)
-	{
-		return t;
-	}
-
-	template <>
-	static const char* to_string<unsigned char const*>(unsigned char const* const& t)
-	{
-		return (const char*)t;
-	}
-
-
-	template <>
-	static const char* to_string<char const*>(char const* const& t)
-	{
-		return t;
-	}
-
-	template <>
-	static const char* to_string<String>(const String& t)
-	{
-		return t.c_str();
-	}
-
-	template <>
-	static const char* to_string<bool>(const bool& t)
-	{
-		return t ? "true" : "false";
-	}
-
-	template <>
-	static const char* to_string<maths::vec2>(const maths::vec2& t)
-	{
-		// TODO: sprintf
-		String string = String("vec2: (") + StringFormat::ToString(t.x) + ", " + StringFormat::ToString(t.y) + ")";
-		char* result = new char[string.length()];
-		strcpy(result, &string[0]);
-		return result;
-	}
-
-	template <>
-	static const char* to_string<maths::vec3>(const maths::vec3& t)
-	{
-		// TODO: sprintf
-		String string = String("vec3: (") + StringFormat::ToString(t.x) + ", " + StringFormat::ToString(t.y) + ", " + StringFormat::ToString(t.z) + ")";
-		char* result = new char[string.length()];
-		strcpy(result, &string[0]);
-		return result;
-	}
-
-	template <>
-	static const char* to_string<maths::Rectangle>(const maths::Rectangle& r)
-	{
-		sprintf(sprintf_buffer, "Rectangle: (%f, %f, %f, %f)", r.x, r.y, r.width, r.height);
-		char* result = new char[strlen(sprintf_buffer)];
-		strcpy(result, &sprintf_buffer[0]);
-		return result;
-	}
-
-	template <>
-	static const char* to_string<events::KeyPressedEvent>(const events::KeyPressedEvent& e)
-	{
-		sprintf(sprintf_buffer, "KeyPressedEvent: (%d, %d)", e.GetKeyCode(), e.GetRepeat());
-		char* result = new char[strlen(sprintf_buffer)];
-		strcpy(result, &sprintf_buffer[0]);
-		return result;
-	}
-
-	template <>
-	static const char* to_string<events::KeyReleasedEvent>(const events::KeyReleasedEvent& e)
-	{
-		sprintf(sprintf_buffer, "KeyReleasedEvent: (%d)", e.GetKeyCode());
-		char* result = new char[strlen(sprintf_buffer)];
-		strcpy(result, &sprintf_buffer[0]);
-		return result;
-	}
-
-	template <>
-	static const char* to_string<events::MousePressedEvent>(const events::MousePressedEvent& e)
-	{
-		sprintf(sprintf_buffer, "MousePressedEvent: (%d, %f, %f)", e.GetButton(), e.GetX(), e.GetY());
-		char* result = new char[strlen(sprintf_buffer)];
-		strcpy(result, &sprintf_buffer[0]);
-		return result;
-	}
-
-	template <>
-	static const char* to_string<events::MouseReleasedEvent>(const events::MouseReleasedEvent& e)
-	{
-		sprintf(sprintf_buffer, "MouseReleasedEvent: (%d, %f, %f)", e.GetButton(), e.GetX(), e.GetY());
-		char* result = new char[strlen(sprintf_buffer)];
-		strcpy(result, &sprintf_buffer[0]);
-		return result;
-	}
-
-	template <>
-	static const char* to_string<events::MouseMovedEvent>(const events::MouseMovedEvent& e)
-	{
-		sprintf(sprintf_buffer, "MouseMovedEvent: (%f, %f, %s)", e.GetX(), e.GetY(), e.IsDragged() ? "true" : "false");
-		char* result = new char[strlen(sprintf_buffer)];
-		strcpy(result, &sprintf_buffer[0]);
-		return result;
-	}
-
-	template <>
-	static const char* to_string<events::Event>(const events::Event& e)
-	{
-		sprintf(sprintf_buffer, "Event: %s (%d)", events::Event::TypeToString(e.GetType()).c_str(), e.GetType());
-		char* result = new char[strlen(sprintf_buffer)];
-		strcpy(result, &sprintf_buffer[0]);
-		return result;
-	}
-
-	template <>
-	static const char* to_string<events::Event*>(events::Event* const& e)
-	{
-		using namespace events;
-
-		switch (e->GetType())
-		{
-		case Event::Type::KEY_PRESSED:
-			return to_string(*(KeyPressedEvent*)e);
-		case Event::Type::KEY_RELEASED:
-			return to_string(*(KeyReleasedEvent*)e);
-		case Event::Type::MOUSE_PRESSED:
-			return to_string(*(MousePressedEvent*)e);
-		case Event::Type::MOUSE_RELEASED:
-			return to_string(*(MouseReleasedEvent*)e);
-		case Event::Type::MOUSE_MOVED:
-			return to_string(*(MouseMovedEvent*)e);
-		}
-		return "Unkown Event!";
-	}
+	template<> SP_API const char* to_string<char>(char const& t);
+	template<> SP_API const char* to_string<char*>(char* const& t);
+	template<> SP_API const char* to_string<unsigned char const*>(unsigned char const* const& t);
+	template<> SP_API const char* to_string<char const*>(char const* const& t);
+	template<> SP_API const char* to_string<String>(const String& t);
+	template<> SP_API const char* to_string<bool>(const bool& t);
+	template<> SP_API const char* to_string<maths::vec2>(const maths::vec2& t);
+	template<> SP_API const char* to_string<maths::vec3>(const maths::vec3& t);
+	template<> SP_API const char* to_string<maths::Rectangle>(const maths::Rectangle& r);
+	template<> SP_API const char* to_string<events::KeyPressedEvent>(const events::KeyPressedEvent& e);
+	template<> SP_API const char* to_string<events::KeyReleasedEvent>(const events::KeyReleasedEvent& e);
+	template<> SP_API const char* to_string<events::MousePressedEvent>(const events::MousePressedEvent& e);
+	template<> SP_API const char* to_string<events::MouseReleasedEvent>(const events::MouseReleasedEvent& e);
+	template<> SP_API const char* to_string<events::MouseMovedEvent>(const events::MouseMovedEvent& e);
+	template<> SP_API const char* to_string<events::Event>(const events::Event& e);
+	template<> SP_API const char* to_string<events::Event*>(events::Event* const& e);
 
 	template <typename T>
 	static String format_iterators(T& begin, T& end)
@@ -215,34 +88,30 @@ namespace sp { namespace internal {
 	}
 
 	template <typename T>
-	static const char* to_string_internal(const T& v, const std::true_type& ignored)
+	const char* to_string_internal(const T& v, const std::true_type& ignored)
 	{
 		sprintf(to_string_buffer, "Container of size: %d, contents: %s", v.size(), format_iterators(v.begin(), v.end()).c_str());
 		return to_string_buffer;
 	}
 
 	template <typename T>
-	static const char* to_string_internal(const T& t, const std::false_type& ignored)
+	const char* to_string_internal(const T& t, const std::false_type& ignored)
 	{
 		auto x = StringFormat::ToString(t);
 		return strcpy(to_string_buffer, x.c_str());
 	}
 
+	template<> SP_API const char* to_string_internal<const char*>(const char* const& v, const std::false_type& ignored);
+
 	template<typename X, typename Y>
-	static const char* to_string(const std::pair<typename X, typename Y>& v)
+	const char* to_string(const std::pair<typename X, typename Y>& v)
 	{
 		sprintf(to_string_buffer, "(Key: %s, Value: %s)", to_string(v.first), to_string(v.second));
 		return to_string_buffer;
 	}
 
-	template<>
-	static const char* to_string_internal<const char*>(const char* const& v, const std::false_type& ignored)
-	{
-		return v;
-	}
-
 	template <typename First>
-	static void print_log_internal(char* buffer, int32& position, First&& first)
+	void print_log_internal(char* buffer, int32& position, First&& first)
 	{
 		const char* formatted = sp::internal::to_string<First>(first);
 		int32 length = strlen(formatted);
@@ -251,7 +120,7 @@ namespace sp { namespace internal {
 	}
 
 	template <typename First, typename... Args>
-	static void print_log_internal(char* buffer, int32& position, First&& first, Args&&... args)
+	void print_log_internal(char* buffer, int32& position, First&& first, Args&&... args)
 	{
 		const char* formatted = sp::internal::to_string<First>(first);
 		int32 length = strlen(formatted);
@@ -262,7 +131,7 @@ namespace sp { namespace internal {
 	}
 
 	template <typename... Args>
-	static void log_message(int32 level, bool newline, Args... args)
+	void log_message(int32 level, bool newline, Args... args)
 	{
 		char buffer[1024 * 10];
 		int32 position = 0;

@@ -3,8 +3,6 @@
 #include "sp/sp.h"
 #include "sp/Common.h"
 
-typedef std::string String;
-
 namespace sp {
 
 #define STRINGFORMAT_BUFFER_SIZE 10 * 1024

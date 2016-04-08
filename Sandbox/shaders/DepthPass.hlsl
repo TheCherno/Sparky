@@ -47,8 +47,8 @@ VSOutput VSMain(VSInput input)
 	input.position.w = 1.0f;
 
 	// Calculate the position of the vertex against the world, view, and projection matrices.
-	float4 pos = mul(input.position, sys_ModelMatrix);
-	output.position = mul(pos, sys_LightViewMatrix);
+	float4 pos = mul(sys_ModelMatrix, input.position);
+	output.position = mul(sys_LightViewMatrix, pos);
 
 	// Store the position value in a second input value for depth value calculations.
 	output.depthPosition = output.position;

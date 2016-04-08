@@ -20,6 +20,7 @@ namespace sp { namespace graphics {
 
 		API::TextureDepth* m_DepthTexture;
 		const LightSetup* m_LightSetup;
+		bool m_Shadows;
 	public:
 		ForwardRenderer();
 		ForwardRenderer(uint width, uint height);
