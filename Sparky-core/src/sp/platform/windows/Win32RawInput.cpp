@@ -147,6 +147,7 @@ namespace sp {
 		else
 		{
 			SetCursor(LoadCursor(NULL, IDC_ARROW));
+			ClipCursor(NULL);
 			ShowCursor(true);
 		}
 	}
