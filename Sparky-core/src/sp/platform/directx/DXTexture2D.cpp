@@ -90,13 +90,14 @@ namespace sp { namespace graphics { namespace API {
 		}
 		else
 		{
-			initDataPtr = &initData;
+			if (data) initDataPtr = &initData;
 		}
 
 		DXGI_FORMAT format = SPTextureFormatToD3D(m_Parameters.format);
 
 		uint fmtSupport = 0;
-		SP_ASSERT(D3DContext::GetDevice()->CheckFormatSupport(format, &fmtSupport) & D3D11_FORMAT_SUPPORT_MIP_AUTOGEN);
+		D3DContext::GetDevice()->CheckFormatSupport(format, &fmtSupport);
+		SP_ASSERT(fmtSupport & D3D11_FORMAT_SUPPORT_MIP_AUTOGEN);
 		
 		ZeroMemory(&m_Desc, sizeof(D3D11_TEXTURE2D_DESC));
 		m_Desc.Width = m_Width;
