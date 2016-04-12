@@ -219,9 +219,6 @@
     <ClCompile Include="src\sp\app\Input.cpp">
       <Filter>sp\app</Filter>
     </ClCompile>
-    <ClCompile Include="src\sp\platform\windows\Win32Input.cpp">
-      <Filter>sp\platform\win32</Filter>
-    </ClCompile>
     <ClCompile Include="src\sp\maths\Rectangle.cpp">
       <Filter>sp\maths</Filter>
     </ClCompile>
@@ -423,6 +420,7 @@
     <ClCompile Include="src\sp\platform\windows\Win32MemoryManager.cpp">
       <Filter>sp\platform\win32</Filter>
     </ClCompile>
+    <ClCompile Include="src\sp\platform\windows\Win32RawInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Application.h">

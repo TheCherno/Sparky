@@ -224,7 +224,7 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="src\sp\platform\windows\Win32Input.cpp" />
+    <ClCompile Include="src\sp\platform\windows\Win32RawInput.cpp" />
     <ClCompile Include="src\sp\platform\windows\Win32Timer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
