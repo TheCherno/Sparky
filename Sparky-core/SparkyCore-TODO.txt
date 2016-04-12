@@ -15,4 +15,4 @@
 - Check for memory leaks. Likely.
 - Some kind of Asset Server. This needs to support things like memory mapping and virtual file systems.
 - Hash functions for maths classes
-- GamePad(Controller) Support
+- Raw Input instead of Win32 stuff

@@ -37,7 +37,9 @@ namespace sp { namespace graphics {
 	{
 		if (Input::IsKeyPressed(SP_KEY_ALT))
 		{
-			vec2 delta = Input::GetMouseDelta();
+			const vec2& mouse = Input::GetMousePosition();
+			vec2 delta = mouse - m_InitialMousePosition;
+			m_InitialMousePosition = mouse;
 
 			if (Input::IsMouseButtonPressed(SP_MOUSE_MIDDLE))
 				MousePan(delta);
