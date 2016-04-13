@@ -53,7 +53,6 @@ namespace sp { namespace graphics {
 			vec2 mouse = Input::GetInputManager()->GetMousePosition();
 			mouse.x -= windowCenter.x;
 			mouse.y -= windowCenter.y;
-			SP_WARN(mouse);
 			if (m_MouseWasGrabbed)
 			{
 				m_Yaw += mouse.x * m_MouseSensitivity;

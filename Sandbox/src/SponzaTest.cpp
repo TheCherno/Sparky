@@ -43,7 +43,7 @@ void SponzaTest::OnInit(Renderer3D& renderer, Scene& scene)
 	TextureCube* environment = TextureCube::CreateFromVCross(environmentFiles, 11);
 
 	//SKYPLANE
-	Shader* skybox = Shader::CreateFromFile("Skybox", String("shaders/Skybox") + (API::Context::GetRenderAPI() == RenderAPI::OPENGL ? ".shader" : ".hlsl"));
+	Shader* skybox = Shader::CreateFromFile("Skybox", String("/shaders/Skybox") + (API::Context::GetRenderAPI() == RenderAPI::OPENGL ? ".shader" : ".hlsl"));
 	Material* skyboxMaterial = spnew Material(skybox);
 	skyboxMaterial->SetRenderFlag(Material::RenderFlags::DISABLE_DEPTH_TEST);
 	skybox->Bind();
@@ -53,7 +53,7 @@ void SponzaTest::OnInit(Renderer3D& renderer, Scene& scene)
 	m_Scene->Add(skyboxEntity);
 
 	//PBR SHADER
-	Shader* pbrShader = Shader::CreateFromFile("AdvancedLighting", String("shaders/AdvancedLighting") + (API::Context::GetRenderAPI() == RenderAPI::OPENGL ? ".shader" : ".hlsl"));
+	Shader* pbrShader = Shader::CreateFromFile("AdvancedLighting", String("/shaders/AdvancedLighting") + (API::Context::GetRenderAPI() == RenderAPI::OPENGL ? ".shader" : ".hlsl"));
 	ShaderManager::Add(pbrShader);
 
 
@@ -85,6 +85,9 @@ void SponzaTest::OnInit(Renderer3D& renderer, Scene& scene)
 	LightSetup* lights = spnew LightSetup();
 	lights->Add(spnew Light(vec3(0.8f)));
 	m_Scene->PushLightSetup(lights);
+
+	DebugMenu::Add("Light Direction", &lights->GetLights()[0]->direction, -1.0f, 1.0f);
+	DebugMenu::Add("Light Intensity", &lights->GetLights()[0]->intensity, 0, 100);
 }
 
 void SponzaTest::OnTick()

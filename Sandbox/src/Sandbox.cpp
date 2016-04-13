@@ -27,6 +27,10 @@ public:
 	void Init() override
 	{
 		Application::Init();
+		VFS::Get()->Mount("models", "res/models");
+		VFS::Get()->Mount("pbr", "res/pbr");
+		VFS::Get()->Mount("shaders", "shaders");
+
 		// PushLayer(new Test2D());
 		PushLayer(new Test3D());
 		// PushLayer(new SponzaTest());

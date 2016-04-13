@@ -5,7 +5,7 @@
 #include "sp/Types.h"
 
 #include "sp/maths/maths.h"
-#include "sp/utils/FileUtils.h"
+#include "sp/system/VFS.h"
 
 #include "ShaderUniform.h"
 #include "ShaderResource.h"
