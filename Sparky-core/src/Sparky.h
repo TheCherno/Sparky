@@ -82,13 +82,14 @@
 #include <sp/maths/vec3.h>
 #include <sp/maths/vec4.h>
 
-#include <sp/utils/FileUtils.h>
 #include <sp/utils/ImageLoad.h>
 #include <sp/utils/Log.h>
 #include <sp/utils/Timer.h>
 
+#include <sp/system/FileSystem.h>
 #include <sp/system/Memory.h>
 #include <sp/system/MemoryManager.h>
+#include <sp/system/VFS.h>
 
 #include <sp/String.h>
 #include <sp/Types.h>

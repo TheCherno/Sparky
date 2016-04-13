@@ -14,7 +14,7 @@ namespace sp { namespace graphics { namespace API {
 
 	Shader* Shader::CreateFromFile(const String& name, const String& filepath, void* address)
 	{
-		String source = utils::ReadFile(filepath);
+		String source = VFS::Get()->ReadTextFile(filepath);
 
 		// TODO: Fix dynamic shader reloading
 		switch (Context::GetRenderAPI())
@@ -57,7 +57,7 @@ namespace sp { namespace graphics { namespace API {
 
 	bool Shader::TryCompileFromFile(const String& filepath, String& error)
 	{
-		String source = utils::ReadFile(filepath);
+		String source = VFS::Get()->ReadTextFile(filepath);
 		return TryCompile(source, error);
 	}
 

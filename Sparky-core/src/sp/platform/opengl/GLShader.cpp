@@ -27,7 +27,7 @@ namespace sp { namespace graphics { namespace API {
 
 	bool GLShader::TryCompileFromFile(const String& filepath, String& error)
 	{
-		String source = utils::ReadFile(filepath);
+		String source = VFS::Get()->ReadTextFile(filepath);
 		return TryCompile(source, error);
 	}
 

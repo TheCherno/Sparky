@@ -16,7 +16,7 @@ class Game : public Application
 {
 public:
 	Game()
-		: Application("Sandbox", WIDTH, HEIGHT, sp::graphics::API::RenderAPI::DIRECT3D)
+		: Application("Sandbox", WIDTH, HEIGHT, sp::graphics::API::RenderAPI::OPENGL)
 	{
 	}
 
@@ -27,9 +27,10 @@ public:
 	void Init() override
 	{
 		Application::Init();
+		//VFS::Get()->Mount("/res", "res");
 		// PushLayer(new Test2D());
-		PushLayer(new Test3D());
-		// PushLayer(new SponzaTest());
+		// PushLayer(new Test3D());
+		PushLayer(new SponzaTest());
 		// PushLayer(new DeferredTest()); // Doesn't work atm
 	}
 };
