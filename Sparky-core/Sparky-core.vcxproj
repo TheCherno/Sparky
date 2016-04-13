@@ -92,8 +92,8 @@
       </AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /f /y $(SolutionDir)Dependencies\FreeImage\bin\FreeImage.dll $(SolutionDir)bin\$(Configuration)\*
-xcopy /f /y $(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll $(SolutionDir)bin\$(Configuration)\*</Command>
+      <Command>xcopy /f /y "$(SolutionDir)Dependencies\FreeImage\bin\FreeImage.dll" "$(SolutionDir)bin\$(Configuration)"\*
+xcopy /f /y "$(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(SolutionDir)bin\$(Configuration)"\*</Command>
       <Message>Copying dependencies...</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -124,8 +124,8 @@ xcopy /f /y $(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll $(SolutionDir
       </AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /f /y $(SolutionDir)Dependencies\FreeImage\bin\FreeImage.dll $(SolutionDir)bin\$(Configuration)\*
-xcopy /f /y $(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll $(SolutionDir)bin\$(Configuration)\*</Command>
+      <Command>xcopy /f /y "$(SolutionDir)Dependencies\FreeImage\bin\FreeImage.dll" "$(SolutionDir)bin\$(Configuration)"\*
+xcopy /f /y "$(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(SolutionDir)bin\$(Configuration)"\*</Command>
       <Message>Copying dependencies...</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -156,8 +156,8 @@ xcopy /f /y $(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll $(SolutionDir
       </AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /f /y $(SolutionDir)Dependencies\FreeImage\bin\FreeImage.dll $(SolutionDir)bin\$(Configuration)\*
-xcopy /f /y $(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll $(SolutionDir)bin\$(Configuration)\*</Command>
+      <Command>xcopy /f /y "$(SolutionDir)Dependencies\FreeImage\bin\FreeImage.dll" "$(SolutionDir)bin\$(Configuration)"\*
+xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(SolutionDir)bin\$(Configuration)"\*</Command>
       <Message>Copying dependencies...</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -224,6 +224,7 @@ xcopy /f /y $(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll $(SolutionDir
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="src\sp\platform\windows\Win32FileSystem.cpp" />
     <ClCompile Include="src\sp\platform\windows\Win32Input.cpp" />
     <ClCompile Include="src\sp\platform\windows\Win32Timer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -623,9 +624,11 @@ xcopy /f /y $(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll $(SolutionDir
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\sp\system\Allocator.cpp" />
+    <ClCompile Include="src\sp\system\FileSystem.cpp" />
     <ClCompile Include="src\sp\system\Memory.cpp" />
     <ClCompile Include="src\sp\system\MemoryManager.cpp" />
     <ClCompile Include="src\sp\system\System.cpp" />
+    <ClCompile Include="src\sp\system\VFS.cpp" />
     <ClCompile Include="src\sp\utils\FileUtils.cpp" />
     <ClCompile Include="src\sp\utils\ImageLoad.cpp" />
   </ItemGroup>
@@ -756,9 +759,11 @@ xcopy /f /y $(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll $(SolutionDir
     <ClInclude Include="src\sp\sp.h" />
     <ClInclude Include="src\sp\String.h" />
     <ClInclude Include="src\sp\system\Allocator.h" />
+    <ClInclude Include="src\sp\system\FileSystem.h" />
     <ClInclude Include="src\sp\system\Memory.h" />
     <ClInclude Include="src\sp\system\MemoryManager.h" />
     <ClInclude Include="src\sp\system\System.h" />
+    <ClInclude Include="src\sp\system\VFS.h" />
     <ClInclude Include="src\sp\Types.h" />
     <ClInclude Include="src\sp\utils\FileUtils.h" />
     <ClInclude Include="src\sp\utils\ImageLoad.h" />

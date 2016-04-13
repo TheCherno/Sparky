@@ -5,11 +5,17 @@
 #include <FreeImage/Utilities.h>
 
 #include "sp/system/Memory.h"
+#include "sp/system/VFS.h"
 
 namespace sp {
 
 	byte* LoadImage(const char* filename, uint* width, uint* height, uint* bits, bool flipY)
 	{
+		String physicalPath;
+		if (!VFS::Get()->ResolvePhysicalPath(filename, physicalPath))
+			return nullptr;
+
+		filename = physicalPath.c_str();
 		FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
 		FIBITMAP* dib = nullptr;
 		fif = FreeImage_GetFileType(filename, 0);
