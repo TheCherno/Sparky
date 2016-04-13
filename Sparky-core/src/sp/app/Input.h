@@ -54,9 +54,6 @@ namespace sp {
 
 		void ClearKeys();
 		void ClearMouseButtons();
-	private:
-		friend void KeyCallback(InputManager* inputManager, int32 flags, int32 key, uint message);
-		friend void MouseButtonCallback(InputManager* inputManager, int32 button, int32 x, int32 y);
 	};
 
 	class SP_API Input

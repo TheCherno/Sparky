@@ -49,7 +49,6 @@ namespace sp { namespace graphics {
 		{
 			vec2 mouse = Input::GetInputManager()->GetMouseDelta();
 
-			SP_WARN(mouse);
 			if (m_MouseWasGrabbed)
 			{
 				m_Yaw += mouse.x * m_MouseSensitivity;
