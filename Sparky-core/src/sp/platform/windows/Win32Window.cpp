@@ -28,6 +28,8 @@ namespace sp {
 	HDC hDc;
 	HWND hWnd;
 
+	HRAWINPUT rawInputHandle;
+
 	static PIXELFORMATDESCRIPTOR GetPixelFormat()
 	{
 		PIXELFORMATDESCRIPTOR result = {};
@@ -160,6 +162,10 @@ namespace sp {
 		InputManager* inputManager = window->GetInputManager();
 		switch (message)
 		{
+		case WM_INPUT:
+			rawInputHandle = (HRAWINPUT)lParam;
+			inputManager->PlatformUpdateMessage();
+			break;
 		case WM_ACTIVATE:
 		{
 			if (!HIWORD(wParam)) // Is minimized
@@ -192,20 +198,6 @@ namespace sp {
 		case WM_CLOSE:
 		case WM_DESTROY:
 			PostQuitMessage(0);
-			break;
-		case WM_KEYDOWN:
-		case WM_KEYUP:
-		case WM_SYSKEYDOWN:
-		case WM_SYSKEYUP:
-			KeyCallback(inputManager, lParam, wParam, message);
-			break;
-		case WM_LBUTTONDOWN:
-		case WM_LBUTTONUP:
-		case WM_RBUTTONDOWN:
-		case WM_RBUTTONUP:
-		case WM_MBUTTONDOWN:
-		case WM_MBUTTONUP:
-			MouseButtonCallback(inputManager, message, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 			break;
 		case WM_SIZE:
 			ResizeCallback(window, LOWORD(lParam), HIWORD(lParam));

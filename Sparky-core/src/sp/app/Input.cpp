@@ -14,6 +14,8 @@ namespace sp {
 
 		Input::s_InputManager = this;
 
+		PlatformInit();
+
 		// m_KeyState = spnew bool[MAX_KEYS];
 		// m_LastKeyState = spnew bool[MAX_KEYS];
 	}
@@ -77,6 +79,11 @@ namespace sp {
 	const maths::vec2& InputManager::GetMousePosition() const
 	{
 		return m_MousePosition;
+	}
+
+	const maths::vec2& InputManager::GetMouseDelta() const
+	{
+		return m_MouseDelta;
 	}
 
 	const bool InputManager::IsMouseGrabbed() const

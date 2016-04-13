@@ -36,9 +36,6 @@ namespace sp { namespace graphics {
 
 	void FPSCamera::Update()
 	{
-		vec2 windowSize = Application::GetApplication().GetWindowSize();
-		vec2 windowCenter = vec2((float)(int32)(windowSize.x / 2.0f), (float)(int32)(windowSize.y / 2.0f));
-
 		if (Input::IsMouseButtonPressed(SP_MOUSE_RIGHT))
 		{
 			if (!Input::GetInputManager()->IsMouseGrabbed())
@@ -50,17 +47,14 @@ namespace sp { namespace graphics {
 
 		if (Input::GetInputManager()->IsMouseGrabbed())
 		{
-			vec2 mouse = Input::GetInputManager()->GetMousePosition();
-			mouse.x -= windowCenter.x;
-			mouse.y -= windowCenter.y;
-			SP_WARN(mouse);
+			vec2 mouse = Input::GetInputManager()->GetMouseDelta();
+
 			if (m_MouseWasGrabbed)
 			{
 				m_Yaw += mouse.x * m_MouseSensitivity;
 				m_Pitch += mouse.y * m_MouseSensitivity;
 			}
 			m_MouseWasGrabbed = true;
-			Input::GetInputManager()->SetMousePosition(windowCenter);
 
 			Quaternion orientation = GetOrientation();
 			m_Rotation = orientation.ToEulerAngles() * (180.0f / SP_PI);
