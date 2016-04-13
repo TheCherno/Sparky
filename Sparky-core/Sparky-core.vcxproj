@@ -92,8 +92,8 @@
       </AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /f /y $(SolutionDir)Dependencies\FreeImage\bin\FreeImage.dll $(SolutionDir)bin\$(Configuration)\*
-xcopy /f /y $(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll $(SolutionDir)bin\$(Configuration)\*</Command>
+      <Command>xcopy /f /y "$(SolutionDir)Dependencies\FreeImage\bin\FreeImage.dll" "$(SolutionDir)bin\$(Configuration)"\*
+xcopy /f /y "$(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(SolutionDir)bin\$(Configuration)"\*</Command>
       <Message>Copying dependencies...</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -124,8 +124,8 @@ xcopy /f /y $(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll $(SolutionDir
       </AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /f /y $(SolutionDir)Dependencies\FreeImage\bin\FreeImage.dll $(SolutionDir)bin\$(Configuration)\*
-xcopy /f /y $(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll $(SolutionDir)bin\$(Configuration)\*</Command>
+      <Command>xcopy /f /y "$(SolutionDir)Dependencies\FreeImage\bin\FreeImage.dll" "$(SolutionDir)bin\$(Configuration)"\*
+xcopy /f /y "$(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(SolutionDir)bin\$(Configuration)"\*</Command>
       <Message>Copying dependencies...</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -156,8 +156,8 @@ xcopy /f /y $(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll $(SolutionDir
       </AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /f /y $(SolutionDir)Dependencies\FreeImage\bin\FreeImage.dll $(SolutionDir)bin\$(Configuration)\*
-xcopy /f /y $(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll $(SolutionDir)bin\$(Configuration)\*</Command>
+      <Command>xcopy /f /y "$(SolutionDir)Dependencies\FreeImage\bin\FreeImage.dll" "$(SolutionDir)bin\$(Configuration)"\*
+xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(SolutionDir)bin\$(Configuration)"\*</Command>
       <Message>Copying dependencies...</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
