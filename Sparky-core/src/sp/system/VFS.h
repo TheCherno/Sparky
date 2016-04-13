@@ -5,7 +5,7 @@
 
 namespace sp {
 	
-	class VFS
+	class SP_API VFS
 	{
 	private:
 		static VFS* s_Instance;
@@ -14,6 +14,7 @@ namespace sp {
 	public:
 		void Mount(const String& virtualPath, const String& physicalPath);
 		void Unmount(const String& path);
+		bool ResolvePhysicalPath(const String& path, String& outPhysicalPath);
 
 		byte* ReadFile(const String& path);
 		String ReadTextFile(const String& path);
