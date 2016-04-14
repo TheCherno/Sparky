@@ -25,6 +25,7 @@ namespace sp {
 		bool m_MouseState[MAX_BUTTONS];
 		bool m_MouseClicked[MAX_BUTTONS];
 		bool m_MouseGrabbed;
+		bool m_CursorVisible;
 		int32 m_KeyModifiers;
 
 		maths::vec2 m_MousePosition;

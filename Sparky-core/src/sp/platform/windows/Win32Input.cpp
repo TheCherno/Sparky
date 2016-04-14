@@ -36,10 +36,25 @@ namespace sp {
 		{
 			SP_ERROR("Failed registering raw input devices!");
 		}
+
+		POINT mouse;
+		GetCursorPos(&mouse);
+		ScreenToClient(hWnd, &mouse);
+		m_MousePosition.x = mouse.x;
+		m_MousePosition.y = mouse.y;
 	}
 
 	void InputManager::PlatformUpdate()
 	{
+		if (m_CursorVisible)
+		{
+			POINT mouse;
+			GetCursorPos(&mouse);
+			ScreenToClient(hWnd, &mouse);
+			m_MousePosition.x = mouse.x;
+			m_MousePosition.y = mouse.y;
+		}
+
 		m_MouseDelta = m_MouseDeltaCurrent;
 		m_MouseDeltaCurrent = 0;
 	}
@@ -171,6 +186,8 @@ namespace sp {
 	{
 		if (cursor == SP_NO_CURSOR)
 		{
+			m_CursorVisible = false;
+
 			RECT wrc;
 			GetWindowRect(hWnd, &wrc);
 			ClipCursor(&wrc);
@@ -179,6 +196,8 @@ namespace sp {
 		}
 		else
 		{
+			m_CursorVisible = true;
+
 			SetCursor(LoadCursor(NULL, IDC_ARROW));
 			ClipCursor(NULL);
 			ShowCursor(true);

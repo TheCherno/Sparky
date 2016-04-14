@@ -11,6 +11,7 @@ namespace sp {
 		ClearMouseButtons();
 
 		m_MouseGrabbed = true;
+		m_CursorVisible = true;
 
 		Input::s_InputManager = this;
 
