@@ -112,17 +112,50 @@ namespace sp {
 
 		if (raw->header.dwType == RIM_TYPEKEYBOARD)
 		{
+			if (raw->data.keyboard.Flags & RI_KEY_E0)
+			{
+				if (raw->data.keyboard.VKey == SP_KEY_CONTROL) raw->data.keyboard.VKey = SP_KEY_RCONTROL;
+				else if (raw->data.keyboard.VKey == SP_KEY_MENU) raw->data.keyboard.VKey = SP_KEY_RMENU;
+			}
+
+			if (raw->data.keyboard.MakeCode == 54) raw->data.keyboard.VKey = SP_KEY_RSHIFT;
+
+			int32 modifier = 0;
+			switch (raw->data.keyboard.VKey)
+			{
+			case SP_KEY_CONTROL:
+				modifier = SP_MODIFIER_LEFT_CONTROL;
+				break;
+			case SP_KEY_ALT:
+				modifier = SP_MODIFIER_LEFT_ALT;
+				break;
+			case SP_KEY_SHIFT:
+				modifier = SP_MODIFIER_LEFT_SHIFT;
+				break;
+			
+			case SP_KEY_RCONTROL:
+				modifier = SP_MODIFIER_RIGHT_CONTROL;
+				break;
+			case SP_KEY_RMENU:
+				modifier = SP_MODIFIER_RIGHT_ALT;
+				break;
+			case SP_KEY_RSHIFT:
+				modifier = SP_MODIFIER_RIGHT_SHIFT;
+				break;
+			}
+
 			if (raw->data.keyboard.Flags & RI_KEY_BREAK)
 			{
-
 				m_KeyState[raw->data.keyboard.VKey] = false;
+				m_KeyModifiers &= ~(modifier);
 				m_EventCallback(KeyReleasedEvent(raw->data.keyboard.VKey));
 			}
 			else
 			{
 				bool repeat = m_KeyState[raw->data.keyboard.VKey];
 				m_KeyState[raw->data.keyboard.VKey] = true;
-				m_EventCallback(KeyPressedEvent(raw->data.keyboard.VKey, repeat, 0));
+				m_KeyModifiers |= modifier;
+				m_EventCallback(KeyPressedEvent(raw->data.keyboard.VKey, repeat, m_KeyModifiers));
 			}
 		}
 	}
