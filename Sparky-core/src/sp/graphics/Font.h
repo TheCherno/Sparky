@@ -3,6 +3,7 @@
 #include "sp/Common.h"
 #include "sp/Types.h"
 #include "sp/maths/vec2.h"
+#include "sp/maths/Rectangle.h"
 #include "sp/graphics/API/Texture2D.h"
 
 namespace ftgl {
@@ -35,6 +36,12 @@ namespace sp { namespace graphics {
 		inline const String& GetName() const { return m_Name; }
 		inline const String& GetFileName() const { return m_Filename; }
 		inline float GetSize() const { return m_Size; }
+
+		maths::vec2 GetOffsets(const String& text) const;
+		float GetWidth(const String& text) const;
+		float GetHeight(const String& text) const;
+
+		maths::Rectangle GetBounds(const String& text) const;
 
 		API::Texture2D* GetTexture() const;
 	private:

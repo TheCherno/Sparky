@@ -7,6 +7,15 @@
 
 namespace sp {
 
+	void CALLBACK FileIOCompletionRoutine(DWORD dwErrorCode, DWORD dwNumberOfBytesTransfered, LPOVERLAPPED lpOverlapped)
+	{
+	}
+
+	static HANDLE OpenFileForReading(const String& path)
+	{
+		return CreateFile(path.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL);
+	}
+
 	static int64 GetFileSizeInternal(HANDLE file)
 	{
 		LARGE_INTEGER size;
@@ -14,8 +23,10 @@ namespace sp {
 		return size.QuadPart;
 	}
 
-	void CALLBACK FileIOCompletionRoutine(DWORD dwErrorCode, DWORD dwNumberOfBytesTransfered, LPOVERLAPPED lpOverlapped)
+	static bool ReadFileInternal(HANDLE file, void* buffer, int64 size)
 	{
+		OVERLAPPED ol = { 0 };
+		return ReadFileEx(file, buffer, size, &ol, FileIOCompletionRoutine);
 	}
 
 	bool FileSystem::FileExists(const String& path)
@@ -26,49 +37,53 @@ namespace sp {
 
 	int64 FileSystem::GetFileSize(const String& path)
 	{
-		HANDLE file = CreateFile(path.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL);
+		HANDLE file = OpenFileForReading(path);
 		if (file == INVALID_HANDLE_VALUE)
 			return -1;
-		return GetFileSizeInternal(file);
+		int64 result = GetFileSizeInternal(file);
+		CloseHandle(file);
+		return result;
 	}
 
 	bool FileSystem::ReadFile(const String& path, void* buffer, int64 size)
 	{
-		HANDLE file = CreateFile(path.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL);
+		HANDLE file = OpenFileForReading(path);
 		if (file == INVALID_HANDLE_VALUE)
 			return false;
 
 		if (size < 0)
 			size = GetFileSizeInternal(file);
 
-		OVERLAPPED ol = { 0 };
-		bool result = ReadFileEx(file, buffer, size, &ol, FileIOCompletionRoutine);
+		bool result = ReadFileInternal(file, buffer, size);
 		CloseHandle(file);
 		return result;
 	}
 
 	byte* FileSystem::ReadFile(const String& path)
 	{
-		int64 size = GetFileSize(path);
+		HANDLE file = OpenFileForReading(path);
+		int64 size = GetFileSizeInternal(file);
 		byte* buffer = spnew byte[size];
-		if (!ReadFile(path, buffer, size))
-		{
+		bool result = ReadFileInternal(file, buffer, size);
+		CloseHandle(file);
+		if (!result)
 			spdel buffer;
-			return nullptr;
-		}
-		return buffer;
+		return result ? buffer : nullptr;
 	}
 
 	String FileSystem::ReadTextFile(const String& path)
 	{
-		int64 size = GetFileSize(path);
+		HANDLE file = OpenFileForReading(path);
+		int64 size = GetFileSizeInternal(file);
 		String result(size, 0);
-		if (!ReadFile(path, &result[0]))
-			return String();
-
-		// Strip carriage returns
-		result.erase(std::remove(result.begin(), result.end(), '\r'), result.end());
-		return result;
+		bool success = ReadFileInternal(file, &result[0], size);
+		CloseHandle(file);
+		if (success)
+		{
+			// Strip carriage returns
+			result.erase(std::remove(result.begin(), result.end(), '\r'), result.end());
+		}
+		return success ? result : String();
 	}
 
 	bool FileSystem::WriteFile(const String& path, byte* buffer)
