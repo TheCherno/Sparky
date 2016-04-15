@@ -287,7 +287,7 @@ float random(float3 seed, int i)
 float3 NormalMap(Attributes attributes)
 {
 	float3x3 toWorld = float3x3(attributes.binormal, attributes.tangent, attributes.normal);
-	float3 normalMap = u_NormalMap.SampleLevel(u_NormalSampler, attributes.uv, 8).rgb * 2.0 - 1.0;
+	float3 normalMap = u_NormalMap.Sample(u_NormalSampler, attributes.uv).rgb * 2.0 - 1.0;
 	normalMap = mul(normalMap.rgb, toWorld);
 	normalMap = normalize(normalMap);
 	return normalMap;

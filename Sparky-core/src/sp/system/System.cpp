@@ -2,6 +2,7 @@
 #include "System.h"
 
 #include "MemoryManager.h"
+#include "VFS.h"
 
 #include "sp/utils/Log.h"
 
@@ -13,6 +14,7 @@ namespace sp { namespace internal {
 	{
 		SP_INFO("Initializing Sparky System...");
 		MemoryManager::Init();
+		VFS::Init();
 
 		s_SystemInfo.memoryInfo = MemoryManager::Get()->GetSystemInfo();
 		LogSystemInfo();
@@ -21,6 +23,8 @@ namespace sp { namespace internal {
 	void System::Shutdown()
 	{
 		SP_INFO("Shutting down Sparky System...");
+		VFS::Shutdown();
+		MemoryManager::Shutdown();
 	}
 
 	SystemInfo System::GetSystemInfo()

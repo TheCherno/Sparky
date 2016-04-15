@@ -5,6 +5,7 @@
 
 #include "sp/system/Memory.h"
 #include "sp/graphics/shaders/ShaderManager.h"
+#include "sp/system/VFS.h"
 
 namespace sp { namespace graphics {
 
@@ -51,8 +52,11 @@ namespace sp { namespace graphics {
 
 	void Model::Load(const String& path)
 	{
+		// TODO: Change to VFS::OpenMemoryMap()
+		String physicalPath;
+		VFS::Get()->ResolvePhysicalPath(path, physicalPath);
 		SPMFormat format;
-		FILE* f = fopen(path.c_str(), "rb");
+		FILE* f = fopen(physicalPath.c_str(), "rb");
 		SP_ASSERT(f);
 		{
 			byte header[4];
