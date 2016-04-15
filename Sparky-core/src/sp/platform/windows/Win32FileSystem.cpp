@@ -65,9 +65,9 @@ namespace sp {
 		int64 size = GetFileSizeInternal(file);
 		byte* buffer = spnew byte[size];
 		bool result = ReadFileInternal(file, buffer, size);
+		CloseHandle(file);
 		if (!result)
 			spdel buffer;
-		CloseHandle(file);
 		return result ? buffer : nullptr;
 	}
 
@@ -77,6 +77,7 @@ namespace sp {
 		int64 size = GetFileSizeInternal(file);
 		String result(size, 0);
 		bool success = ReadFileInternal(file, &result[0], size);
+		CloseHandle(file);
 		if (success)
 		{
 			// Strip carriage returns
