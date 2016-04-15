@@ -49,3 +49,15 @@ namespace sp { namespace maths {
 	};
 
 } }
+
+namespace std {
+    template<>
+    struct hash<sp::maths::Rectangle>
+    {
+        size_t operator()(const sp::maths::Rectangle& value) const
+        {
+            return std::hash<float>()(value.x) ^ std::hash<float>()(value.y)
+                ^ std::hash<float>()(value.width) ^ std::hash<float>()(value.height);
+        }
+    };
+}

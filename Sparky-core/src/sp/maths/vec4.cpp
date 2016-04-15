@@ -110,12 +110,12 @@ namespace sp { namespace maths {
 		return Divide(other);
 	}
 
-	bool vec4::operator==(const vec4& other)
+	bool vec4::operator==(const vec4& other) const
 	{
 		return x == other.x && y == other.y && z == other.z && w == other.w;
 	}
 
-	bool vec4::operator!=(const vec4& other)
+	bool vec4::operator!=(const vec4& other) const
 	{
 		return !(*this == other);
 	}

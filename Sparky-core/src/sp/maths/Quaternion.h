@@ -99,3 +99,15 @@ namespace sp { namespace maths {
 	};
 
 } }
+
+namespace std {
+    template<>
+    struct hash<sp::maths::Quaternion>
+    {
+        size_t operator()(const sp::maths::Quaternion& value) const
+        {
+            return std::hash<float>()(value.x) ^ std::hash<float>()(value.y)
+                ^ std::hash<float>()(value.z) ^ std::hash<float>()(value.w);
+        }
+    };
+}
