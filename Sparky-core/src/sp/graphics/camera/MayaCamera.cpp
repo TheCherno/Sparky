@@ -47,7 +47,7 @@ namespace sp { namespace graphics {
 				MouseZoom(delta.y);
 		}
 
-		// MouseZoom(window->GetMouseScrollPosition().y);
+		MouseZoom(Input::GetMouseWheelDelta() * 10);
 
 		m_Position = CalculatePosition();
 

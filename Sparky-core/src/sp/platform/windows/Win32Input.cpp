@@ -57,6 +57,9 @@ namespace sp {
 
 		m_MouseDelta = m_MouseDeltaCurrent;
 		m_MouseDeltaCurrent = 0;
+
+		m_MouseWheelDelta = m_MouseWheelDeltaCurrent;
+		m_MouseWheelDeltaCurrent = 0;
 	}
 
 	void InputManager::PlatformUpdateMessage()
@@ -121,6 +124,7 @@ namespace sp {
 
 			if (raw->data.mouse.ulButtons & RI_MOUSE_WHEEL)
 			{
+				m_MouseWheelDeltaCurrent += raw->data.mouse.usButtonData == 120 ? 1 : -1;
 				m_EventCallback(MousePressedEvent(raw->data.mouse.usButtonData == 120 ? SP_MWHEEL_UP : SP_MWHEEL_DOWN, m_MousePosition.x, m_MousePosition.y));
 			}
 		}

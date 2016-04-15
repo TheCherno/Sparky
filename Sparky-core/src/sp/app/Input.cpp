@@ -96,4 +96,8 @@ namespace sp {
 		m_MouseGrabbed = grabbed;
 	}
 
+	int32 InputManager::GetMouseWheelDelta() const
+	{
+		return m_MouseWheelDelta;
+	}
 }

@@ -28,6 +28,8 @@ namespace sp {
 		bool m_CursorVisible;
 		int32 m_KeyModifiers;
 
+		int32 m_MouseWheelDelta;
+		int32 m_MouseWheelDeltaCurrent;
 		maths::vec2 m_MousePosition;
 		maths::vec2 m_MouseDelta;
 		maths::vec2 m_MouseDeltaCurrent;
@@ -48,6 +50,7 @@ namespace sp {
 
 		const maths::vec2& GetMousePosition() const;
 		const maths::vec2& GetMouseDelta() const;
+		int32 GetMouseWheelDelta() const;
 		void SetMousePosition(const maths::vec2& position);
 		const bool IsMouseGrabbed() const;
 		void SetMouseGrabbed(bool grabbed);
@@ -70,6 +73,7 @@ namespace sp {
 
 		inline static const maths::vec2& GetMousePosition() { return s_InputManager->GetMousePosition(); }
 		inline static const maths::vec2& GetMouseDelta() { return s_InputManager->GetMouseDelta(); }
+		inline static int32 GetMouseWheelDelta() { return s_InputManager->GetMouseWheelDelta(); }
 
 		inline static InputManager* GetInputManager() { return s_InputManager; }
 	};
