@@ -29,7 +29,9 @@ namespace sp {
 		HANDLE file = CreateFile(path.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL);
 		if (file == INVALID_HANDLE_VALUE)
 			return -1;
-		return GetFileSizeInternal(file);
+		int64 result = GetFileSizeInternal(file);
+		CloseHandle(file);
+		return result;
 	}
 
 	bool FileSystem::ReadFile(const String& path, void* buffer, int64 size)
