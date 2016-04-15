@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CLITypes>
+	<Type native="const char *">System::String^</Type>
+	<Type native="float *">System::array&lt;float&gt;^</Type>
+	<Type native="int *">System::array&lt;int&gt;^</Type>
+  <Type native="bool *">System::array&lt;bool&gt;^</Type>
+  
+  <Type native="String">System::String^</Type>
+  <Type native="String &amp;">System::String^</Type>
+  <Type native="const String &amp;">System::String^</Type>
+  <Type native="std::string">System::String^</Type>
+  <Type native="std::string &amp;">System::String^</Type>
+  <Type native="const std::string &amp;">System::String^</Type>
+  
+  <Type native="maths::vec2 &amp;">sp::cli::maths::Vector2^</Type>
+  <Type native="maths::vec2 *">sp::cli::maths::Vector2^</Type>
+  <Type native="maths::vec3 &amp;">sp::cli::maths::Vector3^</Type>
+  <Type native="maths::vec3 *">sp::cli::maths::Vector3^</Type>
+  <Type native="maths::vec4 &amp;">sp::cli::maths::Vector4^</Type>
+  <Type native="maths::vec4 *">sp::cli::maths::Vector4^</Type>
+</CLITypes>
