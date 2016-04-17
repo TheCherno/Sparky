@@ -31,16 +31,20 @@ namespace sp { namespace internal {
 
 	SP_API void PlatformLogMessage(uint level, String message)
 	{
+		//These Functions Just Call The Normal Method
+		//This One Has String Support
 		return PlatformLogMessage(level, message.c_str());
 	}
 
 	SP_API void PlatformLogMessage(const char* message)
 	{
+		//This One Calls The Normal Info Level By Default
 		return PlatformLogMessage(3, message);
 	}
 
 	SP_API void PlatformLogMessage(String message)
 	{
+		//Same As Above With String Support
 		return PlatformLogMessage(3, message.c_str());
 	}
 
