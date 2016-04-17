@@ -85,6 +85,7 @@ namespace sp { namespace internal {
 		{
 			perror("File Not Able To Open");
 			system("PAUSE");
+			//If There Is A "Proper" Exit Code To Be Put Here, Put It In.
 			exit(76);
 		}
 		String buffer;
