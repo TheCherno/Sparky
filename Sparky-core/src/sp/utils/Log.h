@@ -6,7 +6,6 @@
 #include "sp/maths/vec2.h"
 #include "sp/maths/Rectangle.h"
 #include "sp/events/Events.h"
-#include <ostream>
 
 #define SPARKY_LOG_LEVEL_FATAL 0
 #define SPARKY_LOG_LEVEL_ERROR 1
