@@ -12,3 +12,6 @@
 
 Intermediates/
 ipch/
+/SandboxCS/obj/Debug
+/bin/Debug
+/Sparky.VC.db

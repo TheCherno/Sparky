@@ -10,6 +10,8 @@ namespace sp { namespace graphics {
 	protected:
 		maths::mat4 m_ProjectionMatrix, m_ViewMatrix;
 		maths::vec3 m_Position, m_Rotation, m_FocalPoint;
+
+		float m_Pitch, m_Yaw, m_Roll;
 	public:
 		Camera(const maths::mat4& projectionMatrix);
 
@@ -34,6 +36,10 @@ namespace sp { namespace graphics {
 		inline const maths::vec3& GetFocalPoint() const { return m_FocalPoint; }
 
 		inline const maths::mat4& GetViewMatrix() { return m_ViewMatrix; }
+
+		inline const float GetPitch() { return m_Pitch; }
+		inline const float GetYaw() { return m_Yaw; }
+		inline const float GetRoll() { return m_Roll; }
 
 	};
 

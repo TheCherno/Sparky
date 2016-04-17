@@ -14,8 +14,6 @@ namespace sp { namespace graphics {
 
 		float m_Distance;
 		float m_PanSpeed, m_RotationSpeed, m_ZoomSpeed;
-
-		float m_Pitch, m_Yaw;
 	public:
 		MayaCamera(const maths::mat4& projectionMatrix);
 		void Focus() override;
