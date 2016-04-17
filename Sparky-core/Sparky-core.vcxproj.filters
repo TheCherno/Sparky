@@ -423,9 +423,15 @@
     <ClCompile Include="src\sp\platform\windows\Win32MemoryManager.cpp">
       <Filter>sp\platform\win32</Filter>
     </ClCompile>
-    <ClCompile Include="src\sp\system\FileSystem.cpp" />
-    <ClCompile Include="src\sp\system\VFS.cpp" />
-    <ClCompile Include="src\sp\platform\windows\Win32FileSystem.cpp" />
+    <ClCompile Include="src\sp\system\FileSystem.cpp">
+      <Filter>sp\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\system\VFS.cpp">
+      <Filter>sp\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\platform\windows\Win32FileSystem.cpp">
+      <Filter>sp\platform\win32</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Application.h">
@@ -827,8 +833,12 @@
     <ClInclude Include="src\sp\events\WindowEvent.h">
       <Filter>sp\events</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\system\FileSystem.h" />
-    <ClInclude Include="src\sp\system\VFS.h" />
+    <ClInclude Include="src\sp\system\FileSystem.h">
+      <Filter>sp\system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\system\VFS.h">
+      <Filter>sp\system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="SparkyCore-TODO.txt" />
