@@ -9,7 +9,6 @@ namespace sp { namespace graphics {
 	private:
 		float m_MouseSensitivity;
 		float m_Speed, m_SprintSpeed;
-		float m_Pitch, m_Yaw;
 		bool m_MouseWasGrabbed;
 	public:
 		FPSCamera(const maths::mat4& projectionMatrix);

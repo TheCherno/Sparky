@@ -56,7 +56,9 @@ namespace sp { namespace graphics {
 		Quaternion orientation = GetOrientation();
 		m_Rotation = orientation.ToEulerAngles() * (180.0f / SP_PI);
 
-		m_ViewMatrix = mat4::Translate(vec3(0, 0, 1)) * mat4::Rotate(orientation.Conjugate()) * mat4::Translate(-m_Position);
+		mat4 rotation = mat4::Rotate(orientation.Conjugate());
+		mat4 translation = mat4::Translate(-m_Position);
+		m_ViewMatrix = rotation * translation;
 	}
 
 	void MayaCamera::MousePan(const maths::vec2& delta)
