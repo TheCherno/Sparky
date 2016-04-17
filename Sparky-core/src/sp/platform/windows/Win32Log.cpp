@@ -1,6 +1,8 @@
 #include "sp/sp.h"
 
 #include <Windows.h>
+#include <fstream>
+#include <cstdlib>
 #include "sp/utils/Log.h"
 
 namespace sp { namespace internal {
@@ -46,6 +48,27 @@ namespace sp { namespace internal {
 	{
 		//Same As Above With String Support
 		return PlatformLogMessage(3, message.c_str());
+	}
+
+	SP_API void PlatformFileMessage(String filename, String message)
+	{
+		//For People Who Like Strings
+		PlatformFileMessage(filename, message.c_str());
+	}
+
+	SP_API void PlatformFileMessage(String filename, const char * message)
+	{
+		std::ofstream outputFile;
+		outputFile.open(filename);
+		if (outputFile.fail())
+		{
+			perror((filename + "Couldn't Be Created").c_str());
+			system("PAUSE");
+			//If There Is A "Proper" Exit Code To Be Put Here, Put It In.
+			exit(67);
+		}
+		outputFile << message;
+		outputFile.close();
 	}
 
 } }

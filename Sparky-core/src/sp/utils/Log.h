@@ -46,6 +46,8 @@ namespace sp { namespace internal {
 	SP_API void PlatformLogMessage(uint level, String message);
 	SP_API void PlatformLogMessage(const char* message);
 	SP_API void PlatformLogMessage(String message);
+	SP_API void PlatformFileMessage(String filename, String message);
+	SP_API void PlatformFileMessage(String filename, const char* message);
 
 	template <class T>
 	struct has_iterator
