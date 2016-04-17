@@ -12,6 +12,7 @@
 #define SPARKY_LOG_LEVEL_ERROR 1
 #define SPARKY_LOG_LEVEL_WARN  2
 #define SPARKY_LOG_LEVEL_INFO  3
+//For Something That The User Needs To Know But Isn't Mission-Critical (Like If You Wanted To Print The Highscore In Blue For Easy Terminal Reading) 
 #define SPARKY_LOG_LEVEL_IMPORTANT 4
 #ifdef MOUSE_MOVED
 	#undef MOUSE_MOVED // Defined in wincon.h
@@ -34,7 +35,7 @@ namespace std
 // -------------------------------
 //	- Better container type logging
 //	- Better platform support
-//	- Logging to other destinations (eg. files)
+//	- Logging to other destinations (eg. files) Done!
 //	- Include (almost) ALL Sparky class types
 //	- More...
 namespace sp { namespace internal {
