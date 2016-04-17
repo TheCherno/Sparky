@@ -16,15 +16,10 @@ namespace sp { namespace graphics {
 	{
 		m_Position = vec3(0.0f, 25.0f, -25.0f);
 		m_Rotation = vec3(90.0f, 0.0f, 0.0f);
+
 		m_Yaw = 2.4f;
 		m_Pitch = 0.7f;
 		m_Roll = 0.0f;
-
-		debug::DebugMenu::Add("FPS Camera Position", &m_Position, -100.0f, 100.0f);
-
-		debug::DebugMenu::Add("FPS Camera Yaw", &m_Yaw, -3.14f, 3.14f);
-		debug::DebugMenu::Add("FPS Camera Pitch", &m_Pitch, -3.14f, 3.14f);
-		debug::DebugMenu::Add("FPS Camera Roll", &m_Roll, -3.14f, 3.14f);
 
 		debug::DebugMenu::Add("FPS Camera Speed", &m_Speed);
 		debug::DebugMenu::Add("FPS Camera Sprint Speed", &m_SprintSpeed);
