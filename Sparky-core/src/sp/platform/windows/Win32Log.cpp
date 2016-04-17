@@ -71,4 +71,29 @@ namespace sp { namespace internal {
 		outputFile.close();
 	}
 
+	SP_API String ReadFile(String filename)
+	{
+		return ReadFile(filename.c_str());
+	}
+
+	SP_API String ReadFile(const char * filename)
+	{
+		std::ifstream opener;
+		opener.open(filename);
+		if (opener.fail())
+		{
+			perror("File Not Able To Open");
+			system("PAUSE");
+			exit(76);
+		}
+		String buffer;
+		String returner;
+		while (getline(opener, buffer))
+		{
+			returner.append(buffer + "\n");
+		}
+		opener.close();
+		return returner;
+	}
+
 } }
