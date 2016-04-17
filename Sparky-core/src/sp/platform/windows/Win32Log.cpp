@@ -78,6 +78,7 @@ namespace sp { namespace internal {
 
 	SP_API String ReadFile(const char * filename)
 	{
+		//Opens And Returns The File's Content
 		std::ifstream opener;
 		opener.open(filename);
 		if (opener.fail())
