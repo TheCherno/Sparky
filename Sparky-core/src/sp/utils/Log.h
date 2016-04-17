@@ -11,6 +11,7 @@
 #define SPARKY_LOG_LEVEL_ERROR 1
 #define SPARKY_LOG_LEVEL_WARN  2
 #define SPARKY_LOG_LEVEL_INFO  3
+#define SPARKY_LOG_LEVEL_IMPORTANT 4
 
 #ifdef MOUSE_MOVED
 	#undef MOUSE_MOVED // Defined in wincon.h
@@ -42,6 +43,9 @@ namespace sp { namespace internal {
 	static char sprintf_buffer[1024 * 10];
 
 	SP_API void PlatformLogMessage(uint level, const char* message);
+	SP_API void PlatformLogMessage(uint level, String message);
+	SP_API void PlatformLogMessage(const char* message);
+	SP_API void PlatformLogMessage(String message);
 
 	template <class T>
 	struct has_iterator
