@@ -4,6 +4,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <iostream>
+#include <errno.h>
 #include "sp/utils/Log.h"
 
 namespace sp { namespace internal {
@@ -63,7 +64,7 @@ namespace sp { namespace internal {
 		outputFile.open(filename);
 		if (outputFile.fail())
 		{
-			PlatformLogMessage(SPARKY_LOG_LEVEL_FATAL, "File Error: ");
+			PlatformLogMessage(SPARKY_LOG_LEVEL_FATAL, "Error In Working With The File\n");
 			perror((filename.c_str()));
 			system("PAUSE");
 			//If There Is A "Proper" Exit Code To Be Put Here, Put It In.
@@ -85,7 +86,7 @@ namespace sp { namespace internal {
 		opener.open(filename);
 		if (opener.fail())
 		{
-			PlatformLogMessage(SPARKY_LOG_LEVEL_FATAL, "File Error: ");
+			PlatformLogMessage(SPARKY_LOG_LEVEL_FATAL, "Error In Opening The File\n");
 			perror(filename);
 			system("PAUSE");
 			//If There Is A "Proper" Exit Code To Be Put Here, Put It In.
