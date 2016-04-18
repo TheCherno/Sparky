@@ -62,7 +62,7 @@ namespace sp { namespace internal {
 		outputFile.open(filename);
 		if (outputFile.fail())
 		{
-			perror((filename + "Couldn't Be Created").c_str());
+			perror((filename + " Couldn't Be Created").c_str());
 			system("PAUSE");
 			//If There Is A "Proper" Exit Code To Be Put Here, Put It In.
 			exit(67);
