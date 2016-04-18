@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <fstream>
 #include <cstdlib>
+#include <iostream>
 #include "sp/utils/Log.h"
 
 namespace sp { namespace internal {
@@ -62,7 +63,7 @@ namespace sp { namespace internal {
 		outputFile.open(filename);
 		if (outputFile.fail())
 		{
-			perror((filename + " Couldn't Be Created").c_str());
+			perror((filename.c_str());
 			system("PAUSE");
 			//If There Is A "Proper" Exit Code To Be Put Here, Put It In.
 			exit(67);
@@ -83,7 +84,7 @@ namespace sp { namespace internal {
 		opener.open(filename);
 		if (opener.fail())
 		{
-			perror("File Not Able To Open");
+			perror(filename);
 			system("PAUSE");
 			//If There Is A "Proper" Exit Code To Be Put Here, Put It In.
 			exit(76);
