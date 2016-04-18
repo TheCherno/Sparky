@@ -2,6 +2,7 @@
 #include "DXRenderer.h"
 
 #include "sp/utils/Log.h"
+#include "sp/system/MemoryManager.h"
 
 namespace sp { namespace graphics {
 
@@ -23,6 +24,18 @@ namespace sp { namespace graphics {
 		SetDepthTesting(true);
 		SetBlendFunction(RendererBlendFunction::SOURCE_ALPHA, RendererBlendFunction::ONE_MINUS_SOURCE_ALPHA);
 		SetBlend(true);
+
+		IDXGIDevice* dxgiDev;
+		D3DContext::GetDevice()->QueryInterface(__uuidof(IDXGIDevice), (void**)&dxgiDev);
+		IDXGIAdapter* adapter;
+		dxgiDev->GetAdapter(&adapter);
+		DXGI_ADAPTER_DESC desc;
+		adapter->GetDesc(&desc);
+		SP_WARN("----------------------------------");
+		SP_WARN(" Direct3D ", D3DContext::GetD3DVersionString(), ":");
+		SP_WARN("    ", desc.Description);
+		SP_WARN("    ", "VRAM: ", internal::MemoryManager::BytesToString(desc.DedicatedVideoMemory));
+		SP_WARN("----------------------------------");
 
 		m_RendererTitle = "Direct3D " + D3DContext::GetD3DVersionString();
 	}

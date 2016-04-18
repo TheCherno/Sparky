@@ -62,6 +62,9 @@ namespace sp {
 		inline uint GetWindowWidth() const { return window->GetWidth(); }
 		inline uint GetWindowHeight() const { return window->GetHeight(); }
 		inline maths::vec2 GetWindowSize() const { return maths::vec2((float)window->GetWidth(), (float)window->GetHeight()); }
+
+		String GetBuildConfiguration();
+		String GetPlatform(); // TODO: Return "Platform" object rather than String
 	private:
 		void PlatformInit();
 		void Run();
