@@ -3,7 +3,6 @@
 #include <Windows.h>
 #include <fstream>
 #include <cstdlib>
-#include <errno.h>
 #include "sp/utils/Log.h"
 
 namespace sp { namespace internal {
