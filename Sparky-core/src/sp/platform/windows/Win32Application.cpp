@@ -82,4 +82,15 @@ namespace sp {
 		}
 	}
 
+	String Application::GetPlatform()
+	{
+#if defined(SP_PLATFORM_WIN32)
+		return "Win32";
+#elif defined(SP_PLATFORM_WIN64)
+		return "Win64";
+#else
+		return "Unknown Platform";
+#endif
+	}
+
 }

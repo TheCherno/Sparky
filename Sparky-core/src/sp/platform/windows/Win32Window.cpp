@@ -7,6 +7,7 @@
 #define NOGDI
 
 #include "sp/utils/Log.h"
+#include "sp/app/Application.h"
 #include "sp/app/Window.h"
 #include "sp/graphics/API/Context.h"
 #include "sp/graphics/Renderer.h"
@@ -127,7 +128,7 @@ namespace sp {
 
 	void Window::SetTitle(const String& title)
 	{
-		m_Properties.title = title + "  |  Renderer: " + Renderer::GetTitle();
+		m_Properties.title = title + "  |  " + Application::GetApplication().GetBuildConfiguration() + " " + Application::GetApplication().GetPlatform() + "  |  Renderer: " + Renderer::GetTitle();
 		SetWindowText(hWnd, m_Properties.title.c_str());
 	}
 
