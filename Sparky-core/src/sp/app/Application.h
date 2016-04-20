@@ -31,13 +31,13 @@ namespace sp {
 		uint m_UpdatesPerSecond, m_FramesPerSecond;
 		float m_Frametime;
 
-		const char* m_Name;
-		uint m_InitialWidth, m_InitialHeight;
+		String m_Name;
+		WindowProperties m_Properties;
 
 		std::vector<graphics::Layer*> m_LayerStack;
 		std::vector<graphics::Layer*> m_OverlayStack;
 	public:
-		Application(const char* name, uint width, uint height, graphics::API::RenderAPI api = graphics::API::RenderAPI::OPENGL);
+		Application(const String& name, const WindowProperties& properties, graphics::API::RenderAPI api = graphics::API::RenderAPI::OPENGL);
 		virtual ~Application();
 
 		virtual void Init();
