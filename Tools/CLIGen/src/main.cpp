@@ -28,7 +28,7 @@ CXChildVisitResult traverse(CXCursor cursor, CXCursor parent, CXClientData data)
 {
 	CXString cursorSpelling = clang_getCursorSpelling(cursor);
 	CXString cursorKind = clang_getCursorKindSpelling(cursor.kind);
-	String type = std::string(clang_getCString(cursorKind));
+	String type = String(clang_getCString(cursorKind)); // TODO: Use enums instead of strings
 	String name = clang_getCString(cursorSpelling);
 
  	if (!clang_Location_isFromMainFile(clang_getCursorLocation(cursor)))
@@ -75,6 +75,11 @@ CXChildVisitResult traverse(CXCursor cursor, CXCursor parent, CXClientData data)
 			currentClass->methods.back().parameters.push_back(Parameter(name, clang_getCString(paramType)));
 			clang_disposeString(paramType);
 		}
+	}
+	else if (type == "C++ base class specifier")
+	{
+		SP_ASSERT(currentClass);
+		currentClass->baseClass = SplitString(name, " ").back();
 	}
 
 	clang_disposeString(cursorKind);

@@ -43,6 +43,7 @@ namespace sp { namespace cligen {
 	struct Class
 	{
 		String name;
+		String baseClass;
 		std::vector<Method> methods;
 		std::vector<String> namespaceStack;
 

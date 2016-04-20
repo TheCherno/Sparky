@@ -35,7 +35,12 @@ namespace sp { namespace cligen {
 			namespaceCount++;
 		}
 		stream << std::endl << std::endl;
-		stream << Indent(1) << "public ref class " << m_Class.name << " : public ManagedClass<" << cppFullClassname << ">" << std::endl;
+		stream << Indent(1) << "public ref class " << m_Class.name << " : public ";
+		if (!m_Class.baseClass.empty())
+			stream << ProcessNamespace(m_Class.baseClass);
+		else
+			stream << "ManagedClass<" << cppFullClassname << ">";
+		stream << std::endl;
 		stream << Indent(1) << "{" << std::endl;
 		stream << Indent(1) << "private:" << std::endl;
 		stream << Indent(2) << m_Class.name << "(" << cppFullClassname << "* instance);" << std::endl;
