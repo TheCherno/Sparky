@@ -3,8 +3,8 @@
 
 namespace sp {
 
-	Application::Application(const char* name, uint width, uint height, graphics::API::RenderAPI api)
-		: m_Name(name), m_InitialWidth(width), m_InitialHeight(height), m_Frametime(0.0f)
+	Application::Application(const String& name, const WindowProperties& properties, graphics::API::RenderAPI api)
+		: m_Name(name), m_Properties(properties), m_Frametime(0.0f)
 	{
 		s_Instance = this;
 		graphics::API::Context::SetRenderAPI(api);
@@ -17,7 +17,7 @@ namespace sp {
 
 	void Application::PlatformInit()
 	{
-		window = new Window(m_Name, m_InitialWidth, m_InitialHeight);
+		window = new Window(m_Name, m_Properties);
 		window->SetEventCallback(METHOD(&Application::OnEvent));
 	}
 
@@ -60,14 +60,14 @@ namespace sp {
 				OnUpdate();
 				updates++;
 				updateTimer += updateTick;
-				{
-					Timer frametime;
-					OnRender();
-					frames++;
-					m_Frametime = frametime.ElapsedMillis();
-				}
-				window->Update();
 			}
+			{
+				Timer frametime;
+				OnRender();
+				frames++;
+				m_Frametime = frametime.ElapsedMillis();
+			}
+			window->Update();
 			if (m_Timer->Elapsed() - timer > 1.0f)
 			{
 				timer += 1.0f;
