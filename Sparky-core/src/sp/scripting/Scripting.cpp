@@ -53,21 +53,16 @@ namespace sp { namespace scripting {
 		lua_register(state, functionname, functionpointer);
 	}
 
-	void Scripting::Call(lua_State* state, const char* functionname)
+	bool Scripting::Call(lua_State* state, const char* functionname)
 	{
 		lua_getglobal(state, functionname);
-		lua_pcall(state, 0, 0, 0);
-	}
+		if (!lua_isfunction(state, -1)) return true;
 
-	int Poop(lua_State* state)
-	{
-		const char* s = lua_tostring(state, 1);
-		SP_INFO(s, "poop\n");
-		return 0;
+		lua_pcall(state, 0, 0, 0);
+		return false;
 	}
 
 	void Scripting::LoadSparkyAPI(lua_State* state)
 	{
-		Register(state, "Poop", Poop);
 	}
 } }
