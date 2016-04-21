@@ -12,3 +12,9 @@
 
 Intermediates/
 ipch/
+/bin/Debug
+/bin/Release
+/Dependencies/LUA/Release
+/SandboxCS/obj/Debug
+/Sparky.VC.VC.opendb
+/Sparky.VC.db

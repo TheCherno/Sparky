@@ -4,6 +4,7 @@
 #include "Test3D.h"
 #include "DeferredTest.h"
 #include "SponzaTest.h"
+#include "ScriptingTest.h"
 
 using namespace sp;
 using namespace graphics;
@@ -32,9 +33,10 @@ public:
 		VFS::Get()->Mount("shaders", "shaders");
 
 		// PushLayer(new Test2D());
-		PushLayer(new Test3D());
+		// PushLayer(new Test3D());
 		// PushLayer(new SponzaTest());
 		// PushLayer(new DeferredTest()); // Doesn't work atm
+		PushLayer(new ScriptingTest());
 	}
 };
 
