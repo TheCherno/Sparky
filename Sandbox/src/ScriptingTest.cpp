@@ -1,5 +1,7 @@
 #include "ScriptingTest.h"
 
+#include <sp\scripting\Scripting.h>
+
 using namespace sp;
 using namespace debug;
 using namespace graphics;
@@ -10,6 +12,8 @@ using namespace entity;
 using namespace component;
 
 using namespace API;
+
+using namespace scripting;
 
 ScriptingTest::ScriptingTest()
 	: Layer3D(spnew Scene())
@@ -56,6 +60,8 @@ enum Materials : uint
 	ABS_RED,
 	CUSTOM
 };
+
+lua_State* m_ScriptingState;
 
 void ScriptingTest::OnInit(Renderer3D& renderer, Scene& scene)
 {
@@ -243,6 +249,13 @@ void ScriptingTest::OnInit(Renderer3D& renderer, Scene& scene)
 		// m_Materials[i]->SetUniform("u_ShadowMap", 6);
 	}
 
+	Scripting::CreateState(&m_ScriptingState);
+	Scripting::Init(m_ScriptingState);
+	Scripting::LoadSparkyAPI(m_ScriptingState);
+	Scripting::LoadFile(m_ScriptingState, "/scripts/test.lua");
+
+	Scripting::Call(m_ScriptingState, "printVersion");
+
 	SP_INFO("Init took ", timer.ElapsedMillis(), " ms");
 }
 
@@ -271,6 +284,8 @@ void ScriptingTest::OnUpdate()
 	// Still OpenGL maths style (column-major)
 	mat4 vp = m_Scene->GetCamera()->GetProjectionMatrix() * m_Scene->GetCamera()->GetViewMatrix();
 	m_SkyboxMaterials->SetUniform("invViewProjMatrix", mat4::Invert(vp));
+
+
 }
 
 void ScriptingTest::OnRender(Renderer3D& renderer)

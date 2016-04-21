@@ -73,6 +73,9 @@
     <Filter Include="sp\platform\opengl\shaders">
       <UniqueIdentifier>{8ccdc53f-69fa-402f-b225-c04eb3661a47}</UniqueIdentifier>
     </Filter>
+    <Filter Include="sp\scripting">
+      <UniqueIdentifier>{7a89cf53-2de2-4ad7-9323-d60acb39fc92}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\sp\audio\Sound.cpp">
@@ -426,6 +429,9 @@
     <ClCompile Include="src\sp\system\FileSystem.cpp" />
     <ClCompile Include="src\sp\system\VFS.cpp" />
     <ClCompile Include="src\sp\platform\windows\Win32FileSystem.cpp" />
+    <ClCompile Include="src\sp\scripting\Scripting.cpp">
+      <Filter>sp\scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Application.h">
@@ -829,6 +835,9 @@
     </ClInclude>
     <ClInclude Include="src\sp\system\FileSystem.h" />
     <ClInclude Include="src\sp\system\VFS.h" />
+    <ClInclude Include="src\sp\scripting\Scripting.h">
+      <Filter>sp\scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="SparkyCore-TODO.txt" />
