@@ -87,7 +87,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua51.lib;glew32s.lib;opengl32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
     </Link>
@@ -118,7 +118,7 @@ xcopy /f /y "$(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua51.lib;glew32s.lib;opengl32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
@@ -150,7 +150,7 @@ xcopy /f /y "$(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua51.lib;glew32s.lib;opengl32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
@@ -797,9 +797,6 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     </ProjectReference>
     <ProjectReference Include="..\Dependencies\gorilla-audio\gorilla-audio.vcxproj">
       <Project>{e9a0f826-3688-4461-8e49-7ccc543f9e40}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Dependencies\LUA\LUA.vcxproj">
-      <Project>{898331c1-d4a2-4623-b538-0530714ca1c7}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
