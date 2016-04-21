@@ -3,20 +3,17 @@
 #include "Test2D.h"
 #include "Test3D.h"
 #include "DeferredTest.h"
-#include "Sponza.h"
+#include "SponzaTest.h"
 
 using namespace sp;
 using namespace graphics;
 using namespace maths;
 
-#define WIDTH	1280
-#define HEIGHT	720
-
 class Game : public Application
 {
 public:
 	Game()
-		: Application("Sandbox", WIDTH, HEIGHT, sp::graphics::API::RenderAPI::DIRECT3D)
+		: Application("Sandbox", { 1280, 720, false, false }, sp::graphics::API::RenderAPI::DIRECT3D)
 	{
 	}
 
@@ -27,10 +24,14 @@ public:
 	void Init() override
 	{
 		Application::Init();
-		// PushLayer(new DeferredTest());
-		//PushLayer(new Test3D());
-		PushLayer(new Sponza());
+		VFS::Get()->Mount("models", "res/models");
+		VFS::Get()->Mount("pbr", "res/pbr");
+		VFS::Get()->Mount("shaders", "shaders");
+
 		// PushLayer(new Test2D());
+		PushLayer(new Test3D());
+		// PushLayer(new SponzaTest());
+		// PushLayer(new DeferredTest()); // Doesn't work atm
 	}
 };
 

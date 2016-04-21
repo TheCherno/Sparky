@@ -43,6 +43,8 @@ namespace sp { namespace debug {
 		static void Add(const String& name, maths::vec3* value, float mininmum = 0.0f, float maximum = 100.0f);
 		static void Add(const String& name, maths::vec4* value, float mininmum = 0.0f, float maximum = 100.0f);
 
+		static void Remove(const String& name);
+
 		static bool IsVisible();
 		static void SetVisible(bool visible);
 

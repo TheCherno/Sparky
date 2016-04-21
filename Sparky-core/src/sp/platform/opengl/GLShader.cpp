@@ -16,7 +16,7 @@ namespace sp { namespace graphics { namespace API {
 		String vert, frag;
 		String* shaders[2] = { &vert, &frag };
 		GLShader::PreProcess(source, shaders);
-		ShaderErrorInfo info;
+		GLShaderErrorInfo info;
 		if (!GLShader::Compile(shaders, info))
 		{
 			error = info.message[info.shader];
@@ -27,7 +27,7 @@ namespace sp { namespace graphics { namespace API {
 
 	bool GLShader::TryCompileFromFile(const String& filepath, String& error)
 	{
-		String source = utils::ReadFile(filepath);
+		String source = VFS::Get()->ReadTextFile(filepath);
 		return TryCompile(source, error);
 	}
 
@@ -49,7 +49,7 @@ namespace sp { namespace graphics { namespace API {
 		String* shaders[2] = { &m_VertexSource, &m_FragmentSource };
 		PreProcess(m_Source, shaders);
 		Parse(m_VertexSource, m_FragmentSource);
-		ShaderErrorInfo error;
+		GLShaderErrorInfo error;
 		m_Handle = Compile(shaders, error);
 		if (!m_Handle)
 			SP_ERROR(error.message[error.shader]);
@@ -86,7 +86,7 @@ namespace sp { namespace graphics { namespace API {
 		}
 	}
 
-	uint GLShader::Compile(String** shaders, ShaderErrorInfo& info)
+	uint GLShader::Compile(String** shaders, GLShaderErrorInfo& info)
 	{
 		const char* vertexSource = shaders[0]->c_str();
 		const char* fragmentSource = shaders[1]->c_str();

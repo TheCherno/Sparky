@@ -28,6 +28,7 @@ namespace sp { namespace graphics { namespace ui {
 		virtual void OnRender(Renderer2D& renderer);
 
 		inline const maths::Rectangle& GetBounds() const { return m_Bounds; }
+		inline maths::Rectangle& GetBounds() { return m_Bounds; }
 		inline void SetBounds(const maths::Rectangle& bounds) { m_Bounds = bounds; }
 
 		inline bool IsActive() const { return m_Active; }

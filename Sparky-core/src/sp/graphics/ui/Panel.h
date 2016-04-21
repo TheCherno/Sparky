@@ -27,6 +27,8 @@ namespace sp { namespace graphics { namespace ui {
 
 		void OnUpdate() override;
 		void OnRender(Renderer2D& renderer) override;
+
+		inline const std::vector<Widget*>& GetWidgets() const { return m_Widgets; }
 	};
 
 } } }

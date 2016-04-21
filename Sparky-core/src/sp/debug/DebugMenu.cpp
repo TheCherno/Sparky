@@ -11,7 +11,8 @@
 namespace sp { namespace debug {
 
 	using namespace maths;
-	using namespace graphics::ui;
+	using namespace graphics;
+	using namespace ui;
 
 	DebugMenu* DebugMenu::s_Instance = nullptr;
 
@@ -75,6 +76,20 @@ namespace sp { namespace debug {
 		s_Instance->m_ActionList.push_back(new Vec4Action(name, [value]() { return *value; }, [value](vec4 v) { *value = v; }, vec4(minimum), vec4(maximum)));
 	}
 
+	void DebugMenu::Remove(const String& name)
+	{
+		auto& actions = s_Instance->m_ActionList;
+		for (uint i = 0; i < actions.size(); i++)
+		{
+			if (actions[i]->name == name)
+			{
+				spdel actions[i];
+				actions.erase(actions.begin() + i);
+				break;
+			}
+		}
+	}
+
 	bool DebugMenu::IsVisible()
 	{
 		return s_Instance->m_Visible;
@@ -106,14 +121,27 @@ namespace sp { namespace debug {
 
 	void DebugMenu::OnActivate()
 	{
-		float width = 5.0f + m_Settings.padding;
+		float width = 0.0f;
 		float height = 1.0f + m_Settings.padding;
 		float yOffset = height;
 		for (IAction* action : m_ActionList)
 		{
 			float y = 18.0f - yOffset;
-			m_Panel->Add(spnew DebugMenuItem(action, Rectangle(0.0f, y, width, height)));
+			DebugMenuItem* item = spnew DebugMenuItem(action, Rectangle(0.0f, y, 0.0f, height));
+			m_Panel->Add(item);
 			yOffset += height;
+
+			const Font& font = item->GetFont();
+			float stringWidth = font.GetWidth(item->GetLabel());
+			if (stringWidth > width)
+				width = stringWidth;
+		}
+
+		width += m_Settings.padding;
+		for (Widget* widget : m_Panel->GetWidgets())
+		{
+			DebugMenuItem* item = (DebugMenuItem*)widget;
+			item->GetBounds().width = width;
 		}
 
 		for (uint i = 0; i < 4; i++)

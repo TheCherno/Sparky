@@ -32,8 +32,8 @@ namespace sp { namespace debug {
 	{
 		renderer.SetRenderTarget(RenderTarget::SCREEN);
 		m_FPSLabel = new Label("", 30.0f, 17.2f, FontManager::Get(24), 0xffffffff);
-		m_MemoryUsageLabel = new Label("", 29.5f, 16.5f, FontManager::Get(24), 0xffffffff);
-		m_FrametimeLabel = new Label("", 30.0f, 15.8f, FontManager::Get(24), 0xffffffff);
+		m_FrametimeLabel = new Label("", 30.0f, 16.5f, FontManager::Get(24), 0xffffffff);
+		m_MemoryUsageLabel = new Label("", 30.0f, 15.8f, FontManager::Get(24), 0xffffffff);
 
 		Add(m_FPSLabel);
 		Add(m_MemoryUsageLabel);
@@ -43,7 +43,10 @@ namespace sp { namespace debug {
 	void DebugLayer::OnTick()
 	{
 		m_FPSLabel->text = StringFormat::ToString(m_Application.GetFPS()) + " fps";
+		m_FPSLabel->position.x = 32.0f - 0.5f - m_FPSLabel->GetFont().GetWidth(m_FPSLabel->text);
+
 		m_MemoryUsageLabel->text = MemoryManager::BytesToString(MemoryManager().Get()->GetMemoryStats().currentUsed);
+		m_MemoryUsageLabel->position.x = 32.0f - 0.5f - m_MemoryUsageLabel->GetFont().GetWidth(m_MemoryUsageLabel->text);
 	}
 
 	void DebugLayer::OnUpdate()
@@ -51,6 +54,7 @@ namespace sp { namespace debug {
 		DebugMenu::Get()->OnUpdate();
 
 		m_FrametimeLabel->text = StringFormat::Float(m_Application.GetFrametime()) + " ms";
+		m_FrametimeLabel->position.x = 32.0f - 0.5f - m_FrametimeLabel->GetFont().GetWidth(m_FrametimeLabel->text);
 	}
 
 	void DebugLayer::OnEvent(Event& e)

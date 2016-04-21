@@ -265,7 +265,7 @@ namespace sp { namespace graphics {
 		m_IndexCount += 6;
 	}
 
-	void BatchRenderer2D::DrawLine(float x0, float y0, float x1, float y1, float thickness, uint color)
+	void BatchRenderer2D::DrawLine(float x0, float y0, float x1, float y1, uint color, float thickness)
 	{
 		const std::vector<vec2>& uv = Renderable2D::GetDefaultUVs();
 		float ts = 0.0f;
@@ -320,17 +320,17 @@ namespace sp { namespace graphics {
 		m_IndexCount += 6;
 	}
 
-	void BatchRenderer2D::DrawLine(const maths::vec2& start, const maths::vec2& end, float thickness, uint color)
+	void BatchRenderer2D::DrawLine(const maths::vec2& start, const maths::vec2& end, uint color, float thickness)
 	{
-		DrawLine(start.x, start.y, end.x, end.y, thickness, color);
+		DrawLine(start.x, start.y, end.x, end.y, color, thickness);
 	}
 
 	void BatchRenderer2D::DrawRect(float x, float y, float width, float height, uint color)
 	{
-		DrawLine(x, y, x + width, y);
-		DrawLine(x + width, y, x + width, y + height);
-		DrawLine(x + width, y + height, x, y + height);
-		DrawLine(x, y + height, x, y);
+		DrawLine(x, y, x + width, y, color);
+		DrawLine(x + width, y, x + width, y + height, color);
+		DrawLine(x + width, y + height, x, y + height, color);
+		DrawLine(x, y + height, x, y, color);
 	}
 
 	void BatchRenderer2D::DrawRect(const Rectangle& rectangle, uint color)
@@ -346,7 +346,7 @@ namespace sp { namespace graphics {
 		SP_ASSERT(texture);
 		float ts = SubmitTexture(texture);
 
-		const maths::vec2& scale = font.GetScale(); // FontManager::GetScale();
+		const vec2& scale = font.GetScale(); // FontManager::GetScale();
 
 		float x = position.x;
 

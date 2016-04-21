@@ -11,6 +11,7 @@
 
 #include "sp/utils/ImageLoad.h"
 
+
 namespace sp { namespace graphics { namespace API {
 
 	D3DTexture2D::D3DTexture2D(uint width, uint height, TextureParameters parameters, TextureLoadOptions loadOptions)
@@ -63,26 +64,49 @@ namespace sp { namespace graphics { namespace API {
 			m_Parameters.format = m_BitsPerPixel == 24 ? TextureFormat::RGB : TextureFormat::RGBA;
 		}
 
-		uint stride = 4;// GetStrideFromFormat(m_Parameters.format);
-		D3D11_SUBRESOURCE_DATA* initData = nullptr;
-		if (data)
-		{
-			initData = spnew D3D11_SUBRESOURCE_DATA[1]; // TODO: Mips
-			initData[0].pSysMem = data;
-			initData[0].SysMemPitch = stride * m_Width;
-			initData[0].SysMemSlicePitch = m_Width * m_Height * stride;
-		}
-
 		bool generateMips = data != nullptr;
 
+		uint stride = 4;// GetStrideFromFormat(m_Parameters.format);
+
+		D3D11_SUBRESOURCE_DATA initData;
+		initData.pSysMem = data;
+		initData.SysMemPitch = stride * m_Width;
+		initData.SysMemSlicePitch = m_Width * m_Height * stride;
+
+		D3D11_SUBRESOURCE_DATA* initDataPtr = nullptr;
+		uint miplevels = 1;
+
+		if (generateMips)
+		{
+			uint width = m_Width;
+			uint height = m_Height;
+
+			while (width > 1 && height > 1)
+			{
+				width = max(width / 2, 1u);
+				height = max(height / 2, 1u);
+				++miplevels;
+			}
+		}
+		else
+		{
+			if (data) initDataPtr = &initData;
+		}
+
+		DXGI_FORMAT format = SPTextureFormatToD3D(m_Parameters.format);
+
+		uint fmtSupport = 0;
+		D3DContext::GetDevice()->CheckFormatSupport(format, &fmtSupport);
+		SP_ASSERT(fmtSupport & D3D11_FORMAT_SUPPORT_MIP_AUTOGEN);
+		
 		ZeroMemory(&m_Desc, sizeof(D3D11_TEXTURE2D_DESC));
 		m_Desc.Width = m_Width;
 		m_Desc.Height = m_Height;
-		m_Desc.MipLevels = 1;
+		m_Desc.MipLevels = miplevels;
 		m_Desc.ArraySize = 1;
-		m_Desc.Format = SPTextureFormatToD3D(m_Parameters.format);
+		m_Desc.Format = format;
 		m_Desc.CPUAccessFlags = 0;
-		m_Desc.Usage = data ? D3D11_USAGE_DEFAULT : D3D11_USAGE_DYNAMIC;
+		m_Desc.Usage = generateMips ? D3D11_USAGE_DEFAULT : D3D11_USAGE_DYNAMIC;
 		m_Desc.CPUAccessFlags = m_Desc.Usage == D3D11_USAGE_DYNAMIC ? D3D11_CPU_ACCESS_WRITE : 0;
 		m_Desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 		if (generateMips)
@@ -91,7 +115,7 @@ namespace sp { namespace graphics { namespace API {
 		m_Desc.SampleDesc.Count = 1;
 		m_Desc.SampleDesc.Quality = 0;
 
-		DXCall(D3DContext::GetDevice()->CreateTexture2D(&m_Desc, initData, &m_Texture));
+		DXCall(D3DContext::GetDevice()->CreateTexture2D(&m_Desc, initDataPtr, &m_Texture));
 		// SP_ASSERT(hr);
 		// SP_ASSERT(result->texture);
 
@@ -99,11 +123,14 @@ namespace sp { namespace graphics { namespace API {
 		ZeroMemory(&srvDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
 		srvDesc.Format = m_Desc.Format;
 		srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-		srvDesc.Texture2D.MipLevels = generateMips ? -1 : m_Desc.MipLevels;
+		srvDesc.Texture2D.MipLevels = m_Desc.MipLevels;
 
 		DXCall(D3DContext::GetDevice()->CreateShaderResourceView(m_Texture, &srvDesc, &m_ResourceView));
 		if (generateMips)
+		{
+			D3DContext::GetDeviceContext()->UpdateSubresource(m_Texture, 0, nullptr, initData.pSysMem, initData.SysMemPitch, initData.SysMemSlicePitch);
 			D3DContext::GetDeviceContext()->GenerateMips(m_ResourceView);
+		}
 
 		m_Desc.Usage = D3D11_USAGE_DEFAULT;
 		m_Desc.CPUAccessFlags = 0;
@@ -120,7 +147,7 @@ namespace sp { namespace graphics { namespace API {
 		m_SamplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
 		DXCall(D3DContext::GetDevice()->CreateSamplerState(&m_SamplerDesc, &m_SamplerState));
-
+		
 		if (data != nullptr)
 			spdel[] data;
 	}

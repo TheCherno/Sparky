@@ -69,7 +69,6 @@ struct Light
 	float p1;
 	vec3 lightVector;
 	float intensity;
-
 };
 
 struct Material
@@ -88,7 +87,7 @@ struct Attributes
 	vec3 tangent;
 };
 
-uniform Light u_Light;
+uniform Light sys_Light;
 
 // PBR Inputs
 uniform sampler2D u_PreintegratedFG;
@@ -238,7 +237,7 @@ vec3 IBL(Light light, Material material, vec3 eye)
 	float NdotV = max(dot(g_Attributes.normal, eye), 0.0);
 
 	vec3 reflectionVector = normalize(reflect(-eye, g_Attributes.normal));
-	float smoothness = 1.0f - material.roughness;
+	float smoothness = 1.0 - material.roughness;
 	float mipLevel = (1.0 - smoothness * smoothness) * 10.0;
 	vec4 cs = textureLod(u_EnvironmentMap, reflectionVector, mipLevel);
 	vec3 result = pow(cs.xyz, vec3(GAMMA)) * RadianceIBLIntegration(NdotV, material.roughness, material.specular);
@@ -278,7 +277,7 @@ float random(vec3 seed, int i)
 vec3 NormalMap()
 {
 	mat3 toWorld = mat3(g_Attributes.binormal, g_Attributes.tangent, g_Attributes.normal);
-	vec3 normalMap = texture(u_NormalMap, fs_in.uv).bgr * 2.0 - 1.0;
+	vec3 normalMap = texture(u_NormalMap, fs_in.uv).rgb * 2.0 - 1.0;
 	normalMap = toWorld * normalMap.rgb;
 	normalMap = normalize(normalMap);
 	return normalMap;
@@ -297,7 +296,7 @@ void main()
 
 	vec3 eye = normalize(fs_in.cameraPos - g_Attributes.position);
 
-	Light light = u_Light;
+	Light light = sys_Light;
 	light.intensity = light.intensity; // Attenuate(light);
 	light.lightVector = light.direction; // normalize(light.position - vec3(fs_in.position));
 

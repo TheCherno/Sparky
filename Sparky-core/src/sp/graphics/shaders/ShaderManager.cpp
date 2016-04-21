@@ -44,6 +44,7 @@ namespace sp { namespace graphics {
 				{
 					s_Shaders[i]->~Shader();
 					s_Shaders[i] = API::Shader::CreateFromFile(name, path, s_Shaders[i]);
+					SP_INFO("Reloaded shader: " + name);
 				}
 				return;
 			}

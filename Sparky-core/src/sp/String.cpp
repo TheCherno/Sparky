@@ -5,7 +5,6 @@ namespace sp {
 
 	char* StringFormat::s_Buffer = new char[STRINGFORMAT_BUFFER_SIZE];
 
-
 	std::vector<String> SplitString(const String& string, const String& delimiters)
 	{
 		size_t start = 0;
