@@ -2,6 +2,8 @@
 #include "Sound.h"
 #include "SoundManager.h"
 
+#include "../system/VFS.h"
+
 #ifdef SPARKY_PLATFORM_WEB
 	#include <emscripten/emscripten.h>
 #else
@@ -12,9 +14,11 @@
 namespace sp { namespace audio {
 
 	Sound::Sound(const String& name, const String& filename)
-		: m_Name(name), m_Filename(filename), m_Playing(false), m_Count(0)
+		: m_Name(name), m_Playing(false), m_Count(0)
 	{
-		std::vector<String> split = SplitString(m_Filename, '.');
+		std::vector<String> split = SplitString(filename, '.');
+		m_Filename = VFS::Get()->ReadTextFile(filename);
+
 		if (split.size() < 2)
 		{
 			std::cout << "[Sound] Invalid file name '" << m_Filename << "'!" << std::endl;

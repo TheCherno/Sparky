@@ -16,8 +16,10 @@ namespace sp { namespace graphics {
 	{
 		m_Position = vec3(0.0f, 25.0f, -25.0f);
 		m_Rotation = vec3(90.0f, 0.0f, 0.0f);
+
 		m_Yaw = 2.4f;
 		m_Pitch = 0.7f;
+		m_Roll = 0.0f;
 
 		debug::DebugMenu::Add("FPS Camera Speed", &m_Speed);
 		debug::DebugMenu::Add("FPS Camera Sprint Speed", &m_SprintSpeed);
@@ -58,6 +60,7 @@ namespace sp { namespace graphics {
 				m_Yaw += mouse.x * m_MouseSensitivity;
 				m_Pitch += mouse.y * m_MouseSensitivity;
 			}
+
 			m_MouseWasGrabbed = true;
 			Input::GetInputManager()->SetMousePosition(windowCenter);
 
