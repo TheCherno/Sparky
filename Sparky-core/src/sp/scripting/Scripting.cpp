@@ -1,10 +1,10 @@
+#include <lua.hpp>
+
 #include "sp/sp.h"
 #include "sp/utils/Log.h"
 #include "sp/system/VFS.h"
 
 #include "Scripting.h"
-
-#include <lua.hpp>
 
 namespace sp { namespace scripting {
 
