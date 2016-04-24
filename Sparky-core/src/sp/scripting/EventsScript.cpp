@@ -7,6 +7,9 @@
 #include "sp/audio/SoundManager.h"
 #include "sp/audio/Sound.h"
 
+#include "sp\utils\Log.h"
+#include <typeinfo>
+
 using namespace sp;
 using namespace audio;
 

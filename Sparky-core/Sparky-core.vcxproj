@@ -608,6 +608,9 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\sp\scripting\AudioScript.cpp" />
+    <ClCompile Include="src\sp\scripting\EntityScript.cpp" />
+    <ClCompile Include="src\sp\scripting\EventsScript.cpp" />
+    <ClCompile Include="src\sp\scripting\MathsScript.cpp" />
     <ClCompile Include="src\sp\scripting\Scripting.cpp" />
     <ClCompile Include="src\sp\sp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -759,6 +762,9 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <ClInclude Include="src\sp\maths\vec4.h" />
     <ClCompile Include="src\sp\platform\windows\Win32MemoryManager.cpp" />
     <ClInclude Include="src\sp\scripting\AudioScript.h" />
+    <ClInclude Include="src\sp\scripting\EntityScript.h" />
+    <ClInclude Include="src\sp\scripting\EventsScript.h" />
+    <ClInclude Include="src\sp\scripting\MathsScript.h" />
     <ClInclude Include="src\sp\scripting\Scripting.h" />
     <ClInclude Include="src\sp\sp.h" />
     <ClInclude Include="src\sp\String.h" />

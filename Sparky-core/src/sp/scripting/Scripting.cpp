@@ -66,6 +66,6 @@ namespace sp { namespace scripting {
 
 	void Scripting::LoadSparkyAPI(lua_State* state)
 	{
-		audio::L_Register_Class(state);
+		audio::L_Register_Audio_Classes(state);
 	}
 } }

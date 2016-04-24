@@ -4,8 +4,7 @@
 #include <lua.hpp>
 #include <luawrapper.hpp>
 
-#include "sp/audio/SoundManager.h"
-#include "sp/audio/Sound.h"
+#include "sp/Entity/Entity.h"
 
 using namespace sp;
 using namespace audio;
