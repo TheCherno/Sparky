@@ -47,6 +47,7 @@ namespace sp { namespace scripting { namespace maths {
 
 	int L_Vec2_Add(lua_State *L) 
 	{
+
 		return 1;
 	}
 
