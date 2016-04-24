@@ -432,7 +432,9 @@
     <ClCompile Include="src\sp\scripting\Scripting.cpp">
       <Filter>sp\scripting</Filter>
     </ClCompile>
-    <ClCompile Include="src\sp\scripting\AudioScript.cpp" />
+    <ClCompile Include="src\sp\scripting\AudioScript.cpp">
+      <Filter>sp\scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Application.h">
@@ -839,7 +841,9 @@
     <ClInclude Include="src\sp\scripting\Scripting.h">
       <Filter>sp\scripting</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\scripting\AudioScript.h" />
+    <ClInclude Include="src\sp\scripting\AudioScript.h">
+      <Filter>sp\scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="SparkyCore-TODO.txt" />

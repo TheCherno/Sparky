@@ -9,12 +9,26 @@
 	#include <gau.h>
 #endif
 
+#include "sp\utils\Log.h"
+
 namespace sp { namespace audio {
 
-	Sound::Sound(const String& name, const String& filename)
+	Sound::Sound(String name, String filename)
 		: m_Name(name), m_Filename(filename), m_Playing(false), m_Count(0)
 	{
-		std::vector<String> split = SplitString(m_Filename, '.');
+		LoadSound(name, filename);
+	}
+
+	Sound::~Sound()
+	{
+#ifdef SPARKY_PLATFORM_WEB
+#else
+		ga_sound_release(m_Sound);
+#endif
+	}
+
+	void Sound::LoadSound(String name, String filename) {
+		std::vector<String> split = SplitString(filename, '.');
 		if (split.size() < 2)
 		{
 			std::cout << "[Sound] Invalid file name '" << m_Filename << "'!" << std::endl;
@@ -25,14 +39,6 @@ namespace sp { namespace audio {
 		m_Sound = gau_load_sound_file(filename.c_str(), split.back().c_str());
 		if (m_Sound == nullptr)
 			std::cout << "[Sound] Could not load file '" << m_Filename << "'!" << std::endl;
-#endif
-	}
-
-	Sound::~Sound()
-	{
-#ifdef SPARKY_PLATFORM_WEB
-#else
-		ga_sound_release(m_Sound);
 #endif
 	}
 
@@ -48,6 +54,8 @@ namespace sp { namespace audio {
 		m_Count++;
 #endif
 		m_Playing = true;
+
+		SP_INFO("Is playing?");
 	}
 
 	void Sound::Loop()

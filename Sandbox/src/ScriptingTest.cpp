@@ -255,6 +255,7 @@ void ScriptingTest::OnInit(Renderer3D& renderer, Scene& scene)
 	Scripting::LoadFile(m_ScriptingState, "/scripts/test.lua");
 
 	Scripting::Call(m_ScriptingState, "printVersion");
+	Scripting::Call(m_ScriptingState, "playSound");
 
 	SP_INFO("Init took ", timer.ElapsedMillis(), " ms");
 }
