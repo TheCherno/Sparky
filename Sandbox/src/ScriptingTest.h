@@ -8,13 +8,6 @@ private:
 	sp::graphics::Camera* m_MayaCameras;
 	sp::graphics::Camera* m_FPSCameras;
 
-	sp::entity::Entity* m_Cubes;
-	std::vector<sp::entity::Entity*> m_Spheress;
-	sp::entity::Entity* m_Planes;
-	sp::entity::Entity* m_Daggers;
-	sp::graphics::PBRMaterial* m_DaggerMaterials;
-	sp::graphics::MaterialInstance* m_SkyboxMaterials;
-	sp::graphics::Light* m_Lights;
 	float m_Rotations;
 	bool m_SetUniformss[2];
 	std::vector<sp::graphics::PBRMaterial*> m_Materialss;
