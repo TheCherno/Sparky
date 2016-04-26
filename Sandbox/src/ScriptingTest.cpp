@@ -94,6 +94,7 @@ void ScriptingTest::OnInit(Renderer3D& renderer, Scene& scene)
 	Entity* skyboxEntity = spnew Entity(MeshFactory::CreateQuad(-1, -1, 2, 2, m_SkyboxMaterials));
 	m_Scene->Add(skyboxEntity);
 
+	/*
 	Shader* pbrShader = Shader::CreateFromFile("AdvancedLighting", String("/shaders/AdvancedLighting") + (API::Context::GetRenderAPI() == RenderAPI::OPENGL ? ".shader" : ".hlsl"));
 	ShaderManager::Add(pbrShader);
 	PBRMaterial* material = spnew PBRMaterial(pbrShader);
@@ -248,6 +249,7 @@ void ScriptingTest::OnInit(Renderer3D& renderer, Scene& scene)
 		// m_Materials[i]->SetTexture(g_ShadowMap, 6);
 		// m_Materials[i]->SetUniform("u_ShadowMap", 6);
 	}
+	*/
 
 	Scripting::CreateState(&m_ScriptingState);
 	Scripting::Init(m_ScriptingState);
@@ -268,6 +270,7 @@ void ScriptingTest::OnTick()
 
 void ScriptingTest::OnUpdate()
 {
+	/*
 	TransformComponent* cubeTransform = m_Cubes->GetComponent<TransformComponent>();
 
 	mat4 transform = mat4::Translate(vec3(0, 2.5f, 0)) * mat4::Rotate(m_Rotations, vec3(1, 0, 0)) * mat4::Rotate(m_Rotations, vec3(0, 1, 0)) * mat4::Rotate(m_Rotations, vec3(0, 0, 1));
@@ -285,7 +288,7 @@ void ScriptingTest::OnUpdate()
 	// Still OpenGL maths style (column-major)
 	mat4 vp = m_Scene->GetCamera()->GetProjectionMatrix() * m_Scene->GetCamera()->GetViewMatrix();
 	m_SkyboxMaterials->SetUniform("invViewProjMatrix", mat4::Invert(vp));
-
+	*/
 
 }
 
