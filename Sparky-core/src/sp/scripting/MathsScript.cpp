@@ -243,14 +243,14 @@ namespace sp { namespace scripting { namespace maths {
 		return 1;
 	}
 
-	int L_Vec4_GetX(lua_State *L)
+	int L_Vec4_GetZ(lua_State *L)
 	{
 		vec4* v = luaW_check<vec4>(L, 1);
 		lua_pushnumber(L, v->z);
 		return 1;
 	}
 
-	int L_Vec4_GetY(lua_State *L)
+	int L_Vec4_GetW(lua_State *L)
 	{
 		vec4* v = luaW_check<vec4>(L, 1);
 		lua_pushnumber(L, v->w);
