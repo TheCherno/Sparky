@@ -34,6 +34,11 @@ namespace sp { namespace graphics { namespace ui {
 		vec2 mouse(e.GetX() * (32.0f / Window::GetWindowClass(nullptr)->GetWidth()), 18.0f - e.GetY() * (18.0f / Window::GetWindowClass(nullptr)->GetHeight()));
 		if (m_State == ButtonState::PRESSED && !m_Bounds.Contains(mouse))
   			m_State = ButtonState::UNPRESSED;
+		
+		if (m_Bounds.Contains(mouse))
+			m_Focused = true;
+		else
+			m_Focused = false;
 
 		return false;
 	}
@@ -50,7 +55,10 @@ namespace sp { namespace graphics { namespace ui {
 	void Button::OnRender(Renderer2D& renderer)
 	{
 		renderer.DrawRect(m_Bounds);
-		renderer.FillRect(m_Bounds, m_State == ButtonState::PRESSED ? 0xcfbbbbbb : 0xcf5f5f5f);
+
+		uint32 color = (m_State == ButtonState::PRESSED ? 0xcfbbbbbb : 0xcf5f5f5f) + (m_Focused && m_State != ButtonState::PRESSED ? 0x00222222 : 0x000000);
+
+		renderer.FillRect(m_Bounds, color);
 		renderer.DrawString(m_Label, m_Bounds.position + vec2(0.2f, 0.7f), *m_Font);
 	}
 

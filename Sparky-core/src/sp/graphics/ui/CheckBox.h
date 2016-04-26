@@ -6,24 +6,24 @@
 #include "Widget.h"
 
 namespace sp { namespace graphics { namespace ui {
-
-	class Button : public Widget
+ 
+	class CheckBox : public Widget
 	{
 	public:
 		using ActionHandler = std::function<void()>;
 	private:
-		enum class ButtonState
+		enum class CheckBoxState
 		{
-			UNPRESSED, PRESSED
+			UNCHECKED, CHECKED
 		};
 
 	protected:
 		String m_Label;
-		ButtonState m_State;
+		CheckBoxState m_State;
 		ActionHandler m_ActionHandler;
 		Font* m_Font;
 	public:
-		Button(const String& label, const maths::Rectangle& bounds, const ActionHandler& handler = &Button::NoAction);
+		CheckBox(const String& label, const maths::Rectangle& bounds, const ActionHandler& handler = &CheckBox::NoAction);
 
 		bool OnMousePressed(events::MousePressedEvent& e) override;
 		bool OnMouseReleased(events::MouseReleasedEvent& e) override;
@@ -43,6 +43,5 @@ namespace sp { namespace graphics { namespace ui {
 	private:
 		static void NoAction() {}
 	};
-
 
 } } }
