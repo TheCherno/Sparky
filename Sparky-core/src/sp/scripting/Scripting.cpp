@@ -71,5 +71,7 @@ namespace sp { namespace scripting {
 	{
 		audio::L_Register_Audio_Classes(state);
 		maths::L_Register_Math_Classes(state);
+		entity::L_Register_Entity_Classes(state);
+		events::L_Register_Events_Classes(state);
 	}
 } }
