@@ -112,7 +112,7 @@ namespace sp { namespace graphics { namespace API {
 
 		dev->CreateTexture2D(&depthStencilDesc, 0, &m_DepthStencilBuffer);
 		dev->CreateDepthStencilView(m_DepthStencilBuffer, 0, &m_DepthStencilView);
-		SetRenderTargets(m_RenderTargetView, m_DepthStencilView);
+		devcon->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencilView);
 
 		m_ScreenViewport.TopLeftX = 0;
 		m_ScreenViewport.TopLeftY = 0;
@@ -142,7 +142,7 @@ namespace sp { namespace graphics { namespace API {
 
 	void D3DContext::SetRenderTargets(ID3D11RenderTargetView* target, ID3D11DepthStencilView* view)
 	{
-		devcon->OMSetRenderTargets(1, &target, view);
+		Get()->devcon->OMSetRenderTargets(1, &target, view);
 	}
 
 	void D3DContext::Present()

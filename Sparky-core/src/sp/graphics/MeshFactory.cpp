@@ -26,13 +26,13 @@ namespace sp { namespace graphics { namespace MeshFactory {
 		data[0].uv = maths::vec2(0, 1);
 
 		data[1].position = maths::vec3(x + width, y, 0);
-		data[1].uv = maths::vec2(0, 0);
+		data[1].uv = maths::vec2(1, 1);
 
 		data[2].position = maths::vec3(x + width, y + height, 0);
 		data[2].uv = maths::vec2(1, 0);
 
 		data[3].position = maths::vec3(x, y + height, 0);
-		data[3].uv = maths::vec2(1, 1);
+		data[3].uv = maths::vec2(0, 0);
 
 		API::VertexBuffer* buffer = API::VertexBuffer::Create(API::BufferUsage::STATIC);
 		buffer->SetData(sizeof(QuadVertex) * 4, data);

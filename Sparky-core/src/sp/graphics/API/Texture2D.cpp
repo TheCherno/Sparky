@@ -10,12 +10,12 @@
 
 namespace sp { namespace graphics { namespace API {
 
-	Texture2D* Texture2D::Create(uint width, uint height, TextureParameters parameters, TextureLoadOptions loadOptions)
+	Texture2D* Texture2D::Create(uint width, uint height, TextureParameters parameters, bool renderTarget)
 	{
 		switch (Context::GetRenderAPI())
 		{
-			case RenderAPI::OPENGL:		return spnew GLTexture2D(width, height, parameters, loadOptions);
-			case RenderAPI::DIRECT3D:	return spnew D3DTexture2D(width, height, parameters, loadOptions);
+			case RenderAPI::OPENGL:		return spnew GLTexture2D(width, height, parameters, renderTarget);
+			case RenderAPI::DIRECT3D:	return spnew D3DTexture2D(width, height, parameters, renderTarget);
 		}
 		return nullptr;
 	}

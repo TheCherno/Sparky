@@ -5,6 +5,7 @@
 #include "camera/Camera.h"
 
 #include "LightSetup.h"
+#include "postfx/PostEffects.h"
 
 namespace sp { namespace graphics {
 
@@ -25,6 +26,8 @@ namespace sp { namespace graphics {
 
 		CommandQueue m_CommandQueue;
 		SystemUniformList m_SystemUniforms;
+		PostEffects* m_PostEffects;
+		bool m_PostEffectsEnabled;
 	public:
 		virtual ~Renderer3D() {}
 
@@ -39,7 +42,13 @@ namespace sp { namespace graphics {
 		virtual void End() = 0;
 		virtual void Present() = 0;
 
+		virtual void SetPostEffects(bool enabled) = 0;
+		virtual void PushPostEffectsPass(PostEffectsPass* pass) = 0;
+		virtual PostEffectsPass* PopPostEffectsPass() = 0;
+
 		virtual void SetScreenBufferSize(uint width, uint height) { m_ScreenBufferWidth = width; m_ScreenBufferHeight = height; }
+
+		inline bool IsPostEffectsEnabled() const { return m_PostEffectsEnabled; }
 	};
 
 } }

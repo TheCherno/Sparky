@@ -38,6 +38,7 @@ float g_DaggerGloss = 0.5f;
 Shader* shadowPassShader;
 FramebufferDepth* g_DepthBuffer;
 TextureDepth* g_ShadowMap;
+bool g_PostEffects = true;
 
 String materialInputs[5] =
 {
@@ -227,21 +228,17 @@ void Test3D::OnInit(Renderer3D& renderer, Scene& scene)
 	lights->Add(m_Light);
 	m_Scene->PushLightSetup(lights);
 
+	DebugMenu::Add("Post FX", &g_PostEffects);
 	DebugMenu::Add("Cube", &g_CubeTransform, -100.0f, 100.0f);
 	DebugMenu::Add("Light Direction", &lights->GetLights()[0]->direction, -1.0f, 1.0f);
 	DebugMenu::Add("Light Intensity", &lights->GetLights()[0]->intensity, 0, 100);
 	DebugMenu::Add("Dagger", &g_DaggerTransform, -50, 50);
 	DebugMenu::Add("Dagger Gloss", &g_DaggerGloss, 0.0f, 1.0f);
 
-	// shadowPassShader = Shader::CreateFromFile("Shadow", "shaders/ShadowPass.shader");
-	// g_DepthBuffer = FramebufferDepth::Create(2048, 2048);
-	// g_ShadowMap = (TextureDepth*)g_DepthBuffer->GetTexture();
-
-	for (uint i = 0; i < 4; i++)
-	{
-		// m_Materials[i]->SetTexture(g_ShadowMap, 6);
-		// m_Materials[i]->SetUniform("u_ShadowMap", 6);
-	}
+	Shader* postfx = Shader::CreateFromFile("PostFX", String("/shaders/PostFX") + (API::Context::GetRenderAPI() == RenderAPI::OPENGL ? ".shader" : ".hlsl"));
+	ShaderManager::Add(postfx);
+	renderer.SetPostEffects(true);
+	renderer.PushPostEffectsPass(spnew PostEffectsPass(spnew Material(postfx)));
 
 	SP_INFO("Init took ", timer.ElapsedMillis(), " ms");
 }
@@ -271,6 +268,7 @@ void Test3D::OnUpdate()
 	// Still OpenGL maths style (column-major)
 	mat4 vp = m_Scene->GetCamera()->GetProjectionMatrix() * m_Scene->GetCamera()->GetViewMatrix();
 	m_SkyboxMaterial->SetUniform("invViewProjMatrix", mat4::Invert(vp));
+
 }
 
 void Test3D::OnRender(Renderer3D& renderer)
@@ -312,7 +310,7 @@ void Test3D::OnRender(Renderer3D& renderer)
 
 #endif
 
-	//DebugLayer::DrawTexture(m_DaggerMaterial->GetGlossMap());
+	renderer.SetPostEffects(g_PostEffects);
 	Layer3D::OnRender(renderer);
 }
 
@@ -327,6 +325,7 @@ void Test3D::OnEvent(Event& event)
 			{
 				case SP_KEY_R:
 					ShaderManager::Reload("AdvancedLighting");
+					ShaderManager::Reload("PostFX");
 					break;
 				case SP_KEY_C:
 					m_Scene->SetCamera(m_Scene->GetCamera() == m_MayaCamera ? m_FPSCamera : m_MayaCamera);

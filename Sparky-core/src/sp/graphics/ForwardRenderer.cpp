@@ -3,6 +3,10 @@
 
 #include "sp/app/Application.h"
 #include "sp/graphics/Renderer.h"
+#include "MeshFactory.h"
+#include "shaders/ShaderFactory.h"
+
+#include "sp/debug/DebugLayer.h"
 
 namespace sp { namespace graphics {
 
@@ -35,8 +39,17 @@ namespace sp { namespace graphics {
 		Init();
 	}
 
+	ForwardRenderer::~ForwardRenderer()
+	{
+		spdel m_PostEffects;
+		spdel m_PresentationMaterial;
+	}
+
 	void ForwardRenderer::Init()
 	{
+		m_PostEffectsEnabled = false;
+		m_PostEffects = spnew PostEffects();
+
 		m_CommandQueue.reserve(1000);
 
 		//
@@ -67,6 +80,13 @@ namespace sp { namespace graphics {
 		// Per Scene System Uniforms
 		m_PSSystemUniformBufferOffsets[PSSystemUniformIndex_Lights] = 0;
 
+		m_RenderBuffer = Framebuffer2D::Create(m_ScreenBufferWidth, m_ScreenBufferHeight);
+		m_ScreenBuffer = Framebuffer2D::Create(m_ScreenBufferWidth, m_ScreenBufferHeight);
+		m_PresentationMaterial = spnew Material(ShaderFactory::SimpleShader());
+		m_PresentationMaterial->SetTexture("u_Texture", m_ScreenBuffer->GetTexture());
+
+		m_PresentationMaterial->Bind();
+		m_ScreenQuad = MeshFactory::CreateQuad(-1, -1, 2, 2, spnew MaterialInstance(m_PresentationMaterial));
 	}
 
 	void ForwardRenderer::Begin()
@@ -125,6 +145,8 @@ namespace sp { namespace graphics {
 	void ForwardRenderer::Present()
 	{
 		// TODO: Shader binding, texture sorting, visibility testing, etc.
+		m_RenderBuffer->Clear();
+		m_RenderBuffer->Bind();
 		for (uint i = 0; i < m_CommandQueue.size(); i++)
 		{
 			RenderCommand& command = m_CommandQueue[i];
@@ -133,7 +155,9 @@ namespace sp { namespace graphics {
 			Renderer::SetDepthTesting((materialRenderFlags & (int)Material::RenderFlags::DISABLE_DEPTH_TEST) == 0);
 			memcpy(m_VSSystemUniformBuffer + m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ModelMatrix], &command.transform, sizeof(mat4));
 			SetSystemUniforms(command.shader);
+			material->Bind();
 			command.mesh->Render(*this);
+			material->Unbind();
 
 #if defined(SP_DEBUG) && 0
 			uint j;
@@ -147,6 +171,55 @@ namespace sp { namespace graphics {
 			}
 #endif
 		}
+		m_RenderBuffer->Unbind();
+
+		RenderPostEffects();
+		mat4 proj = mat4::Orthographic(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
+		m_PresentationMaterial->GetShader()->SetVSSystemUniformBuffer((byte*)&proj, sizeof(mat4));
+		m_PresentationMaterial->Bind();
+		m_ScreenQuad->Render(*this);
+		m_PresentationMaterial->Unbind();
+	}
+
+	void ForwardRenderer::RenderPostEffects()
+	{
+		if (!m_PostEffectsEnabled)
+			return;
+
+		for (PostEffectsPass* pass : m_PostEffects->GetPasses())
+		{
+			Material* material = pass->GetMaterial();
+			material->SetTexture("u_ScreenTexture", m_RenderBuffer->GetTexture());
+
+			mat4 proj = mat4::Orthographic(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
+			material->GetShader()->SetVSSystemUniformBuffer((byte*)&proj, sizeof(mat4));
+
+			m_ScreenBuffer->Bind();
+			material->Bind();
+			m_ScreenQuad->Render(*this);
+			material->Unbind();
+			m_ScreenBuffer->Unbind();
+		}
+	}
+
+	void ForwardRenderer::SetPostEffects(bool enabled)
+	{
+		if (enabled)
+			m_PresentationMaterial->SetTexture("u_Texture", m_ScreenBuffer->GetTexture());
+		else
+			m_PresentationMaterial->SetTexture("u_Texture", m_RenderBuffer->GetTexture());
+
+		m_PostEffectsEnabled = enabled;
+	}
+
+	void ForwardRenderer::PushPostEffectsPass(PostEffectsPass* pass)
+	{
+		m_PostEffects->Push(pass);
+	}
+
+	PostEffectsPass* ForwardRenderer::PopPostEffectsPass()
+	{
+		return m_PostEffects->Pop();
 	}
 
 } }

@@ -778,10 +778,11 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <None Include="src\sp\graphics\shaders\default\Debug.shader" />
     <None Include="src\sp\graphics\shaders\default\GeometryPass.shader" />
     <None Include="src\sp\graphics\shaders\default\BasicLight.shader" />
+    <None Include="src\sp\platform\directx\shaders\Simple.hlsl" />
     <None Include="src\sp\platform\opengl\shaders\BatchRenderer.shader" />
     <None Include="src\sp\graphics\shaders\default\gles\Default.shader" />
     <None Include="src\sp\graphics\shaders\default\gles\Simple.shader" />
-    <None Include="src\sp\graphics\shaders\default\Simple.shader" />
+    <None Include="src\sp\platform\opengl\shaders\Simple.shader" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dependencies\Box2D\Box2D.vcxproj">

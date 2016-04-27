@@ -15,7 +15,7 @@ namespace sp { namespace graphics { namespace API {
 		TextureParameters m_Parameters;
 		TextureLoadOptions m_LoadOptions;
 	public:
-		GLTexture2D(uint width, uint height, TextureParameters parameters = TextureParameters(), TextureLoadOptions loadOptions = TextureLoadOptions());
+		GLTexture2D(uint width, uint height, TextureParameters parameters = TextureParameters(), bool renderTarget = false);
 		GLTexture2D(uint width, uint height, uint color, TextureParameters parameters = TextureParameters(), TextureLoadOptions loadOptions = TextureLoadOptions());
 		GLTexture2D(const String& name, const String& filename, TextureParameters parameters = TextureParameters(), TextureLoadOptions loadOptions = TextureLoadOptions());
 

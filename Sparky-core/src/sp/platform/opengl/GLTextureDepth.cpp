@@ -17,6 +17,21 @@ namespace sp { namespace graphics { namespace API {
 		GLCall(glDeleteTextures(1, &m_Handle));
 	}
 
+	void GLTextureDepth::Clear()
+	{
+
+	}
+
+	void GLTextureDepth::BindForWriting() const
+	{
+
+	}
+
+	void GLTextureDepth::UnbindForWriting() const
+	{
+
+	}
+
 	void GLTextureDepth::Bind(uint slot) const
 	{
 		GLCall(glActiveTexture(GL_TEXTURE0 + slot));

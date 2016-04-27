@@ -6,6 +6,7 @@
 #include "sp/graphics/API/Framebuffer.h"
 #include "sp/graphics/API/VertexArray.h"
 #include "sp/graphics/API/IndexBuffer.h"
+#include "sp/graphics/Mesh.h"
 #include "PostEffectsPass.h"
 
 namespace sp { namespace graphics {
@@ -19,9 +20,11 @@ namespace sp { namespace graphics {
 		PostEffects();
 		~PostEffects();
 		void Push(PostEffectsPass* pass);
-		void Pop();
+		PostEffectsPass* Pop();
+		
+		inline const std::vector<PostEffectsPass*>& GetPasses() const{ return m_Passes; }
 
-		void RenderPostEffects(Framebuffer* source, Framebuffer* target, API::VertexArray* quad, API::IndexBuffer* indices);
+		void RenderPostEffects(Framebuffer* source, Framebuffer* target, Mesh* quad);
 	};
 
 } }

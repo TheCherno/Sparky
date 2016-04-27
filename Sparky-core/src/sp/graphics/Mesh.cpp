@@ -42,15 +42,11 @@ namespace sp { namespace graphics {
 
 	void Mesh::Render(Renderer3D& renderer)
 	{
-		m_MaterialInstance->Bind();
-
 		m_VertexArray->Bind();
 		m_IndexBuffer->Bind();
 		m_VertexArray->Draw(m_IndexBuffer->GetCount());
 		m_IndexBuffer->Unbind();
 		m_VertexArray->Unbind();
-
-		m_MaterialInstance->Unbind();
 	}
 
 #ifdef SP_DEBUG

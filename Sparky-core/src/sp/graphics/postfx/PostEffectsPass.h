@@ -11,8 +11,10 @@ namespace sp { namespace graphics {
 	private:
 		Material* m_Material;
 	public:
-		PostEffectsPass(API::Shader* shader);
+		PostEffectsPass(Material* shader);
 		~PostEffectsPass();
+
+		inline Material* GetMaterial() { return m_Material; }
 
 		void RenderPass(Framebuffer* target);
 	};

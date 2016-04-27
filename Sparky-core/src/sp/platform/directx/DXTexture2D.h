@@ -16,6 +16,7 @@ namespace sp { namespace graphics { namespace API {
 		uint m_BitsPerPixel;
 		TextureParameters m_Parameters;
 		TextureLoadOptions m_LoadOptions;
+		bool m_RenderTarget;
 
 		D3D11_TEXTURE2D_DESC m_Desc;
 		ID3D11Texture2D* m_Texture;
@@ -23,7 +24,7 @@ namespace sp { namespace graphics { namespace API {
 		ID3D11SamplerState* m_SamplerState;
 		D3D11_SAMPLER_DESC m_SamplerDesc;
 	public:
-		D3DTexture2D(uint width, uint height, TextureParameters parameters = TextureParameters(), TextureLoadOptions loadOptions = TextureLoadOptions());
+		D3DTexture2D(uint width, uint height, TextureParameters parameters = TextureParameters(), bool renderTarget = false);
 		D3DTexture2D(uint width, uint height, uint color, TextureParameters parameters = TextureParameters(), TextureLoadOptions loadOptions = TextureLoadOptions());
 		D3DTexture2D(const String& name, const String& filename, TextureParameters parameters = TextureParameters(), TextureLoadOptions loadOptions = TextureLoadOptions());
 
@@ -40,6 +41,8 @@ namespace sp { namespace graphics { namespace API {
 
 		inline const String& GetName() const { return m_Name; }
 		inline const String& GetFilepath() const { return m_FileName; }
+
+		inline ID3D11Texture2D* GetInternalTexture() { return m_Texture; }
 	public:
 		static DXGI_FORMAT SPTextureFormatToD3D(TextureFormat format);
 		static uint SPTextureFilterToD3D(TextureFilter filter);

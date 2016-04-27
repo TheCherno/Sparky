@@ -10,13 +10,12 @@
 
 namespace sp { namespace graphics { namespace API {
 
-	GLTexture2D::GLTexture2D(uint width, uint height, TextureParameters parameters, TextureLoadOptions loadOptions)
+	GLTexture2D::GLTexture2D(uint width, uint height, TextureParameters parameters, bool renderTarget)
 		: m_FileName("NULL")
 	{
 		m_Width = width;
 		m_Height = height;
 		m_Parameters = parameters;
-		m_LoadOptions = loadOptions;
 		m_Handle = Load();
 	}
 

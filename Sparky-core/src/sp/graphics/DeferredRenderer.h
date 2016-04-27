@@ -28,6 +28,9 @@ namespace sp { namespace graphics {
 		void Present() override;
 
 		inline const GBuffer& GetGBuffer() const { return *m_GBuffer; }
+
+		void PushPostEffectsPass(PostEffectsPass* pass) override;
+		PostEffectsPass* PopPostEffectsPass() override;
 	private:
 		void SetRequiredUniforms(API::Shader* shader, const std::vector<RendererUniform>& uniforms);
 		void SetSystemUniforms(API::Shader* shader);

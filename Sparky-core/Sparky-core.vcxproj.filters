@@ -840,9 +840,6 @@
     <None Include="src\sp\graphics\shaders\default\BasicLight.shader">
       <Filter>sp\graphics\ShaderFactory\Shaders</Filter>
     </None>
-    <None Include="src\sp\graphics\shaders\default\Simple.shader">
-      <Filter>sp\graphics\ShaderFactory\Shaders</Filter>
-    </None>
     <None Include="src\sp\graphics\shaders\default\gles\Default.shader">
       <Filter>sp\graphics\ShaderFactory\Shaders\gles</Filter>
     </None>
@@ -858,6 +855,10 @@
     <None Include="src\sp\graphics\shaders\default\GeometryPass.shader">
       <Filter>sp\platform\opengl\shaders</Filter>
     </None>
+    <None Include="src\sp\platform\opengl\shaders\Simple.shader">
+      <Filter>sp\graphics\ShaderFactory\Shaders</Filter>
+    </None>
+    <None Include="src\sp\platform\directx\shaders\Simple.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\sp\platform\directx\shaders\BatchRenderer.hlsl">

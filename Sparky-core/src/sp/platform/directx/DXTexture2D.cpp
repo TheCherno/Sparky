@@ -14,18 +14,17 @@
 
 namespace sp { namespace graphics { namespace API {
 
-	D3DTexture2D::D3DTexture2D(uint width, uint height, TextureParameters parameters, TextureLoadOptions loadOptions)
-		: m_FileName("NULL")
+	D3DTexture2D::D3DTexture2D(uint width, uint height, TextureParameters parameters, bool renderTarget)
+		: m_FileName("NULL"), m_RenderTarget(renderTarget)
 	{
 		m_Width = width;
 		m_Height = height;
 		m_Parameters = parameters;
-		m_LoadOptions = loadOptions;
 		Load();
 	}
 
 	D3DTexture2D::D3DTexture2D(uint width, uint height, uint color, TextureParameters parameters, TextureLoadOptions loadOptions)
-		: m_FileName("NULL")
+		: m_FileName("NULL"), m_RenderTarget(false)
 	{
 		m_Width = width;
 		m_Height = height;
@@ -37,7 +36,7 @@ namespace sp { namespace graphics { namespace API {
 	}
 
 	D3DTexture2D::D3DTexture2D(const String& name, const String& filename, TextureParameters parameters, TextureLoadOptions loadOptions)
-		: m_Name(name), m_FileName(filename)
+		: m_Name(name), m_FileName(filename), m_RenderTarget(false)
 	{
 		m_Parameters = parameters;
 		m_LoadOptions = loadOptions;
@@ -58,13 +57,13 @@ namespace sp { namespace graphics { namespace API {
 	void D3DTexture2D::Load()
 	{
 		byte* data = nullptr;
-		if (m_FileName != "NULL")
+		if (!m_RenderTarget && m_FileName != "NULL")
 		{
 			data = LoadImage(m_FileName, &m_Width, &m_Height, &m_BitsPerPixel, !m_LoadOptions.flipY); // FreeImage loads bottom->top
 			m_Parameters.format = m_BitsPerPixel == 24 ? TextureFormat::RGB : TextureFormat::RGBA;
 		}
 
-		bool generateMips = data != nullptr;
+		bool generateMips = !m_RenderTarget && data != nullptr;
 
 		uint stride = 4;// GetStrideFromFormat(m_Parameters.format);
 
@@ -90,7 +89,8 @@ namespace sp { namespace graphics { namespace API {
 		}
 		else
 		{
-			if (data) initDataPtr = &initData;
+			if (data)
+				initDataPtr = &initData;
 		}
 
 		DXGI_FORMAT format = SPTextureFormatToD3D(m_Parameters.format);
@@ -106,10 +106,10 @@ namespace sp { namespace graphics { namespace API {
 		m_Desc.ArraySize = 1;
 		m_Desc.Format = format;
 		m_Desc.CPUAccessFlags = 0;
-		m_Desc.Usage = generateMips ? D3D11_USAGE_DEFAULT : D3D11_USAGE_DYNAMIC;
+		m_Desc.Usage = m_RenderTarget || generateMips ? D3D11_USAGE_DEFAULT : D3D11_USAGE_DYNAMIC;
 		m_Desc.CPUAccessFlags = m_Desc.Usage == D3D11_USAGE_DYNAMIC ? D3D11_CPU_ACCESS_WRITE : 0;
 		m_Desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-		if (generateMips)
+		if (m_RenderTarget || generateMips)
 			m_Desc.BindFlags |= D3D11_BIND_RENDER_TARGET;
 		m_Desc.MiscFlags = generateMips ? D3D11_RESOURCE_MISC_GENERATE_MIPS : 0;
 		m_Desc.SampleDesc.Count = 1;

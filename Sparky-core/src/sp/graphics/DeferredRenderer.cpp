@@ -146,6 +146,16 @@ namespace sp { namespace graphics {
 		}*/
 	}
 
+	void DeferredRenderer::PushPostEffectsPass(PostEffectsPass* pass)
+	{
+
+	}
+
+	PostEffectsPass* DeferredRenderer::PopPostEffectsPass()
+	{
+		return m_PostEffects->Pop();
+	}
+
 #endif
 
 } }

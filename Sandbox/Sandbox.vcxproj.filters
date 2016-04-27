@@ -57,4 +57,7 @@
   <ItemGroup>
     <FxCompile Include="shaders\AdvancedLighting.hlsl" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="shaders\PostFX.hlsl" />
+  </ItemGroup>
 </Project>

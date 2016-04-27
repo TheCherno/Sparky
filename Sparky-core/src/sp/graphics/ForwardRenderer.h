@@ -2,7 +2,8 @@
 
 #include "sp/Common.h"
 #include "Renderer3D.h"
-#include"shaders/Shader.h"
+#include "shaders/Shader.h"
+#include "API/Framebuffer2D.h"
 
 namespace sp { namespace graphics {
 
@@ -16,9 +17,15 @@ namespace sp { namespace graphics {
 
 		std::vector<uint> m_VSSystemUniformBufferOffsets;
 		std::vector<uint> m_PSSystemUniformBufferOffsets;
+
+		Framebuffer2D* m_RenderBuffer;
+		Framebuffer2D* m_ScreenBuffer;
+		Mesh* m_ScreenQuad;
+		Material* m_PresentationMaterial;
 	public:
 		ForwardRenderer();
 		ForwardRenderer(uint width, uint height);
+		~ForwardRenderer();
 
 		void Init() override;
 		void Begin() override;
@@ -29,8 +36,13 @@ namespace sp { namespace graphics {
 		void EndScene() override;
 		void End() override;
 		void Present() override;
+
+		void SetPostEffects(bool enabled) override;
+		void PushPostEffectsPass(PostEffectsPass* pass) override;
+		PostEffectsPass* PopPostEffectsPass() override;
 	private:
 		void SetSystemUniforms(API::Shader* shader);
+		void RenderPostEffects();
 	};
 
 } }

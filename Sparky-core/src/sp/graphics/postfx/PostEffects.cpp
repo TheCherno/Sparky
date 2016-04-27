@@ -10,7 +10,8 @@ namespace sp { namespace graphics {
 
 	PostEffects::~PostEffects()
 	{
-
+		for (PostEffectsPass* pass : m_Passes)
+			delete pass;
 	}
 
 	void PostEffects::Push(PostEffectsPass* pass)
@@ -18,25 +19,16 @@ namespace sp { namespace graphics {
 		m_Passes.push_back(pass);
 	}
 
-	void PostEffects::Pop()
+	PostEffectsPass* PostEffects::Pop()
 	{
+		PostEffectsPass* pass = m_Passes.back();
 		m_Passes.pop_back();
+		return pass;
 	}
 
-	void PostEffects::RenderPostEffects(Framebuffer* source, Framebuffer* target, API::VertexArray* quad, API::IndexBuffer* indices)
+	void PostEffects::RenderPostEffects(Framebuffer* source, Framebuffer* target, Mesh* quad)
 	{
-		target->Bind();
-		// API::SetActiveTexture(GL_TEXTURE0);
-		// source->GetTexture()->Bind(nullptr);
 
-		quad->Bind();
-		indices->Bind();
-
-		for (PostEffectsPass* pass : m_Passes)
-			pass->RenderPass(target);
-
-		indices->Unbind();
-		quad->Unbind();
 	}
 
 } }

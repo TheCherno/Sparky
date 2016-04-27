@@ -12,11 +12,15 @@ namespace sp { namespace graphics { namespace ShaderFactory {
 		;
 
 	static const char* s_BatchRendererShaderD3D =
-	#include "sp/platform/directx/shaders/BatchRenderer.hlsl"
+#include "sp/platform/directx/shaders/BatchRenderer.hlsl"
 		;
 
-	static const char* s_SimpleShader =
-#include "default/Simple.shader"
+	static const char* s_SimpleShaderGL =
+#include "sp/platform/opengl/shaders/Simple.shader"
+		;
+
+	static const char* s_SimpleShaderD3D =
+#include "sp/platform/directx/shaders/Simple.hlsl"
 		;
 
 	static const char* s_BasicLightShader =
@@ -46,7 +50,12 @@ namespace sp { namespace graphics { namespace ShaderFactory {
 
 	API::Shader* SimpleShader()
 	{
-		return API::Shader::CreateFromSource("Simple Shader", s_SimpleShader);
+		switch (API::Context::GetRenderAPI())
+		{
+			case API::RenderAPI::OPENGL: return API::Shader::CreateFromSource("Simple Shader", s_SimpleShaderGL);
+			case API::RenderAPI::DIRECT3D: return API::Shader::CreateFromSource("Simple Shader", s_SimpleShaderD3D);
+		}
+		return nullptr;
 	}
 
 	API::Shader* BasicLightShader()

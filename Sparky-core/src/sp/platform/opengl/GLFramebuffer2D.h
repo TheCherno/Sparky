@@ -27,6 +27,7 @@ namespace sp { namespace graphics {
 		inline uint GetHeight() const override { return m_Height; }
 
 		inline API::Texture* GetTexture() const override { return m_Texture; }
+		inline API::Texture2D* GetTexture2D() const override { return m_Texture; }
 		inline void SetClearColor(const maths::vec4& color) override { m_ClearColor = color; }
 	private:
 		void Init();

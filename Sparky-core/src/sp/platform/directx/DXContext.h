@@ -34,8 +34,6 @@ namespace sp { namespace graphics { namespace API {
 		void InitD3D(HWND hWnd);
 		void Resize();
 
-		void SetRenderTargets(ID3D11RenderTargetView* target, ID3D11DepthStencilView* view);
-
 		String GetD3DVersionStringInternal() const;
 	public:
 		inline static D3DContext* GetContext() { return (D3DContext*)s_Context; }
@@ -46,8 +44,11 @@ namespace sp { namespace graphics { namespace API {
 		inline static ID3D11RenderTargetView* GetBackBuffer() { return GetContext()->m_RenderTargetView; }
 
 		inline static ID3D11DepthStencilView* GetDepthStencilBuffer() { return GetContext()->m_DepthStencilView; }
+		inline static const D3D11_VIEWPORT* GetViewport() { return &Get()->m_ScreenViewport; }
 
 		inline static String GetD3DVersionString() { return Get()->GetD3DVersionStringInternal(); }
+	public:
+		static void SetRenderTargets(ID3D11RenderTargetView* target, ID3D11DepthStencilView* view);
 	public:
 		inline static D3DContext* Get() { return (D3DContext*)s_Context; }
 	};
