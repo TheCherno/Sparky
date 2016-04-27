@@ -2,6 +2,9 @@
 *.pdb
 *.log
 *.idb
+*.exp
+*.iobj
+*.ipdb
 *.tlog
 *.tlog/
 *.lastbuildstate

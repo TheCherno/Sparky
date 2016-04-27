@@ -15,8 +15,8 @@ namespace sp {
 
 	std::map<void*, Window*> Window::s_Handles;
 
-	Window::Window(const char *title, uint width, uint height, bool fullscreen)
-		: m_Properties({ String(title), width, height, fullscreen }), m_Handle(nullptr), m_Closed(false), m_EventCallback(nullptr)
+	Window::Window(const String& title, const WindowProperties& properties)
+		: m_Title(title), m_Properties(properties), m_Handle(nullptr), m_Closed(false), m_EventCallback(nullptr)
 	{
 		if (!Init())
 		{
@@ -54,14 +54,14 @@ namespace sp {
 
 		Renderer::Init();
 		
-		SetTitle(m_Properties.title);
+		SetTitle(m_Title);
 		return true;
 	}
 	
-	void Window::SetVsync(uint syncInterval)
+	void Window::SetVsync(bool syncInterval)
 	{
-		m_Vsync = syncInterval;
-		graphics::API::Context::SetVsync(m_Vsync);
+		// TODO: Not implemented
+		m_Vsync = enabled;
 	}
 
 	void Window::Clear() const

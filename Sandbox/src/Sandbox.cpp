@@ -9,14 +9,11 @@ using namespace sp;
 using namespace graphics;
 using namespace maths;
 
-#define WIDTH	1280
-#define HEIGHT	720
-
 class Game : public Application
 {
 public:
 	Game()
-		: Application("Sandbox", WIDTH, HEIGHT, sp::graphics::API::RenderAPI::DIRECT3D)
+		: Application("Sandbox", { 1280, 720, false, false }, sp::graphics::API::RenderAPI::DIRECT3D)
 	{
 	}
 
