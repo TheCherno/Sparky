@@ -7,9 +7,6 @@
 #include "sp/system/VFS.h"
 
 #include "AudioScript.h"
-#include "MathsScript.h"
-#include "EntityScript.h"
-#include "EventsScript.h"
 
 namespace sp { namespace scripting {
 
@@ -70,8 +67,5 @@ namespace sp { namespace scripting {
 	void Scripting::LoadSparkyAPI(lua_State* state)
 	{
 		audio::L_Register_Audio_Classes(state);
-		maths::L_Register_Math_Classes(state);
-		entity::L_Register_Entity_Classes(state);
-		events::L_Register_Events_Classes(state);
 	}
 } }

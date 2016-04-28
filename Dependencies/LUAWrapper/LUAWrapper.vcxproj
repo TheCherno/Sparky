@@ -22,6 +22,7 @@
     <ProjectGuid>{42028CA5-BC39-4DF8-8F2E-46BEA9C71B52}</ProjectGuid>
     <RootNamespace>LUAWrapper</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>luawrapper</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

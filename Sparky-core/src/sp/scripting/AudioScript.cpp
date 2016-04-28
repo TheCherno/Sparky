@@ -7,6 +7,8 @@
 #include "sp/audio/SoundManager.h"
 #include "sp/audio/Sound.h"
 
+#include "sp/system/Memory.h"
+
 using namespace sp;
 using namespace audio;
 
@@ -16,7 +18,7 @@ namespace sp { namespace scripting { namespace audio {
 	{
 		String name = lua_tostring(L, 1);
 		String filename = lua_tostring(L, 2);
-		return new Sound(name, filename);
+		return spnew Sound(name, filename);
 	}
 
 	int L_Sound_Play(lua_State *L)
