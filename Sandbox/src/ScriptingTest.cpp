@@ -70,14 +70,12 @@ void ScriptingTest::OnInit(Renderer3D& renderer, Scene& scene)
 
 	Timer timer;
 
-
 	Scripting::CreateState(&m_ScriptingState);
 	Scripting::Init(m_ScriptingState);
 	Scripting::LoadSparkyAPI(m_ScriptingState);
 	Scripting::LoadFile(m_ScriptingState, "/scripts/test.lua");
 
 	Scripting::Call(m_ScriptingState, "printVersion");
-	Scripting::Call(m_ScriptingState, "vectTest");
 
 	SP_INFO("Init took ", timer.ElapsedMillis(), " ms");
 }

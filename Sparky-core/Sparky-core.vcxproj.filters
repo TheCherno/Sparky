@@ -435,6 +435,9 @@
     <ClCompile Include="src\sp\scripting\AudioScript.cpp">
       <Filter>sp\scripting</Filter>
     </ClCompile>
+    <ClCompile Include="src\sp\scripting\ScriptFunctions.cpp">
+      <Filter>sp\scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Application.h">
@@ -842,6 +845,9 @@
       <Filter>sp\scripting</Filter>
     </ClInclude>
     <ClInclude Include="src\sp\scripting\AudioScript.h">
+      <Filter>sp\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\scripting\ScriptFunction.h">
       <Filter>sp\scripting</Filter>
     </ClInclude>
   </ItemGroup>
