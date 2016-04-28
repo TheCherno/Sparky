@@ -33,7 +33,7 @@ namespace sp { namespace debug {
 		graphics::ui::Panel* m_Panel;
 		graphics::ui::Slider** m_Slider;
 		graphics::ui::CheckBox* m_CheckBox;
-		graphics::ui::TextField* m_TextField;
+		//graphics::ui::TextField* m_TextField;
 
 		String m_LastEditedName;
 	public:

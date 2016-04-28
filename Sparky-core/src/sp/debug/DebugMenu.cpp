@@ -17,7 +17,7 @@ namespace sp { namespace debug {
 	DebugMenu* DebugMenu::s_Instance = nullptr;
 
 	DebugMenu::DebugMenu()
-		: m_Visible(false), m_Slider(nullptr), m_CheckBox(nullptr), m_TextField(nullptr)
+		: m_Visible(false), m_Slider(nullptr), m_CheckBox(nullptr)
 	{
 		s_Instance = this;
 
