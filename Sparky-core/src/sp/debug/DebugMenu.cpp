@@ -17,7 +17,7 @@ namespace sp { namespace debug {
 	DebugMenu* DebugMenu::s_Instance = nullptr;
 
 	DebugMenu::DebugMenu()
-		: m_Visible(false), m_Slider(nullptr), m_CheckBox(nullptr)
+		: m_Visible(false), m_Slider(nullptr), m_CheckBox(nullptr), m_TextField(nullptr)
 	{
 		s_Instance = this;
 
@@ -152,7 +152,12 @@ namespace sp { namespace debug {
 
 		float y = 18.0f - yOffset;
 		m_CheckBox = spnew CheckBox("TestBox", Rectangle(0.0f, y, width, height));
-		m_Panel->Add(m_CheckBox)->SetActive(true);
+		//m_Panel->Add(m_CheckBox);
+
+		//y += height;
+
+		m_TextField = spnew TextField("TestText", Rectangle(0.0f, y, width, height));
+		m_Panel->Add(m_TextField);
 	}
 
 	void DebugMenu::OnDeactivate()

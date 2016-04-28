@@ -8,6 +8,7 @@
 #include "DebugMenuSlider.h"
 #include "sp/graphics/ui/Slider.h"
 #include "sp/graphics/ui/CheckBox.h"
+#include "sp/graphics/ui/TextField.h"
 
 namespace sp { namespace debug {
 
@@ -32,6 +33,7 @@ namespace sp { namespace debug {
 		graphics::ui::Panel* m_Panel;
 		graphics::ui::Slider** m_Slider;
 		graphics::ui::CheckBox* m_CheckBox;
+		graphics::ui::TextField* m_TextField;
 
 		String m_LastEditedName;
 	public:

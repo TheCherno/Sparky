@@ -23,6 +23,16 @@ namespace sp { namespace graphics { namespace ui {
 		return false;
 	}
 
+	bool Widget::OnKeyPressed(events::KeyPressedEvent& e)
+	{
+		return false;
+	}
+
+	bool Widget::OnKeyReleased(events::KeyReleasedEvent& e)
+	{
+		return false;
+	}
+
 	void Widget::OnUpdate()
 	{
 	}

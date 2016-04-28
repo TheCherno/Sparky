@@ -7,7 +7,7 @@
 
 namespace sp { namespace graphics { namespace ui {
  
-	class CheckBox : public Widget
+	class SP_API CheckBox : public Widget
 	{
 	public:
 		using ActionHandler = std::function<void()>;
@@ -38,6 +38,9 @@ namespace sp { namespace graphics { namespace ui {
 
 		inline void SetFont(Font* font) { m_Font = font; }
 		inline const Font& GetFont() const { return *m_Font; }
+
+		inline void SetChecked(bool checked) { m_State = checked ? CheckBoxState::CHECKED : CheckBoxState::UNCHECKED; }
+		inline bool IsChecked() const { return m_State == CheckBoxState::CHECKED; }
 
 		inline void SetAction(const ActionHandler& action) { m_ActionHandler = action; }
 	private:

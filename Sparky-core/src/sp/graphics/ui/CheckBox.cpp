@@ -54,11 +54,13 @@ namespace sp { namespace graphics { namespace ui {
 	void CheckBox::OnRender(Renderer2D& renderer)
 	{
 		renderer.DrawRect(m_Bounds);
-
-		uint32 color = 0xcfbbbbbb;
-		color = (m_State == CheckBoxState::CHECKED ? 0xcf00a020 : 0xcf5f5f5f) + (m_Focused ? 0x00222222 : 0x00000000);
-
+		uint32 color = 0xcfbbbbbb + (m_Focused ? 0x00222222 : 0x00000000);
 		renderer.FillRect(m_Bounds, color);
+
+		uint32 colorBox = (m_State == CheckBoxState::CHECKED ? 0xcf00a010 : 0xcf5f5f5f);
+		const Rectangle boxBounds(m_Bounds.position.x + 0.4f + m_Bounds.size.x - (m_Bounds.size.x / 5.0f), m_Bounds.position.y + (m_Bounds.size.y / 2 - 0.25f), 0.5f, 0.5f);
+		renderer.FillRect(boxBounds, colorBox);
+
 		renderer.DrawString(m_Label, m_Bounds.position + vec2(0.2f, 0.7f), *m_Font);
 	}
 

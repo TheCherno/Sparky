@@ -60,7 +60,9 @@ namespace sp { namespace graphics { namespace ui {
 		dispatcher.Dispatch<MousePressedEvent>(METHOD(&Panel::OnMousePressedEvent));
 		dispatcher.Dispatch<MouseReleasedEvent>(METHOD(&Panel::OnMouseReleasedEvent));
 		dispatcher.Dispatch<MouseMovedEvent>(METHOD(&Panel::OnMouseMovedEvent));
-		
+		dispatcher.Dispatch<KeyPressedEvent>(METHOD(&Panel::OnKeyPressedEvent));
+		dispatcher.Dispatch<KeyReleasedEvent>(METHOD(&Panel::OnKeyReleasedEvent));
+
 		// TODO: Temporary fix
 		dispatcher.Dispatch<ResizeWindowEvent>([this](events::ResizeWindowEvent& e) { return Layer2D::OnResize(e.GetWidth(), e.GetHeight());  });
 	}
@@ -101,6 +103,28 @@ namespace sp { namespace graphics { namespace ui {
 		{
 			Widget* widget = m_Widgets[i];
 			if (widget->OnMouseMoved(e))
+				return true;
+		}
+		return false;
+	}
+
+	bool Panel::OnKeyPressedEvent(events::KeyPressedEvent& e)
+	{
+		for (uint i = 0; i < m_Widgets.size(); i++)
+		{
+			Widget* widget = m_Widgets[i];
+			if (widget->OnKeyPressed(e))
+				return true;
+		}
+		return false;
+	}
+
+	bool Panel::OnKeyReleasedEvent(events::KeyReleasedEvent& e)
+	{
+		for (uint i = 0; i < m_Widgets.size(); i++)
+		{
+			Widget* widget = m_Widgets[i];
+			if (widget->OnKeyReleased(e))
 				return true;
 		}
 		return false;
