@@ -7,7 +7,6 @@
 #include "sp/system/VFS.h"
 
 #include "AudioScript.h"
-#include "ScriptFunction.h"
 
 namespace sp { namespace scripting {
 
@@ -56,58 +55,12 @@ namespace sp { namespace scripting {
 		return false;
 	}
 
-	template <typename T1>
-	bool Scripting::Call(lua_State* state, const char* functionname, const T1& p1)
-	{
+	void Scripting::CallPreInternal(lua_State* state, const char* functionname) {
 		lua_getglobal(state, functionname);
-		if (!lua_isfunction(state, -1)) return true;
-
-		PushValue(state, p1);
-
-		lua_pcall(state, 1, 0, 0);
-		return false;
 	}
 
-	template <typename T1, typename T2>
-	bool Scripting::Call(lua_State* state, const char* functionname, const T1& p1, const T2& p2)
-	{
-		lua_getglobal(state, functionname);
-		if (!lua_isfunction(state, -1)) return true;
-
-		PushValue(state, p1);
-		PushValue(state, p2);
-
-		lua_pcall(state, 2, 0, 0);
-		return false;
-	}
-
-	template <typename T1, typename T2, typename T3>
-	bool Scripting::Call(lua_State* state, const char* functionname, const T1& p1, const T2& p2, const T3& p3)
-	{
-		lua_getglobal(state, functionname);
-		if (!lua_isfunction(state, -1)) return true;
-
-		PushValue(state, p1);
-		PushValue(state, p2);
-		PushValue(state, p3);
-
-		lua_pcall(state, 3, 0, 0);
-		return false;
-	}
-
-	template <typename T1, typename T2, typename T3, typename T4>
-	bool Scripting::Call(lua_State* state, const char* functionname, const T1& p1, const T2& p2, const T3& p3, const T4& p4)
-	{
-		lua_getglobal(state, functionname);
-		if (!lua_isfunction(state, -1)) return true;
-
-		PushValue(state, p1);
-		PushValue(state, p2);
-		PushValue(state, p3);
-		PushValue(state, p4);
-
-		lua_pcall(state, 4, 0, 0);
-		return false;
+	void Scripting::CallAfterInternal(lua_State* state, int args) {
+		lua_pcall(state, args, 0, 0);
 	}
 
 	void Scripting::LoadSparkyAPI(lua_State* state)

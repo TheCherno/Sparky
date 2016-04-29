@@ -20,9 +20,13 @@ typedef ptrdiff_t lua_Integer;
 
 namespace sp { namespace scripting {
 
-	void PushValue(lua_State* L, lua_Integer n);
-	void PushValue(lua_State* L, lua_Number n);
-	void PushValue(lua_State* L, bool b);
-	void PushValue(lua_State* L, const std::string& s);
+	class SP_API ScriptFunctions {
+	public:
+		static void PushValue(lua_State* L, const std::string& s);
+		static void PushValue(lua_State* L, const char* s);
+		static void PushValue(lua_State* L, lua_Integer n);
+		static void PushValue(lua_State* L, lua_Number n);
+		static void PushValue(lua_State* L, bool b);
+	};
 
 } }

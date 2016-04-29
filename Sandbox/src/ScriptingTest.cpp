@@ -116,6 +116,15 @@ void ScriptingTest::OnEvent(Event& event)
 				break;
 			}
 		}
+		switch (kpe->GetKeyCode())
+		{
+		case SP_KEY_1:
+			Scripting::Call(m_ScriptingState, "changeGain", "-0.4");
+			break;
+		case SP_KEY_2:
+			Scripting::Call(m_ScriptingState, "changeGain", "0.4");
+			break;
+		}
 	}
 	Layer::OnEvent(event);
 }

@@ -4,8 +4,10 @@
 #ifdef SP_PLATFORM_WINDOWS
 	#ifdef SP_CORE_DLL
 		#define SP_API __declspec(dllexport)
+		#define SP_EXT
 	#else
 		#define SP_API __declspec(dllimport)
+		#define SP_EXT extern
 	#endif
 #else
 	#define SP_API

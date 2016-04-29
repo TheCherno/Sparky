@@ -2,9 +2,16 @@ function printVersion ()
 	io.write("Running ", _VERSION, "\n")
 end
 
+s = 0;
+
 playSound = function (name, source) 
 	s = Sound.new(name, source)
 	s:Play()
+end
+
+changeGain = function (gain) 
+	s:SetGain(s:GetGain() + gain)
+	io.write("Gain ", s:GetGain())
 end
 
 vectTest = function ()
