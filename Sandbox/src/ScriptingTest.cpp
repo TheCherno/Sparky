@@ -112,7 +112,7 @@ void ScriptingTest::OnEvent(Event& event)
 				m_Scene->SetCamera(m_Scene->GetCamera() == m_MayaCameras ? m_FPSCameras : m_MayaCameras);
 				break;
 			case SP_KEY_P:
-				Scripting::Call(m_ScriptingState, "playSound");
+				Scripting::Call(m_ScriptingState, "playSound", "cherno", "res/Cherno.ogg");
 				break;
 			}
 		}

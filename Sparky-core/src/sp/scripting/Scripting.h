@@ -18,6 +18,18 @@ namespace sp { namespace scripting {
 		
 		static void Register(lua_State* state, const char* functionname, lua_CFunction functionpointer);
 		static bool Call(lua_State* state, const char* functionname);
+
+		template <typename T1>
+		static bool Call(lua_State* state, const char* functionname, const T1& p1);
+
+		template <typename T1, typename T2>
+		static bool Call(lua_State* state, const char* functionname, const T1& p1, const T2& p2);
+
+		template <typename T1, typename T2, typename T3>
+		static bool Call(lua_State* state, const char* functionname, const T1& p1, const T2& p2, const T3& p3);
+
+		template <typename T1, typename T2, typename T3, typename T4>
+		static bool Call(lua_State* state, const char* functionname, const T1& p1, const T2& p2, const T3& p3, const T4& p4);
 	};
 } }
 

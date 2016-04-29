@@ -2,8 +2,8 @@ function printVersion ()
 	io.write("Running ", _VERSION, "\n")
 end
 
-playSound = function () 
-	s = Sound.new("cherno", "res/Cherno.ogg")
+playSound = function (name, source) 
+	s = Sound.new(name, source)
 	s:Play()
 end
 
