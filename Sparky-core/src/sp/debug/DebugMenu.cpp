@@ -152,12 +152,7 @@ namespace sp { namespace debug {
 
 		float y = 18.0f - yOffset;
 		m_CheckBox = spnew CheckBox("TestBox", Rectangle(0.0f, y, width, height));
-		//m_Panel->Add(m_CheckBox);
-
-		//y += height;
-
-		m_TextField = spnew TextField("TestText", Rectangle(0.0f, y, width, height));
-		m_Panel->Add(m_TextField);
+		m_Panel->Add(m_CheckBox);
 	}
 
 	void DebugMenu::OnDeactivate()
