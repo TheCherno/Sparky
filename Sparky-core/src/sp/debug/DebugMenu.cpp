@@ -17,7 +17,7 @@ namespace sp { namespace debug {
 	DebugMenu* DebugMenu::s_Instance = nullptr;
 
 	DebugMenu::DebugMenu()
-		: m_Visible(false), m_Slider(nullptr)
+		: m_Visible(false), m_Slider(nullptr), m_CheckBox(nullptr)
 	{
 		s_Instance = this;
 
@@ -143,12 +143,16 @@ namespace sp { namespace debug {
 			DebugMenuItem* item = (DebugMenuItem*)widget;
 			item->GetBounds().width = width;
 		}
-
+		
 		for (uint i = 0; i < 4; i++)
 		{
 			m_Slider[i] = spnew Slider({ width + i * 1.5f, 0.0f, 1.5f, 18.0f }, true);
 			m_Panel->Add(m_Slider[i])->SetActive(false);
 		}
+
+		float y = 18.0f - yOffset;
+		m_CheckBox = spnew CheckBox("TestBox", Rectangle(0.0f, y, width, height));
+		m_Panel->Add(m_CheckBox);
 	}
 
 	void DebugMenu::OnDeactivate()
