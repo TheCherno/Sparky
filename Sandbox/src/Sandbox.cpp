@@ -13,7 +13,7 @@ class Game : public Application
 {
 public:
 	Game()
-		: Application("Sandbox", { 1280, 720, false, false }, sp::graphics::API::RenderAPI::DIRECT3D)
+		: Application("Sandbox", { 1920, 1080, true, true }, sp::graphics::API::RenderAPI::DIRECT3D)
 	{
 	}
 
@@ -28,10 +28,10 @@ public:
 		VFS::Get()->Mount("pbr", "res/pbr");
 		VFS::Get()->Mount("shaders", "shaders");
 
-		// PushLayer(new Test2D());
-		PushLayer(new Test3D());
-		// PushLayer(new SponzaTest());
-		// PushLayer(new DeferredTest()); // Doesn't work atm
+		// PushLayer(spnew Test2D());
+		// PushLayer(spnew Test3D());
+		PushLayer(spnew SponzaTest());
+		// PushLayer(spnew DeferredTest()); // Doesn't work atm
 	}
 };
 

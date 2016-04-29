@@ -9,6 +9,11 @@
 
 namespace sp { namespace graphics {
 
+	enum class SP_API LayerType
+	{
+		NONE = 0, LAYER2D, LAYER3D
+	};
+
 	class SP_API Layer : public events::IEventListener
 	{
 	protected:
@@ -26,6 +31,7 @@ namespace sp { namespace graphics {
 		virtual void OnTick();
 		virtual void OnUpdate();
 		virtual void OnRender();
+		virtual LayerType GetLayerType() const { return LayerType::NONE; }
 	protected:
 		virtual bool OnResize(uint width, uint height);
 	};

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "sp/graphics/Renderer2D.h"
+#include "sp/graphics/Renderer3D.h"
 #include "sp/graphics/Label.h"
 #include "sp/graphics/Sprite.h"
 
@@ -22,11 +23,21 @@ namespace sp { namespace debug {
 	private:
 		static DebugLayer* s_Instance;
 	private:
+		struct DebugLayerRenderStats
+		{
+			graphics::Label* m_PostEffectsRenderTime;
+			graphics::Label* m_MeshRenderTime;
+			graphics::Label* m_TotalRenderTime;
+		};
+	private:
 		Application& m_Application;
 		graphics::Label* m_FPSLabel;
 		graphics::Label* m_MemoryUsageLabel;
 		graphics::Label* m_FrametimeLabel;
 		std::vector<graphics::Sprite*> m_TempSprites;
+
+		const graphics::RenderStats* m_RenderStatsSource;
+		DebugLayerRenderStats m_RenderStats;
 	public:
 		DebugLayer();
 		~DebugLayer();
@@ -44,6 +55,7 @@ namespace sp { namespace debug {
 
 		void OnRender(graphics::Renderer2D& renderer) override;
 
+		inline void SetRenderStatsSource(const graphics::RenderStats& renderStats) { m_RenderStatsSource = &renderStats; }
 	public:
 		inline static DebugLayer* GetInstance() { return s_Instance; }
 

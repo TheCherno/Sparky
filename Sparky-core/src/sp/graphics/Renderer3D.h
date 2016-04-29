@@ -12,6 +12,14 @@ namespace sp { namespace graphics {
 	typedef std::vector<RenderCommand> CommandQueue;
 	typedef std::vector<RendererUniform> SystemUniformList;
 
+	struct RenderStats
+	{
+		// rt = render time
+		float rtTotal;
+		float rtMeshes;
+		float rtPostEffects;
+	};
+
 	//
 	// Base class for all 3D renderers.
 	// 
@@ -28,6 +36,8 @@ namespace sp { namespace graphics {
 		SystemUniformList m_SystemUniforms;
 		PostEffects* m_PostEffects;
 		bool m_PostEffectsEnabled;
+
+		SP_DEBUG_VAR(RenderStats m_RenderStats);
 	public:
 		virtual ~Renderer3D() {}
 
@@ -49,6 +59,7 @@ namespace sp { namespace graphics {
 		virtual void SetScreenBufferSize(uint width, uint height) { m_ScreenBufferWidth = width; m_ScreenBufferHeight = height; }
 
 		inline bool IsPostEffectsEnabled() const { return m_PostEffectsEnabled; }
+		inline const RenderStats& GetRenderStats() const { return m_RenderStats; }
 	};
 
 } }

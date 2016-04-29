@@ -42,6 +42,7 @@ namespace sp { namespace graphics {
 		PostEffectsPass* PopPostEffectsPass() override;
 	private:
 		void SetSystemUniforms(API::Shader* shader);
+		void RenderMeshes();
 		void RenderPostEffects();
 	};
 

@@ -7,6 +7,7 @@
 #include "shaders/ShaderFactory.h"
 
 #include "sp/debug/DebugLayer.h"
+#include "sp/utils/Timer.h"
 
 namespace sp { namespace graphics {
 
@@ -49,6 +50,8 @@ namespace sp { namespace graphics {
 	{
 		m_PostEffectsEnabled = false;
 		m_PostEffects = spnew PostEffects();
+
+		SP_DEBUG_BLOCK(memset(&m_RenderStats, 0, sizeof(RenderStats)));
 
 		m_CommandQueue.reserve(1000);
 
@@ -144,9 +147,27 @@ namespace sp { namespace graphics {
 
 	void ForwardRenderer::Present()
 	{
+		SP_DEBUG_BLOCK(Timer frPresentTimer);
+
 		// TODO: Shader binding, texture sorting, visibility testing, etc.
 		m_RenderBuffer->Clear();
 		m_RenderBuffer->Bind();
+		SP_TIMER_BLOCK(RenderMeshes(), m_RenderStats.rtMeshes);
+		m_RenderBuffer->Unbind();
+
+		SP_TIMER_BLOCK(RenderPostEffects(), m_RenderStats.rtPostEffects);
+
+		static mat4 proj = mat4::Orthographic(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
+		m_PresentationMaterial->GetShader()->SetVSSystemUniformBuffer((byte*)&proj, sizeof(mat4));
+		m_PresentationMaterial->Bind();
+		m_ScreenQuad->Render(*this);
+		m_PresentationMaterial->Unbind();
+
+		SP_DEBUG_BLOCK(m_RenderStats.rtTotal = frPresentTimer.ElapsedMillis());
+	}
+
+	void ForwardRenderer::RenderMeshes()
+	{
 		for (uint i = 0; i < m_CommandQueue.size(); i++)
 		{
 			RenderCommand& command = m_CommandQueue[i];
@@ -171,14 +192,6 @@ namespace sp { namespace graphics {
 			}
 #endif
 		}
-		m_RenderBuffer->Unbind();
-
-		RenderPostEffects();
-		mat4 proj = mat4::Orthographic(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
-		m_PresentationMaterial->GetShader()->SetVSSystemUniformBuffer((byte*)&proj, sizeof(mat4));
-		m_PresentationMaterial->Bind();
-		m_ScreenQuad->Render(*this);
-		m_PresentationMaterial->Unbind();
 	}
 
 	void ForwardRenderer::RenderPostEffects()

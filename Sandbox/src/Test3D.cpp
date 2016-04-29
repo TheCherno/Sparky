@@ -60,6 +60,8 @@ enum Materials : uint
 
 void Test3D::OnInit(Renderer3D& renderer, Scene& scene)
 {
+	DebugLayer::GetInstance()->SetRenderStatsSource(renderer.GetRenderStats());
+
 	// Enable this to use FPS camera
 	// scene.SetCamera(m_FPSCamera);
 

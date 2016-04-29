@@ -34,6 +34,8 @@ namespace sp { namespace graphics {
 
 		virtual void OnRender(Renderer2D& renderer);
 		void OnRender() override;
+
+		LayerType GetLayerType() const { return LayerType::LAYER2D; }
 	protected:
 		bool OnResize(uint width, uint height) override;
 	};

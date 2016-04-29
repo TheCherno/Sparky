@@ -22,3 +22,29 @@
 #else
 	#define SP_DEBUG_METHOD_V(x) x {}
 #endif
+
+#if defined(SP_DEBUG) || defined(SP_RELEASE)
+	#define SP_DEBUG_VAR(x) x
+#else
+	#define SP_DEBUG_VAR(x)
+#endif
+
+#if defined(SP_DEBUG) || defined(SP_RELEASE)
+	#define SP_DEBUG_BLOCK(x) x
+#else
+	#define SP_DEBUG_BLOCK(x) x
+#endif
+
+#define SP_TIMER_BLOCK(x, var) \
+	{ \
+		Timer timer; \
+		x; \
+		var = timer.ElapsedMillis(); \
+	}
+
+#define SP_TIMER_START() { \
+		Timer timer
+
+#define SP_TIMER_STOP(x) \
+		x = timer.ElapsedMillis(); \
+	}

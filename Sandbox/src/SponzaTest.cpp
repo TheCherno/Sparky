@@ -25,6 +25,8 @@ SponzaTest::~SponzaTest()
 
 void SponzaTest::OnInit(Renderer3D& renderer, Scene& scene)
 {
+	DebugLayer::GetInstance()->SetRenderStatsSource(renderer.GetRenderStats());
+
 	String environmentFiles[11] =
 	{
 		"res/pbr/cubemap/CubeMap0.tga",
@@ -88,6 +90,11 @@ void SponzaTest::OnInit(Renderer3D& renderer, Scene& scene)
 
 	DebugMenu::Add("Light Direction", &lights->GetLights()[0]->direction, -1.0f, 1.0f);
 	DebugMenu::Add("Light Intensity", &lights->GetLights()[0]->intensity, 0, 100);
+
+	Shader* postfx = Shader::CreateFromFile("PostFX", String("/shaders/PostFX") + (API::Context::GetRenderAPI() == RenderAPI::OPENGL ? ".shader" : ".hlsl"));
+	ShaderManager::Add(postfx);
+	renderer.SetPostEffects(true);
+	renderer.PushPostEffectsPass(spnew PostEffectsPass(spnew Material(postfx)));
 }
 
 void SponzaTest::OnTick()
