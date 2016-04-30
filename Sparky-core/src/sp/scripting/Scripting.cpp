@@ -59,8 +59,8 @@ namespace sp { namespace scripting {
 		lua_getglobal(state, functionname);
 	}
 
-	void Scripting::CallAfterInternal(lua_State* state, int args) {
-		lua_pcall(state, args, 0, 0);
+	void Scripting::CallAfterInternal(lua_State* state, int nargs) {
+		lua_pcall(state, nargs, 0, 0);
 	}
 
 	void Scripting::LoadSparkyAPI(lua_State* state)

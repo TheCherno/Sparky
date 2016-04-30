@@ -22,40 +22,30 @@ namespace sp { namespace scripting {
 		static bool Call(lua_State* state, const char* functionname);
 	private:
 		static void CallPreInternal(lua_State* state, const char* functionname);
-		static void CallAfterInternal(lua_State* state, int args);
+		static void CallAfterInternal(lua_State* state, int nargs);
+
+		template <typename First>
+		static void Call(lua_State* state, int32& position, First&& first)
+		{
+			const char* formatted = sp::internal::to_string<First>(first);
+			ScriptFunctions::PushValue(state, position, formatted);
+		}
+
+		template <typename First, typename... Args>
+		static void Call(lua_State* state, int32& position, First&& first, Args&&... args)
+		{
+			const char* formatted = sp::internal::to_string<First>(first);
+			ScriptFunctions::PushValue(state, position, formatted);
+			if (sizeof...(Args))
+				Call(state, position, std::forward<Args>(args)...);
+		}
 	public:
-		template <typename T1>
-		static void Call(lua_State* state, const char* functionname, T1* p1) {
+		template <typename... Args>
+		static void Call(lua_State* state, const char* functionname, Args... args) {
+			int32 position = 0;
 			CallPreInternal(state, functionname);
-			ScriptFunctions::PushValue(state, p1);
-			CallAfterInternal(state, 1);
-		}
-
-		template <typename T1, typename T2>
-		static void Call(lua_State* state, const char* functionname, T1* p1, T2* p2) {
-			CallPreInternal(state, functionname);
-			ScriptFunctions::PushValue(state, p1);
-			ScriptFunctions::PushValue(state, p2);
-			CallAfterInternal(state, 2);
-		}
-
-		template <typename T1, typename T2, typename T3>
-		static void Call(lua_State* state, const char* functionname, T1* p1, T2* p2, T3* p3) {
-			CallPreInternal(state, functionname);
-			ScriptFunctions::PushValue(state, p1);
-			ScriptFunctions::PushValue(state, p2);
-			ScriptFunctions::PushValue(state, p3);
-			CallAfterInternal(state, 3);
-		}
-
-		template <typename T1, typename T2, typename T3, typename T4>
-		static void Call(lua_State* state, const char* functionname, T1* p1, T2* p2, T3* p3, T4* p4) {
-			CallPreInternal(state, functionname);
-			ScriptFunctions::PushValue(state, p1);
-			ScriptFunctions::PushValue(state, p2);
-			ScriptFunctions::PushValue(state, p3);
-			ScriptFunctions::PushValue(state, p4);
-			CallAfterInternal(state, 4);
+			Call(state, position, std::forward<Args>(args)...);
+			CallAfterInternal(state, position);
 		}
 	};
 } }
