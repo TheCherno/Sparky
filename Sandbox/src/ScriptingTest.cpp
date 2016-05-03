@@ -32,35 +32,6 @@ ScriptingTest::~ScriptingTest()
 {
 }
 
-vec3 g_CubeTransforms(-10, 10, 0);
-vec3 g_DaggerTransforms(0, 20, 0);
-vec4 g_SphereColors(0.0f, 0.0f, 0.0f, 1.0f);
-vec3 g_SphereSpecularColors(1.0f, 1.0f, 0.6f);
-
-float g_DaggerGlosss = 0.5f;
-
-Shader* shadowPassShaders;
-FramebufferDepth* g_DepthBuffers;
-TextureDepth* g_ShadowMaps;
-
-String materialInputss[5] =
-{
-	"CastIron",
-	"WornWood",
-	"GunMetal",
-	"ABSRed",
-	"Custom"
-};
-
-enum Materials : uint
-{
-	CAST_IRON = 0,
-	WORN_WOOD,
-	GUN_METAL,
-	ABS_RED,
-	CUSTOM
-};
-
 lua_State* m_ScriptingState;
 
 void ScriptingTest::OnInit(Renderer3D& renderer, Scene& scene)

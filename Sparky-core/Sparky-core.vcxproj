@@ -79,7 +79,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>SP_PLATFORM_WINDOWS;NOGDI;SP_RENDERAPI_OPENGL;SP_CORE_DLL;FREEIMAGE_LIB;OPJ_STATIC;SP_DEBUG;GLEW_STATIC;_WIN32;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SP_PLATFORM_WINDOWS;SP_PLATFORM_WIN32;NOGDI;SP_RENDERAPI_OPENGL;SP_CORE_DLL;FREEIMAGE_LIB;OPJ_STATIC;SP_DEBUG;GLEW_STATIC;_WIN32;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
       <AdditionalIncludeDirectories>src</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -104,7 +104,7 @@ xcopy /f /y "$(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>SP_PLATFORM_WINDOWS;NOGDI;SP_RENDERAPI_OPENGL;SP_CORE_DLL;FREEIMAGE_LIB;OPJ_STATIC;SPARKY_PLATFORM_WIN32;SP_RELEASE;GLEW_STATIC;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SP_PLATFORM_WINDOWS;SP_PLATFORM_WIN32;NOGDI;SP_RENDERAPI_OPENGL;SP_CORE_DLL;FREEIMAGE_LIB;OPJ_STATIC;SPARKY_PLATFORM_WIN32;SP_RELEASE;GLEW_STATIC;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -136,7 +136,7 @@ xcopy /f /y "$(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>SP_PLATFORM_WINDOWS;NOGDI;SP_RENDERAPI_OPENGL;SP_CORE_DLL;FREEIMAGE_LIB;OPJ_STATIC;SPARKY_PLATFORM_WIN32;SPARKY_PLATFORM_WEB;GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SP_PLATFORM_WINDOWS;SP_PLATFORM_WIN32;NOGDI;SP_RENDERAPI_OPENGL;SP_CORE_DLL;FREEIMAGE_LIB;OPJ_STATIC;SPARKY_PLATFORM_WIN32;SPARKY_PLATFORM_WEB;GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>

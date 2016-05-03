@@ -141,5 +141,16 @@ namespace sp {
 
 		// debug::DebugRenderer::Present();
 	}
+	
+	String Application::GetBuildConfiguration()
+	{
+#if defined(SP_DEBUG)
+		return "Debug";
+#elif defined(SP_RELEASE)
+		return "Release";
+#else
+		return "Unknown Build Configuration";
+#endif
 
+	}
 }

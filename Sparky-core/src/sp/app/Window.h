@@ -16,11 +16,11 @@ namespace sp {
 
 	typedef std::function<void(events::Event& event)> WindowEventCallback;
 
-	struct WindowProperties
+	struct SP_API WindowProperties
 	{
-		String title;
 		uint width, height;
 		bool fullscreen;
+		bool vsync;
 	};
 
 	class SP_API Window
@@ -28,6 +28,7 @@ namespace sp {
 	private:
 		static std::map<void*, Window*> s_Handles;
 	private:
+		String m_Title;
 		WindowProperties m_Properties;
 		bool m_Closed;
 		void* m_Handle;
@@ -36,7 +37,7 @@ namespace sp {
 		WindowEventCallback m_EventCallback;
 		InputManager* m_InputManager;
 	public:
-		Window(const char *name, uint width, uint height, bool fullscreen = false);
+		Window(const String& name, const WindowProperties& properties);
 		~Window();
 		void Clear() const;
 		void Update();
