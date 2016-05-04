@@ -85,15 +85,18 @@ void ScriptingTest::OnEvent(Event& event)
 			case SP_KEY_P:
 				Scripting::Call(m_ScriptingState, "playSound", "cherno", "res/Cherno.ogg");
 				break;
+			case SP_KEY_L:
+				Scripting::Call(m_ScriptingState, "loopSound", "cherno", "res/Cherno.ogg");
+				break;
 			}
 		}
 		switch (kpe->GetKeyCode())
 		{
 		case SP_KEY_1:
-			Scripting::Call(m_ScriptingState, "changeGain", "-0.4");
+			Scripting::Call(m_ScriptingState, "changeGain", -0.4);
 			break;
 		case SP_KEY_2:
-			Scripting::Call(m_ScriptingState, "changeGain", "0.4");
+			Scripting::Call(m_ScriptingState, "changeGain", 0.4);
 			break;
 		}
 	}

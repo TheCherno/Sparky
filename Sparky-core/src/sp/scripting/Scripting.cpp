@@ -2,6 +2,7 @@
 #include "Scripting.h"
 
 #include <lua.hpp>
+#include <luabind\luabind.hpp>
 
 #include "sp/utils/Log.h"
 #include "sp/system/VFS.h"
@@ -26,6 +27,8 @@ namespace sp { namespace scripting {
 		luaopen_math(state);
 
 		luaL_openlibs(state);
+
+		luabind::open(state);
 	}
 
 	void Scripting::LoadFile(lua_State* state, const char* filename)

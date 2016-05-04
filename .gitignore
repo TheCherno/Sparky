@@ -24,3 +24,4 @@ ipch/
 /Dependencies/LUA/doc
 /Tools/bin/Debug
 /Tools/SparkyLUA
+/Dependencies/luabind-deboostified/Debug

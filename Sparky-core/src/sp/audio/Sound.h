@@ -10,9 +10,6 @@
 	struct ga_Handle;
 #endif
 
-struct lua_State;
-struct luaL_Reg;
-
 namespace sp { namespace audio {
 
 	class SP_API Sound
