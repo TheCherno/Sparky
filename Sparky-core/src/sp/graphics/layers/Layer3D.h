@@ -15,7 +15,7 @@ namespace sp { namespace graphics {
 		Scene* m_Scene;
 		Renderer3D* m_Renderer;
 	public:
-		Layer3D(Scene* scene, Renderer3D* renderer = new ForwardRenderer());
+		explicit Layer3D(Scene* scene, Renderer3D* renderer = new ForwardRenderer());
 		~Layer3D();
 
 		virtual void Init();

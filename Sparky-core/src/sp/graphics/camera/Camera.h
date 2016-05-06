@@ -11,7 +11,7 @@ namespace sp { namespace graphics {
 		maths::mat4 m_ProjectionMatrix, m_ViewMatrix;
 		maths::vec3 m_Position, m_Rotation, m_FocalPoint;
 	public:
-		Camera(const maths::mat4& projectionMatrix);
+		explicit Camera(const maths::mat4& projectionMatrix);
 
 		virtual void Focus() { }
 		virtual void Update() { }

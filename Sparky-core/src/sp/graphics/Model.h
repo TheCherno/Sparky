@@ -15,7 +15,7 @@ namespace sp { namespace graphics {
 		Mesh* m_Mesh;
 	public:
 		// This eventually needs to be replaced by a global Asset Server.
-		Model(const String& path, MaterialInstance* materialInstance = nullptr);
+		explicit Model(const String& path, MaterialInstance* materialInstance = nullptr);
 		~Model();
 
 		void Render(Renderer3D& renderer) override;

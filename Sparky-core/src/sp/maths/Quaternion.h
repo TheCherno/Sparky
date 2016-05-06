@@ -11,11 +11,11 @@ namespace sp { namespace maths {
 		float x, y, z, w;
 
 		Quaternion();
-		Quaternion(const Quaternion& quaternion);
+		explicit Quaternion(const Quaternion& quaternion);
 		Quaternion(float x, float y, float z, float w);
 		Quaternion(const vec3& xyz, float w);
-		Quaternion(const vec4& vec);
-		Quaternion(float scalar);
+		explicit Quaternion(const vec4& vec);
+		explicit Quaternion(float scalar);
 
 		Quaternion& operator=(const Quaternion& quat);
 
