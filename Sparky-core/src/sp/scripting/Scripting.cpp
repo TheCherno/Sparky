@@ -7,7 +7,7 @@
 #include "sp/utils/Log.h"
 #include "sp/system/VFS.h"
 
-#include "AudioScript.h"
+#include "SparkyScriptAPI.h"
 
 namespace sp { namespace scripting {
 
@@ -68,6 +68,6 @@ namespace sp { namespace scripting {
 
 	void Scripting::LoadSparkyAPI(lua_State* state)
 	{
-		audio::L_Register_Audio_Classes(state);
+		Load(state);
 	}
 } }

@@ -2,19 +2,27 @@ function printVersion ()
 	io.write("Running ", _VERSION, "\n")
 end
 
-s = 0;
-
-playSound = function (name, source) 
+loadSound = function (name, source) 
 	s = Sound(name, source)
-	s:Play()
+	SoundManager.Add(s);
 end
 
-loopSound = function (name, source) 
-	s = Sound(name, source)
-	s:Loop()
+playSound = function (name) 
+	SoundManager.Get(name):Play()
+end
+
+loopSound = function (name) 
+	SoundManager.Get(name):Loop()
 end
 
 changeGain = function (gain) 
+	s = SoundManager.Get(name)
 	s:SetGain(s:GetGain() + gain)
-	io.write("Gain ", s:GetGain())
+end
+
+addEntity = function (vp, m, scene)
+	io.write(vp)
+	e = Entity()
+	e:AddComponent(MeshComponent(m))
+	scene:Add(e)
 end

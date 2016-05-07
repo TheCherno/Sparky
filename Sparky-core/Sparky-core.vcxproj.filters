@@ -432,10 +432,10 @@
     <ClCompile Include="src\sp\scripting\Scripting.cpp">
       <Filter>sp\scripting</Filter>
     </ClCompile>
-    <ClCompile Include="src\sp\scripting\AudioScript.cpp">
+    <ClCompile Include="src\sp\scripting\ScriptFunctions.cpp">
       <Filter>sp\scripting</Filter>
     </ClCompile>
-    <ClCompile Include="src\sp\scripting\ScriptFunctions.cpp">
+    <ClCompile Include="src\sp\scripting\SparkyScriptAPI.cpp">
       <Filter>sp\scripting</Filter>
     </ClCompile>
   </ItemGroup>
@@ -844,10 +844,10 @@
     <ClInclude Include="src\sp\scripting\Scripting.h">
       <Filter>sp\scripting</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\scripting\AudioScript.h">
+    <ClInclude Include="src\sp\scripting\ScriptFunction.h">
       <Filter>sp\scripting</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\scripting\ScriptFunction.h">
+    <ClInclude Include="src\sp\scripting\SparkyScriptAPI.h">
       <Filter>sp\scripting</Filter>
     </ClInclude>
   </ItemGroup>
