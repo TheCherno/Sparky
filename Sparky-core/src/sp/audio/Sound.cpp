@@ -125,15 +125,15 @@ namespace sp { namespace audio {
 	{
 		// calculate the distance between the positions of the camera in relations to the source creating sound.
 		maths::vec3& difference = cameraPosition - entityPosition;
-		const float camDistFromEntity = maths::MathFunc::sqrt(difference.Dot(difference));
+		const float DISTANCE_FROM_ENTITY = maths::sqrt(difference.Dot(difference));
 		
 		// We need to find out based on the radius from the source what percentage
 		// in distance that the camera is from the max value of the radius.
-		const float percentage = ((camDistFromEntity * 10.0f) / maxRadius);
+		const float PERCENTAGE = ((DISTANCE_FROM_ENTITY * 10.0f) / maxRadius);
 
 		// Convert the percentage into a 0.0f to 1.0f value to set the gain.
-		const float volume = maxVolume - (percentage / (maxVolume * factor));
-		SetGain(maths::MathFunc::clamp(volume, 0.0f, 1.0f));
+		const float volume = maxVolume - (PERCENTAGE / (maxVolume * factor));
+		SetGain(maths::clamp(volume, 0.0f, 1.0f));
 	}
 
 	void Sound::SetPan(float pan)
@@ -171,8 +171,8 @@ namespace sp { namespace audio {
 			 L-----C-----R
 		*/
 		const float PAN_UNIT = (2.0f / 180.0f);	
-		const float ANGLE_OFFSET = 180.0f / 100.0f * maths::MathFunc::toDegrees(ANGLE);
-		const float PAN_VALUE = maths::MathFunc::clamp(ANGLE_OFFSET * PAN_UNIT, -1.0f, 1.0f);
+		const float ANGLE_OFFSET = 180.0f / 100.0f * maths::toDegrees(ANGLE);
+		const float PAN_VALUE = maths::clamp(ANGLE_OFFSET * PAN_UNIT, -1.0f, 1.0f);
 
 		SetPan(PAN_VALUE);
 	}
