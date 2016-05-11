@@ -8,8 +8,6 @@
 
 namespace sp { namespace maths {
 
-	struct SP_API MathFunc
-	{
 		static inline float toRadians(float degrees)
 		{
 			return (float)(degrees * (SP_PI / 180.0f));
@@ -93,6 +91,26 @@ namespace sp { namespace maths {
 		static inline float clamp(float value, float minimum, float maximum)
 		{
 			return (value > minimum) ? (value < maximum) ? value : maximum : minimum;
+		}
+
+		static inline float circumference(float radius)
+		{
+			return 2.0f * SP_PI * radius;
+		}
+
+		static inline float radius(float circumference)
+		{
+			return circumference / (2.0f * SP_PI);
+		}
+
+		static inline float ceil(float value)
+		{
+			return ::ceilf(value);
+		}
+
+		static inline float floor(float value)
+		{
+			return ::floorf(value);
 		}
 
 		static inline float lerp(float value1, float value2, float weight)
@@ -186,7 +204,7 @@ namespace sp { namespace maths {
 			y = rad * sin(angle);
 		}
 
-		float inverseSqrt(float value)
+		static float inverseSqrt(float value)
 		{
 			return 1.0f / sqrt(value);
 		}
@@ -218,7 +236,7 @@ namespace sp { namespace maths {
 			return ((*(uint*)&value) & 0X7F800000) > 0X7F800000;
 		}
 
-		int32 factorial(int32 value)
+		static inline int32 factorial(int32 value)
 		{
 			if (value == 0)
 				return 1;
@@ -259,7 +277,7 @@ namespace sp { namespace maths {
 			return n;
 		}
 
-		float legendrePolynomial(int32 L, int32 M, float X)
+		static float legendrePolynomial(int32 L, int32 M, float X)
 		{
 			switch (L)
 			{
@@ -319,4 +337,4 @@ namespace sp { namespace maths {
 			return 0.0f;
 		}
 	};
-} }
+} 
