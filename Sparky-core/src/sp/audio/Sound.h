@@ -5,7 +5,6 @@
 #include "sp/Types.h"
 #include "sp/String.h"
 #include "sp/maths/vec3.h"
-#include "sp/maths/Quaternion.h"
 
 #ifndef SP_PLATFORM_WEB
 	struct ga_Sound;

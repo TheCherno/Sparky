@@ -2,7 +2,6 @@
 #include "Sound.h"
 #include "SoundManager.h"
 #include "sp/maths/maths_func.h"
-#include "sp/maths/vec2.h"
 
 #include <iomanip>
 
@@ -161,9 +160,11 @@ namespace sp { namespace audio {
 			TODO: Objects behind the camera position should be reduced by a scaling percentage
 			to mimic real-world hearing perception.
 		*/
-		maths::vec3& direction = maths::vec3::Normalize(maths::vec3::Cross(forward, up));
-		maths::vec3& distanceBetween = maths::vec3::Normalize(entityPosition - cameraPosition);
-		const float ANGLE = maths::vec3::Dot(direction, distanceBetween);
+		maths::vec3& direction = forward.Cross(up);
+		direction = forward.Normalize();
+		maths::vec3& distanceBetween = entityPosition - cameraPosition;
+		distanceBetween = distanceBetween.Normalize();
+		const float ANGLE = direction.Dot(distanceBetween);
 
 		/* 
 			Determine how much to pan audio left, center and right
