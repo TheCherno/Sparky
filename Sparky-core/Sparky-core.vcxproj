@@ -187,6 +187,8 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <ClCompile Include="src\sp\graphics\postfx\PostEffectsPass.cpp" />
     <ClCompile Include="src\sp\graphics\Renderer.cpp" />
     <ClCompile Include="src\sp\graphics\shaders\ShaderManager.cpp" />
+    <ClCompile Include="src\sp\graphics\ui\Checkbox.cpp" />
+    <ClCompile Include="src\sp\graphics\ui\TextField.cpp" />
     <ClCompile Include="src\sp\platform\directx\DXFramebufferDepth.cpp" />
     <ClCompile Include="src\sp\platform\directx\DXRenderer.cpp" />
     <ClCompile Include="src\sp\platform\directx\DXShaderResource.cpp" />
@@ -658,8 +660,10 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <ClInclude Include="src\sp\graphics\API\TextureCube.h" />
     <ClInclude Include="src\sp\graphics\API\TextureDepth.h" />
     <ClInclude Include="src\sp\graphics\ui\Button.h" />
+    <ClInclude Include="src\sp\graphics\ui\Checkbox.h" />
     <ClInclude Include="src\sp\graphics\ui\Panel.h" />
     <ClInclude Include="src\sp\graphics\ui\Slider.h" />
+    <ClInclude Include="src\sp\graphics\ui\TextField.h" />
     <ClInclude Include="src\sp\graphics\ui\Widget.h" />
     <ClInclude Include="src\sp\maths\Rectangle.h" />
     <ClInclude Include="src\sp\platform\directx\DXCommon.h" />

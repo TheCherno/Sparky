@@ -79,6 +79,7 @@ namespace sp { namespace graphics {
 		virtual void DrawRect(float x, float y, float width, float height, uint color = 0xffffffff) { }
 		virtual void DrawRect(const maths::Rectangle& rectangle, uint color = 0xffffffff) { }
 		virtual void DrawString(const String& text, const maths::vec2& position, const Font& font = *FontManager::Get(), uint color = 0xffffffff) { }
+		virtual void DrawTexture(const maths::Rectangle& bounds, API::Texture2D* texture, maths::Rectangle uv) {}
 
 		virtual void FillRect(float x, float y, float width, float height, uint color = 0xffffffff) { }
 		virtual void FillRect(const maths::Rectangle& rectangle, uint color = 0xffffffff) { }

@@ -24,6 +24,9 @@ namespace sp { namespace graphics { namespace ui {
 		virtual bool OnMouseReleased(events::MouseReleasedEvent& e);
 		virtual bool OnMouseMoved(events::MouseMovedEvent& e);
 
+		virtual bool OnKeyPressed(events::KeyPressedEvent& e);
+		virtual bool OnKeyReleased(events::KeyReleasedEvent& e);
+
 		virtual void OnUpdate();
 		virtual void OnRender(Renderer2D& renderer);
 

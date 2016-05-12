@@ -25,6 +25,9 @@ namespace sp { namespace graphics { namespace ui {
 		bool OnMouseReleasedEvent(events::MouseReleasedEvent& e);
 		bool OnMouseMovedEvent(events::MouseMovedEvent& e);
 
+		bool OnKeyPressedEvent(events::KeyPressedEvent& e);
+		bool OnKeyReleasedEvent(events::KeyReleasedEvent& e);
+
 		void OnUpdate() override;
 		void OnRender(Renderer2D& renderer) override;
 

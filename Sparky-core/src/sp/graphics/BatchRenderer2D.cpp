@@ -465,6 +465,64 @@ namespace sp { namespace graphics {
 		FillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height, color);
 	}
 
+	void BatchRenderer2D::DrawTexture(const maths::Rectangle& bounds, API::Texture2D* texture, maths::Rectangle uv)
+	{
+		vec3 position(bounds.x, bounds.y, 0.0f);
+		vec2 size(bounds.width, bounds.height);
+		std::vector<vec2> uvs;
+		
+		uvs.push_back(maths::vec2(uv.x, uv.height));
+		uvs.push_back(maths::vec2(uv.width, uv.height));
+		uvs.push_back(maths::vec2(uv.width, uv.y));
+		uvs.push_back(maths::vec2(uv.x, uv.y));
+
+		float ts = 0.0f;
+		float ms = 0.0f;
+		ms = SubmitTexture(texture);
+
+		vec3 vertex = *m_TransformationBack * position;
+		vec3 vertexUV = *m_TransformationBack * vec3(position.x + uv.x, position.y + uv.y, position.z);;
+		m_Buffer->vertex = vertex;
+		m_Buffer->uv = uvs[0];
+		m_Buffer->mask_uv = vertexUV;
+		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
+		m_Buffer->color = 0xcfffffff;
+		m_Buffer++;
+
+		vertex = *m_TransformationBack * vec3(position.x + size.x, position.y, position.z);
+		vertexUV = *m_TransformationBack * vec3(position.x + uv.width, position.y + uv.y, position.z);
+		m_Buffer->vertex = vertex;
+		m_Buffer->uv = uvs[1];
+		m_Buffer->mask_uv = vertexUV;
+		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
+		m_Buffer->color = 0xcfffffff;
+		m_Buffer++;
+
+		vertex = *m_TransformationBack * vec3(position.x + size.x, position.y + size.y, position.z);
+		vertexUV = *m_TransformationBack * vec3(position.x + uv.width, position.y + uv.height, position.z);
+		m_Buffer->vertex = vertex;
+		m_Buffer->uv = uvs[2];
+		m_Buffer->mask_uv = vertexUV;
+		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
+		m_Buffer->color = 0xcfffffff;
+		m_Buffer++;
+
+		vertex = *m_TransformationBack * vec3(position.x, position.y + size.y, position.z);
+		vertexUV = *m_TransformationBack * vec3(position.x + uv.x, position.y + uv.height, position.z);
+		m_Buffer->vertex = vertex;
+		m_Buffer->uv = uvs[3];
+		m_Buffer->mask_uv = vertexUV;
+		m_Buffer->tid = ts;
+		m_Buffer->mid = ms;
+		m_Buffer->color = 0xcfffffff;
+		m_Buffer++;
+
+		m_IndexCount += 6;
+	}
+
 	void BatchRenderer2D::End()
 	{
 		m_VertexArray->GetBuffer()->ReleasePointer();

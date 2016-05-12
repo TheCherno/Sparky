@@ -57,6 +57,8 @@ namespace sp { namespace graphics { namespace ui {
 	void Panel::OnEvent(events::Event& event)
 	{
 		EventDispatcher dispatcher(event);
+		dispatcher.Dispatch<KeyPressedEvent>(METHOD(&Panel::OnKeyPressedEvent));
+		dispatcher.Dispatch<KeyReleasedEvent>(METHOD(&Panel::OnKeyReleasedEvent));
 		dispatcher.Dispatch<MousePressedEvent>(METHOD(&Panel::OnMousePressedEvent));
 		dispatcher.Dispatch<MouseReleasedEvent>(METHOD(&Panel::OnMouseReleasedEvent));
 		dispatcher.Dispatch<MouseMovedEvent>(METHOD(&Panel::OnMouseMovedEvent));
@@ -101,6 +103,28 @@ namespace sp { namespace graphics { namespace ui {
 		{
 			Widget* widget = m_Widgets[i];
 			if (widget->OnMouseMoved(e))
+				return true;
+		}
+		return false;
+	}
+
+	bool Panel::OnKeyPressedEvent(events::KeyPressedEvent& e)
+	{
+		for (uint i = 0; i < m_Widgets.size(); i++)
+		{
+			Widget* widget = m_Widgets[i];
+			if (widget->OnKeyPressed(e))
+				return true;
+		}
+		return false;
+	}
+
+	bool Panel::OnKeyReleasedEvent(events::KeyReleasedEvent& e)
+	{
+		for (uint i = 0; i < m_Widgets.size(); i++)
+		{
+			Widget* widget = m_Widgets[i];
+			if (widget->OnKeyReleased(e))
 				return true;
 		}
 		return false;
