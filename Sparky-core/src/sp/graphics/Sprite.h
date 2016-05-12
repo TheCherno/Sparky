@@ -10,7 +10,7 @@ namespace sp { namespace graphics {
 		maths::vec3& position;
 		maths::vec2& size;
 	public:
-		Sprite(API::Texture2D* texture);
+		explicit Sprite(API::Texture2D* texture);
 		Sprite(float x, float y, API::Texture2D* texture);
 		Sprite(float x, float y, float width, float height, uint color);
 		Sprite(float x, float y, float width, float height, const maths::vec4& color);

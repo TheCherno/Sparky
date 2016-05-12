@@ -31,7 +31,7 @@ namespace sp { namespace events {
 		bool m_Handled;
 		Type m_Type;
 	protected:
-		Event(Type type);
+		explicit Event(Type type);
 	public:
 		inline Type GetType() const { return m_Type; }
 		inline bool IsHandled() const { return m_Handled; }

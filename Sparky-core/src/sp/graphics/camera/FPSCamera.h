@@ -12,7 +12,7 @@ namespace sp { namespace graphics {
 		float m_Pitch, m_Yaw;
 		bool m_MouseWasGrabbed;
 	public:
-		FPSCamera(const maths::mat4& projectionMatrix);
+		explicit FPSCamera(const maths::mat4& projectionMatrix);
 		~FPSCamera();
 		void Focus() override;
 		void Update() override;

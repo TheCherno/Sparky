@@ -49,7 +49,7 @@ namespace sp { namespace graphics { namespace API {
 		{
 		}
 
-		TextureParameters(TextureFilter filter)
+		explicit TextureParameters(TextureFilter filter)
 			: format(TextureFormat::RGBA), filter(filter), wrap(TextureWrap::CLAMP)
 		{
 		}
