@@ -1,6 +1,6 @@
 #include "ScriptingTest.h"
 
-#include <sp\scripting\Scripting.h>
+#include <sp\scripting\Lua.h>
 
 using namespace sp;
 using namespace debug;
@@ -40,8 +40,6 @@ String materialInput[5] =
 	"ABSRed",
 	"Custom"
 };
-
-lua_State* m_ScriptingState;
 
 void ScriptingTest::OnInit(Renderer3D& renderer, Scene& scene)
 {
@@ -107,12 +105,12 @@ void ScriptingTest::OnInit(Renderer3D& renderer, Scene& scene)
 	g_Mesh = spnew Mesh(sphereModel->GetMesh());
 	g_Mesh->SetMaterial(m);
 
-	Scripting::CreateState(&m_ScriptingState);
-	Scripting::Init(m_ScriptingState);
-	Scripting::LoadSparkyAPI(m_ScriptingState);
-	Scripting::LoadFile(m_ScriptingState, "/scripts/test.lua");
+	LuaSetup::CreateState(&LuaState);
+	LuaSetup::Init(LuaState);
+	LuaSetup::LoadSparkyAPI(LuaState);
+	LuaSetup::LoadFile(LuaState, "/scripts/test.lua");
 
-	Scripting::Call(m_ScriptingState, "printVersion");
+	LuaFunctions::Call(LuaState, "printVersion");
 
 	Entity* e = spnew Entity();
 	e->AddComponent(spnew MeshComponent(g_Mesh));
@@ -154,29 +152,29 @@ void ScriptingTest::OnEvent(Event& event)
 				m_Scene->SetCamera(m_Scene->GetCamera() == m_MayaCamera ? m_FPSCamera : m_MayaCamera);
 				break;
 			case SP_KEY_O:
-				Scripting::Call(m_ScriptingState, "loadSound", "cherno", "res/Cherno.ogg");
+				LuaFunctions::Call(LuaState, "loadSound", "cherno", "res/Cherno.ogg");
 				break;
 			case SP_KEY_P:
-				Scripting::Call(m_ScriptingState, "playSound", "cherno");
+				LuaFunctions::Call(LuaState, "playSound", "cherno");
 				break;
 			case SP_KEY_L:
-				Scripting::Call(m_ScriptingState, "loopSound", "cherno");
+				LuaFunctions::Call(LuaState, "loopSound", "cherno");
 				break;
 			case SP_KEY_H:
-				Scripting::Call(m_ScriptingState, "debugMenu", "yes", false);
+				LuaFunctions::Call(LuaState, "debugMenu", "yes", false);
 				break;
 			case SP_KEY_E:
-				Scripting::Call(m_ScriptingState, "addEntity", maths::vec3(0, 20, 0), g_Mesh, m_Scene);
+				LuaFunctions::Call(LuaState, "addEntity", maths::vec3(0, 20, 0), g_Mesh, m_Scene);
 				break;
 			}
 		}
 		switch (kpe->GetKeyCode())
 		{
 		case SP_KEY_1:
-			Scripting::Call(m_ScriptingState, "changeGain", -0.4);
+			LuaFunctions::Call(LuaState, "changeGain", -0.4);
 			break;
 		case SP_KEY_2:
-			Scripting::Call(m_ScriptingState, "changeGain", 0.4);
+			LuaFunctions::Call(LuaState, "changeGain", 0.4);
 			break;
 		}
 	}

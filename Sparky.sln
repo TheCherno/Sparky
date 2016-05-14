@@ -31,8 +31,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SPMBuild", "Tools\SPMBuild\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreeImage", "Dependencies\FreeImage\FreeImage.vcxproj", "{6F2FF135-E343-4138-A6FB-2D1F2540A3F8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "luabind-deboostified", "Dependencies\luabind-deboostified\luabind-deboostified.vcxproj", "{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -257,28 +255,6 @@ Global
 		{6F2FF135-E343-4138-A6FB-2D1F2540A3F8}.Release|Win32.ActiveCfg = Release|Win32
 		{6F2FF135-E343-4138-A6FB-2D1F2540A3F8}.Release|Win32.Build.0 = Release|Win32
 		{6F2FF135-E343-4138-A6FB-2D1F2540A3F8}.Release|x64.ActiveCfg = Release|x64
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Debug|Win32.ActiveCfg = Debug|Win32
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Debug|Win32.Build.0 = Debug|Win32
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Debug|x64.ActiveCfg = Debug|x64
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Debug|x64.Build.0 = Debug|x64
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Emscripten|Any CPU.ActiveCfg = Release|x64
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Emscripten|Any CPU.Build.0 = Release|x64
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Emscripten|Mixed Platforms.ActiveCfg = Release|Win32
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Emscripten|Mixed Platforms.Build.0 = Release|Win32
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Emscripten|Win32.ActiveCfg = Release|Win32
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Emscripten|Win32.Build.0 = Release|Win32
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Emscripten|x64.ActiveCfg = Release|x64
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Emscripten|x64.Build.0 = Release|x64
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Release|Any CPU.ActiveCfg = Release|Win32
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Release|Win32.ActiveCfg = Release|Win32
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Release|Win32.Build.0 = Release|Win32
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Release|x64.ActiveCfg = Release|x64
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -291,6 +267,5 @@ Global
 		{E9A0F826-3688-4461-8E49-7CCC543F9E40} = {CDF953E8-D5D6-4797-AA4A-5C7D86DE1F64}
 		{B2F249D4-0D02-4FAB-B031-D0C594DF0CE3} = {E8F65CE7-0E81-42F2-998C-F71E1F7D5097}
 		{6F2FF135-E343-4138-A6FB-2D1F2540A3F8} = {CDF953E8-D5D6-4797-AA4A-5C7D86DE1F64}
-		{C7E8181B-58C9-4791-808B-4EF4CF6F8A19} = {CDF953E8-D5D6-4797-AA4A-5C7D86DE1F64}
 	EndGlobalSection
 EndGlobal
