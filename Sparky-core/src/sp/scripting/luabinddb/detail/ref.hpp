@@ -27,8 +27,8 @@
 #include <cassert>
 #include <algorithm>
 
-#include "config.hpp"
-#include "lua_include.hpp"
+#include "../config.hpp"
+#include "../lua_include.hpp"
 
 namespace luabind
 {

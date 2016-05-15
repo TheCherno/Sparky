@@ -24,7 +24,7 @@
 #define LUABIND_STACK_UTILS_HPP_INCLUDED
 
 #ifndef LUA_INCLUDE_HPP_INCLUDED
-#include "lua_include.hpp"
+#include "../lua_include.hpp"
 #endif
 
 #include <cassert>

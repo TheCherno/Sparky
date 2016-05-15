@@ -5,8 +5,8 @@
 # ifndef LUABIND_DEDUCE_SIGNATURE_080911_HPP
 # define LUABIND_DEDUCE_SIGNATURE_080911_HPP
 
-#include "detail/meta.hpp"
-#include "detail/most_derived.hpp"
+#include "../detail/meta.hpp"
+#include "../detail/most_derived.hpp"
 
 namespace luabind {
 

@@ -23,8 +23,8 @@
 #ifndef POINTEE_TYPEID_040211_HPP
 #define POINTEE_TYPEID_040211_HPP
 
-#include "config.hpp"
-#include "typeid.hpp"
+#include "../config.hpp"
+#include "../typeid.hpp"
 
 namespace luabind { namespace detail {
 

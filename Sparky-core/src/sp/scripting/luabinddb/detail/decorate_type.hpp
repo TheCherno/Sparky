@@ -24,8 +24,8 @@
 #ifndef LUABIND_DECORATE_TYPE_HPP_INCLUDED
 #define LUABIND_DECORATE_TYPE_HPP_INCLUDED
 
-#include "config.hpp"
-#include "detail/primitives.hpp"
+#include "../config.hpp"
+#include "../detail/primitives.hpp"
 
 namespace luabind { namespace detail
 {

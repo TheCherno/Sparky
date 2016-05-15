@@ -24,7 +24,7 @@
 #ifndef LUABIND_OPEN_HPP_INCLUDED
 #define LUABIND_OPEN_HPP_INCLUDED
 
-#include "config.hpp"
+#include "../config.hpp"
 
 namespace luabind
 {

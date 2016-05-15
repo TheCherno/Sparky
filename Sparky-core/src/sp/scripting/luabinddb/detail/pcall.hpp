@@ -23,9 +23,9 @@
 #ifndef LUABIND_PCALL_HPP_INCLUDED
 #define LUABIND_PCALL_HPP_INCLUDED
 
-#include "config.hpp"
+#include "../config.hpp"
 
-#include "lua_state_fwd.hpp"
+#include "../lua_state_fwd.hpp"
 
 namespace luabind { namespace detail
 {

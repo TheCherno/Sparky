@@ -5,8 +5,8 @@
 #ifndef LUABIND_DETAIL_MAKE_INSTANCE_090310_HPP
 # define LUABIND_DETAIL_MAKE_INSTANCE_090310_HPP
 
-# include "detail/inheritance.hpp"
-# include "detail/object_rep.hpp"
+# include "../detail/inheritance.hpp"
+# include "../detail/object_rep.hpp"
 
 namespace luabind { 
 	namespace detail {

@@ -97,6 +97,11 @@ if exist %LJDLLNAME%.manifest^
 if exist luajit.exe.manifest^
   %LJMT% -manifest luajit.exe.manifest -outputresource:luajit.exe
 
+move /Y lua51.dll ../bin/lua51.dll
+move /Y lua51.exp ../bin/lua51.exp
+move /Y lua51.lib ../bin/lua51.lib
+move /Y luajit.exe ../bin/luajit.exe
+
 @del *.obj *.manifest minilua.exe buildvm.exe
 @echo.
 @echo === Successfully built LuaJIT for Windows/%LJARCH% ===

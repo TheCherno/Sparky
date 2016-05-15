@@ -4,13 +4,13 @@
 #ifndef LUABIND_INHERITANCE_090217_HPP
 # define LUABIND_INHERITANCE_090217_HPP
 
-# include "config.hpp"
+# include "../config.hpp"
 # include <cassert>
 # include <limits>
 # include <map>
 # include <memory>
 # include <vector>
-# include "typeid.hpp"
+# include "../typeid.hpp"
 
 namespace luabind { 
 

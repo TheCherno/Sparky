@@ -23,7 +23,7 @@
 #ifndef LUA_INCLUDE_HPP_INCLUDED
 #define LUA_INCLUDE_HPP_INCLUDED
 
-#include "../../luajit/src/lua.hpp"
+#include "../../Dependencies/luajit/src/lua.hpp"
 
 #endif
 

@@ -267,9 +267,11 @@ namespace sp { namespace scripting {
 		module(L)
 		[
 			class_<Scene>("Scene")
+			.def(constructor<>())
 			.def("Add", &Scene::Add)
 			.def("SetCamera", &Scene::SetCamera)
 			.def("GetEntities", &Scene::GetEntities)
+			.def("print", &Scene::print)
 		];
 
 		module(L)
@@ -452,10 +454,10 @@ namespace sp { namespace scripting {
 
 	void Load(lua_State* L)
 	{
+		RegisterEntity(L);
 		RegisterMaths(L);
 		RegisterGraphics(L);
 		RegisterEvents(L);
-		RegisterEntity(L);
 		RegisterDebug(L);
 		RegisterAudio(L);
 	}
