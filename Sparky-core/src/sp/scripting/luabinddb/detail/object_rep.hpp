@@ -24,10 +24,10 @@
 #ifndef LUABIND_OBJECT_REP_HPP_INCLUDED
 #define LUABIND_OBJECT_REP_HPP_INCLUDED
 
-#include "config.hpp"
-#include "detail/class_rep.hpp"
-#include "detail/instance_holder.hpp"
-#include "detail/ref.hpp"
+#include "../config.hpp"
+#include "../detail/class_rep.hpp"
+#include "../detail/instance_holder.hpp"
+#include "../detail/ref.hpp"
 #include <type_traits>	// std::aligned_storage
 #include <cstdlib>
 

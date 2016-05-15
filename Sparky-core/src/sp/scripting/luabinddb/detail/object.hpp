@@ -25,17 +25,17 @@
 
 #include <tuple>
 
-#include "nil.hpp"
-#include "handle.hpp"
-#include "from_stack.hpp"
-#include "detail/stack_utils.hpp"
-#include "detail/convert_to_lua.hpp" // REFACTOR
-#include "typeid.hpp"
-#include "detail/crtp_iterator.hpp"
-#include "lua_proxy_interface.hpp"
-#include "lua_index_proxy.hpp"
-#include "lua_iterator_proxy.hpp"
-#include "detail/class_rep.hpp"
+#include "../nil.hpp"
+#include "../handle.hpp"
+#include "../from_stack.hpp"
+#include "../detail/stack_utils.hpp"
+#include "../detail/convert_to_lua.hpp" // REFACTOR
+#include "../typeid.hpp"
+#include "../detail/crtp_iterator.hpp"
+#include "../lua_proxy_interface.hpp"
+#include "../lua_index_proxy.hpp"
+#include "../lua_iterator_proxy.hpp"
+#include "../detail/class_rep.hpp"
 
 #if LUA_VERSION_NUM < 502
 # define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)

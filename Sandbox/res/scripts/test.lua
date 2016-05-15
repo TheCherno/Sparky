@@ -22,7 +22,8 @@ end
 
 addEntity = function (vp, m, scene)
 	io.write(vp)
+	scene:print()
+	
 	e = Entity()
-	e:AddComponent(MeshComponent(m))
 	scene:Add(e)
 end

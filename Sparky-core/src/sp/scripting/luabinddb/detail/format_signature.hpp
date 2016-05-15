@@ -5,10 +5,10 @@
 #ifndef LUABIND_FORMAT_SIGNATURE_081014_HPP
 # define LUABIND_FORMAT_SIGNATURE_081014_HPP
 
-#include "config.hpp"
-#include "lua_include.hpp"
-#include "typeid.hpp"
-#include "detail/meta.hpp"
+#include "../config.hpp"
+#include "../lua_include.hpp"
+#include "../typeid.hpp"
+#include "../detail/meta.hpp"
 
 namespace luabind {
 	namespace adl {

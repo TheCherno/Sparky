@@ -4,6 +4,8 @@
 
 #include <string>
 
+#include "luabinddb/luabind.hpp"
+
 struct lua_State;
 typedef int(*lua_CFunction) (lua_State *L);
 
@@ -21,6 +23,12 @@ namespace sp { namespace scripting {
 		static void PushValue(lua_State* L, int& position, lua_Number n);
 		static void PushValue(lua_State* L, int& position, bool b);
 
+		template <class T>
+		static void PushValue(lua_State* L, int& position, T p) {
+
+			position++;
+		}
+
 		static bool Call(lua_State* state, const char* functionname);
 	private:
 		static void CallPreInternal(lua_State* state, const char* functionname);
@@ -29,22 +37,22 @@ namespace sp { namespace scripting {
 		template <typename First>
 		static void Call(lua_State* state, int32& position, First&& first)
 		{
-			const char* formatted = sp::internal::to_string<First>(first);
-			PushValue(state, position, formatted);
+			PushValue(state, position, first);
 		}
 
 		template <typename First, typename... Args>
 		static void Call(lua_State* state, int32& position, First&& first, Args&&... args)
 		{
-			const char* formatted = sp::internal::to_string<First>(first);
-			PushValue(state, position, formatted);
+			PushValue(state, position, first);
 			if (sizeof...(Args))
 				Call(state, position, std::forward<Args>(args)...);
 		}
 	public:
-		template <typename... Args>
+		template <typename T, typename... Args>
 		static void Call(lua_State* state, const char* functionname, Args... args)
 		{
+			// luabind::call_function<T>(state, functionname, std::forward<Args>(args)... );
+			
 			int32 position = 0;
 			CallPreInternal(state, functionname);
 			Call(state, position, std::forward<Args>(args)...);

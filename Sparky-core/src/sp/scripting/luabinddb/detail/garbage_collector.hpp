@@ -24,7 +24,7 @@
 #ifndef LUABIND_GARBAGE_COLLECTOR_HPP_INCLUDED
 #define LUABIND_GARBAGE_COLLECTOR_HPP_INCLUDED
 
-#include "config.hpp"
+#include "../config.hpp"
 
 namespace luabind { namespace detail
 {

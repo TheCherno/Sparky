@@ -1,8 +1,6 @@
 #include "sp/sp.h"
 #include "LuaFunctions.h"
 
-#include <lua.hpp>
-
 #include "sp/utils/Log.h"
 
 using namespace sp;

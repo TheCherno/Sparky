@@ -24,9 +24,9 @@
 #ifndef LUABIND_POLICY_HPP_INCLUDED
 #define LUABIND_POLICY_HPP_INCLUDED
 
-#include "config.hpp"
-#include "detail/primitives.hpp"
-#include "detail/decorate_type.hpp"
+#include "../config.hpp"
+#include "../detail/primitives.hpp"
+#include "../detail/decorate_type.hpp"
 
 #include <typeinfo>
 #include <type_traits>
@@ -34,7 +34,7 @@
 #include <memory>
 
 //#include "detail/conversion_policies/conversion_policies.hpp"
-#include "detail/meta.hpp"
+#include "../detail/meta.hpp"
 
 #if LUA_VERSION_NUM < 502
 # define lua_rawlen lua_objlen

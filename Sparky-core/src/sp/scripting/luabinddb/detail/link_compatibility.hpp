@@ -23,7 +23,7 @@
 #ifndef LUABIND_LINK_COMPATIBILITY_HPP_INCLUDED
 #define LUABIND_LINK_COMPATIBILITY_HPP_INCLUDED
 
-#include "config.hpp"
+#include "../config.hpp"
 
 namespace luabind { namespace detail
 {
