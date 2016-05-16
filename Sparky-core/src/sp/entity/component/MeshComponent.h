@@ -12,7 +12,7 @@ namespace sp { namespace entity { namespace component {
 	public:
 		graphics::Mesh* mesh;
 	public:
-		MeshComponent(graphics::Mesh* mesh);
+		explicit MeshComponent(graphics::Mesh* mesh);
 
 		static ComponentType* GetStaticType()
 		{

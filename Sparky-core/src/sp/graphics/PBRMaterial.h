@@ -9,7 +9,7 @@ namespace sp { namespace graphics {
 	private:
 		static API::Texture2D* s_PreintegratedFG;
 	public:
-		PBRMaterial(API::Shader* shader);
+		explicit PBRMaterial(API::Shader* shader);
 		~PBRMaterial();
 
 		void SetEnviromentMap(API::TextureCube* texture);
@@ -35,7 +35,7 @@ namespace sp { namespace graphics {
 	class SP_API PBRMaterialInstance : public MaterialInstance
 	{
 	public:
-		PBRMaterialInstance(PBRMaterial* material);
+		explicit PBRMaterialInstance(PBRMaterial* material);
 
 		void SetEnviromentMap(API::TextureCube* texture);
 

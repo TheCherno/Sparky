@@ -66,7 +66,7 @@ namespace sp { namespace graphics {
 		Camera* m_Camera;
 	public:
 		BatchRenderer2D(uint width, uint height);
-		BatchRenderer2D(const maths::tvec2<uint>& screenSize);
+		explicit BatchRenderer2D(const maths::tvec2<uint>& screenSize);
 		~BatchRenderer2D();
 
 		void SetCamera(Camera* camera) override;

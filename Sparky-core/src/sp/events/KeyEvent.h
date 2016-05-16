@@ -38,7 +38,7 @@ namespace sp { namespace events {
 	class SP_API KeyReleasedEvent : public KeyEvent
 	{
 	public:
-		KeyReleasedEvent(int32 button);
+		explicit KeyReleasedEvent(int32 button);
 
 		inline static Type GetStaticType() { return Event::Type::KEY_RELEASED; }
 	};

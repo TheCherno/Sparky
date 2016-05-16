@@ -24,8 +24,8 @@ namespace sp { namespace graphics { namespace ui {
 		ValueChangedCallback m_Callback;
 		bool m_Vertical;
 	public:
-		Slider(const maths::Rectangle& bounds, bool vertical = false);
-		Slider(const maths::Rectangle& bounds, float value = 0.0f, const ValueChangedCallback& callback = &Slider::NoCallback, bool vertical = false);
+		explicit Slider(const maths::Rectangle& bounds, bool vertical = false);
+		explicit Slider(const maths::Rectangle& bounds, float value = 0.0f, const ValueChangedCallback& callback = &Slider::NoCallback, bool vertical = false);
 
 		bool OnMousePressed(events::MousePressedEvent& e) override;
 		bool OnMouseReleased(events::MouseReleasedEvent& e) override;

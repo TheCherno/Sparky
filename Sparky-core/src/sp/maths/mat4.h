@@ -21,8 +21,8 @@ namespace sp { namespace maths {
 		};
 
 		mat4();
-		mat4(float diagonal);
-		mat4(float* elements);
+		explicit mat4(float diagonal);
+		explicit mat4(float* elements);
 		mat4(const vec4& row0, const vec4& row1, const vec4& row2, const vec4& row3);
 
 		static mat4 Identity();

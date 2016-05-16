@@ -17,7 +17,7 @@ namespace sp { namespace graphics { namespace API {
 		uint m_Size;
 		BufferLayout m_Layout;
 	public:
-		D3DVertexBuffer(BufferUsage usage);
+		explicit D3DVertexBuffer(BufferUsage usage);
 		~D3DVertexBuffer();
 
 		void Resize(uint size) override;

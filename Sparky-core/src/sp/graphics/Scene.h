@@ -21,7 +21,7 @@ namespace sp { namespace graphics {
 		std::vector<LightSetup*> m_LightSetupStack;
 	public:
 		Scene();
-		Scene(Camera* camera);
+		explicit Scene(Camera* camera);
 		~Scene();
 
 		void Add(entity::Entity* entity);

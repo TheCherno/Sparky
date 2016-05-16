@@ -37,7 +37,7 @@ namespace sp { namespace graphics {
 
 	void Label::Submit(Renderer2D* renderer) const
 	{
-		renderer->DrawString(text, position, *m_Font, m_Color);
+		renderer->DrawString(text, sp::maths::vec2(position), *m_Font, m_Color);
 	}
 
 	void Label::ValidateFont(const String& name, int32 size)

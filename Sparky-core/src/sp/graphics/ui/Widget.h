@@ -18,7 +18,7 @@ namespace sp { namespace graphics { namespace ui {
 	private:
 		Widget() {}
 	protected:
-		Widget(const maths::Rectangle& bounds);
+		explicit Widget(const maths::Rectangle& bounds);
 	public:
 		virtual bool OnMousePressed(events::MousePressedEvent& e);
 		virtual bool OnMouseReleased(events::MouseReleasedEvent& e);

@@ -17,7 +17,7 @@ namespace sp { namespace graphics {
 
 		float m_Pitch, m_Yaw;
 	public:
-		MayaCamera(const maths::mat4& projectionMatrix);
+		explicit MayaCamera(const maths::mat4& projectionMatrix);
 		void Focus() override;
 		void Update() override;
 

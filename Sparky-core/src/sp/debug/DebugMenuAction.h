@@ -19,7 +19,7 @@ namespace sp { namespace debug {
 
 	struct EmptyAction : public IAction
 	{
-		EmptyAction(const String& name) { this->name = name; }
+		explicit EmptyAction(const String& name) { this->name = name; }
 		void OnAction() override {}
 		String ToString() override { return name; }
 	};

@@ -41,7 +41,7 @@ namespace sp { namespace graphics {
 
 		int m_RenderFlags;
 	public:
-		Material(API::Shader* shader);
+		explicit Material(API::Shader* shader);
 		~Material();
 
 		void Bind();
@@ -104,7 +104,7 @@ namespace sp { namespace graphics {
 
 		int m_RenderFlags;
 	public:
-		MaterialInstance(Material* material);
+		explicit MaterialInstance(Material* material);
 
 		inline Material* GetMaterial() const { return m_Material; }
 

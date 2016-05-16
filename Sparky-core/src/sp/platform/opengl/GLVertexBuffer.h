@@ -13,7 +13,7 @@ namespace sp { namespace graphics { namespace API {
 		uint m_Size;
 		BufferLayout m_Layout;
 	public:
-		GLVertexBuffer(BufferUsage usage);
+		explicit GLVertexBuffer(BufferUsage usage);
 		~GLVertexBuffer();
 
 		void Resize(uint size) override;

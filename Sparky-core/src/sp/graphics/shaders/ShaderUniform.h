@@ -49,7 +49,7 @@ namespace sp { namespace graphics { namespace API {
 		uint m_Size;
 		uint m_Offset;
 	public:
-		ShaderStruct(const String& name)
+		explicit ShaderStruct(const String& name)
 			: m_Name(name), m_Size(0), m_Offset(0)
 		{
 		}

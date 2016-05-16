@@ -20,7 +20,7 @@ namespace sp { namespace graphics {
 		maths::mat4 m_ProjectionMatrix;
 	public:
 		// TODO: Replace Shader with Material
-		Layer2D(const maths::mat4& projectionMatrix);
+		explicit Layer2D(const maths::mat4& projectionMatrix);
 		virtual ~Layer2D();
 
 		virtual void Init();

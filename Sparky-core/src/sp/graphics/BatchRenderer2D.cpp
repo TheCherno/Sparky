@@ -229,7 +229,7 @@ namespace sp { namespace graphics {
 		vec3 vertex = *m_TransformationBack * position;
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[0];
-		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->mask_uv = vec2(maskTransform * vertex);
 		m_Buffer->tid = textureSlot;
 		m_Buffer->mid = ms;
 		m_Buffer->color = color;
@@ -238,7 +238,7 @@ namespace sp { namespace graphics {
 		vertex = *m_TransformationBack * vec3(position.x + size.x, position.y, position.z);
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[1];
-		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->mask_uv = vec2(maskTransform * vertex);
 		m_Buffer->tid = textureSlot;
 		m_Buffer->mid = ms;
 		m_Buffer->color = color;
@@ -247,7 +247,7 @@ namespace sp { namespace graphics {
 		vertex = *m_TransformationBack * vec3(position.x + size.x, position.y + size.y, position.z);
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[2];
-		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->mask_uv = vec2(maskTransform * vertex);
 		m_Buffer->tid = textureSlot;
 		m_Buffer->mid = ms;
 		m_Buffer->color = color;
@@ -256,7 +256,7 @@ namespace sp { namespace graphics {
 		vertex = *m_TransformationBack * vec3(position.x, position.y + size.y, position.z);
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[3];
-		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->mask_uv = vec2(maskTransform * vertex);
 		m_Buffer->tid = textureSlot;
 		m_Buffer->mid = ms;
 		m_Buffer->color = color;
@@ -284,7 +284,7 @@ namespace sp { namespace graphics {
 		vec3 vertex = *m_TransformationBack * vec3(x0 + normal.x, y0 + normal.y, 0.0f);
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[0];
-		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->mask_uv = vec2(maskTransform * vertex);
 		m_Buffer->tid = ts;
 		m_Buffer->mid = ms;
 		m_Buffer->color = color;
@@ -293,7 +293,7 @@ namespace sp { namespace graphics {
 		vertex = *m_TransformationBack * vec3(x1 + normal.x, y1 + normal.y, 0.0f);
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[1];
-		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->mask_uv = vec2(maskTransform * vertex);
 		m_Buffer->tid = ts;
 		m_Buffer->mid = ms;
 		m_Buffer->color = color;
@@ -302,7 +302,7 @@ namespace sp { namespace graphics {
 		vertex = *m_TransformationBack * vec3(x1 - normal.x, y1 - normal.y, 0.0f);
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[2];
-		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->mask_uv = vec2(maskTransform * vertex);
 		m_Buffer->tid = ts;
 		m_Buffer->mid = ms;
 		m_Buffer->color = color;
@@ -311,7 +311,7 @@ namespace sp { namespace graphics {
 		vertex = *m_TransformationBack * vec3(x0 - normal.x, y0 - normal.y, 0.0f);
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[3];
-		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->mask_uv = vec2(maskTransform * vertex);
 		m_Buffer->tid = ts;
 		m_Buffer->mid = ms;
 		m_Buffer->color = color;
@@ -424,7 +424,7 @@ namespace sp { namespace graphics {
 		vec3 vertex = *m_TransformationBack * position;
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[0];
-		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->mask_uv = vec2(maskTransform * vertex);
 		m_Buffer->tid = ts;
 		m_Buffer->mid = ms;
 		m_Buffer->color = color;
@@ -433,7 +433,7 @@ namespace sp { namespace graphics {
 		vertex = *m_TransformationBack * vec3(position.x + size.x, position.y, position.z);
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[1];
-		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->mask_uv = vec2(maskTransform * vertex);
 		m_Buffer->tid = ts;
 		m_Buffer->mid = ms;
 		m_Buffer->color = color;
@@ -442,7 +442,7 @@ namespace sp { namespace graphics {
 		vertex = *m_TransformationBack * vec3(position.x + size.x, position.y + size.y, position.z);
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[2];
-		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->mask_uv = vec2(maskTransform * vertex);
 		m_Buffer->tid = ts;
 		m_Buffer->mid = ms;
 		m_Buffer->color = color;
@@ -451,7 +451,7 @@ namespace sp { namespace graphics {
 		vertex = *m_TransformationBack * vec3(position.x, position.y + size.y, position.z);
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[3];
-		m_Buffer->mask_uv = maskTransform * vertex;
+		m_Buffer->mask_uv = vec2(maskTransform * vertex);
 		m_Buffer->tid = ts;
 		m_Buffer->mid = ms;
 		m_Buffer->color = color;

@@ -15,7 +15,7 @@ namespace sp { namespace graphics {
 		maths::vec3 lightVector;
 		float intensity;
 
-		Light(const maths::vec3& direction, float intensity = 1.0f, const maths::vec4& color = maths::vec4(1.0f));
+		explicit Light(const maths::vec3& direction, float intensity = 1.0f, const maths::vec4& color = maths::vec4(1.0f));
 	};
 
 } }
