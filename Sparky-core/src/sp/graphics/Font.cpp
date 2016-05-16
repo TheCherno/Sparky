@@ -65,7 +65,8 @@ namespace sp { namespace graphics {
 
 		float yo = 0.0f;
 		const maths::vec2& scale = m_Scale;
-		for (int i = 0; i < text.size(); i++)
+
+		for (size_t i = 0; i < text.size(); i++)
 		{
 			texture_glyph_t* glyph = texture_font_get_glyph(m_FTFont, text[i]);
 			SP_ASSERT(glyph);
@@ -84,7 +85,7 @@ namespace sp { namespace graphics {
 
 		float width = 0.0f;
 		const maths::vec2& scale = m_Scale;
-		for (int i = 0; i < text.size(); i++)
+		for (size_t i = 0; i < text.size(); i++)
 		{
 			texture_glyph_t* glyph = texture_font_get_glyph(m_FTFont, text[i]);
 			SP_ASSERT(glyph);
@@ -105,7 +106,7 @@ namespace sp { namespace graphics {
 		const maths::vec2& scale = m_Scale;
 		float min = 0.0f;
 		float max = 0.0f;
-		for (int i = 0; i < text.size(); i++)
+		for (size_t i = 0; i < text.size(); i++)
 		{
 			texture_glyph_t* glyph = texture_font_get_glyph(m_FTFont, text[i]);
 			SP_ASSERT(glyph);
