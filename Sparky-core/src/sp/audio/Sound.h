@@ -24,14 +24,12 @@ namespace sp { namespace audio {
 		ga_Handle* m_Handle;
 
 		bool m_Playing;
-		float m_Gain;
-		float m_Pan;
-		float m_Pitch;
+		float m_Gain; // volume
+		float m_Pan; // speaker direction
 
 	public:
 		Sound(const String& name, const String& filename);
 		~Sound();
-
 
 		void Play();
 		void Loop();

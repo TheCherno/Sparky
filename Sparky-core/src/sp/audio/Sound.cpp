@@ -160,11 +160,10 @@ namespace sp { namespace audio {
 			TODO: Objects behind the camera position should be reduced by a scaling percentage
 			to mimic real-world hearing perception.
 		*/
-		maths::vec3& direction = forward.Cross(up);
-		direction = forward.Normalize();
-		maths::vec3& distanceBetween = entityPosition - cameraPosition;
-		distanceBetween = distanceBetween.Normalize();
-		const float ANGLE = direction.Dot(distanceBetween);
+
+		maths::vec3& direction = forward.Cross(up).Normalize();
+		maths::vec3& distanceBetween = (entityPosition - cameraPosition).Normalize();
+		const float ANGLE = direction.Dot(distanceBetween);	
 
 		/* 
 			Determine how much to pan audio left, center and right
