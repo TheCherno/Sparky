@@ -2,19 +2,19 @@
 
 #include <msclr\marshal_cppstd.h>
 
-namespace SparkyCLI {
+namespace sp { namespace cli {
 
-	static std::string string_to_std_string(System::String^ string)
+	static String StringToStdString(System::String^ string)
 	{
 		return msclr::interop::marshal_as<std::string>(string);
 	}
 
-	static System::String^ std_string_to_string(const std::string& string)
+	static System::String^ StdStringToString(const std::string& string)
 	{
 		return msclr::interop::marshal_as<System::String^>(string);
 	}
 
-	static const char* string_to_char_array(System::String^ string)
+	static const char* StringToCharArray(System::String^ string)
 	{
 		char* result = new char[string->Length + 1];
 		sprintf(result, "%s", string);
@@ -61,4 +61,4 @@ namespace SparkyCLI {
 		}
 
 	};
-}
+} }
