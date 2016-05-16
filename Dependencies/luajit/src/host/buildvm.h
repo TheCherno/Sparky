@@ -12,8 +12,8 @@
 #include <string.h>
 #include <errno.h>
 
-#include "lj_def.h"
-#include "lj_arch.h"
+#include "../lj_def.h"
+#include "../lj_arch.h"
 
 /* Hardcoded limits. Increase as needed. */
 #define BUILD_MAX_RELOC		200	/* Max. number of relocations. */

@@ -7,7 +7,7 @@
 */
 
 #include "buildvm.h"
-#include "lj_bc.h"
+#include "../lj_bc.h"
 
 #if LJ_TARGET_X86ORX64 || LJ_TARGET_PPC
 

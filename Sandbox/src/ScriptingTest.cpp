@@ -2,7 +2,6 @@
 
 #include <sp\scripting\Lua.h>
 #include <sp\system\Reference.h>
-#include <sp\scripting\luabinddb\luabind.hpp>
 
 using namespace sp;
 using namespace debug;

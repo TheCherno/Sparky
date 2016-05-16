@@ -4,8 +4,8 @@
 */
 
 #include "buildvm.h"
-#include "lj_obj.h"
-#include "lj_ir.h"
+#include "../lj_obj.h"
+#include "../lj_ir.h"
 
 /* Context for the folding hash table generator. */
 static int lineno;

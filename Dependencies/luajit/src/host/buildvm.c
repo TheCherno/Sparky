@@ -15,18 +15,18 @@
 */
 
 #include "buildvm.h"
-#include "lj_obj.h"
-#include "lj_gc.h"
-#include "lj_bc.h"
-#include "lj_ir.h"
-#include "lj_ircall.h"
-#include "lj_frame.h"
-#include "lj_dispatch.h"
+#include "../lj_obj.h"
+#include "../lj_gc.h"
+#include "../lj_bc.h"
+#include "../lj_ir.h"
+#include "../lj_ircall.h"
+#include "../lj_frame.h"
+#include "../lj_dispatch.h"
 #if LJ_HASFFI
-#include "lj_ctype.h"
-#include "lj_ccall.h"
+#include "../lj_ctype.h"
+#include "../lj_ccall.h"
 #endif
-#include "luajit.h"
+#include "../luajit.h"
 
 #if defined(_WIN32)
 #include <fcntl.h>
@@ -41,7 +41,7 @@
 #define Dst_REF		(ctx->D)
 #define DASM_CHECKS	1
 
-#include "../dynasm/dasm_proto.h"
+#include "../../dynasm/dasm_proto.h"
 
 /* Glue macros for DynASM. */
 static int collect_reloc(BuildCtx *ctx, uint8_t *addr, int idx, int type);
@@ -56,15 +56,15 @@ static int collect_reloc(BuildCtx *ctx, uint8_t *addr, int idx, int type);
 
 /* Embed architecture-specific DynASM encoder. */
 #if LJ_TARGET_X86ORX64
-#include "../dynasm/dasm_x86.h"
+#include "../../dynasm/dasm_x86.h"
 #elif LJ_TARGET_ARM
-#include "../dynasm/dasm_arm.h"
+#include "../../dynasm/dasm_arm.h"
 #elif LJ_TARGET_PPC
-#include "../dynasm/dasm_ppc.h"
+#include "../../dynasm/dasm_ppc.h"
 #elif LJ_TARGET_PPCSPE
-#include "../dynasm/dasm_ppc.h"
+#include "../../dynasm/dasm_ppc.h"
 #elif LJ_TARGET_MIPS
-#include "../dynasm/dasm_mips.h"
+#include "../../dynasm/dasm_mips.h"
 #else
 #error "No support for this architecture (yet)"
 #endif
@@ -286,7 +286,7 @@ IRCALLDEF(IRCALLNAME)
 
 static const char *const trace_errors[] = {
 #define TREDEF(name, msg)	msg,
-#include "lj_traceerr.h"
+#include "../lj_traceerr.h"
   NULL
 };
 

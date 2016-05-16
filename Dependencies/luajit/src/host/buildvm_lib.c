@@ -4,8 +4,8 @@
 */
 
 #include "buildvm.h"
-#include "lj_obj.h"
-#include "lj_lib.h"
+#include "../lj_obj.h"
+#include "../lj_lib.h"
 
 /* Context for library definitions. */
 static uint8_t obuf[8192];
