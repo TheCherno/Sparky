@@ -67,13 +67,13 @@ namespace sp { namespace graphics { namespace ui {
 		{
 			float bounds = m_Bounds.size.y - m_HeadBounds.size.y;
 			m_HeadBounds.y = m_Bounds.y + bounds * m_Value;
-			m_HeadBounds.y = MathFunc::clamp(m_HeadBounds.y, m_Bounds.y, m_Bounds.y + m_Bounds.size.y - m_HeadBounds.size.y);
+			m_HeadBounds.y = clamp(m_HeadBounds.y, m_Bounds.y, m_Bounds.y + m_Bounds.size.y - m_HeadBounds.size.y);
 		}
 		else
 		{
 			float bounds = m_Bounds.size.x - m_HeadBounds.size.x;
 			m_HeadBounds.x = m_Bounds.x + bounds * m_Value;
-			m_HeadBounds.x = MathFunc::clamp(m_HeadBounds.x, m_Bounds.x, m_Bounds.x + m_Bounds.size.x - m_HeadBounds.size.x);
+			m_HeadBounds.x = clamp(m_HeadBounds.x, m_Bounds.x, m_Bounds.x + m_Bounds.size.x - m_HeadBounds.size.x);
 		}
 	}
 
@@ -91,7 +91,7 @@ namespace sp { namespace graphics { namespace ui {
 
 	void Slider::SetValue(float value)
 	{
-		value = MathFunc::clamp(value, 0.0f, 1.0f);
+		value = clamp(value, 0.0f, 1.0f);
 		m_Value = value;
 		m_Callback(value);
 	}
