@@ -239,7 +239,7 @@ namespace sp { namespace maths {
 	{
 		mat4 result(1.0f);
 
-		float q = 1.0f / tan(MathFunc::toRadians(0.5f * fov));
+		float q = 1.0f / tan(toRadians(0.5f * fov));
 		float a = q / aspectRatio;
 
 		float b = (near + far) / (near - far);
@@ -291,7 +291,7 @@ namespace sp { namespace maths {
 	{
 		mat4 result(1.0f);
 
-		float r = MathFunc::toRadians(angle);
+		float r = toRadians(angle);
 		float c = cos(r);
 		float s = sin(r);
 		float omc = 1.0f - c;
