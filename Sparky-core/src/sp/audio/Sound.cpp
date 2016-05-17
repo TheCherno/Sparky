@@ -157,13 +157,14 @@ namespace sp { namespace audio {
 			being the direction the camera pointed. The lower half (90 to 270) is vertically
 			flipped to maintain smooth transition while moving.
 			
-			TODO: Objects behind the camera position should be reduced by a scaling percentage
-			to mimic real-world hearing perception.
+			TODO: Entities behind the camera position should be reduced by a scaling percentage
+			to mimic real-world hearing perception of entities emitting sound from behind to
+			the listener (camera).
 		*/
 
 		maths::vec3& direction = forward.Cross(up).Normalize();
-		maths::vec3& distanceBetween = (entityPosition - cameraPosition).Normalize();
-		const float ANGLE = direction.Dot(distanceBetween);	
+		maths::vec3& distanceBetweenPos = (entityPosition - cameraPosition).Normalize();
+		const float ANGLE = direction.Dot(distanceBetweenPos);	
 
 		/* 
 			Determine how much to pan audio left, center and right
