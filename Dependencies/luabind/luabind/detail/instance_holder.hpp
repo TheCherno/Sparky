@@ -5,9 +5,9 @@
 #ifndef LUABIND_INSTANCE_HOLDER_081024_HPP
 # define LUABIND_INSTANCE_HOLDER_081024_HPP
 
-# include "../luabind/detail/inheritance.hpp"
-# include "../luabind/pointer_traits.hpp"
-# include "../luabind/typeid.hpp"
+# include <luabind/detail/inheritance.hpp>
+# include <luabind/pointer_traits.hpp>
+# include <luabind/typeid.hpp>
 # include <stdexcept>
 
 namespace luabind { 

@@ -2,6 +2,8 @@ function printVersion ()
 	io.write("Running ", _VERSION, "\n")
 end
 
+local Scene = nil
+
 loadSound = function (name, source) 
 	s = Sound(name, source)
 	SoundManager.Add(s);
@@ -20,10 +22,13 @@ changeGain = function (gain)
 	s:SetGain(s:GetGain() + gain)
 end
 
-addEntity = function (vp, m, scene)
-	io.write(vp)
-	scene:print()
-	
+add = function (vp, m, scene)
 	e = Entity()
+	e:AddComponent(TransformComponent(vp))
+	e:AddComponent(MeshComponent(m))
 	scene:Add(e)
+end
+
+scene = function (g)
+	g:print()
 end

@@ -22,12 +22,12 @@
 
 #define LUABIND_BUILDING
 
-#include "../luabind/lua_include.hpp"
+#include <luabind/lua_include.hpp>
 
-#include "../luabind/config.hpp"
-#include "../luabind/class.hpp"
-#include "../luabind/nil.hpp"
-#include "../luabind/detail/debug.hpp"
+#include <luabind/config.hpp>
+#include <luabind/class.hpp>
+#include <luabind/nil.hpp>
+#include <luabind/detail/debug.hpp>
 
 #include <cstring>
 #include <iostream>

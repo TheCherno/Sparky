@@ -5,7 +5,7 @@
 #ifndef LUABIND_NO_DEPENDENCY_100324_HPP
 # define LUABIND_NO_DEPENDENCY_100324_HPP
 
-# include "../luabind/detail/policy.hpp"
+# include <luabind/detail/policy.hpp>
 
 namespace luabind {
 

@@ -23,7 +23,7 @@
 #ifndef LUABIND_SIGNATURE_MATCH_HPP_INCLUDED
 #define LUABIND_SIGNATURE_MATCH_HPP_INCLUDED
 
- #include "../luabind/config.hpp"
+#include <luabind/config.hpp>
 
 
 

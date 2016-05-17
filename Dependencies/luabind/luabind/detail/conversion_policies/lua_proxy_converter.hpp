@@ -17,7 +17,7 @@
 #ifndef LUABIND_VALUE_WRAPPER_CONVERTER_HPP_INCLUDED
 #define LUABIND_VALUE_WRAPPER_CONVERTER_HPP_INCLUDED
 
- #include "../../../luabind/lua_proxy.hpp"
+#include <luabind/lua_proxy.hpp>
 #include <type_traits>
 
 namespace luabind {

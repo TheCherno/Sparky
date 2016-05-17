@@ -22,13 +22,13 @@
 
 #define LUABIND_BUILDING
 
- #include "../luabind/lua_include.hpp"
+#include <luabind/lua_include.hpp>
 
- #include "../luabind/class.hpp"
- #include "../luabind/get_main_thread.hpp"
- #include "../luabind/set_package_preload.hpp"
- #include "../luabind/function_introspection.hpp"
- #include "../luabind/detail/garbage_collector.hpp"
+#include <luabind/class.hpp>
+#include <luabind/get_main_thread.hpp>
+#include <luabind/set_package_preload.hpp>
+#include <luabind/function_introspection.hpp>
+#include <luabind/detail/garbage_collector.hpp>
 
 namespace luabind {
 

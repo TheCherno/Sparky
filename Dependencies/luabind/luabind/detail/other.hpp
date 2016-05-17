@@ -32,7 +32,7 @@
 // "as is" without express or implied warranty, and with no claim as
 // to its suitability for any purpose.
 
- #include "../luabind/config.hpp"
+#include <luabind/config.hpp>
 
 namespace luabind
 {

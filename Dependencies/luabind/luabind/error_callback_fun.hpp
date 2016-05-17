@@ -24,8 +24,8 @@
 #define INCLUDED_error_callback_fun_hpp_GUID_1150976a_4348_495f_99ce_9d7edd00a0b8
 
 // Internal Includes
- #include "../luabind/config.hpp"
- #include "../luabind/lua_state_fwd.hpp"
+#include <luabind/config.hpp>
+#include <luabind/lua_state_fwd.hpp>
 
 // Library/third-party includes
 // - none

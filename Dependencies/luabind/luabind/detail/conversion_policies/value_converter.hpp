@@ -18,9 +18,9 @@
 #define LUABIND_VALUE_CONVERTER_HPP_INCLUDED
 
 #include <type_traits>
- #include "../../../luabind/lua_include.hpp"
- #include "../../../luabind/back_reference.hpp"
- #include "../../../luabind/detail/object_rep.hpp"
+#include <luabind/lua_include.hpp>
+#include <luabind/back_reference.hpp>
+#include <luabind/detail/object_rep.hpp>
 
 namespace luabind {
 

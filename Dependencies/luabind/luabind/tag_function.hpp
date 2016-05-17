@@ -5,9 +5,9 @@
 #ifndef LUABIND_TAG_FUNCTION_081129_HPP
 #define LUABIND_TAG_FUNCTION_081129_HPP
 
- #include "../luabind/config.hpp"
- #include "../luabind/detail/meta.hpp"
- #include "../luabind/lua_state_fwd.hpp"
+#include <luabind/config.hpp>
+#include <luabind/detail/meta.hpp>
+#include <luabind/lua_state_fwd.hpp>
 
 namespace luabind {
 

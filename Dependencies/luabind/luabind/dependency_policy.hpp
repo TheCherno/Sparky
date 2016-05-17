@@ -24,10 +24,10 @@
 #ifndef LUABIND_DEPENDENCY_POLICY_HPP_INCLUDED
 #define LUABIND_DEPENDENCY_POLICY_HPP_INCLUDED
 
- #include "../luabind/config.hpp"
- #include "../luabind/detail/policy.hpp"    // for policy_cons, etc
- #include "../luabind/detail/object_rep.hpp"  // for object_rep
- #include "../luabind/detail/primitives.hpp"  // for null_type
+#include <luabind/config.hpp>
+#include <luabind/detail/policy.hpp>    // for policy_cons, etc
+#include <luabind/detail/object_rep.hpp>  // for object_rep
+#include <luabind/detail/primitives.hpp>  // for null_type
 
 namespace luabind { namespace detail 
 {

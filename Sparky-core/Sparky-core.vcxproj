@@ -54,7 +54,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)Dependencies\luabind-deboostified\;$(SolutionDir)Dependencies\luajit\src;$(SolutionDir)Dependencies\Box2D\src;$(SolutionDir)Dependencies\gorilla-audio\src;$(SolutionDir)Dependencies\FreeType;$(SolutionDir)Dependencies\FreeType\include;$(SolutionDir)Dependencies\FreeImage\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\GLFW\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies\luabind;$(SolutionDir)Dependencies\luajit\src;$(SolutionDir)Dependencies\Box2D\src;$(SolutionDir)Dependencies\gorilla-audio\src;$(SolutionDir)Dependencies\FreeType;$(SolutionDir)Dependencies\FreeType\include;$(SolutionDir)Dependencies\FreeImage\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\GLFW\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies\luajit\bin;$(SolutionDir)bin\Release;$(SolutionDir)Dependencies\libogg\bin;$(SolutionDir)Dependencies\OpenAL\libs\Win32;$(SolutionDir)Dependencies\GLEW\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2013;$(SolutionDir)Dependencies\libvorbis\bin;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\Release\</OutDir>
     <IntDir>$(SolutionDir)bin\Release\Intermediates\$(ProjectName)\</IntDir>
@@ -68,8 +68,8 @@
     <TargetName>SPCore</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)Dependencies\luabind-deboostified\;$(SolutionDir)Dependencies\luajit\src;$(SolutionDir)Dependencies\Box2D\src;$(SolutionDir)Dependencies\gorilla-audio\src;$(SolutionDir)Dependencies\FreeType;$(SolutionDir)Dependencies\FreeType\include;$(SolutionDir)Dependencies\FreeImage\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\GLFW\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies\luajit\bin;$(SolutionDir)bin\Debug;$(SolutionDir)Dependencies\luajit\src;$(SolutionDir)Dependencies\libogg\bin;$(SolutionDir)Dependencies\OpenAL\libs\Win32;$(SolutionDir)Dependencies\GLEW\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2013;$(SolutionDir)Dependencies\libvorbis\bin;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies\luabind;$(SolutionDir)Dependencies\luajit\src;$(SolutionDir)Dependencies\Box2D\src;$(SolutionDir)Dependencies\gorilla-audio\src;$(SolutionDir)Dependencies\FreeType;$(SolutionDir)Dependencies\FreeType\include;$(SolutionDir)Dependencies\FreeImage\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\GLFW\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\luajit\bin;$(SolutionDir)bin\Debug;$(SolutionDir)Dependencies\libogg\bin;$(SolutionDir)Dependencies\OpenAL\libs\Win32;$(SolutionDir)Dependencies\GLEW\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2013;$(SolutionDir)Dependencies\libvorbis\bin;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\Debug\</OutDir>
     <IntDir>$(SolutionDir)bin\Debug\Intermediates\$(ProjectName)\</IntDir>
     <TargetName>SPCore</TargetName>
@@ -87,7 +87,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>lua51.lib;glew32s.lib;opengl32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>luabind.lib;lua51.lib;glew32s.lib;opengl32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
     </Link>
@@ -118,7 +118,7 @@ xcopy /f /y "$(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>lua51.lib;glew32s.lib;opengl32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>luabind.lib;lua51.lib;glew32s.lib;opengl32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
@@ -128,6 +128,10 @@ xcopy /f /y "$(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
 xcopy /f /y "$(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(SolutionDir)bin\$(Configuration)"\*</Command>
       <Message>Copying dependencies...</Message>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">
     <ClCompile>
@@ -608,27 +612,6 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\sp\scripting\API.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\class.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\class_info.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\class_registry.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\class_rep.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\create_class.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\error.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\exception_handler.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\function.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\function_introspection.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\headertest.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\inheritance.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\link_compatibility.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\object_rep.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\open.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\operator.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\pcall.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\scope.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\set_package_preload.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\stack_content_by_name.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\weak_ref.cpp" />
-    <ClCompile Include="src\sp\scripting\luabinddb\wrapper_base.cpp" />
     <ClCompile Include="src\sp\scripting\LuaFunctions.cpp" />
     <ClCompile Include="src\sp\scripting\LuaSetup.cpp" />
     <ClCompile Include="src\sp\sp.cpp">
@@ -782,102 +765,6 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <ClCompile Include="src\sp\platform\windows\Win32MemoryManager.cpp" />
     <ClInclude Include="src\sp\scripting\API.h" />
     <ClInclude Include="src\sp\scripting\Lua.h" />
-    <ClInclude Include="src\sp\scripting\luabinddb\adopt_policy.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\back_reference.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\back_reference_fwd.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\class.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\class_info.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\config.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\container_policy.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\copy_policy.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\dependency_policy.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\call.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\call_function.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\call_member.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\call_shared.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\call_traits.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\class_registry.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\class_rep.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\constructor.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\conversion_policies\conversion_base.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\conversion_policies\conversion_policies.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\conversion_policies\enum_converter.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\conversion_policies\function_converter.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\conversion_policies\lua_proxy_converter.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\conversion_policies\native_converter.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\conversion_policies\pointer_converter.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\conversion_policies\reference_converter.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\conversion_policies\value_converter.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\conversion_storage.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\convert_to_lua.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\crtp_iterator.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\debug.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\decorate_type.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\deduce_signature.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\enum_maker.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\format_signature.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\garbage_collector.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\has_get_pointer.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\inheritance.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\instance_holder.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\link_compatibility.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\make_instance.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\meta.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\most_derived.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\object.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\object_rep.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\open.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\operator_id.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\other.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\pcall.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\pointee_sizeof.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\pointee_typeid.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\policy.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\primitives.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\property.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\ref.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\signature_match.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\stack_utils.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\typetraits.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\detail\yes_no.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\discard_result_policy.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\error.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\error_callback_fun.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\exception_handler.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\from_stack.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\function.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\function_introspection.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\get_main_thread.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\handle.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\iterator_policy.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\luabind.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\lua_argument_proxy.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\lua_include.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\lua_index_proxy.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\lua_iterator_proxy.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\lua_proxy.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\lua_proxy_interface.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\lua_state_fwd.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\make_function.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\nil.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\no_dependency.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\object.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\open.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\operator.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\out_value_policy.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\pointer_traits.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\prefix.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\raw_policy.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\return_reference_to_policy.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\scope.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\set_package_preload.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\shared_ptr_converter.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\tag_function.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\typeid.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\version.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\weak_ref.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\wrapper_base.hpp" />
-    <ClInclude Include="src\sp\scripting\luabinddb\yield_policy.hpp" />
     <ClInclude Include="src\sp\scripting\LuaFunctions.h" />
     <ClInclude Include="src\sp\scripting\LuaSetup.h" />
     <ClInclude Include="src\sp\sp.h" />
@@ -921,8 +808,8 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <ProjectReference Include="..\Dependencies\gorilla-audio\gorilla-audio.vcxproj">
       <Project>{e9a0f826-3688-4461-8e49-7ccc543f9e40}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Dependencies\LUAWrapper\LUAWrapper.vcxproj">
-      <Project>{42028ca5-bc39-4df8-8f2e-46bea9c71b52}</Project>
+    <ProjectReference Include="..\Dependencies\luabind\luabind.vcxproj">
+      <Project>{3d4c6f7b-1c48-4a0f-8c44-8735b5415506}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

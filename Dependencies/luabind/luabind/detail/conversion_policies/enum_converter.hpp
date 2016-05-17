@@ -24,8 +24,8 @@
 #define LUABIND_ENUM_CONVERTER_HPP_INCLUDED
 
 #include <type_traits>
- #include "../../../luabind/detail/typetraits.hpp"
- #include "../../../luabind/detail/conversion_policies/conversion_base.hpp"
+#include <luabind/detail/typetraits.hpp>
+#include <luabind/detail/conversion_policies/conversion_base.hpp>
 
 namespace luabind {
 

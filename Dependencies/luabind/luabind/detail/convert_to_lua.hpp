@@ -24,8 +24,8 @@
 #ifndef LUABIND_CONVERT_TO_LUA_HPP_INCLUDED
 #define LUABIND_CONVERT_TO_LUA_HPP_INCLUDED
 
- #include "../../luabind/config.hpp"
- #include "../../luabind/detail/policy.hpp"
+#include <luabind/config.hpp>
+#include <luabind/detail/policy.hpp>
 
 namespace luabind { 
 	

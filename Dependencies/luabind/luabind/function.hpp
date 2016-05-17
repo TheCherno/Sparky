@@ -5,9 +5,9 @@
 #ifndef LUABIND_FUNCTION2_081014_HPP
 # define LUABIND_FUNCTION2_081014_HPP
 
-# include "../luabind/make_function.hpp"
-# include "../luabind/scope.hpp"
-# include "../luabind/detail/call_function.hpp"
+# include <luabind/make_function.hpp>
+# include <luabind/scope.hpp>
+# include <luabind/detail/call_function.hpp>
 
 namespace luabind {
 

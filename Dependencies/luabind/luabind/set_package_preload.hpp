@@ -36,8 +36,8 @@
 #define INCLUDED_set_package_preload_hpp_GUID_563c882e_86f7_4ea7_8603_4594ea41737e
 
 // Internal Includes
- #include "../luabind/config.hpp"
- #include "../luabind/lua_state_fwd.hpp"
+#include <luabind/config.hpp>
+#include <luabind/lua_state_fwd.hpp>
 
 // Library/third-party includes
 // - none

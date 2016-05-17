@@ -24,17 +24,17 @@
 #ifndef LUABIND_POLICY_HPP_INCLUDED
 #define LUABIND_POLICY_HPP_INCLUDED
 
- #include "../../luabind/config.hpp"
- #include "../../luabind/detail/primitives.hpp"
- #include "../../luabind/detail/decorate_type.hpp"
+#include <luabind/config.hpp>
+#include <luabind/detail/primitives.hpp>
+#include <luabind/detail/decorate_type.hpp>
 
 #include <typeinfo>
 #include <type_traits>
 #include <string>
 #include <memory>
 
-// #include "luabind/detail/conversion_policies/conversion_policies.hpp"
- #include "../../luabind/detail/meta.hpp"
+//#include <luabind/detail/conversion_policies/conversion_policies.hpp>
+#include <luabind/detail/meta.hpp>
 
 #if LUA_VERSION_NUM < 502
 # define lua_rawlen lua_objlen

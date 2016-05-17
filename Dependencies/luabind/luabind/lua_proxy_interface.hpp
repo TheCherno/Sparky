@@ -1,8 +1,8 @@
 #ifndef LUA_PROXY_INTERFACE_HPP_INCLUDED
 #define LUA_PROXY_INTERFACE_HPP_INCLUDED
 
- #include "../luabind/lua_proxy.hpp"
- #include "../luabind/detail/call_function.hpp"
+#include <luabind/lua_proxy.hpp>
+#include <luabind/detail/call_function.hpp>
 #include <ostream>
 
 #if LUA_VERSION_NUM < 502

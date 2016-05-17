@@ -9,8 +9,8 @@
 #include <vector>
 #include <queue>
 #include <vector>
- #include "../luabind/typeid.hpp"
- #include "../luabind/detail/inheritance.hpp"
+#include <luabind/typeid.hpp>
+#include <luabind/detail/inheritance.hpp>
 
 namespace luabind { 
 	

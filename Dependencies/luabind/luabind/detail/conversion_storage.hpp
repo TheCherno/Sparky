@@ -5,7 +5,7 @@
 #ifndef LUABIND_CONVERSION_STORAGE_080930_HPP
 # define LUABIND_CONVERSION_STORAGE_080930_HPP
 
-# include "../luabind/config.hpp"
+# include <luabind/config.hpp>
 # include <type_traits>
 
 namespace luabind { namespace detail {

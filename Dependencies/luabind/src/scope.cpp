@@ -22,11 +22,11 @@
 
 #define LUABIND_BUILDING
 
- #include "../luabind/lua_include.hpp"
+#include <luabind/lua_include.hpp>
 
- #include "../luabind/scope.hpp"
- #include "../luabind/detail/debug.hpp"
- #include "../luabind/detail/stack_utils.hpp"
+#include <luabind/scope.hpp>
+#include <luabind/detail/debug.hpp>
+#include <luabind/detail/stack_utils.hpp>
 #include <cassert>
 
 #if LUA_VERSION_NUM < 502

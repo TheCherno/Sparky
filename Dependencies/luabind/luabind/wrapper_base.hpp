@@ -23,10 +23,10 @@
 #ifndef LUABIND_WRAPPER_BASE_HPP_INCLUDED
 #define LUABIND_WRAPPER_BASE_HPP_INCLUDED
 
- #include "../luabind/config.hpp"
- #include "../luabind/weak_ref.hpp"
- #include "../luabind/detail/ref.hpp"
- #include "../luabind/detail/meta.hpp"
+#include <luabind/config.hpp>
+#include <luabind/weak_ref.hpp>
+#include <luabind/detail/ref.hpp>
+#include <luabind/detail/meta.hpp>
 #include <type_traits>
 #include <stdexcept>
 

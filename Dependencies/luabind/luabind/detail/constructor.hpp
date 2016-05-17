@@ -5,10 +5,10 @@
 #ifndef LUABIND_DETAIL_CONSTRUCTOR_081018_HPP
 #define LUABIND_DETAIL_CONSTRUCTOR_081018_HPP
 
- #include "../luabind/get_main_thread.hpp"
- #include "../luabind/lua_argument_proxy.hpp"
- #include "../luabind/wrapper_base.hpp"
- #include "../luabind/detail/inheritance.hpp"
+#include <luabind/get_main_thread.hpp>
+#include <luabind/lua_argument_proxy.hpp>
+#include <luabind/wrapper_base.hpp>
+#include <luabind/detail/inheritance.hpp>
 
 namespace luabind {
 

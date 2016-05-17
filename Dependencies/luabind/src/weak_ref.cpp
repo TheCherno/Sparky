@@ -24,10 +24,10 @@
 
 #include <algorithm>
 
- #include "../luabind/lua_include.hpp"
+#include <luabind/lua_include.hpp>
 
- #include "../luabind/config.hpp"
- #include "../luabind/weak_ref.hpp"
+#include <luabind/config.hpp>
+#include <luabind/weak_ref.hpp>
 #include <cassert>
 
 namespace luabind {
@@ -167,7 +167,7 @@ namespace luabind
 	// was used when creating this reference
 	// since it may be a thread that shares
 	// the same globals table.
-	void weak_ref::get(lua_State* L) const
+    void weak_ref::get(lua_State* L) const
     {
         assert(m_impl);
 		assert(L);

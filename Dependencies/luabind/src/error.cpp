@@ -22,9 +22,9 @@
 
 #define LUABIND_BUILDING
 
- #include "../luabind/error.hpp"
+#include <luabind/error.hpp>
 #ifndef LUA_INCLUDE_HPP_INCLUDED
- #include "../luabind/lua_include.hpp"
+#include <luabind/lua_include.hpp>
 #endif
 
 

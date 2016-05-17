@@ -24,8 +24,8 @@
 #ifndef LUABIND_YIELD_POLICY_HPP_INCLUDED
 #define LUABIND_YIELD_POLICY_HPP_INCLUDED
 
- #include "../luabind/config.hpp"
- #include "../luabind/detail/policy.hpp"
+#include <luabind/config.hpp>
+#include <luabind/detail/policy.hpp>
 
 namespace luabind {
 	

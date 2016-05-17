@@ -22,7 +22,7 @@
 
 #define LUABIND_BUILDING
 
- #include "../luabind/operator.hpp"
+#include <luabind/operator.hpp>
 
 namespace luabind
 {

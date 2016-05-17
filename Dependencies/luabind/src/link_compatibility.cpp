@@ -22,7 +22,7 @@
 
 #define LUABIND_BUILDING
 
- #include "../luabind/detail/link_compatibility.hpp"
+#include <luabind/detail/link_compatibility.hpp>
 
 namespace luabind { namespace detail
 {

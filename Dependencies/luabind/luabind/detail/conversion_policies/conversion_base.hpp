@@ -24,11 +24,11 @@
 #define LUABIND_CONVERSION_BASE_HPP_INCLUDED
 
 #include <type_traits>
- #include "../../../luabind/lua_include.hpp"
- #include "../../../luabind/detail/decorate_type.hpp"
- #include "../../../luabind/detail/make_instance.hpp"
- #include "../../../luabind/pointer_traits.hpp"
- #include "../../../luabind/from_stack.hpp"
+#include <luabind/lua_include.hpp>
+#include <luabind/detail/decorate_type.hpp>
+#include <luabind/detail/make_instance.hpp>
+#include <luabind/pointer_traits.hpp>
+#include <luabind/from_stack.hpp>
 
 
 namespace luabind {

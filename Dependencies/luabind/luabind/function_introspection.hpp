@@ -36,8 +36,8 @@
 #define INCLUDED_function_introspection_hpp_GUID_b55783e7_e6da_4816_925e_9256245c1065
 
 // Internal Includes
- #include "../luabind/config.hpp"
- #include "../luabind/lua_state_fwd.hpp"
+#include <luabind/config.hpp>
+#include <luabind/lua_state_fwd.hpp>
 
 // Library/third-party includes
 // - none

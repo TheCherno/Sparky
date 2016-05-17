@@ -23,7 +23,7 @@
 #ifndef LUABIND_BACK_REFERENCE_FWD_040510_HPP
 #define LUABIND_BACK_REFERENCE_FWD_040510_HPP
 
- #include "../luabind/lua_state_fwd.hpp"
+#include <luabind/lua_state_fwd.hpp>
 
 namespace luabind {
 

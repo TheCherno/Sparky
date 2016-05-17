@@ -23,18 +23,18 @@
 #ifndef LUABIND_CONVERSION_POLICIES_HPP_INCLUDED
 #define LUABIND_CONVERSION_POLICIES_HPP_INCLUDED
 
- #include "../../../luabind/detail/typetraits.hpp"
- #include "../../../luabind/detail/meta.hpp"
- #include "../../../luabind/detail/policy.hpp"
- #include "../../../luabind/detail/conversion_policies/conversion_base.hpp"
- #include "../../../luabind/detail/conversion_policies/enum_converter.hpp"
- #include "../../../luabind/detail/conversion_policies/pointer_converter.hpp"
- #include "../../../luabind/detail/conversion_policies/reference_converter.hpp"
- #include "../../../luabind/detail/conversion_policies/value_converter.hpp"
- #include "../../../luabind/detail/conversion_policies/lua_proxy_converter.hpp"
- #include "../../../luabind/detail/conversion_policies/native_converter.hpp"
- #include "../../../luabind/detail/conversion_policies/function_converter.hpp"
- #include "../../../luabind/shared_ptr_converter.hpp"
+#include <luabind/detail/typetraits.hpp>
+#include <luabind/detail/meta.hpp>
+#include <luabind/detail/policy.hpp>
+#include <luabind/detail/conversion_policies/conversion_base.hpp>
+#include <luabind/detail/conversion_policies/enum_converter.hpp>
+#include <luabind/detail/conversion_policies/pointer_converter.hpp>
+#include <luabind/detail/conversion_policies/reference_converter.hpp>
+#include <luabind/detail/conversion_policies/value_converter.hpp>
+#include <luabind/detail/conversion_policies/lua_proxy_converter.hpp>
+#include <luabind/detail/conversion_policies/native_converter.hpp>
+#include <luabind/detail/conversion_policies/function_converter.hpp>
+#include <luabind/shared_ptr_converter.hpp>
 
 namespace luabind {
 

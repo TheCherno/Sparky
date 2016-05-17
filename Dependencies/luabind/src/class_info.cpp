@@ -22,13 +22,13 @@
 
 #define LUABIND_BUILDING
 
- #include "../luabind/lua_include.hpp"
+#include <luabind/lua_include.hpp>
 
- #include "../luabind/luabind.hpp"
- #include "../luabind/class_info.hpp"
- #include "../luabind/detail/class_registry.hpp"
- #include "../luabind/lua_argument_proxy.hpp"
- #include "../luabind/lua_iterator_proxy.hpp"
+#include <luabind/luabind.hpp>
+#include <luabind/class_info.hpp>
+#include <luabind/detail/class_registry.hpp>
+#include <luabind/lua_argument_proxy.hpp>
+#include <luabind/lua_iterator_proxy.hpp>
 
 /*
 #include <iostream>

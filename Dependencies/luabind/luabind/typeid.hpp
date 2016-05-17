@@ -6,7 +6,7 @@
 # define LUABIND_TYPEID_081227_HPP
 
 # include <typeinfo>
-# include "../luabind/detail/primitives.hpp"
+# include <luabind/detail/primitives.hpp>
 
 namespace luabind {
 

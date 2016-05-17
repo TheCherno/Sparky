@@ -23,8 +23,8 @@
 #ifndef LUABIND_HANDLE_050420_HPP
 #define LUABIND_HANDLE_050420_HPP
 
- #include "../luabind/lua_include.hpp"
- #include "../luabind/lua_proxy.hpp"
+#include <luabind/lua_include.hpp>
+#include <luabind/lua_proxy.hpp>
 #include <utility>
 
 namespace luabind {

@@ -5,10 +5,10 @@
 #ifndef LUABIND_EXCEPTION_HANDLER_050601_HPP
 #define LUABIND_EXCEPTION_HANDLER_050601_HPP
 
- #include "../luabind/config.hpp"           // for LUABIND_API
+#include <luabind/config.hpp>           // for LUABIND_API
 #include <type_traits>
- #include "../luabind/lua_include.hpp"
- #include "../luabind/detail/meta.hpp"
+#include <luabind/lua_include.hpp>
+#include <luabind/detail/meta.hpp>
 
 namespace luabind {
 

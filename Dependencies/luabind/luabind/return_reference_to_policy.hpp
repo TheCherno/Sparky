@@ -23,8 +23,8 @@
 #ifndef LUABIND_RETURN_REFERENCE_TO_POLICY_HPP_INCLUDED
 #define LUABIND_RETURN_REFERENCE_TO_POLICY_HPP_INCLUDED
 
- #include "luabind/detail/policy.hpp"    // for index_map, policy_cons, etc
- #include "luabind/lua_include.hpp"      // for lua_State, lua_pushnil, etc
+#include <luabind/detail/policy.hpp>    // for index_map, policy_cons, etc
+#include <luabind/lua_include.hpp>      // for lua_State, lua_pushnil, etc
 
 namespace luabind { 
 	

@@ -2,9 +2,9 @@
 #define LUA_INDEX_PROXY_HPP_INCLUDED
 
 #include <cassert>
- #include "../luabind/lua_proxy_interface.hpp"
- #include "../luabind/detail/stack_utils.hpp"
- #include "../luabind/nil.hpp"
+#include <luabind/lua_proxy_interface.hpp>
+#include <luabind/detail/stack_utils.hpp>
+#include <luabind/nil.hpp>
 
 namespace luabind {
 

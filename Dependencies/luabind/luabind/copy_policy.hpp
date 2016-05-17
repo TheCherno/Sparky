@@ -5,7 +5,7 @@
 #ifndef LUABIND_COPY_POLICY_081021_HPP
 # define LUABIND_COPY_POLICY_081021_HPP
 
-# include <luabind/detail/policy.hpp"
+# include <luabind/detail/policy.hpp>
 
 namespace luabind {
 

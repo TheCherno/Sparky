@@ -22,8 +22,8 @@
 
 #define LUABIND_BUILDING
 
- #include "../luabind/detail/object_rep.hpp"
- #include "../luabind/detail/class_rep.hpp"
+#include <luabind/detail/object_rep.hpp>
+#include <luabind/detail/class_rep.hpp>
 
 #if LUA_VERSION_NUM < 502
 # define lua_getuservalue lua_getfenv

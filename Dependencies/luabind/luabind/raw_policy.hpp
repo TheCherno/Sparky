@@ -24,8 +24,8 @@
 #ifndef LUABIND_RAW_POLICY_HPP_INCLUDED
 #define LUABIND_RAW_POLICY_HPP_INCLUDED
 
- #include "luabind/config.hpp"
- #include "luabind/detail/policy.hpp"
+#include <luabind/config.hpp>
+#include <luabind/detail/policy.hpp>
 
 namespace luabind { 
 	

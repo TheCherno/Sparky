@@ -1,8 +1,8 @@
 #include "sp/sp.h"
 #include "API.h"
 
-#include "luabinddb\luabind.hpp"
-#include "luabinddb\operator.hpp"
+#include <luabind\luabind.hpp>
+#include <luabind\operator.hpp>
 
 #include "sp\debug\DebugMenu.h"
 
@@ -123,6 +123,7 @@ namespace sp { namespace scripting {
 		module(L)
 		[
 			class_<ComponentType>("ComponentType")
+			.def(constructor<>())
 			.def_readwrite("name", &ComponentType::name)
 		];
 
@@ -455,8 +456,8 @@ namespace sp { namespace scripting {
 	void Load(lua_State* L)
 	{
 		RegisterEntity(L);
-		RegisterMaths(L);
 		RegisterGraphics(L);
+		RegisterMaths(L);
 		RegisterEvents(L);
 		RegisterDebug(L);
 		RegisterAudio(L);

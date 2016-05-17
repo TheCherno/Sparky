@@ -5,10 +5,10 @@
 #ifndef LUABIND_FUNCTION_CONVERTER_HPP_INCLUDED
 #define LUABIND_FUNCTION_CONVERTER_HPP_INCLUDED
 #include <functional>
- #include "../../../luabind/detail/deduce_signature.hpp"
- #include "../../../luabind/detail/conversion_policies/conversion_base.hpp"
- #include "../../../luabind/make_function.hpp"
- #include "../../../luabind/detail/call_function.hpp"
+#include <luabind/detail/deduce_signature.hpp>
+#include <luabind/detail/conversion_policies/conversion_base.hpp>
+#include <luabind/make_function.hpp>
+#include <luabind/detail/call_function.hpp>
 
 namespace luabind {
 

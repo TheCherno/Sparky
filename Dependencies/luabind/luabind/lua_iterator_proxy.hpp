@@ -1,12 +1,12 @@
 #ifndef LUA_ITERATOR_PROXY_HPP_INCLUDED
 #define LUA_ITERATOR_PROXY_HPP_INCLUDED
 
- #include "../luabind/lua_proxy_interface.hpp"
- #include "../luabind/lua_index_proxy.hpp"
- #include "../luabind/handle.hpp"
- #include "../luabind/nil.hpp"
- #include "../luabind/lua_include.hpp"
- #include "../luabind/detail/crtp_iterator.hpp"
+#include <luabind/lua_proxy_interface.hpp>
+#include <luabind/lua_index_proxy.hpp>
+#include <luabind/handle.hpp>
+#include <luabind/nil.hpp>
+#include <luabind/lua_include.hpp>
+#include <luabind/detail/crtp_iterator.hpp>
 
 #if LUA_VERSION_NUM < 502
 # define lua_compare(L, index1, index2, fn) fn(L, index1, index2)

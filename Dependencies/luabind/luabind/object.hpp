@@ -23,8 +23,8 @@
 #ifndef LUABIND_OBJECT_HPP
 #define LUABIND_OBJECT_HPP
 
- #include "../luabind/detail/object.hpp"
- #include "../luabind/back_reference.hpp"
+#include <luabind/detail/object.hpp>
+#include <luabind/back_reference.hpp>
 
 #endif // LUABIND_OBJECT_HPP
 

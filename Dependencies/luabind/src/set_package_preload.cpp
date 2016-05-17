@@ -36,13 +36,13 @@
 #define LUABIND_BUILDING
 
 // Internal Includes
- #include "../luabind/set_package_preload.hpp"
- #include "../luabind/config.hpp"           // for LUABIND_API
- #include "../luabind/detail/object.hpp"    // for object, rawget, globals
- #include "../luabind/detail/conversion_policies/conversion_policies.hpp"
+#include <luabind/set_package_preload.hpp>
+#include <luabind/config.hpp>           // for LUABIND_API
+#include <luabind/detail/object.hpp>    // for object, rawget, globals
+#include <luabind/detail/conversion_policies/conversion_policies.hpp>
 
 // Library/third-party includes
- #include "../luabind/lua_include.hpp"      // for lua_pushstring, lua_rawset, etc
+#include <luabind/lua_include.hpp>      // for lua_pushstring, lua_rawset, etc
 
 // Standard includes
 // - none

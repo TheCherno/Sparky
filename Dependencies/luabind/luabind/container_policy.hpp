@@ -23,10 +23,10 @@
 #ifndef LUABIND_CONTAINER_POLICY_HPP_INCLUDED
 #define LUABIND_CONTAINER_POLICY_HPP_INCLUDED
 
- #include "luabind/config.hpp"
- #include "luabind/detail/policy.hpp"
- #include "luabind/detail/decorate_type.hpp"  // for decorated_type
- #include "luabind/detail/primitives.hpp"  // for null_type (ptr only), etc
+#include <luabind/config.hpp>
+#include <luabind/detail/policy.hpp>
+#include <luabind/detail/decorate_type.hpp>  // for decorated_type
+#include <luabind/detail/primitives.hpp>  // for null_type (ptr only), etc
 
 namespace luabind { namespace detail {
 

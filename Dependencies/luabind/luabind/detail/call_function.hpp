@@ -23,13 +23,13 @@
 #ifndef LUABIND_CALL_FUNCTION_HPP_INCLUDED
 #define LUABIND_CALL_FUNCTION_HPP_INCLUDED
 
- #include "../../luabind/config.hpp"
+#include <luabind/config.hpp>
 
- #include "../../luabind/error.hpp"
- #include "../../luabind/detail/convert_to_lua.hpp"
- #include "../../luabind/detail/pcall.hpp"
- #include "../../luabind/detail/call_shared.hpp"
- #include "../../luabind/detail/stack_utils.hpp"
+#include <luabind/error.hpp>
+#include <luabind/detail/convert_to_lua.hpp>
+#include <luabind/detail/pcall.hpp>
+#include <luabind/detail/call_shared.hpp>
+#include <luabind/detail/stack_utils.hpp>
 
 namespace luabind
 {

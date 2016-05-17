@@ -22,9 +22,9 @@
 
 #define LUABIND_BUILDING
 
- #include "../luabind/detail/pcall.hpp"
- #include "../luabind/error.hpp"
- #include "../luabind/lua_include.hpp"
+#include <luabind/detail/pcall.hpp>
+#include <luabind/error.hpp>
+#include <luabind/lua_include.hpp>
 
 namespace luabind { namespace detail
 {

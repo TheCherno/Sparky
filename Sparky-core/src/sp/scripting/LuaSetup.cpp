@@ -2,7 +2,7 @@
 #include "LuaSetup.h"
 
 #include <lua.hpp>
-#include "luabinddb/luabind.hpp"
+#include <luabind\luabind.hpp>
 
 #include "sp/utils/Log.h"
 #include "sp/system/VFS.h"
@@ -28,6 +28,7 @@ namespace sp { namespace scripting {
 		luaopen_math(state);
 
 		luaL_openlibs(state);
+
 		luabind::open(state);
 	}
 
@@ -36,7 +37,7 @@ namespace sp { namespace scripting {
 		String physicalPath;
 		if (VFS::Get()->ResolvePhysicalPath(filename, physicalPath))
 		{
-			luaL_loadfile(state, physicalPath.c_str());
+			luaL_dofile(state, physicalPath.c_str());
 			int errors = lua_pcall(state, 0, LUA_MULTRET, 0);
 		}
 		else {
@@ -47,6 +48,18 @@ namespace sp { namespace scripting {
 	void LuaSetup::Register(lua_State* state, const char* functionname, lua_CFunction functionpointer)
 	{
 		lua_register(state, functionname, functionpointer);
+	}
+
+	void LuaSetup::ErrorPrint(lua_State* state)
+	{
+		luabind::object msg( luabind::from_stack(state, -1 ) );
+		std::ostringstream str;
+		str << "lua> run-time error: " << msg;
+		SP_ERROR( str.str() );
+
+		std::string traceback = luabind::call_function<std::string>( luabind::globals(state)["debug"]["traceback"] );
+		traceback = std::string( "lua> " ) + traceback;
+		SP_ERROR( traceback.c_str() );
 	}
 
 	void LuaSetup::LoadSparkyAPI(lua_State* state)

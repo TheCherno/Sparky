@@ -26,9 +26,9 @@
 
 #include <map>
 
- #include "../luabind/config.hpp"
- #include "../luabind/open.hpp"
- #include "../luabind/typeid.hpp"
+#include <luabind/config.hpp>
+#include <luabind/open.hpp>
+#include <luabind/typeid.hpp>
 
 namespace luabind { namespace detail
 {

@@ -27,8 +27,8 @@
 #include <vector>
 #include <string>
 
- #include "../luabind/config.hpp"
- #include "../luabind/detail/class_rep.hpp"
+#include <luabind/config.hpp>
+#include <luabind/detail/class_rep.hpp>
 
 namespace luabind
 {

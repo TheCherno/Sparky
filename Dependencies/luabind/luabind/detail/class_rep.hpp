@@ -28,16 +28,16 @@
 #include <utility>
 #include <vector>
 
- #include "../luabind/config.hpp"
- #include "../luabind/lua_include.hpp"
- #include "../luabind/detail/garbage_collector.hpp"
- #include "../luabind/detail/operator_id.hpp"
- #include "../luabind/detail/class_registry.hpp"
- #include "../luabind/error.hpp"
- #include "../luabind/handle.hpp"
- #include "../luabind/detail/primitives.hpp"
- #include "../luabind/typeid.hpp"
- #include "../luabind/detail/ref.hpp"
+#include <luabind/config.hpp>
+#include <luabind/lua_include.hpp>
+#include <luabind/detail/garbage_collector.hpp>
+#include <luabind/detail/operator_id.hpp>
+#include <luabind/detail/class_registry.hpp>
+#include <luabind/error.hpp>
+#include <luabind/handle.hpp>
+#include <luabind/detail/primitives.hpp>
+#include <luabind/typeid.hpp>
+#include <luabind/detail/ref.hpp>
 
 namespace luabind { namespace detail
 {
@@ -207,7 +207,7 @@ namespace luabind { namespace detail
 
 }}
 
-// #include "luabind/detail/overload_rep_impl.hpp"
+//#include <luabind/detail/overload_rep_impl.hpp>
 
 #endif // LUABIND_CLASS_REP_HPP_INCLUDED
 

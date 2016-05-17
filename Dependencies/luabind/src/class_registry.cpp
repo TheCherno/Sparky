@@ -22,13 +22,13 @@
 
 #define LUABIND_BUILDING
 
- #include "../luabind/lua_include.hpp"      // for lua_pushstring, lua_rawset, etc
+#include <luabind/lua_include.hpp>      // for lua_pushstring, lua_rawset, etc
 
- #include "../luabind/config.hpp"           // for LUABIND_API
- #include "../luabind/typeid.hpp"           // for type_id
- #include "../luabind/detail/class_registry.hpp"  // for class_registry
- #include "../luabind/detail/class_rep.hpp"  // for class_rep
- #include "../luabind/detail/garbage_collector.hpp"  // for garbage_collector
+#include <luabind/config.hpp>           // for LUABIND_API
+#include <luabind/typeid.hpp>           // for type_id
+#include <luabind/detail/class_registry.hpp>  // for class_registry
+#include <luabind/detail/class_rep.hpp>  // for class_rep
+#include <luabind/detail/garbage_collector.hpp>  // for garbage_collector
 
 
 #include <cassert>                      // for assert

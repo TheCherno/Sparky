@@ -23,15 +23,15 @@
 #ifndef LUABIND_BACK_REFERENCE_040510_HPP
 #define LUABIND_BACK_REFERENCE_040510_HPP
 
- #include "../luabind/config.hpp"
- #include "../luabind/lua_state_fwd.hpp"
+#include <luabind/config.hpp>
+#include <luabind/lua_state_fwd.hpp>
 #include <type_traits>
 
 #if !defined(LUABIND_NO_RTTI) && !defined(LUABIND_WRAPPER_BASE_HPP_INCLUDED)
- #include "../luabind/wrapper_base.hpp"
+#include <luabind/wrapper_base.hpp>
 #endif
 
- #include "../luabind/pointer_traits.hpp"
+#include <luabind/pointer_traits.hpp>
 
 namespace luabind {
   struct wrap_base;

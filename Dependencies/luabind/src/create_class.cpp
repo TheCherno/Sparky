@@ -22,9 +22,9 @@
 
 #define LUABIND_BUILDING
 
- #include "../luabind/lua_include.hpp"
+#include <luabind/lua_include.hpp>
 
- #include "../luabind/luabind.hpp"
+#include <luabind/luabind.hpp>
 
 #if LUA_VERSION_NUM < 502
 # define lua_compare(L, index1, index2, fn) fn(L, index1, index2)

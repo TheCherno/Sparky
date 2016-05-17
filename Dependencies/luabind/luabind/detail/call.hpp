@@ -5,13 +5,13 @@
 #ifndef LUABIND_CALL2_080911_HPP
 #define LUABIND_CALL2_080911_HPP
 
- #include "../luabind/config.hpp"
+#include <luabind/config.hpp>
 #include <typeinfo>
- #include "../luabind/detail/meta.hpp"
- #include "../luabind/detail/policy.hpp"
- #include "../luabind/yield_policy.hpp"
- #include "../luabind/detail/decorate_type.hpp"
- #include "../luabind/detail/object.hpp"
+#include <luabind/detail/meta.hpp>
+#include <luabind/detail/policy.hpp>
+#include <luabind/yield_policy.hpp>
+#include <luabind/detail/decorate_type.hpp>
+#include <luabind/detail/object.hpp>
 
 #ifdef LUABIND_NO_INTERNAL_TAG_ARGUMENTS
 #include <tuple>

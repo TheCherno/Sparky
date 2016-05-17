@@ -1,10 +1,10 @@
 #ifndef LUA_ARGUMENT_PROXY_HPP_INCLUDED
 #define LUA_ARGUMENT_PROXY_HPP_INCLUDED
 
- #include "../luabind/lua_include.hpp"
- #include "../luabind/lua_proxy_interface.hpp"
- #include "../luabind/lua_index_proxy.hpp"
- #include "../luabind/from_stack.hpp"
+#include <luabind/lua_include.hpp>
+#include <luabind/lua_proxy_interface.hpp>
+#include <luabind/lua_index_proxy.hpp>
+#include <luabind/from_stack.hpp>
 
 namespace luabind {
 

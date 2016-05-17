@@ -26,6 +26,8 @@ namespace sp { namespace scripting {
 		static void LoadFile(lua_State* state, const char* filename);
 		
 		static void Register(lua_State* state, const char* functionname, lua_CFunction functionpointer);
+
+		static void ErrorPrint(lua_State* state);
 	};
 } }
 

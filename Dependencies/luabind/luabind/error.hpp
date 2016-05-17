@@ -23,15 +23,15 @@
 #ifndef LUABIND_ERROR_HPP_INCLUDED
 #define LUABIND_ERROR_HPP_INCLUDED
 
- #include "../luabind/prefix.hpp"
+#include <luabind/prefix.hpp>
 #include <exception>
- #include "../luabind/config.hpp"
- #include "../luabind/error_callback_fun.hpp"
- #include "../luabind/lua_state_fwd.hpp"
+#include <luabind/config.hpp>
+#include <luabind/error_callback_fun.hpp>
+#include <luabind/lua_state_fwd.hpp>
 #include <string>
 
 #ifndef LUABIND_NO_EXCEPTIONS
- #include "../luabind/typeid.hpp"
+#include <luabind/typeid.hpp>
 #endif
 
 namespace luabind

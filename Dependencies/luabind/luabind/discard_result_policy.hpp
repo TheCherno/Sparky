@@ -23,10 +23,10 @@
 #ifndef LUABIND_DISCARD_RESULT_POLICY_HPP_INCLUDED
 #define LUABIND_DISCARD_RESULT_POLICY_HPP_INCLUDED
 
- #include "luabind/config.hpp"
- #include "luabind/detail/policy.hpp"    // for index_map, etc
- #include "luabind/detail/primitives.hpp"  // for null_type, etc
- #include "luabind/lua_include.hpp"
+#include <luabind/config.hpp>
+#include <luabind/detail/policy.hpp>    // for index_map, etc
+#include <luabind/detail/primitives.hpp>  // for null_type, etc
+#include <luabind/lua_include.hpp>
 
 namespace luabind { namespace detail 
 {
