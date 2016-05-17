@@ -167,7 +167,7 @@ namespace sp { namespace maths {
 	{
 		float lenSqr, lenInv;
 		lenSqr = Norm(quaternion);
-		lenInv = MathFunc::rsqrt(lenSqr);
+		lenInv = rsqrt(lenSqr);
 		return quaternion * lenInv;
 	}
 
@@ -175,7 +175,7 @@ namespace sp { namespace maths {
 	{
 		float lenSqr, lenInv;
 		lenSqr = Norm(quaternion);
-		lenInv = MathFunc::rsqrt(lenSqr);
+		lenInv = rsqrt(lenSqr);
 		return quaternion * lenInv;
 	}
 
