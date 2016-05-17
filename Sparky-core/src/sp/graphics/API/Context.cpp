@@ -20,4 +20,13 @@ namespace sp { namespace graphics { namespace API {
 		}
 	}
 
+	void Context::SetVsync(const uint& syncInterval)
+	{
+		switch ( s_RenderAPI )
+		{
+			case RenderAPI::OPENGL:		GLContext::SetVsync(syncInterval); break;
+			case RenderAPI::DIRECT3D:	D3DContext::SetVsync(syncInterval); break;
+		}
+	}
+
 } } }

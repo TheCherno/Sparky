@@ -7,6 +7,7 @@
 #include "sp/utils/Log.h"
 
 #include <GL/glew.h>
+#include <GL/wglew.h>
 
 namespace sp { namespace graphics { namespace API {
 
@@ -40,6 +41,11 @@ namespace sp { namespace graphics { namespace API {
 	void GLContext::Present()
 	{
 		SwapBuffers(hDc);
+	}
+
+	void GLContext::SetVsync(const uint& syncInterval)
+	{
+		wglSwapIntervalEXT(syncInterval);
 	}
 
 } } }

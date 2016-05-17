@@ -20,6 +20,7 @@ namespace sp { namespace graphics { namespace API {
 
 		static RenderAPI GetRenderAPI() { return s_RenderAPI; }
 		static void SetRenderAPI(RenderAPI api) { s_RenderAPI = api; }
+		static void SetVsync(const uint& syncInterval);
 	};
 
 } } }

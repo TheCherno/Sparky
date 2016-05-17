@@ -13,6 +13,7 @@ namespace sp { namespace graphics { namespace API {
 		void Present();
 	public:
 		inline static GLContext* Get() { return (GLContext*)s_Context; }
+		static void SetVsync(const uint& syncInterval);
 	};
 
 } } }

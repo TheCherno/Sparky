@@ -243,6 +243,8 @@ void Test3D::OnInit(Renderer3D& renderer, Scene& scene)
 		// m_Materials[i]->SetUniform("u_ShadowMap", 6);
 	}
 
+	m_Window->SetVsync(VSYNC_DISABLED);
+
 	SP_INFO("Init took ", timer.ElapsedMillis(), " ms");
 }
 
