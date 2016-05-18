@@ -123,7 +123,8 @@
       </Command>
     </PreLinkEvent>
     <CustomBuildStep>
-      <Command>$(SolutionDir)Dependencies\luajit\src\msvcbuild.bat</Command>
+      <Command>
+      </Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
