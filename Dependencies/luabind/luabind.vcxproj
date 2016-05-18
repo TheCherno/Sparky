@@ -119,7 +119,8 @@
       </Command>
     </PreBuildEvent>
     <PreLinkEvent>
-      <Command>$(SolutionDir)Dependencies\luajit\src\msvcbuild.bat</Command>
+      <Command>
+      </Command>
     </PreLinkEvent>
     <CustomBuildStep>
       <Command>$(SolutionDir)Dependencies\luajit\src\msvcbuild.bat</Command>
