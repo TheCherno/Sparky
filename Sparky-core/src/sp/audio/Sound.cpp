@@ -151,7 +151,7 @@ namespace sp { namespace audio {
 
 	
 
-	void Sound::SetPanByAngle(const maths::vec3& cameraPosition, const maths::vec3& entityPosition, float yaw)
+	void Sound::SetPanByAngle(const maths::vec3& cameraPosition, const maths::vec3& entityPosition, float yaw, float soundDampeningPct)
 	{
 		/* 
 			Define the reference point to always stay in front of the 
