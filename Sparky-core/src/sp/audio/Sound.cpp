@@ -131,7 +131,7 @@ namespace sp { namespace audio {
 		const float PERCENTAGE = ((DISTANCE_FROM_ENTITY * 10.0f) / maxRadius);
 
 		// Convert the percentage into a 0.0f to 1.0f value to set the gain.
-		m_Volume = maxVolume - (PERCENTAGE / (maxVolume * factor));
+		m_Gain = maxVolume - (PERCENTAGE / (maxVolume * factor));
 	}
 
 	void Sound::SetPan(float pan)
@@ -191,7 +191,7 @@ namespace sp { namespace audio {
 		{
 			PAN_VALUE = PAN_UNIT * maths::toDegrees(ANGLE);
 			PAN_VALUE = -PAN_VALUE;
-			SetGain(maths::clamp(m_Volume, 0.0f, 1.0f));
+			m_Gain = maths::clamp(m_Gain, 0.0f, 1.0f);
 		}
 		else if (!isRotatingLeft && maths::toDegrees(ANGLE) > 90.0f && maths::toDegrees(ANGLE) < 180.0f)
 		{
@@ -202,25 +202,23 @@ namespace sp { namespace audio {
 			        Dampen volume by set percentage when camera is facing a way
 			        based on angle. 
 			*/
-			m_Volume = (m_Volume - (m_Volume / 100.0f * (maths::toDegrees(ANGLE) / 100.0f * soundDampeningPct)));
+			m_Gain = (m_Gain - (m_Gain / 100.0f * (maths::toDegrees(ANGLE) / 100.0f * soundDampeningPct)));
 			printf("Vol: %f\n", m_Volume);
-			SetGain(maths::clamp(m_Volume, 0.0f, 1.0f));
+			m_Gain = maths::clamp(m_Gain, 0.0f, 1.0f);
 		}
 		
 		if (isRotatingLeft && maths::toDegrees(ANGLE) < 90.0f)
 		{
 			PAN_VALUE = -(PAN_UNIT * maths::toDegrees(ANGLE));
 			PAN_VALUE = -PAN_VALUE;
-			SetGain(maths::clamp(m_Volume, 0.0f, 1.0f));
+			m_Gain = maths::clamp(m_Gain, 0.0f, 1.0f);
 		}
 		else if (isRotatingLeft && maths::toDegrees(ANGLE) > 90.0f && maths::toDegrees(ANGLE) < 180.0f)
 		{
 			PAN_VALUE = -1.0f - ((1.0f - (PAN_UNIT * maths::toDegrees(ANGLE))));
 			PAN_VALUE = -PAN_VALUE;
-			
-			m_Volume = (m_Volume - (m_Volume / 100.0f * (maths::toDegrees(ANGLE) / 100.0f * soundDampeningPct)));
-			printf("Vol: %f\n", m_Volume);
-			SetGain(maths::clamp(m_Volume, 0.0f, 1.0f));
+			m_Gain = (m_Gain - (m_Gain / 100.0f * (maths::toDegrees(ANGLE) / 100.0f * soundDampeningPct)));
+			m_Gain = maths::clamp(m_Gain, 0.0f, 1.0f);
 		}
 		
 		SetPan(PAN_VALUE);
