@@ -26,6 +26,7 @@ namespace sp { namespace audio {
 		bool m_Playing;
 		float m_Gain; // volume
 		float m_Pan; // speaker direction
+		float m_Volume; // for manipulating the volume
 
 	public:
 		Sound(const String& name, const String& filename);
@@ -64,7 +65,7 @@ namespace sp { namespace audio {
 			TODO: reduce volume when entity is more than 90 degrees 
 			away by a percentage to emulate sound behind a person.
 		*/
-		void SetPanByAngle(const maths::vec3& cameraPosition, const maths::vec3& entityPosition, float yaw);
+		void SetPanByAngle(const maths::vec3& cameraPosition, const maths::vec3& entityPosition, float yaw, float soundDampeningPct);
 
 		inline const bool IsPlaying() const { return m_Playing; }
 		inline const float GetGain() const { return m_Gain; }
