@@ -41,8 +41,8 @@ namespace sp { namespace audio {
 
 		void SetGain(float gain);
 
-		inline const bool IsPlaying() const { return m_Playing; }
-		inline const float GetGain() const { return m_Gain; }
+		inline bool IsPlaying() const { return m_Playing; }
+		inline float GetGain() const { return m_Gain; }
 		inline const String& GetName() const { return m_Name; }
 		inline const String& GetFileName() const { return m_Filename; }
 

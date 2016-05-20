@@ -153,33 +153,29 @@ void ScriptingTest::OnEvent(Event& event)
 				m_Scene->SetCamera(m_Scene->GetCamera() == m_MayaCamera ? m_FPSCamera : m_MayaCamera);
 				break;
 			case SP_KEY_O:
-				LuaFunctions::Call<void>(LuaState, "loadSound", "cherno", "res/Cherno.ogg");
+				LuaFunctions::Call(LuaState, "loadSound", "cherno", "res/Cherno.ogg");
 				break;
 			case SP_KEY_P:
-				LuaFunctions::Call<void>(LuaState, "playSound", "cherno");
+				LuaFunctions::Call(LuaState, "playSound", "cherno");
 				break;
 			case SP_KEY_L:
-				LuaFunctions::Call<void>(LuaState, "loopSound", "cherno");
+				LuaFunctions::Call(LuaState, "loopSound", "cherno");
 				break;
 			case SP_KEY_H:
-				LuaFunctions::Call<void>(LuaState, "debugMenu", "yes", false);
+				LuaFunctions::Call(LuaState, "debugMenu", "yes", false);
 				break;
 			case SP_KEY_E:
-				LuaSetup::ErrorPrint(LuaState);
-				LuaFunctions::Call<void>(LuaState, "scene", m_Scene);
-				LuaSetup::ErrorPrint(LuaState);
+				LuaFunctions::Call(LuaState, "scene", m_Scene);
 				break;
 			}
 		}
 		switch (kpe->GetKeyCode())
 		{
 		case SP_KEY_1:
-			LuaFunctions::Call<void>(LuaState, "changeGain", -0.4);
-			LuaSetup::ErrorPrint(LuaState);
+			LuaFunctions::Call(LuaState, "changeGain", -0.4);
 			break;
 		case SP_KEY_2:
-			LuaFunctions::Call<void>(LuaState, "changeGain", 0.4);
-			LuaSetup::ErrorPrint(LuaState);
+			LuaFunctions::Call(LuaState, "changeGain", 0.4);
 			break;
 		}
 	}

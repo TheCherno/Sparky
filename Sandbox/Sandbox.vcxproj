@@ -56,7 +56,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Sparky-core\src\;$(SolutionDir)Dependencies\luabind\;$(SolutionDir)Dependencies\luajit\src\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Sparky-core\src\;$(SolutionDir)Dependencies\luabridge\;$(SolutionDir)Dependencies\luabind\;$(SolutionDir)Dependencies\luajit\src\;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SP_PLATFORM_WINDOWS;SPARKY_PLATFORM_WIN32;SP_DEBUG;GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>

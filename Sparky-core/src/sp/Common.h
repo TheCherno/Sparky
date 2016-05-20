@@ -24,3 +24,5 @@
 #else
 	#define SP_DEBUG_METHOD_V(x) x {}
 #endif
+
+#define _SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS
