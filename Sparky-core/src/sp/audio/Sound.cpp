@@ -2,7 +2,7 @@
 #include "Sound.h"
 #include "SoundManager.h"
 #include "sp/maths/maths_func.h"
-
+#include "sp/maths/vec2.h"
 #include <iomanip>
 
 #ifdef SPARKY_PLATFORM_WEB
@@ -150,31 +150,66 @@ namespace sp { namespace audio {
 #endif
 	}
 
-	void Sound::SetPanByAngle(const maths::vec3& cameraPosition, const maths::vec3& entityPosition, const maths::vec3& forward, const maths::vec3& up)
+	
+
+	void Sound::SetPanByAngle(const maths::vec3& cameraPosition, const maths::vec3& entityPosition, float yaw)
 	{
 		/* 
-			NOTE: 270 to 90 degrees (clockwise) are between a value of -50 and 50 with 0 
-			being the direction the camera pointed. The lower half (90 to 270) is vertically
-			flipped to maintain smooth transition while moving.
-			
-			TODO: Entities behind the camera position should be reduced by a scaling percentage
-			to mimic real-world hearing perception of entities emitting sound from behind to
-			the listener (camera).
+			Define the reference point to always stay in front of the 
+			direction the camera is facing.
 		*/
+		const maths::vec3 REFERENCE_POINT(
+			cameraPosition.x + 20.0f * maths::sin(yaw),
+			cameraPosition.y, 
+			cameraPosition.z + 20.0f * -maths::cos(yaw));
 
-		maths::vec3& direction = forward.Cross(up).Normalize();
-		maths::vec3& distanceBetweenPos = (entityPosition - cameraPosition).Normalize();
-		const float ANGLE = direction.Dot(distanceBetweenPos);	
+		// Solve for the angle between the entity, reference point and camera position
+		const maths::vec2 A = maths::vec2(entityPosition.x, entityPosition.z);
+		const maths::vec2 B = maths::vec2(cameraPosition.x, cameraPosition.z);
+		const maths::vec2 C = maths::vec2(REFERENCE_POINT.x, REFERENCE_POINT.z);
 
-		/* 
-			Determine how much to pan audio left, center and right
+		const maths::vec2 AB = B - A;
+		const maths::vec2 BC = C - B;
+
+		const float ANGLE = maths::acos(
+						-AB.Dot(BC) / (AB.Magnitude() * BC.Magnitude()));
+
+		/*
+		Determine how much to pan audio left, center and right.
 			-1-----0-----1
 			 L-----C-----R
 		*/
-		const float PAN_UNIT = (2.0f / 180.0f);	
-		const float ANGLE_OFFSET = 180.0f / 100.0f * maths::toDegrees(ANGLE);
-		const float PAN_VALUE = maths::clamp(ANGLE_OFFSET * PAN_UNIT, -1.0f, 1.0f);
+		float PAN_VALUE = 0.0f;
+		const float PAN_UNIT = 1.0f / 90.0f;
 
+		/* 
+			Determine which direction camera is rotating and adjust pan.
+			Degrees goes from 0 to 180 whether camera is rotating CW or CCW.
+		*/
+		bool isRotatingLeft = ((B.x - A.x) * (C.y - A.y) - (B.y - A.y) * (C.x - A.x)) > 0.0f;
+		
+		if (!isRotatingLeft && maths::toDegrees(ANGLE) < 90.0f)
+		{
+			PAN_VALUE = PAN_UNIT * maths::toDegrees(ANGLE);
+			PAN_VALUE = -PAN_VALUE;
+		}
+		else if (!isRotatingLeft && maths::toDegrees(ANGLE) > 90.0f && maths::toDegrees(ANGLE) < 180.0f)
+		{
+			PAN_VALUE = 1.0f - (-(1.0f - (PAN_UNIT * maths::toDegrees(ANGLE))));
+			PAN_VALUE = -PAN_VALUE;
+		}
+		
+		if (isRotatingLeft && maths::toDegrees(ANGLE) < 90.0f)
+		{
+			PAN_VALUE = -(PAN_UNIT * maths::toDegrees(ANGLE));
+			PAN_VALUE = -PAN_VALUE;
+		}
+		else if (isRotatingLeft && maths::toDegrees(ANGLE) > 90.0f && maths::toDegrees(ANGLE) < 180.0f)
+		{
+			PAN_VALUE = -1.0f - ((1.0f - (PAN_UNIT * maths::toDegrees(ANGLE))));
+			PAN_VALUE = -PAN_VALUE;
+		}
+		
 		SetPan(PAN_VALUE);
 	}
 

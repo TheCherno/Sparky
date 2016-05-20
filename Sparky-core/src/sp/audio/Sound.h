@@ -60,8 +60,11 @@ namespace sp { namespace audio {
 			Determine how much to pan the audio in either direction
 			based on the angular degree the entity emitting sound is 
 			to the face direction of the observer.
+
+			TODO: reduce volume when entity is more than 90 degrees 
+			away by a percentage to emulate sound behind a person.
 		*/
-		void SetPanByAngle(const maths::vec3& cameraPosition, const maths::vec3& entityPosition, const maths::vec3& forward, const maths::vec3& up);
+		void SetPanByAngle(const maths::vec3& cameraPosition, const maths::vec3& entityPosition, float yaw);
 
 		inline const bool IsPlaying() const { return m_Playing; }
 		inline const float GetGain() const { return m_Gain; }
