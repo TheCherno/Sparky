@@ -26,7 +26,7 @@ namespace sp { namespace audio {
 		bool m_Playing;
 		float m_Gain; // volume
 		float m_Pan; // speaker direction
-		float m_Volume; // for manipulating the volume
+		static float m_Volume; // for manipulating the volume
 
 	public:
 		Sound(const String& name, const String& filename);
