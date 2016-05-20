@@ -203,7 +203,6 @@ namespace sp { namespace audio {
 			        based on angle. 
 			*/
 			m_Gain = (m_Gain - (m_Gain / 100.0f * (maths::toDegrees(ANGLE) / 100.0f * soundDampeningPct)));
-			printf("Vol: %f\n", m_Volume);
 			m_Gain = maths::clamp(m_Gain, 0.0f, 1.0f);
 		}
 		
