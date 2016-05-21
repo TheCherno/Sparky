@@ -27,14 +27,14 @@ namespace sp { namespace scripting {
 	public:
 		static void Call(lua_State* state, const char* functionname)
 		{
-			LuaRef func = getGlobal(state, functionname);
+			auto func = getGlobal(state, functionname);
 			func();
 		}
 
 		template <typename T>
 		static T Call(lua_State* state, const char* functionname)
 		{
-			LuaRef func = getGlobal(state, functionname);
+			auto func = getGlobal(state, functionname);
 			return func<T>();
 		}
 
@@ -43,7 +43,7 @@ namespace sp { namespace scripting {
 		{
 			try
 			{
-				LuaRef func = getGlobal(state, functionname);
+				auto func = getGlobal(state, functionname);
 				func(std::forward<Args>(args)...);
 			}
 			catch (LuaException e)
@@ -55,8 +55,12 @@ namespace sp { namespace scripting {
 		template <typename T, typename... Args>
 		static T Call(lua_State* state, const char* functionname, Args... args)
 		{
-			LuaRef func = getGlobal(state, functionname);
+			auto func = getGlobal(state, functionname);
 			return func<T>(std::forward<Args>(args)...);
+		}
+		template <class T>
+		static LuaRefWrapper Reference(T p) {
+			return LuaRefWrapper(&p);
 		}
 	};
 

@@ -2,20 +2,23 @@ printVersion = function ()
 	io.write("Running ", _VERSION, "\n")
 end
 
+s = nil
+
 loadSound = function (name, source) 
 	s = audio.Sound(name, source)
 	audio.SoundManager.Add(s);
 end
 
 playSound = function (name) 
-	audio.SoundManager.Get(name):Play()
+	s = audio.SoundManager.Get(name)
+	s:Play()
 end
 
 loopSound = function (name) 
-	audio.SoundManager.Get(name):Loop()
+	s = audio.SoundManager.Get(name)
+	s:Loop()
 end
 
-changeGain = function (gain) 
-	s = audio.SoundManager.Get(name)
-	s:Gain(s:Gain + gain)
+changeGain = function (sound, gain) 
+	sound.Gain = sound.Gain + gain
 end
