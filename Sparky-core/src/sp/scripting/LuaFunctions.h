@@ -3,13 +3,14 @@
 #include "sp/sp.h"
 
 #include <string>
+
 #ifdef LUABRIDGE
 #include <luabind\luabind.hpp>
 #else
 #ifndef LUA_LOADED
 #define LUA_LOADED
 #include <lua.hpp>
-#include <luabridge\LuaBridge.h>
+#include "luabridge\LuaBridge.h"
 #endif
 #endif
 
@@ -47,7 +48,7 @@ namespace sp { namespace scripting {
 			}
 			catch (LuaException e)
 			{
-				SP_ERROR("Lua >> ", e.what());
+				SP_ERROR("LuaException >> ", e.what());
 			}
 		}
 
