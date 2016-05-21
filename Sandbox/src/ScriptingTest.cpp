@@ -172,10 +172,10 @@ void ScriptingTest::OnEvent(Event& event)
 		switch (kpe->GetKeyCode())
 		{
 		case SP_KEY_1:
-			LuaFunctions::Call(LuaState, "changeGain", audio::SoundManager::Get("cherno"), -0.1f);
+			LuaFunctions::Call(LuaState, "changeGain", LuaFunctions::Reference(audio::SoundManager::Get("cherno")), -0.1f);
 			break;
 		case SP_KEY_2:
-			LuaFunctions::Call(LuaState, "changeGain", audio::SoundManager::Get("cherno"), 0.1f);
+			LuaFunctions::Call(LuaState, "changeGain", LuaFunctions::Reference(audio::SoundManager::Get("cherno")), 0.1f);
 			break;
 		}
 	}

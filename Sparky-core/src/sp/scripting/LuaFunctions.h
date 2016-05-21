@@ -27,15 +27,31 @@ namespace sp { namespace scripting {
 	public:
 		static void Call(lua_State* state, const char* functionname)
 		{
-			auto func = getGlobal(state, functionname);
-			func();
+			try
+			{
+				LuaRef func = getGlobal(state, functionname);
+				func();
+			}
+			catch (LuaException e)
+			{
+				SP_ERROR("LuaException >> ", e.what());
+			}
+		}
 		}
 
 		template <typename T>
 		static T Call(lua_State* state, const char* functionname)
 		{
-			auto func = getGlobal(state, functionname);
-			return func<T>();
+			try
+			{
+				LuaRef func = getGlobal(state, functionname);
+				return func<T>();
+			}
+			catch (LuaException e)
+			{
+				SP_ERROR("LuaException >> ", e.what());
+			}
+		}
 		}
 
 		template <typename... Args>
@@ -43,7 +59,7 @@ namespace sp { namespace scripting {
 		{
 			try
 			{
-				auto func = getGlobal(state, functionname);
+				LuaRef func = getGlobal(state, functionname);
 				func(std::forward<Args>(args)...);
 			}
 			catch (LuaException e)
@@ -55,12 +71,20 @@ namespace sp { namespace scripting {
 		template <typename T, typename... Args>
 		static T Call(lua_State* state, const char* functionname, Args... args)
 		{
-			auto func = getGlobal(state, functionname);
-			return func<T>(std::forward<Args>(args)...);
+			try
+			{
+				LuaRef func = getGlobal(state, functionname);
+				return func<T>(std::forward<Args>(args)...);
+			}
+			catch (LuaException e)
+			{
+				SP_ERROR("LuaException >> ", e.what());
+			}
 		}
+
 		template <class T>
-		static LuaRefWrapper Reference(T p) {
-			return LuaRefWrapper(&p);
+		static RefCountedPtr Reference(T* p) {
+			return RefCountedPtr<T>(p);
 		}
 	};
 
