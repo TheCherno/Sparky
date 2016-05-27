@@ -611,9 +611,6 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\sp\scripting\API.cpp" />
-    <ClCompile Include="src\sp\scripting\LuaFunctions.cpp" />
-    <ClCompile Include="src\sp\scripting\LuaSetup.cpp" />
     <ClCompile Include="src\sp\sp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">Create</PrecompiledHeader>
@@ -764,29 +761,14 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <ClInclude Include="src\sp\maths\vec4.h" />
     <ClCompile Include="src\sp\platform\windows\Win32MemoryManager.cpp" />
     <ClInclude Include="src\sp\scripting\API.h" />
-    <ClInclude Include="src\sp\scripting\Lua.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\detail\CFunctions.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\detail\ClassInfo.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\detail\Constructor.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\detail\dump.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\detail\FuncTraits.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\detail\Iterator.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\detail\LuaBridgeExtras.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\detail\LuaException.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\detail\LuaHelpers.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\detail\LuaRef.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\detail\Namespace.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\detail\RefCountedObject.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\detail\RefCountedPtr.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\detail\Stack.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\detail\TypeList.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\detail\TypeTraits.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\detail\Userdata.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\LuaBridge.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\RefCountedObject.h" />
-    <ClInclude Include="src\sp\scripting\luabridge\RefCountedPtr.h" />
-    <ClInclude Include="src\sp\scripting\LuaFunctions.h" />
-    <ClInclude Include="src\sp\scripting\LuaSetup.h" />
+    <ClInclude Include="src\sp\scripting\luacall.h" />
+    <ClInclude Include="src\sp\scripting\luaconstructor.h" />
+    <ClInclude Include="src\sp\scripting\luafunction.h" />
+    <ClInclude Include="src\sp\scripting\luawrapper.h" />
+    <ClInclude Include="src\sp\scripting\luawrapperutils.h" />
+    <ClInclude Include="src\sp\scripting\marshal.h" />
+    <ClInclude Include="src\sp\scripting\spslua.h" />
+    <ClInclude Include="src\sp\scripting\unmarshal.h" />
     <ClInclude Include="src\sp\sp.h" />
     <ClInclude Include="src\sp\String.h" />
     <ClInclude Include="src\sp\system\Allocator.h" />

@@ -76,12 +76,6 @@
     <Filter Include="sp\scripting">
       <UniqueIdentifier>{7a89cf53-2de2-4ad7-9323-d60acb39fc92}</UniqueIdentifier>
     </Filter>
-    <Filter Include="sp\scripting\luabridge">
-      <UniqueIdentifier>{dc8385ec-e058-4e8b-9a66-92b84427aca7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="sp\scripting\luabridge\detail">
-      <UniqueIdentifier>{bfa85ee4-ca0b-46c6-9ef0-fdbea6d4dcb7}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\sp\audio\Sound.cpp">
@@ -435,15 +429,6 @@
     <ClCompile Include="src\sp\system\FileSystem.cpp" />
     <ClCompile Include="src\sp\system\VFS.cpp" />
     <ClCompile Include="src\sp\platform\windows\Win32FileSystem.cpp" />
-    <ClCompile Include="src\sp\scripting\API.cpp">
-      <Filter>sp\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sp\scripting\LuaSetup.cpp">
-      <Filter>sp\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sp\scripting\LuaFunctions.cpp">
-      <Filter>sp\scripting</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Application.h">
@@ -850,77 +835,32 @@
     <ClInclude Include="src\sp\scripting\API.h">
       <Filter>sp\scripting</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\scripting\Lua.h">
-      <Filter>sp\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\scripting\LuaFunctions.h">
-      <Filter>sp\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\scripting\LuaSetup.h">
-      <Filter>sp\scripting</Filter>
-    </ClInclude>
     <ClInclude Include="src\sp\system\Reference.h">
       <Filter>sp\system</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\detail\CFunctions.h">
-      <Filter>sp\scripting\luabridge\detail</Filter>
+    <ClInclude Include="src\sp\scripting\luacall.h">
+      <Filter>sp\scripting</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\detail\ClassInfo.h">
-      <Filter>sp\scripting\luabridge\detail</Filter>
+    <ClInclude Include="src\sp\scripting\luaconstructor.h">
+      <Filter>sp\scripting</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\detail\Constructor.h">
-      <Filter>sp\scripting\luabridge\detail</Filter>
+    <ClInclude Include="src\sp\scripting\luafunction.h">
+      <Filter>sp\scripting</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\detail\dump.h">
-      <Filter>sp\scripting\luabridge\detail</Filter>
+    <ClInclude Include="src\sp\scripting\luawrapper.h">
+      <Filter>sp\scripting</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\detail\FuncTraits.h">
-      <Filter>sp\scripting\luabridge\detail</Filter>
+    <ClInclude Include="src\sp\scripting\luawrapperutils.h">
+      <Filter>sp\scripting</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\detail\Iterator.h">
-      <Filter>sp\scripting\luabridge\detail</Filter>
+    <ClInclude Include="src\sp\scripting\marshal.h">
+      <Filter>sp\scripting</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\detail\LuaBridgeExtras.h">
-      <Filter>sp\scripting\luabridge\detail</Filter>
+    <ClInclude Include="src\sp\scripting\unmarshal.h">
+      <Filter>sp\scripting</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\detail\LuaException.h">
-      <Filter>sp\scripting\luabridge\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\detail\LuaHelpers.h">
-      <Filter>sp\scripting\luabridge\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\detail\LuaRef.h">
-      <Filter>sp\scripting\luabridge\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\detail\Namespace.h">
-      <Filter>sp\scripting\luabridge\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\detail\RefCountedObject.h">
-      <Filter>sp\scripting\luabridge\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\detail\RefCountedPtr.h">
-      <Filter>sp\scripting\luabridge\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\detail\Stack.h">
-      <Filter>sp\scripting\luabridge\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\detail\TypeList.h">
-      <Filter>sp\scripting\luabridge\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\detail\TypeTraits.h">
-      <Filter>sp\scripting\luabridge\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\detail\Userdata.h">
-      <Filter>sp\scripting\luabridge\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\LuaBridge.h">
-      <Filter>sp\scripting\luabridge</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\RefCountedObject.h">
-      <Filter>sp\scripting\luabridge</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\scripting\luabridge\RefCountedPtr.h">
-      <Filter>sp\scripting\luabridge</Filter>
+    <ClInclude Include="src\sp\scripting\spslua.h">
+      <Filter>sp\scripting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

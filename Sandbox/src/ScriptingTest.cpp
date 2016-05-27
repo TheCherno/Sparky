@@ -1,6 +1,6 @@
 #include "ScriptingTest.h"
 
-#include <sp\scripting\Lua.h>
+#include <sp\scripting\spslua.h>
 #include <sp\system\Reference.h>
 
 using namespace sp;
@@ -13,8 +13,6 @@ using namespace entity;
 using namespace component;
 
 using namespace API;
-
-using namespace scripting;
 
 ScriptingTest::ScriptingTest()
 	: Layer3D(spnew Scene())
@@ -106,12 +104,12 @@ void ScriptingTest::OnInit(Renderer3D& renderer, Scene& scene)
 	g_Mesh = spnew Mesh(sphereModel->GetMesh());
 	g_Mesh->SetMaterial(m);
 
-	LuaSetup::CreateState(&LuaState);
-	LuaSetup::Init(LuaState);
-	LuaSetup::LoadSparkyAPI(LuaState);
-	LuaSetup::LoadFile(LuaState, "/scripts/test.lua");
+	LUAM_NEWSTATE(LuaState);
+	LUAM_INIT(LuaState);
+	LUAM_LOADAPI(LuaState);
+	LUAM_LOADFILE(LuaState, "/scripts/test.lua");
 
-	LuaFunctions::Call(LuaState, "printVersion");
+	LUAM_CALLFUNCTION(LuaState, "printVersion");
 
 	Entity* e = spnew Entity();
 	e->AddComponent(spnew MeshComponent(g_Mesh));
@@ -153,29 +151,29 @@ void ScriptingTest::OnEvent(Event& event)
 				m_Scene->SetCamera(m_Scene->GetCamera() == m_MayaCamera ? m_FPSCamera : m_MayaCamera);
 				break;
 			case SP_KEY_O:
-				LuaFunctions::Call(LuaState, "loadSound", "cherno", "res/Cherno.ogg");
+				LUAM_CALLFUNCTION(LuaState, "loadSound", "cherno", "res/Cherno.ogg");
 				break;
 			case SP_KEY_P:
-				LuaFunctions::Call(LuaState, "playSound", "cherno");
+				LUAM_CALLFUNCTION(LuaState, "playSound", "cherno");
 				break;
 			case SP_KEY_L:
-				LuaFunctions::Call(LuaState, "loopSound", "cherno");
+				LUAM_CALLFUNCTION(LuaState, "loopSound", "cherno");
 				break;
 			case SP_KEY_H:
-				LuaFunctions::Call(LuaState, "debugMenu", "yes", false);
+				LUAM_CALLFUNCTION(LuaState, "debugMenu", "yes", false);
 				break;
 			case SP_KEY_E:
-				LuaFunctions::Call(LuaState, "scene", m_Scene);
+				LUAM_CALLFUNCTION(LuaState, "scene", m_Scene);
 				break;
 			}
 		}
 		switch (kpe->GetKeyCode())
 		{
 		case SP_KEY_1:
-			LuaFunctions::Call(LuaState, "changeGain", LuaFunctions::Reference(audio::SoundManager::Get("cherno")), -0.1f);
+			LUAM_CALLFUNCTION(LuaState, "changeGain", audio::SoundManager::Get("cherno"), -0.1f);
 			break;
 		case SP_KEY_2:
-			LuaFunctions::Call(LuaState, "changeGain", LuaFunctions::Reference(audio::SoundManager::Get("cherno")), 0.1f);
+			LUAM_CALLFUNCTION(LuaState, "changeGain", audio::SoundManager::Get("cherno"), 0.1f);
 			break;
 		}
 	}
