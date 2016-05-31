@@ -22,8 +22,12 @@
 #define LUA_ERRFILE     (LUA_ERRERR+1)
 
 typedef struct luaL_Reg {
-  const char *name;
+  const char* name;
   lua_CFunction func;
+
+  luaL_Reg(const char* n, lua_CFunction f) : name(n), func(f) {
+
+  }
 } luaL_Reg;
 
 LUALIB_API void (luaL_openlib) (lua_State *L, const char *libname,

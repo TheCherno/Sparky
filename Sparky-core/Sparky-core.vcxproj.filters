@@ -429,15 +429,6 @@
     <ClCompile Include="src\sp\system\FileSystem.cpp" />
     <ClCompile Include="src\sp\system\VFS.cpp" />
     <ClCompile Include="src\sp\platform\windows\Win32FileSystem.cpp" />
-    <ClCompile Include="src\sp\scripting\API.cpp">
-      <Filter>sp\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sp\scripting\LuaFunctions.cpp">
-      <Filter>sp\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sp\scripting\LuaSetup.cpp">
-      <Filter>sp\scripting</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Application.h">
@@ -844,17 +835,32 @@
     <ClInclude Include="src\sp\scripting\API.h">
       <Filter>sp\scripting</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\scripting\Lua.h">
-      <Filter>sp\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\scripting\LuaFunctions.h">
-      <Filter>sp\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\scripting\LuaSetup.h">
-      <Filter>sp\scripting</Filter>
-    </ClInclude>
     <ClInclude Include="src\sp\system\Reference.h">
       <Filter>sp\system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\scripting\luacall.h">
+      <Filter>sp\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\scripting\luaconstructor.h">
+      <Filter>sp\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\scripting\luafunction.h">
+      <Filter>sp\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\scripting\luawrapper.h">
+      <Filter>sp\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\scripting\luawrapperutils.h">
+      <Filter>sp\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\scripting\marshal.h">
+      <Filter>sp\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\scripting\unmarshal.h">
+      <Filter>sp\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\scripting\spslua.h">
+      <Filter>sp\scripting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

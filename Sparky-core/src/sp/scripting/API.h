@@ -1,19 +1,32 @@
 #pragma once
 
-#ifndef LUA_LOADED
-#define LUA_LOADED
+#ifndef LUA_H
+#define LUA_H
 #include <lua.hpp>
-#include <luabridge\LuaBridge.h>
+#include "luawrapper.h"
+#include "luawrapperutils.h"
 #endif
 
-struct lua_State;
-typedef int(*lua_CFunction) (lua_State *L);
-
-typedef double lua_Number;
-typedef ptrdiff_t lua_Integer;
+#include "Sparky.h"
 
 namespace sp { namespace scripting { 
-	
-	void Load(lua_State* L);
+
+	void Load(lua_State* L)
+	{
+		LUAM_FUNCTION(sp::audio, Sound, Play);
+		LUAM_FUNCTION(sp::audio, Sound, Stop);
+		LUAM_FUNCTION(sp::audio, Sound, Loop);
+		LUAM_FUNCTION(sp::audio, Sound, Resume);
+		LUAM_FUNCTION(sp::audio, Sound, Pause);
+		LUAM_FUNCTION(sp::audio, Sound, IsPlaying);
+		LUAM_FUNCTION(sp::audio, Sound, GetFileName);
+		LUAM_FUNCTION(sp::audio, Sound, GetName);
+		LUAM_FUNCTION(sp::audio, Sound, GetGain);
+		LUAM_FUNCTION(sp::audio, Sound, SetGain);
+
+		LUAM_CLASSREGISTER(sp::audio, Sound, std::string, std::string);
+
+		LUAM_CLASSREGISTERNOCONS(sp::audio, SoundManager);
+	}
 
 } } 

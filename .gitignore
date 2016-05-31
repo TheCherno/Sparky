@@ -22,3 +22,4 @@ ipch/
 /Dependencies/LUA/doc
 /Tools/bin/Debug
 /Dependencies/luabind/Debug
+/bin/Debug

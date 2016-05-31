@@ -1,6 +1,6 @@
 #include "ScriptingTest.h"
 
-#include <sp\scripting\Lua.h>
+#include <sp\scripting\spslua.h>
 #include <sp\system\Reference.h>
 
 using namespace sp;
@@ -13,8 +13,6 @@ using namespace entity;
 using namespace component;
 
 using namespace API;
-
-using namespace scripting;
 
 ScriptingTest::ScriptingTest()
 	: Layer3D(spnew Scene())
@@ -106,12 +104,10 @@ void ScriptingTest::OnInit(Renderer3D& renderer, Scene& scene)
 	g_Mesh = spnew Mesh(sphereModel->GetMesh());
 	g_Mesh->SetMaterial(m);
 
-	LuaSetup::CreateState(&LuaState);
-	LuaSetup::Init(LuaState);
-	LuaSetup::LoadSparkyAPI(LuaState);
-	LuaSetup::LoadFile(LuaState, "/scripts/test.lua");
-
-	LuaFunctions::Call(LuaState, "printVersion");
+	LUAM_NEWSTATE();
+	LUAM_INIT();
+	LUAM_LOADAPI();
+	LUAM_LOADFILE("/scripts/test.lua");
 
 	Entity* e = spnew Entity();
 	e->AddComponent(spnew MeshComponent(g_Mesh));
@@ -137,6 +133,8 @@ void ScriptingTest::OnRender(Renderer3D& renderer)
 	Layer3D::OnRender(renderer);
 }
 
+sp::audio::Sound* s;
+
 void ScriptingTest::OnEvent(Event& event)
 {
 	if (event.GetType() == Event::Type::KEY_PRESSED)
@@ -153,29 +151,28 @@ void ScriptingTest::OnEvent(Event& event)
 				m_Scene->SetCamera(m_Scene->GetCamera() == m_MayaCamera ? m_FPSCamera : m_MayaCamera);
 				break;
 			case SP_KEY_O:
-				LuaFunctions::Call(LuaState, "loadSound", "cherno", "res/Cherno.ogg");
+				s = spnew sp::audio::Sound("cherno", "res/Cherno.ogg");
+				//s = sp::scripting::CallFunction<sp::audio::Sound*>(LuaState, "loadSound", "cherno", "res/Cherno.ogg");
+				//sp::audio::SoundManager::Add(s);
 				break;
 			case SP_KEY_P:
-				LuaFunctions::Call(LuaState, "playSound", "cherno");
+				LUAM_CALLFUNCTION("playSound", sp::scripting::SVOID, s);
 				break;
 			case SP_KEY_L:
-				LuaFunctions::Call(LuaState, "loopSound", "cherno");
+				LUAM_CALLFUNCTION("loopSound", sp::scripting::SVOID, s);
 				break;
 			case SP_KEY_H:
-				LuaFunctions::Call(LuaState, "debugMenu", "yes", false);
-				break;
-			case SP_KEY_E:
-				LuaFunctions::Call(LuaState, "scene", m_Scene);
+				LUAM_CALLFUNCTION("debugMenu", sp::scripting::SVOID, "yes", false);
 				break;
 			}
 		}
 		switch (kpe->GetKeyCode())
 		{
 		case SP_KEY_1:
-			LuaFunctions::Call(LuaState, "changeGain", -0.4);
+			LUAM_CALLFUNCTION("changeGain", sp::scripting::SVOID, s, -0.1f);
 			break;
 		case SP_KEY_2:
-			LuaFunctions::Call(LuaState, "changeGain", 0.4);
+			LUAM_CALLFUNCTION("changeGain", sp::scripting::SVOID, s, 0.1f);
 			break;
 		}
 	}
