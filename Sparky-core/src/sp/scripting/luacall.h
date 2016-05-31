@@ -24,8 +24,8 @@ void PassParameter(lua_State* L, int& index, First&& first, Args&&... args) {
 		PassParameter(L, index, std::forward<Args>(args)...);
 }
 
-template <typename... Args>
-void CallFunction(lua_State* L, const char* func, Args&&... args) {
+template <typename R, typename... Args>
+R CallFunction(lua_State* L, const char* func, Args&&... args) {
 	int index = 0;
 	lua_getglobal(L, func);
 	PassParameter(L, index, std::forward<Args>(args)...);
@@ -33,16 +33,18 @@ void CallFunction(lua_State* L, const char* func, Args&&... args) {
 		std::string s(lua_tostring(L, -1));
 		SP_ERROR("Lua: error running function \'", func, "\': ", s);
 	}
+	return Unmarshal<R>::Dispatch(L, index + 1);
 }
 
-template <>
-void CallFunction(lua_State* L, const char* func) {
+template <typename R>
+R CallFunction(lua_State* L, const char* func) {
 	int index = 0;
 	lua_getglobal(L, func);
 	if (lua_pcall(L, index, 0, 0) != 0) {
 		std::string s(lua_tostring(L, -1));
 		SP_ERROR("Lua: error running function \'", func, "\': ", s);
 	}
+	return Unmarshal<R>::Dispatch(L, index + 1);
 }
 
 } }

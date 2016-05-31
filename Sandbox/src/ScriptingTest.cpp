@@ -104,12 +104,10 @@ void ScriptingTest::OnInit(Renderer3D& renderer, Scene& scene)
 	g_Mesh = spnew Mesh(sphereModel->GetMesh());
 	g_Mesh->SetMaterial(m);
 
-	LUAM_NEWSTATE(LuaState);
-	LUAM_INIT(LuaState);
-	LUAM_LOADAPI(LuaState);
-	LUAM_LOADFILE(LuaState, "/scripts/test.lua");
-
-	LUAM_CALLFUNCTION(LuaState, "printVersion");
+	LUAM_NEWSTATE();
+	LUAM_INIT();
+	LUAM_LOADAPI();
+	LUAM_LOADFILE("/scripts/test.lua");
 
 	Entity* e = spnew Entity();
 	e->AddComponent(spnew MeshComponent(g_Mesh));
@@ -137,6 +135,7 @@ void ScriptingTest::OnRender(Renderer3D& renderer)
 
 void ScriptingTest::OnEvent(Event& event)
 {
+	sp::audio::Sound* s = nullptr;
 	if (event.GetType() == Event::Type::KEY_PRESSED)
 	{
 		KeyPressedEvent* kpe = (KeyPressedEvent*)&event;
@@ -151,29 +150,27 @@ void ScriptingTest::OnEvent(Event& event)
 				m_Scene->SetCamera(m_Scene->GetCamera() == m_MayaCamera ? m_FPSCamera : m_MayaCamera);
 				break;
 			case SP_KEY_O:
-				LUAM_CALLFUNCTION(LuaState, "loadSound", "cherno", "res/Cherno.ogg");
+				s = LUAM_CALLFUNCTION("loadSound", sp::audio::Sound*, "cherno", "res/Cherno.ogg");
+				sp::audio::SoundManager::Add(s);
 				break;
 			case SP_KEY_P:
-				LUAM_CALLFUNCTION(LuaState, "playSound", "cherno");
+				LUAM_CALLFUNCTION("playSound", void, "cherno");
 				break;
 			case SP_KEY_L:
-				LUAM_CALLFUNCTION(LuaState, "loopSound", "cherno");
+				LUAM_CALLFUNCTION("loopSound", void, "cherno");
 				break;
 			case SP_KEY_H:
-				LUAM_CALLFUNCTION(LuaState, "debugMenu", "yes", false);
-				break;
-			case SP_KEY_E:
-				LUAM_CALLFUNCTION(LuaState, "scene", m_Scene);
+				LUAM_CALLFUNCTION("debugMenu", void, "yes", false);
 				break;
 			}
 		}
 		switch (kpe->GetKeyCode())
 		{
 		case SP_KEY_1:
-			LUAM_CALLFUNCTION(LuaState, "changeGain", audio::SoundManager::Get("cherno"), -0.1f);
+			LUAM_CALLFUNCTION("changeGain", void, audio::SoundManager::Get("cherno"), -0.1f);
 			break;
 		case SP_KEY_2:
-			LUAM_CALLFUNCTION(LuaState, "changeGain", audio::SoundManager::Get("cherno"), 0.1f);
+			LUAM_CALLFUNCTION("changeGain", void, audio::SoundManager::Get("cherno"), 0.1f);
 			break;
 		}
 	}

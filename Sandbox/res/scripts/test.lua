@@ -1,22 +1,14 @@
-printVersion = function ()
-	io.write("Running ", _VERSION, "\n")
-end
-
-s = nil
-
 loadSound = function (name, source) 
-	s = audio.Sound(name, source)
-	audio.SoundManager.Add(s);
+	sound = Sound(name, source)
+	return sound
 end
 
-playSound = function (name) 
-	s = audio.SoundManager.Get(name)
-	s:Play()
+playSound = function (sound) 
+	sound:Play()
 end
 
-loopSound = function (name) 
-	s = audio.SoundManager.Get(name)
-	s:Loop()
+loopSound = function (sound) 
+	sound:Loop()
 end
 
 changeGain = function (sound, gain) 

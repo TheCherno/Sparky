@@ -16,6 +16,14 @@ struct Unmarshal
 	}
 };
 
+template<>
+struct Unmarshal<void>
+{
+	static void Dispatch(lua_State* L, int index)
+	{
+		return;
+	}
+};
 
 template<>
 struct Unmarshal<double>
