@@ -23,39 +23,44 @@ using namespace maths;
 using namespace ui;
 using namespace component;
 
-#define BEGINCLASS(T) beginClass<T>(#T)
-#define ENDCLASS endClass()
-#define BEGINNAMESPACE(x) beginNamespace(x)
-#define ENDNAMESPACE endNamespace()
-#define ADDCONSTRUCTOR(...) addConstructor<void (*)(__VA_ARGS__)>()
-#define ADDPROPERTY(N, T, g, s) addProperty(N, &T::g, &T::s)
-#define ADDFUNCTION(T, x) addFunction(#x, &T::x)
-#define ADDCFUNCTION(T, x) addCFunction(#x, &T::x)
-#define ADDSTATICFUNCTION(T, x) addStaticFunction(#x, &T::x)
+#define ADDFUNCTION(x) addFunction(#x, &x)
+#define ADDCFUNCTION(x) addCFunction(#x, &x)
+#define ADDSTATICFUNCTION(x) addStaticFunction(#x, &x)
 
 namespace sp { namespace scripting {
 
+	template <typename Enumeration>
+	auto as_integer(Enumeration const value)
+		-> typename std::underlying_type<Enumeration>::type
+	{
+		return static_cast<typename std::underlying_type<Enumeration>::type>(value);
+	}
+	
+	void RegisterAudio(lua_State* L) {
+		getGlobalNamespace(L)
+			.beginClass<Sound>("Sound")
+				.addConstructor<void (*)(std::string, std::string)>()
+				.addFunction("Play", &Sound::Play)
+				.addFunction("Stop", &Sound::Stop)
+				.addFunction("Loop", &Sound::Loop)
+				.addFunction("Resume", &Sound::Resume)
+				.addFunction("Pause", &Sound::Pause)
+				.addProperty("Gain", &Sound::GetGain, &Sound::SetGain)
+				.addFunction("IsPlaying", &Sound::IsPlaying)
+				.addFunction("GetFileName", &Sound::GetFileName)
+				.addFunction("GetName", &Sound::GetName)
+			.endClass();
+
+		getGlobalNamespace(L)
+			.beginClass<SoundManager>("SoundManager")
+				.addStaticFunction("Add", SoundManager::Add)
+				.addStaticFunction("Get", SoundManager::Get)
+			.endClass();
+	}
+
 	void Load(lua_State* L)
 	{
-		getGlobalNamespace(L)
-			.BEGINNAMESPACE("audio")
-				.BEGINCLASS(Sound)
-					.ADDCONSTRUCTOR(std::string, std::string)
-					.ADDFUNCTION(Sound, Play)
-					.ADDFUNCTION(Sound, Stop)
-					.ADDFUNCTION(Sound, Loop)
-					.ADDFUNCTION(Sound, Resume)
-					.ADDFUNCTION(Sound, Pause)
-					.ADDFUNCTION(Sound, IsPlaying)
-					.ADDFUNCTION(Sound, GetFileName)
-					.ADDFUNCTION(Sound, GetName)
-					.ADDPROPERTY("Gain", Sound, GetGain, SetGain)
-				.ENDCLASS
-				.BEGINCLASS(SoundManager)
-					.ADDSTATICFUNCTION(SoundManager, Add)
-					.ADDSTATICFUNCTION(SoundManager, Get)
-				.ENDCLASS
-			.ENDNAMESPACE;
+		RegisterAudio(L);
 	}
 
 } } 

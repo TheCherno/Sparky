@@ -5,7 +5,7 @@
 #ifndef LUA_LOADED
 #define LUA_LOADED
 #include <lua.hpp>
-#include "luabridge\LuaBridge.h"
+#include <luabridge\LuaBridge.h>
 #endif
 
 struct lua_State;
