@@ -15,11 +15,7 @@
 
 Intermediates/
 ipch/
-/Dependencies/LUA/Release
-/SandboxCS/obj/Debug
-/Sparky.VC.VC.opendb
-/Sparky.VC.db
-/Dependencies/LUA/doc
-/Tools/bin/Debug
-/Dependencies/luabind/Debug
 /bin/Debug
+/SandboxCS/obj/Debug
+/Sparky.VC.db
+/Sparky.VC.VC.opendb
