@@ -132,6 +132,61 @@ namespace sp {
 		SetWindowText(hWnd, m_Title.c_str());
 	}
 
+	String Window::GetClipboardContent()
+	{
+		if (!OpenClipboard(hWnd))
+		{
+			SP_WARN("WARNING: Unable to open clipboard!");
+			return "";
+		}
+
+		HANDLE hData = GetClipboardData(CF_TEXT);
+		if (hData == nullptr)
+		{
+			return "";
+		}
+
+		char * pszText = static_cast<char*>(GlobalLock(hData));
+		if (pszText == nullptr)
+		{
+			return "";
+		}
+
+		String text(pszText);
+
+		GlobalUnlock(hData);
+
+		CloseClipboard();
+		
+		return text;
+	}
+
+	void Window::SetClipboardContent(String content)
+	{
+		if (!OpenClipboard(hWnd))
+		{
+			SP_WARN("WARNING: Unable to open clipboard!");
+			return;
+		}
+
+		if (!EmptyClipboard())
+		{
+			SP_WARN("WARNING: Unable to empty clipboard!");
+			return;
+		}
+
+		HGLOBAL hGlob = GlobalAlloc(GMEM_FIXED, 64);
+		strcpy_s((char*)hGlob, 64, content.c_str());
+
+		if (SetClipboardData(CF_TEXT, hGlob) == NULL)
+		{
+			SP_WARN("Unable to set clipboard data: " + GetLastError());
+		}
+
+		CloseClipboard();
+		GlobalFree(hGlob);
+	}
+
 	void ResizeCallback(Window* window, int32 width, int32 height)
 	{
 		window->m_Properties.width = width;

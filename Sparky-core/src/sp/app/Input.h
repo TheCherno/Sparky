@@ -4,6 +4,8 @@
 #include "sp/maths/maths.h"
 #include "sp/events/Event.h"
 
+#include <map>
+
 namespace sp {
 
 #define MAX_KEYS	1024
@@ -68,10 +70,14 @@ namespace sp {
 		inline static const maths::vec2& GetMousePosition() { return s_InputManager->GetMousePosition(); }
 
 		inline static InputManager* GetInputManager() { return s_InputManager; }
+
+		inline static bool IsLetter(uint button) { return normalChars[button] != NULL || shiftChars[button] != NULL; }
+		inline static char GetChar(uint button, bool shift) { return !shift ? normalChars[button] : shiftChars[button]; }
+	private:
+		static std::map<uint, char> normalChars;
+		static std::map<uint, char> shiftChars;
 	};
-
 }
-
 
 #define SP_MOUSE_LEFT	  0x00
 #define SP_MOUSE_MIDDLE	  0x01
@@ -86,6 +92,7 @@ namespace sp {
 #define SP_MODIFIER_RIGHT_ALT		BIT(4)
 #define SP_MODIFIER_RIGHT_SHIFT		BIT(5)
 
+#define SP_KEY_BACKSPACE      0x08
 #define SP_KEY_TAB			  0x09
 
 #define SP_KEY_0			  0x30
@@ -206,3 +213,14 @@ namespace sp {
 #define SP_KEY_RCONTROL       0xA3
 #define SP_KEY_LMENU          0xA4
 #define SP_KEY_RMENU          0xA5
+
+#define SP_KEY_SEMICOLON      0xba
+#define SP_KEY_EQUAL          0xbb
+#define SP_KEY_COMMA          0xbc
+#define SP_KEY_DASH        	  0xbd
+#define SP_KEY_PERIOD         0xbe
+#define SP_KEY_SLASH_FORWARD  0xbf
+#define SP_KEY_SQUARE_BRACKET_OPEN 0xdb
+#define SP_KEY_SLASH_BACK     0xdc
+#define SP_KEY_SQUARE_BRACKET_CLOSE 0xdd
+#define SP_KEY_QUOTE          0xbe

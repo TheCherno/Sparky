@@ -48,6 +48,9 @@ namespace sp {
 		inline uint GetWidth() const { return m_Properties.width; }
 		inline uint GetHeight() const { return m_Properties.height; }
 
+		static String GetClipboardContent();
+		static void SetClipboardContent(String content);
+
 		void SetVsync(bool enabled);
 		inline bool IsVsync() const { return m_Vsync; }
 

@@ -426,6 +426,12 @@
     <ClCompile Include="src\sp\system\FileSystem.cpp" />
     <ClCompile Include="src\sp\system\VFS.cpp" />
     <ClCompile Include="src\sp\platform\windows\Win32FileSystem.cpp" />
+    <ClCompile Include="src\sp\graphics\ui\Checkbox.cpp">
+      <Filter>sp\graphics\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\ui\TextField.cpp">
+      <Filter>sp\graphics\ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Application.h">
@@ -829,6 +835,12 @@
     </ClInclude>
     <ClInclude Include="src\sp\system\FileSystem.h" />
     <ClInclude Include="src\sp\system\VFS.h" />
+    <ClInclude Include="src\sp\graphics\ui\Checkbox.h">
+      <Filter>sp\graphics\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sp\graphics\ui\TextField.h">
+      <Filter>sp\graphics\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="SparkyCore-TODO.txt" />
