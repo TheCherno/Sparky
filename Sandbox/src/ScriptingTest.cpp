@@ -133,9 +133,10 @@ void ScriptingTest::OnRender(Renderer3D& renderer)
 	Layer3D::OnRender(renderer);
 }
 
+sp::audio::Sound* s;
+
 void ScriptingTest::OnEvent(Event& event)
 {
-	sp::audio::Sound* s = nullptr;
 	if (event.GetType() == Event::Type::KEY_PRESSED)
 	{
 		KeyPressedEvent* kpe = (KeyPressedEvent*)&event;
@@ -150,27 +151,27 @@ void ScriptingTest::OnEvent(Event& event)
 				m_Scene->SetCamera(m_Scene->GetCamera() == m_MayaCamera ? m_FPSCamera : m_MayaCamera);
 				break;
 			case SP_KEY_O:
-				s = LUAM_CALLFUNCTION("loadSound", sp::audio::Sound*, "cherno", "res/Cherno.ogg");
+				s = LUAM_CALLFUNCTION("playSound", sp::audio::Sound*, "loadSound", "cherno", "res/Cherno.ogg");
 				sp::audio::SoundManager::Add(s);
 				break;
 			case SP_KEY_P:
-				LUAM_CALLFUNCTION("playSound", void, "cherno");
+				_LUAM_CALLFUNCTION("playSound", s);
 				break;
 			case SP_KEY_L:
-				LUAM_CALLFUNCTION("loopSound", void, "cherno");
+				_LUAM_CALLFUNCTION("loopSound", s);
 				break;
 			case SP_KEY_H:
-				LUAM_CALLFUNCTION("debugMenu", void, "yes", false);
+				_LUAM_CALLFUNCTION("debugMenu", "yes", false);
 				break;
 			}
 		}
 		switch (kpe->GetKeyCode())
 		{
 		case SP_KEY_1:
-			LUAM_CALLFUNCTION("changeGain", void, audio::SoundManager::Get("cherno"), -0.1f);
+			_LUAM_CALLFUNCTION("changeGain", s, -0.1f);
 			break;
 		case SP_KEY_2:
-			LUAM_CALLFUNCTION("changeGain", void, audio::SoundManager::Get("cherno"), 0.1f);
+			_LUAM_CALLFUNCTION("changeGain", s, 0.1f);
 			break;
 		}
 	}

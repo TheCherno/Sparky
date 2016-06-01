@@ -24,27 +24,68 @@ void PassParameter(lua_State* L, int& index, First&& first, Args&&... args) {
 		PassParameter(L, index, std::forward<Args>(args)...);
 }
 
-template <typename R, typename... Args>
-R CallFunction(lua_State* L, const char* func, Args&&... args) {
-	int index = 0;
-	lua_getglobal(L, func);
-	PassParameter(L, index, std::forward<Args>(args)...);
-	if (lua_pcall(L, index, 0, 0) != 0) {
-		std::string s(lua_tostring(L, -1));
-		SP_ERROR("Lua: error running function \'", func, "\': ", s);
+template<typename R>
+struct FunctionCaller
+{
+	template <typename... Args>
+	static R Dispatch(lua_State* L, const char* func, Args&&... args) {
+		int index = 0;
+		int top = lua_gettop(L);
+		lua_getglobal(L, func);
+		PassParameter(L, index, std::forward<Args>(args)...);
+		if (lua_pcall(L, index, 1, 0) != 0) {
+			std::string s(lua_tostring(L, -1));
+			SP_ERROR("Lua: There was an error running a function. \'", func, "\'");
+			SP_ERROR("	", s);
+		}
+		return Unmarshal<R>::Dispatch(L, index + 1);
 	}
-	return Unmarshal<R>::Dispatch(L, index + 1);
-}
 
-template <typename R>
-R CallFunction(lua_State* L, const char* func) {
-	int index = 0;
-	lua_getglobal(L, func);
-	if (lua_pcall(L, index, 0, 0) != 0) {
-		std::string s(lua_tostring(L, -1));
-		SP_ERROR("Lua: error running function \'", func, "\': ", s);
+	template <>
+	static R Dispatch(lua_State* L, const char* func) {
+		int index = 0;
+		int top = lua_gettop(L);
+		lua_getglobal(L, func);
+		if (lua_pcall(L, index, 1, 0) != 0) {
+			std::string s(lua_tostring(L, -1));
+			SP_ERROR("Lua: There was an error running a function. \'", func, "\'");
+			SP_ERROR("	", s);
+		}
+		return Unmarshal<R>::Dispatch(L, index + 1);
 	}
-	return Unmarshal<R>::Dispatch(L, index + 1);
-}
+};
+
+template<>
+struct FunctionCaller<void>
+{
+	template <typename... Args>
+	static void Dispatch(lua_State* L, const char* func, Args&&... args) {
+		int index = 0;
+		int top = lua_gettop(L);
+		lua_getglobal(L, func);
+		PassParameter(L, index, std::forward<Args>(args)...);
+		if (lua_pcall(L, index, 0, 0) != 0) {
+			std::string s(lua_tostring(L, -1));
+			SP_ERROR("Lua: There was an error running a function. \'", func, "\'");
+			SP_ERROR("	", s);
+			return;
+		}
+		return;
+	}
+
+	template <>
+	static void Dispatch(lua_State* L, const char* func) {
+		int index = 0;
+		int top = lua_gettop(L);
+		lua_getglobal(L, func);
+		if (lua_pcall(L, index, 0, 0) != 0) {
+			std::string s(lua_tostring(L, -1));
+			SP_ERROR("Lua: There was an error running a function. \'", func, "\'");
+			SP_ERROR("	", s);
+			return;
+		}
+		return;
+	}
+};
 
 } }

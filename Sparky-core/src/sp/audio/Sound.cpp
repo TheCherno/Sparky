@@ -2,6 +2,8 @@
 #include "Sound.h"
 #include "SoundManager.h"
 
+#include "Sparky.h"
+
 #ifdef SPARKY_PLATFORM_WEB
 	#include <emscripten/emscripten.h>
 #else
@@ -9,14 +11,25 @@
 	#include <gau.h>
 #endif
 
-#include "sp\utils\Log.h"
-
 namespace sp { namespace audio {
 
-	Sound::Sound(String name, String filename)
+	Sound::Sound(String& name, String& filename)
 		: m_Name(name), m_Filename(filename), m_Playing(false), m_Count(0)
 	{
-		LoadSound(name, filename);
+		std::vector<String> split = SplitString(m_Filename, '.');
+		if (split.size() < 2)
+		{
+			SP_ERROR("[Sound] Invalid file name '", m_Filename, "'!");
+			return;
+		}
+#ifdef SPARKY_PLATFORM_WEB
+#else
+		m_Sound = gau_load_sound_file(filename.c_str(), split.back().c_str());
+		if (m_Sound == nullptr)
+		{
+			SP_ERROR("[Sound] Could not load file '", m_Filename, "'!");
+		}
+#endif
 	}
 
 	Sound::~Sound()
@@ -24,21 +37,6 @@ namespace sp { namespace audio {
 #ifdef SPARKY_PLATFORM_WEB
 #else
 		ga_sound_release(m_Sound);
-#endif
-	}
-
-	void Sound::LoadSound(String name, String filename) {
-		std::vector<String> split = SplitString(filename, '.');
-		if (split.size() < 2)
-		{
-			std::cout << "[Sound] Invalid file name '" << m_Filename << "'!" << std::endl;
-			return;
-		}
-#ifdef SPARKY_PLATFORM_WEB
-#else
-		m_Sound = gau_load_sound_file(filename.c_str(), split.back().c_str());
-		if (m_Sound == nullptr)
-			std::cout << "[Sound] Could not load file '" << m_Filename << "'!" << std::endl;
 #endif
 	}
 
@@ -54,8 +52,6 @@ namespace sp { namespace audio {
 		m_Count++;
 #endif
 		m_Playing = true;
-
-		SP_INFO("Is playing?");
 	}
 
 	void Sound::Loop()
