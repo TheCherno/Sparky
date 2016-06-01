@@ -26,7 +26,7 @@ namespace sp { namespace scripting {
 
 		LUAM_CLASSREGISTER(sp::audio, Sound, std::string, std::string);
 
-		LUAM_CLASSREGISTERNOCONS(sp::audio, SoundManager);
+		_LUAM_CLASSREGISTER(sp::audio, SoundManager);
 	}
 
 } } 

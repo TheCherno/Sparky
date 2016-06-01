@@ -82,9 +82,10 @@ namespace sp { namespace scripting {
 #define LUAM_INIT() sp::scripting::InitLua(LuaState)
 #define LUAM_LOADFILE(F) sp::scripting::LoadLuaFile(LuaState, F)
 
-#define LUAM_CLASSREGISTERNOCONS(N, S) sp::scripting::RegisterClass<N::S>(LuaState, #S, nullptr)
+#define _LUAM_CLASSREGISTER(N, S) sp::scripting::RegisterClass<N::S>(LuaState, #S, nullptr)
 #define LUAM_CLASSREGISTER(N, S, ...) sp::scripting::RegisterClass<N::S>(LuaState, #S, LUAM_CONSTRUCTOR(N::S, __VA_ARGS__))
-#define LUAM_CALLFUNCTION(F, R, ...) sp::scripting::CallFunction<R>(LuaState, F, __VA_ARGS__)
+#define _LUAM_CALLFUNCTION(F, ...) sp::scripting::FunctionCaller<void>::Dispatch(LuaState, F, __VA_ARGS__)
+#define LUAM_CALLFUNCTION(F, R, ...) sp::scripting::FunctionCaller<R>::Dispatch(LuaState, F, __VA_ARGS__)
 
 #include "API.h"
 #define LUAM_LOADAPI() sp::scripting::Load(LuaState)

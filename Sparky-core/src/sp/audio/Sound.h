@@ -27,11 +27,10 @@ namespace sp { namespace audio {
 		bool m_Playing;
 		float m_Gain;
 	public:
-		Sound(String name, String filename);
+		Sound(String& name, String& filename);
 		Sound() : m_Name(""), m_Filename(""), m_Count(0), m_Sound(nullptr), m_Handle(nullptr), m_Position(0), m_Playing(false), m_Gain(1.0) {}
 		~Sound();
 	private:
-		void LoadSound(String name, String filename);
 	public:
 		void Play();
 		void Loop();
