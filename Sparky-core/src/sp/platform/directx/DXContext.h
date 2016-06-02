@@ -16,6 +16,7 @@ namespace sp { namespace graphics { namespace API {
 		D3D_FEATURE_LEVEL m_D3DFeatureLevel;
 		uint m_MSAAQuality;
 		bool m_MSAAEnabled;
+		bool m_DebugLayerEnabled;
 
 		ID3D11RenderTargetView* m_RenderTargetView;
 		ID3D11DepthStencilView* m_DepthStencilView;
