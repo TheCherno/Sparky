@@ -107,7 +107,7 @@ void ScriptingTest::OnInit(Renderer3D& renderer, Scene& scene)
 	LUAM_NEWSTATE();
 	LUAM_INIT();
 	LUAM_LOADAPI();
-	LUAM_LOADFILE("/scripts/test.lua");
+	LUAM_LOADFILE("res/scripts/test.lua");
 
 	Entity* e = spnew Entity();
 	e->AddComponent(spnew MeshComponent(g_Mesh));
@@ -133,7 +133,7 @@ void ScriptingTest::OnRender(Renderer3D& renderer)
 	Layer3D::OnRender(renderer);
 }
 
-sp::audio::Sound* s;
+sp::audio::Sound* s = nullptr;
 
 void ScriptingTest::OnEvent(Event& event)
 {
@@ -151,27 +151,27 @@ void ScriptingTest::OnEvent(Event& event)
 				m_Scene->SetCamera(m_Scene->GetCamera() == m_MayaCamera ? m_FPSCamera : m_MayaCamera);
 				break;
 			case SP_KEY_O:
-				s = LUAM_CALLFUNCTION("playSound", sp::audio::Sound*, "loadSound", "cherno", "res/Cherno.ogg");
-				sp::audio::SoundManager::Add(s);
+				LUAM_CALLFUNCTION("loadSound", "cherno", "res/Cherno.ogg");
+				s = audio::SoundManager::Get("cherno");
 				break;
 			case SP_KEY_P:
-				_LUAM_CALLFUNCTION("playSound", s);
+				LUAM_CALLFUNCTION("playSound", s);
 				break;
 			case SP_KEY_L:
-				_LUAM_CALLFUNCTION("loopSound", s);
+				LUAM_CALLFUNCTION("loopSound", s);
 				break;
 			case SP_KEY_H:
-				_LUAM_CALLFUNCTION("debugMenu", "yes", false);
+				LUAM_CALLFUNCTION("debugMenu", "yes", false);
 				break;
 			}
 		}
 		switch (kpe->GetKeyCode())
 		{
 		case SP_KEY_1:
-			_LUAM_CALLFUNCTION("changeGain", s, -0.1f);
+			LUAM_CALLFUNCTION("changeGain", s, -0.1f);
 			break;
 		case SP_KEY_2:
-			_LUAM_CALLFUNCTION("changeGain", s, 0.1f);
+			LUAM_CALLFUNCTION("changeGain", s, 0.1f);
 			break;
 		}
 	}

@@ -1,16 +1,18 @@
-loadSound = function (name, source) 
-	sound = Sound(name, source)
-	return sound
+local sound = nil
+
+loadSound = function (name, source)
+	sound = Sound.new(name, source)
+	SoundManager.Add(sound)
 end
 
-playSound = function (sound) 
+playSound = function (sound)
 	sound:Play()
 end
 
-loopSound = function (sound) 
+loopSound = function (sound)
 	sound:Loop()
 end
 
-changeGain = function (sound, gain) 
+changeGain = function (sound, gain)
 	sound.Gain = sound.Gain + gain
 end

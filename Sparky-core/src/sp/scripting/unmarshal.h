@@ -10,9 +10,9 @@
 template<class T>
 struct Unmarshal
 {
-	static T Dispatch(lua_State* L, int index)
+	static T* Dispatch(lua_State* L, int index)
 	{
-		return *luaW_check<T>(L, index);
+		return luaW_check<T>(L, index);
 	}
 };
 

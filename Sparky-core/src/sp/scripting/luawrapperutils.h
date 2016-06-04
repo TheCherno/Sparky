@@ -525,8 +525,8 @@ int luaU_getsetandrelease(lua_State* L)
 		return 1;
 	}
 }
-
-#if !defined(_WIN32) && !defined(LUAW_NO_CXX11)
+#define LUATHING
+#ifdef LUATHING // !defined(_WIN32) && !defined(LUAW_NO_CXX11)
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -633,7 +633,7 @@ template<int start, int count> inline typename luaU_MakeIntRangeType<start, coun
 //
 template<class MemFunPtrType, MemFunPtrType MemberFunc> struct luaU_MemberFuncWrapper;
 
-template<class T, class ReturnType, class... Args, ReturnType(T::*MemberFunc)(Args...)>
+template<class T, typename ReturnType, typename... Args, ReturnType(T::*MemberFunc)(Args...)>
 struct luaU_MemberFuncWrapper<ReturnType(T::*)(Args...), MemberFunc>
 {
 public:
@@ -651,7 +651,7 @@ private:
 	}
 };
 
-template<class T, class... Args, void(T::*MemberFunc)(Args...)>
+template<class T, typename... Args, void(T::*MemberFunc)(Args...)>
 struct luaU_MemberFuncWrapper<void(T::*)(Args...), MemberFunc>
 {
 public:
@@ -677,7 +677,7 @@ private:
 
 template<class FunPtrType, FunPtrType Func> struct luaU_StaticFuncWrapper;
 
-template<class ReturnType, class... Args, ReturnType(*Func)(Args...)>
+template<class ReturnType, typename... Args, ReturnType(*Func)(Args...)>
 struct luaU_StaticFuncWrapper<ReturnType(*)(Args...), Func>
 {
 public:
@@ -695,7 +695,7 @@ private:
 	}
 };
 
-template<class... Args, void(*Func)(Args...)>
+template<typename... Args, void(*Func)(Args...)>
 struct luaU_StaticFuncWrapper<void(*)(Args...), Func>
 {
 public:
@@ -841,4 +841,4 @@ void luaU_store(lua_State* L, int index, const char* storagetable, const char* k
 * IN THE SOFTWARE.
 */
 
-#endif // LUAWRAPPERUTILS_HPP_#pragma once
+#endif // LUAWRAPPERUTILS_HPP_

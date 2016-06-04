@@ -33,6 +33,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreeImage", "Dependencies\F
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "luabridge", "Dependencies\luabridge\luabridge.vcxproj", "{A320DA29-3A4E-462C-BB88-ACD3367864B5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ScriptGen", "Tools\ScriptGen\ScriptGen.vcxproj", "{66A7147B-B29D-4650-99F1-71467B977483}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -279,6 +281,28 @@ Global
 		{A320DA29-3A4E-462C-BB88-ACD3367864B5}.Release|Win32.Build.0 = Release|Win32
 		{A320DA29-3A4E-462C-BB88-ACD3367864B5}.Release|x64.ActiveCfg = Release|x64
 		{A320DA29-3A4E-462C-BB88-ACD3367864B5}.Release|x64.Build.0 = Release|x64
+		{66A7147B-B29D-4650-99F1-71467B977483}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{66A7147B-B29D-4650-99F1-71467B977483}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{66A7147B-B29D-4650-99F1-71467B977483}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{66A7147B-B29D-4650-99F1-71467B977483}.Debug|Win32.ActiveCfg = Debug|Win32
+		{66A7147B-B29D-4650-99F1-71467B977483}.Debug|Win32.Build.0 = Debug|Win32
+		{66A7147B-B29D-4650-99F1-71467B977483}.Debug|x64.ActiveCfg = Debug|x64
+		{66A7147B-B29D-4650-99F1-71467B977483}.Debug|x64.Build.0 = Debug|x64
+		{66A7147B-B29D-4650-99F1-71467B977483}.Emscripten|Any CPU.ActiveCfg = Release|x64
+		{66A7147B-B29D-4650-99F1-71467B977483}.Emscripten|Any CPU.Build.0 = Release|x64
+		{66A7147B-B29D-4650-99F1-71467B977483}.Emscripten|Mixed Platforms.ActiveCfg = Release|Win32
+		{66A7147B-B29D-4650-99F1-71467B977483}.Emscripten|Mixed Platforms.Build.0 = Release|Win32
+		{66A7147B-B29D-4650-99F1-71467B977483}.Emscripten|Win32.ActiveCfg = Release|Win32
+		{66A7147B-B29D-4650-99F1-71467B977483}.Emscripten|Win32.Build.0 = Release|Win32
+		{66A7147B-B29D-4650-99F1-71467B977483}.Emscripten|x64.ActiveCfg = Release|x64
+		{66A7147B-B29D-4650-99F1-71467B977483}.Emscripten|x64.Build.0 = Release|x64
+		{66A7147B-B29D-4650-99F1-71467B977483}.Release|Any CPU.ActiveCfg = Release|Win32
+		{66A7147B-B29D-4650-99F1-71467B977483}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{66A7147B-B29D-4650-99F1-71467B977483}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{66A7147B-B29D-4650-99F1-71467B977483}.Release|Win32.ActiveCfg = Release|Win32
+		{66A7147B-B29D-4650-99F1-71467B977483}.Release|Win32.Build.0 = Release|Win32
+		{66A7147B-B29D-4650-99F1-71467B977483}.Release|x64.ActiveCfg = Release|x64
+		{66A7147B-B29D-4650-99F1-71467B977483}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -292,5 +316,6 @@ Global
 		{B2F249D4-0D02-4FAB-B031-D0C594DF0CE3} = {E8F65CE7-0E81-42F2-998C-F71E1F7D5097}
 		{6F2FF135-E343-4138-A6FB-2D1F2540A3F8} = {CDF953E8-D5D6-4797-AA4A-5C7D86DE1F64}
 		{A320DA29-3A4E-462C-BB88-ACD3367864B5} = {CDF953E8-D5D6-4797-AA4A-5C7D86DE1F64}
+		{66A7147B-B29D-4650-99F1-71467B977483} = {E8F65CE7-0E81-42F2-998C-F71E1F7D5097}
 	EndGlobalSection
 EndGlobal

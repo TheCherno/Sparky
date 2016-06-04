@@ -27,11 +27,10 @@ namespace sp { namespace audio {
 		bool m_Playing;
 		float m_Gain;
 	public:
-		Sound(String& name, String& filename);
-		Sound() : m_Name(""), m_Filename(""), m_Count(0), m_Sound(nullptr), m_Handle(nullptr), m_Position(0), m_Playing(false), m_Gain(1.0) {}
+		Sound(const String& name, const String& filename);
 		~Sound();
-	private:
-	public:
+
+
 		void Play();
 		void Loop();
 		void Pause();
@@ -40,8 +39,8 @@ namespace sp { namespace audio {
 
 		void SetGain(float gain);
 
-		inline bool IsPlaying() const { return m_Playing; }
-		inline float GetGain() const { return m_Gain; }
+		inline const bool IsPlaying() const { return m_Playing; }
+		inline const float GetGain() const { return m_Gain; }
 		inline const String& GetName() const { return m_Name; }
 		inline const String& GetFileName() const { return m_Filename; }
 
@@ -52,4 +51,5 @@ namespace sp { namespace audio {
 #endif
 
 	};
+
 } }

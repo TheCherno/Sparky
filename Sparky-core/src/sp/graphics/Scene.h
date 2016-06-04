@@ -34,8 +34,6 @@ namespace sp { namespace graphics {
 
 		inline Camera* GetCamera() const { return m_Camera; }
 		inline const std::vector<entity::Entity*>& GetEntities() const { return m_Entities; }
-
-		void print() { SP_INFO("It prints?"); }
 	};
 
 } }

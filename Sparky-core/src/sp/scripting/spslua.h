@@ -39,16 +39,28 @@ namespace sp { namespace scripting {
 		staFunctions[classname].push_back({ NULL, NULL });
 		locFunctions[classname].push_back({ NULL, NULL });
 		luaW_register<T>(L, classname, staFunctions[classname].data(), locFunctions[classname].data(), allocator);
+		SP_INFO("Registering class: '", classname, "' with '", staFunctions[classname].size(), "' static functions and '", locFunctions[classname].size(), "' local functions");
 	}
 
-	template<typename T, T method>
+
+	template<typename T, T method, typename R, typename... Args>
 	void RegisterLocalFunction(const char* cname, const char* fname) {
-		locFunctions[cname].push_back(luaL_Reg(fname, WrapMethod<T, method>()));
+		locFunctions[cname].push_back(luaL_Reg(fname, FunctionWrapper<T, Args...>().Dispatch<method, R>));
 	}
 
-	template<typename T, T method>
+	template<typename T, T method, typename... Args>
+	void RegisterLocalFunctionNoRet(const char* cname, const char* fname) {
+		locFunctions[cname].push_back(luaL_Reg(fname, FunctionWrapper<T, Args...>().Dispatch<method>));
+	}
+
+	template<typename T, T method, typename R, typename... Args>
 	void RegisterStaticFunction(const char* cname, const char* fname) {
-		staFunctions[cname].push_back(luaL_Reg(fname, WrapMethod<T, method>()));
+		staFunctions[cname].push_back(luaL_Reg(fname, StaticFunctionWrapper<T, Args...>().Dispatch<method, R>));
+	}
+
+	template<typename T, T method,  typename... Args>
+	void RegisterStaticFunctionNoRet(const char* cname, const char* fname) {
+		staFunctions[cname].push_back(luaL_Reg(fname, StaticFunctionWrapper<T, Args...>().Dispatch<method>));
 	}
 
 	void InitLua(lua_State* L)
@@ -63,19 +75,31 @@ namespace sp { namespace scripting {
 
 	void LoadLuaFile(lua_State* L, const char* file)
 	{
-		luaL_dofile(L, file);
-		int errors = lua_pcall(L, 0, LUA_MULTRET, 0);
-		if (errors != 0)
-		{
-			std::string s(lua_tostring(L, -1));
-			std::cout << "Lua >> " << s << std::endl;
-			lua_pop(L, 1);
-		}
+		String path = file;
+		//if (VFS::Get()->ResolvePhysicalPath(file, path)) {
+			luaL_loadfile(L, path.c_str());
+			int errors = lua_pcall(L, 0, LUA_MULTRET, 0);
+			if (errors != 0)
+			{
+				std::string s(lua_tostring(L, -1));
+				SP_ERROR("Lua >> ", s);
+				lua_pop(L, 1);
+			}
+		/*}
+		else {
+			SP_ERROR("Lua >> Could not find file in the VFS!");
+		}*/
 	}
 } }
 
-#define LUAM_FUNCTION(N, T, S) sp::scripting::RegisterLocalFunction<decltype(&N::T::S), &N::T::S>(#T, #S)
-#define LUAM_STATICFUNCTION(N, T, S) sp::scripting::RegisterStaticFunction<decltype(&N::T::S), &N::T::S>(#T, #S)
+#define LUAM_FUNCTION(N, T, S, R, ...) sp::scripting::RegisterLocalFunction<decltype(&N::T::S), &N::T::S, R, __VA_ARGS__>(#T, #S)
+#define _LUAM_FUNCTION(N, T, S, ...) sp::scripting::RegisterLocalFunctionNoRet<decltype(&N::T::S), &N::T::S, __VA_ARGS__>(#T, #S)
+
+#define LUAM_STATICFUNCTION(N, T, S, R, ...) sp::scripting::RegisterStaticFunction<decltype(&N::T::S), &N::T::S, R, __VA_ARGS__>(#T, #S)
+#define _LUAM_STATICFUNCTION(N, T, S, ...) sp::scripting::RegisterStaticFunctionNoRet<decltype(&N::T::S), &N::T::S, __VA_ARGS__>(#T, #S)
+
+
+
 #define LUAM_CONSTRUCTOR(S, ...) sp::scripting::WrapConstructor<S, __VA_ARGS__>
 
 #define LUAM_NEWSTATE() LuaState = luaL_newstate()
@@ -84,8 +108,7 @@ namespace sp { namespace scripting {
 
 #define _LUAM_CLASSREGISTER(N, S) sp::scripting::RegisterClass<N::S>(LuaState, #S, nullptr)
 #define LUAM_CLASSREGISTER(N, S, ...) sp::scripting::RegisterClass<N::S>(LuaState, #S, LUAM_CONSTRUCTOR(N::S, __VA_ARGS__))
-#define _LUAM_CALLFUNCTION(F, ...) sp::scripting::FunctionCaller<void>::Dispatch(LuaState, F, __VA_ARGS__)
-#define LUAM_CALLFUNCTION(F, R, ...) sp::scripting::FunctionCaller<R>::Dispatch(LuaState, F, __VA_ARGS__)
+#define LUAM_CALLFUNCTION(F, ...) sp::scripting::FunctionCaller::Dispatch(LuaState, F, __VA_ARGS__)
 
 #include "API.h"
 #define LUAM_LOADAPI() sp::scripting::Load(LuaState)
