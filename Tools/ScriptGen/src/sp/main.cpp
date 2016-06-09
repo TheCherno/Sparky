@@ -1,18 +1,19 @@
 #include "sp.h"
+
 #include <iostream>
 #include <vector>
 
 #include <clang-c/Index.h>
 
-#include "sp/cligen/SPCLICommon.h"
-#include "sp/cligen/SPCLIFile.h"
-#include "sp/XMLDocument.h"
-#include "sp/cligen/String.h"
+#include "utils/CTypes.h"
+#include "utils/String.h"
+
+#include "Writer.h"
 
 #include <stack>
 #include <Windows.h>
 
-using namespace sp::cligen;
+using namespace sp::gen;
 
 std::vector<Class> classes;
 std::vector<String> namespaceStack;
@@ -20,11 +21,9 @@ std::vector<String> namespaceStack;
 Class* currentClass = nullptr;
 Method* currentMethod = nullptr;
 
-namespace sp {
-	namespace cligen {
-		std::map<String, String> g_TypeMappings;
-	}
-}
+namespace sp { namespace cligen {
+	std::map<String, String> g_TypeMappings;
+} }
 
 CXChildVisitResult traverse(CXCursor cursor, CXCursor parent, CXClientData data)
 {
@@ -33,8 +32,8 @@ CXChildVisitResult traverse(CXCursor cursor, CXCursor parent, CXClientData data)
 	String type = String(clang_getCString(cursorKind)); // TODO: Use enums instead of strings
 	String name = clang_getCString(cursorSpelling);
 
-	if (!clang_Location_isFromMainFile(clang_getCursorLocation(cursor)))
-		return CXChildVisit_Recurse;
+ 	if (!clang_Location_isFromMainFile(clang_getCursorLocation(cursor)))
+ 		return CXChildVisit_Recurse;
 
 	if (type == "Namespace")
 	{
@@ -144,12 +143,7 @@ int main(int argc, char *argv[])
 	std::vector<String> files = GetAllFiles("../../Sparky-core/src/sp", "*");
 
 	String includePath = "../../Sparky-core/src";
-	const char* cmdArgs[] = { "-I", includePath.c_str(), "-c", "-x", "c++", "-ast-dump" }; // Note: -c is ignored according to API docs
-
-	sp::XMLDocument types("CLITypes", "cli_types.xml");
-
-	for (sp::XMLNode& type : types.FindNode("CLITypes")->children)
-		g_TypeMappings[type.FindAttribute("native")->value] = type.value;
+	const char* cmdArgs[] = { "-I", includePath.c_str(), "-c", "-x", "c++", "-std=c++14", "-ast-dump" }; // Note: -c is ignored according to API docs
 
 	// create index w/ excludeDeclsFromPCH = 1, displayDiagnostics=1.
 	CXIndex index = clang_createIndex(1, 0);
@@ -171,24 +165,11 @@ int main(int argc, char *argv[])
 		CXCursor rootCursor = clang_getTranslationUnitCursor(tu);
 		clang_visitChildren(rootCursor, traverse, (CXClientData)NULL);
 
-
-		String outputPath = "output/";
-		String outputName = GetFileName(file);
-		if (classes.size() > 0)
-		{
-			SPCLIFile file(classes.back(), outputPath + outputName, outputPath + outputName.substr(0, outputName.size() - 2) + ".cpp");
-			file.Generate();
-			file.Flush();
-		}
-
 		clang_disposeTranslationUnit(tu);
-		classes.clear();
-		namespaceStack.clear();
-		currentClass = nullptr;
-		currentMethod = nullptr;
 	}
 
 	clang_disposeIndex(index);
+	GenerateFile("test.txt", classes);
 	system("PAUSE");
 	return 0;
 }

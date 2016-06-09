@@ -8,7 +8,8 @@
 #include <map>
 #include <sstream>
 
-#include "SPTypes.h"
+typedef unsigned int uint;
+typedef unsigned char byte;
 
 #define SP_ASSERT(condition) \
 	if (!(condition)) __debugbreak();
