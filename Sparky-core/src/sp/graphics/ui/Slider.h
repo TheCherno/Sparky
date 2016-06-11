@@ -19,6 +19,7 @@ namespace sp { namespace graphics { namespace ui {
 	private:
 		maths::Rectangle m_HeadBounds;
 		float m_Value;
+		float m_Increment;
 		float m_HeadOffset;
 		SliderState m_State;
 		ValueChangedCallback m_Callback;
@@ -37,9 +38,14 @@ namespace sp { namespace graphics { namespace ui {
 		inline void SetCallback(const ValueChangedCallback& callback) { m_Callback = callback; }
 		inline const ValueChangedCallback& GetCallback() const { return m_Callback; }
 
-		inline float GetValue() const { return m_Value; }
+		float GetValue() { return GetIncrementedValue(); }
 		void SetValue(float value);
+
+		inline float GetIncrement() const { return m_Increment; }
+		void SetIncrement(float increment);
+
 	private:
+		float GetIncrementedValue();
 		static void NoCallback(float) {}
 	};
 
