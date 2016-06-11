@@ -21,23 +21,29 @@ namespace sp { namespace gen {
 		CONSTRUCTOR, DESTRUCTOR, METHOD
 	};
 
+	enum class AccessType
+	{
+		PUBLIC, PROTECTED, PRIVATE
+	};
+
 	struct Method
 	{
 		MethodType methodType;
+		AccessType accessType;
 
 		String name;
 		String type;
 		bool isStatic;
 		std::vector<Parameter> parameters;
 
-		Method(MethodType methodType)
-			: methodType(methodType) {}
+		Method(MethodType methodType, AccessType accessType = AccessType::PUBLIC)
+			: methodType(methodType), accessType(accessType) {}
 
-		Method(const String& name, const String& type, bool isStatic = false)
+		Method(const String& name, const String& type, AccessType accessType = AccessType::PUBLIC, bool isStatic = false)
 			: name(name), type(type), methodType(MethodType::METHOD), isStatic(isStatic) {}
 
-		Method(const String& name, const String& type, MethodType methodType = MethodType::METHOD, bool isStatic = false)
-			: name(name), type(type), methodType(methodType), isStatic(isStatic) {}
+		Method(const String& name, const String& type, AccessType accessType = AccessType::PUBLIC, MethodType methodType = MethodType::METHOD, bool isStatic = false)
+			: name(name), type(type), accessType(accessType), methodType(methodType), isStatic(isStatic) {}
 	};
 
 	struct Class

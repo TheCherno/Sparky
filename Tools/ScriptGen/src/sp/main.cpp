@@ -51,7 +51,25 @@ CXChildVisitResult traverse(CXCursor cursor, CXCursor parent, CXClientData data)
 		if (currentClass)
 		{
 			SP_ASSERT(currentClass);
-			currentClass->methods.push_back(Method(MethodType::CONSTRUCTOR));
+
+			AccessType accessType;
+			CX_CXXAccessSpecifier intAccessType = clang_getCXXAccessSpecifier(cursor);
+			switch (intAccessType)
+			{
+			case CX_CXXInvalidAccessSpecifier:
+				break;
+			case CX_CXXPublic:
+				accessType = AccessType::PUBLIC;
+				break;
+			case CX_CXXProtected:
+				accessType = AccessType::PROTECTED;
+				break;
+			case CX_CXXPrivate:
+				accessType = AccessType::PRIVATE;
+				break;
+			}
+
+			currentClass->methods.push_back(Method(MethodType::CONSTRUCTOR, accessType));
 			currentMethod = &currentClass->methods.back();
 		}
 	}
@@ -62,7 +80,25 @@ CXChildVisitResult traverse(CXCursor cursor, CXCursor parent, CXClientData data)
 			SP_ASSERT(currentClass);
 			CXString resultType = clang_getTypeSpelling(clang_getResultType(clang_getCursorType(cursor)));
 			bool isStatic = clang_CXXMethod_isStatic(cursor);
-			currentClass->methods.push_back(Method(name, String(clang_getCString(resultType)), isStatic));
+
+			AccessType accessType;
+			CX_CXXAccessSpecifier intAccessType = clang_getCXXAccessSpecifier(cursor);
+			switch (intAccessType)
+			{
+			case CX_CXXInvalidAccessSpecifier:
+				break;
+			case CX_CXXPublic:
+				accessType = AccessType::PUBLIC;
+				break;
+			case CX_CXXProtected:
+				accessType = AccessType::PROTECTED;
+				break;
+			case CX_CXXPrivate:
+				accessType = AccessType::PRIVATE;
+				break;
+			}
+
+			currentClass->methods.push_back(Method(name, String(clang_getCString(resultType)), accessType, isStatic));
 			currentMethod = &currentClass->methods.back();
 			clang_disposeString(resultType);
 		}
@@ -76,6 +112,10 @@ CXChildVisitResult traverse(CXCursor cursor, CXCursor parent, CXClientData data)
 			currentClass->methods.back().parameters.push_back(Parameter(name, clang_getCString(paramType)));
 			clang_disposeString(paramType);
 		}
+	}
+	else if (type == "AccessSpecDecl")
+	{
+
 	}
 	else if (type == "C++ base class specifier")
 	{
@@ -114,7 +154,9 @@ static std::vector<String> GetAllFiles(String path, const String& mask)
 					directories.push(path + "/" + ffd.cFileName);
 				}
 				else {
-					results.push_back(path + "/" + ffd.cFileName);
+					if (path.find("platform") == std::string::npos) {
+						results.push_back(path + "/" + ffd.cFileName);
+					}
 				}
 			}
 		} while (FindNextFile(hFind, &ffd) != 0);
@@ -139,22 +181,15 @@ String GetFileName(const String& path)
 
 int main(int argc, char *argv[])
 {
-	String path = "../../Sparky-core/src/sp/debug/";
-	std::vector<String> files = GetAllFiles("../../Sparky-core/src/sp", "*");
-
-	String includePath = "../../Sparky-core/src";
-	const char* cmdArgs[] = { "-I", includePath.c_str(), "-c", "-x", "c++", "-std=c++14", "-ast-dump" }; // Note: -c is ignored according to API docs
-
-	// create index w/ excludeDeclsFromPCH = 1, displayDiagnostics=1.
+	String path = "../../Sparky-core/src";
+	std::vector<String> files = GetAllFiles(path + "/sp", "*");
+	const char* cmdArgs[] = { "-I", path.c_str(), "-c", "-x", "c++", "-stdlib=libstdc++", "-std=c++1y", "-ast-dump" }; 
 	CXIndex index = clang_createIndex(1, 0);
 	for (const String& file : files)
 	{
 		if (!EndsWith(file, ".h"))
 			continue;
 
-		std::cout << "Reading file: " << file << std::endl;
-
-		// create Translation Unit
 		CXTranslationUnit tu = clang_parseTranslationUnit(index, file.c_str(), cmdArgs, 6, NULL, 0, 0);
 		if (tu == NULL)
 		{
@@ -169,7 +204,7 @@ int main(int argc, char *argv[])
 	}
 
 	clang_disposeIndex(index);
-	GenerateFile("test.txt", classes);
+	GenerateFile(path + "/sp/scripting/API.h", classes);
 	system("PAUSE");
 	return 0;
 }

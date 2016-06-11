@@ -43,14 +43,9 @@ namespace sp { namespace scripting {
 	}
 
 
-	template<typename T, T method, typename R, typename... Args>
+	template<typename T, T method>
 	void RegisterLocalFunction(const char* cname, const char* fname) {
-		locFunctions[cname].push_back(luaL_Reg(fname, FunctionWrapper<T, Args...>().Dispatch<method, R>));
-	}
-
-	template<typename T, T method, typename... Args>
-	void RegisterLocalFunctionNoRet(const char* cname, const char* fname) {
-		locFunctions[cname].push_back(luaL_Reg(fname, FunctionWrapper<T, Args...>().Dispatch<method>));
+		locFunctions[cname].push_back(luaL_Reg(fname, WrapMethod<T, method>()));
 	}
 
 	template<typename T, T method, typename R, typename... Args>
@@ -92,25 +87,22 @@ namespace sp { namespace scripting {
 	}
 } }
 
-#define LUAM_FUNCTION(N, T, S, R, ...) sp::scripting::RegisterLocalFunction<decltype(&N::T::S), &N::T::S, R, __VA_ARGS__>(#T, #S)
-#define _LUAM_FUNCTION(N, T, S, ...) sp::scripting::RegisterLocalFunctionNoRet<decltype(&N::T::S), &N::T::S, __VA_ARGS__>(#T, #S)
+#define SP_FUNCTION(T, S) sp::scripting::RegisterLocalFunction<decltype(&T::S), &N::T::S>(#T, #S)
 
-#define LUAM_STATICFUNCTION(N, T, S, R, ...) sp::scripting::RegisterStaticFunction<decltype(&N::T::S), &N::T::S, R, __VA_ARGS__>(#T, #S)
-#define _LUAM_STATICFUNCTION(N, T, S, ...) sp::scripting::RegisterStaticFunctionNoRet<decltype(&N::T::S), &N::T::S, __VA_ARGS__>(#T, #S)
+#define SP_STATICFUNCTION(T, S, R, ...) sp::scripting::RegisterStaticFunction<decltype(&T::S), &T::S, R, __VA_ARGS__>(#T, #S)
+#define _SP_STATICFUNCTION(T, S, ...) sp::scripting::RegisterStaticFunctionNoRet<decltype(&T::S), &T::S, __VA_ARGS__>(#T, #S)
 
+#define SP_CONSTRUCTOR(S, ...) sp::scripting::WrapConstructor<S, __VA_ARGS__>
 
+#define SP_NEWSTATE() LuaState = luaL_newstate()
+#define SP_INIT() sp::scripting::InitLua(LuaState)
+#define SP_LOADFILE(F) sp::scripting::LoadLuaFile(LuaState, F)
 
-#define LUAM_CONSTRUCTOR(S, ...) sp::scripting::WrapConstructor<S, __VA_ARGS__>
-
-#define LUAM_NEWSTATE() LuaState = luaL_newstate()
-#define LUAM_INIT() sp::scripting::InitLua(LuaState)
-#define LUAM_LOADFILE(F) sp::scripting::LoadLuaFile(LuaState, F)
-
-#define _LUAM_CLASSREGISTER(N, S) sp::scripting::RegisterClass<N::S>(LuaState, #S, nullptr)
-#define LUAM_CLASSREGISTER(N, S, ...) sp::scripting::RegisterClass<N::S>(LuaState, #S, LUAM_CONSTRUCTOR(N::S, __VA_ARGS__))
-#define LUAM_CALLFUNCTION(F, ...) sp::scripting::FunctionCaller::Dispatch(LuaState, F, __VA_ARGS__)
+#define _SP_CLASSREGISTER(S) sp::scripting::RegisterClass<S>(LuaState, #S, nullptr)
+#define SP_CLASSREGISTER(S, ...) sp::scripting::RegisterClass<S>(LuaState, #S, sp::scripting::WrapConstructor<S, __VA_ARGS__>)
+#define SP_CALLFUNCTION(F, ...) sp::scripting::FunctionCaller::Dispatch(LuaState, F, __VA_ARGS__)
 
 #include "API.h"
-#define LUAM_LOADAPI() sp::scripting::Load(LuaState)
+#define SP_LOADAPI() sp::scripting::Load(LuaState)
 
 #endif

@@ -15,10 +15,14 @@
     <ClInclude Include="src\sp\utils\String.h">
       <Filter>utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\sp\sp.h" />
+    <ClInclude Include="src\sp\Writer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\sp\utils\String.cpp">
       <Filter>utils</Filter>
     </ClCompile>
+    <ClCompile Include="src\sp\main.cpp" />
+    <ClCompile Include="src\sp\Writer.cpp" />
   </ItemGroup>
 </Project>

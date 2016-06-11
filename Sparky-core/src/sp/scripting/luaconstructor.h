@@ -15,22 +15,11 @@ T* WrapConstructor(lua_State* L)
 	return new T();
 }
 
-template<class T, typename P1>
+template<class T, typename... Args>
 T* WrapConstructor(lua_State* L)
 {
-	return new T(Unmarshal<P1>::Dispatch(L, 1));
-}
-
-template<class T, typename P1, typename P2>
-T* WrapConstructor(lua_State* L)
-{
-	return new T(Unmarshal<P1>::Dispatch(L, 1), Unmarshal<P2>::Dispatch(L, 2));
-}
-
-template<class T, typename P1, typename P2, typename P3>
-T* WrapConstructor(lua_State* L)
-{
-	return new T(Unmarshal<P1>::Dispatch(L, 1), Unmarshal<P2>::Dispatch(L, 2), Unmarshal<P3>::Dispatch(L, 3));
+	int index;
+	return new T(Unmarshal<Args>::Dispatch(L, index++)...);
 }
 
 } }

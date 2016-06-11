@@ -104,10 +104,10 @@ void ScriptingTest::OnInit(Renderer3D& renderer, Scene& scene)
 	g_Mesh = spnew Mesh(sphereModel->GetMesh());
 	g_Mesh->SetMaterial(m);
 
-	LUAM_NEWSTATE();
-	LUAM_INIT();
-	LUAM_LOADAPI();
-	LUAM_LOADFILE("res/scripts/test.lua");
+	SP_NEWSTATE();
+	SP_INIT();
+	SP_LOADAPI();
+	SP_LOADFILE("res/scripts/test.lua");
 
 	Entity* e = spnew Entity();
 	e->AddComponent(spnew MeshComponent(g_Mesh));
@@ -151,27 +151,27 @@ void ScriptingTest::OnEvent(Event& event)
 				m_Scene->SetCamera(m_Scene->GetCamera() == m_MayaCamera ? m_FPSCamera : m_MayaCamera);
 				break;
 			case SP_KEY_O:
-				LUAM_CALLFUNCTION("loadSound", "cherno", "res/Cherno.ogg");
+				SP_CALLFUNCTION("loadSound", "cherno", "res/Cherno.ogg");
 				s = audio::SoundManager::Get("cherno");
 				break;
 			case SP_KEY_P:
-				LUAM_CALLFUNCTION("playSound", s);
+				SP_CALLFUNCTION("playSound", s);
 				break;
 			case SP_KEY_L:
-				LUAM_CALLFUNCTION("loopSound", s);
+				SP_CALLFUNCTION("loopSound", s);
 				break;
 			case SP_KEY_H:
-				LUAM_CALLFUNCTION("debugMenu", "yes", false);
+				SP_CALLFUNCTION("debugMenu", "yes", false);
 				break;
 			}
 		}
 		switch (kpe->GetKeyCode())
 		{
 		case SP_KEY_1:
-			LUAM_CALLFUNCTION("changeGain", s, -0.1f);
+			SP_CALLFUNCTION("changeGain", s, -0.1f);
 			break;
 		case SP_KEY_2:
-			LUAM_CALLFUNCTION("changeGain", s, 0.1f);
+			SP_CALLFUNCTION("changeGain", s, 0.1f);
 			break;
 		}
 	}
