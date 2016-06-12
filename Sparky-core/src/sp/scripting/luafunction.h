@@ -89,23 +89,17 @@ lua_CFunction WrapMethod()
 	return WrapMethod<T, method, FunctionWrapper<T>::ArgCount>();
 }
 
-template<class T, typename... Args>
+template<class T, typename R, typename... Args>
 struct StaticFunctionWrapper
 {
-	template<T method, typename R>
+	typedef R(T::* FunctionType)(Args...);
+
+	template<FunctionType method>
 	static int Dispatch(lua_State* L)
 	{
 		int index = 1;
 		R* r = (*method)(Unmarshal<Args>::Dispatch(L, index++)...);
 		Marshal::Dispatch(L, r);
 		return 1;
-	}
-
-	template<T method>
-	static int Dispatch(lua_State* L)
-	{
-		int index = 1;
-		(*method)(Unmarshal<Args>::Dispatch(L, index++)...);
-		return 0;
 	}
 };

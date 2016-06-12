@@ -50,12 +50,7 @@ namespace sp { namespace scripting {
 
 	template<typename T, T method, typename R, typename... Args>
 	void RegisterStaticFunction(const char* cname, const char* fname) {
-		staFunctions[cname].push_back(luaL_Reg(fname, StaticFunctionWrapper<T, Args...>().Dispatch<method, R>));
-	}
-
-	template<typename T, T method,  typename... Args>
-	void RegisterStaticFunctionNoRet(const char* cname, const char* fname) {
-		staFunctions[cname].push_back(luaL_Reg(fname, StaticFunctionWrapper<T, Args...>().Dispatch<method>));
+		staFunctions[cname].push_back(luaL_Reg(fname, StaticFunctionWrapper<T, R, Args...>().Dispatch<method>));
 	}
 
 	void InitLua(lua_State* L)
@@ -87,10 +82,9 @@ namespace sp { namespace scripting {
 	}
 } }
 
-#define SP_FUNCTION(T, S) sp::scripting::RegisterLocalFunction<decltype(&T::S), &N::T::S>(#T, #S)
+#define SP_FUNCTION(T, S, R, ...) sp::scripting::RegisterLocalFunction<decltype(&T::S), &T::S>(#T, #S)
 
 #define SP_STATICFUNCTION(T, S, R, ...) sp::scripting::RegisterStaticFunction<decltype(&T::S), &T::S, R, __VA_ARGS__>(#T, #S)
-#define _SP_STATICFUNCTION(T, S, ...) sp::scripting::RegisterStaticFunctionNoRet<decltype(&T::S), &T::S, __VA_ARGS__>(#T, #S)
 
 #define SP_CONSTRUCTOR(S, ...) sp::scripting::WrapConstructor<S, __VA_ARGS__>
 
@@ -100,6 +94,7 @@ namespace sp { namespace scripting {
 
 #define _SP_CLASSREGISTER(S) sp::scripting::RegisterClass<S>(LuaState, #S, nullptr)
 #define SP_CLASSREGISTER(S, ...) sp::scripting::RegisterClass<S>(LuaState, #S, sp::scripting::WrapConstructor<S, __VA_ARGS__>)
+#define SP_CLASSREGISTERDEF(S) sp::scripting::RegisterClass<S>(LuaState, #S, sp::scripting::WrapConstructor<S>)
 #define SP_CALLFUNCTION(F, ...) sp::scripting::FunctionCaller::Dispatch(LuaState, F, __VA_ARGS__)
 
 #include "API.h"

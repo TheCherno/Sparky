@@ -14,6 +14,7 @@
 #include <sp/debug/DebugMenu.h>
 #include <sp/debug/DebugMenuAction.h>
 #include <sp/debug/DebugMenuItem.h>
+#include <sp/debug/DebugRenderer.h>
 
 #include <sp/entity/Entity.h>
 #include <sp/entity/component/Component.h>
@@ -90,6 +91,7 @@
 #include <sp/system/Memory.h>
 #include <sp/system/MemoryManager.h>
 #include <sp/system/VFS.h>
+#include <sp/system/System.h>
 
 #include <sp/String.h>
 #include <sp/Types.h>

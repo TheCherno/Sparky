@@ -29,7 +29,7 @@ CXChildVisitResult traverse(CXCursor cursor, CXCursor parent, CXClientData data)
 {
 	CXString cursorSpelling = clang_getCursorSpelling(cursor);
 	CXString cursorKind = clang_getCursorKindSpelling(cursor.kind);
-	String type = String(clang_getCString(cursorKind)); // TODO: Use enums instead of strings
+	String type = String(clang_getCString(cursorKind));
 	String name = clang_getCString(cursorSpelling);
 
  	if (!clang_Location_isFromMainFile(clang_getCursorLocation(cursor)))
@@ -41,7 +41,48 @@ CXChildVisitResult traverse(CXCursor cursor, CXCursor parent, CXClientData data)
 	}
 	else if (type == "ClassDecl")
 	{
-		classes.push_back(Class(name));
+		AccessType accessType;
+		CX_CXXAccessSpecifier intAccessType = clang_getCXXAccessSpecifier(cursor);
+		switch (intAccessType)
+		{
+		case CX_CXXInvalidAccessSpecifier:
+			accessType = AccessType::PUBLIC;
+			break;
+		case CX_CXXPublic:
+			accessType = AccessType::PUBLIC;
+			break;
+		case CX_CXXProtected:
+			accessType = AccessType::PROTECTED;
+			break;
+		case CX_CXXPrivate:
+			accessType = AccessType::PRIVATE;
+			break;
+		}
+		classes.push_back(Class(name, accessType));
+		currentClass = &classes.back();
+		currentClass->namespaceStack = namespaceStack;
+		namespaceStack.clear();
+	}
+	else if (type == "StructDecl")
+	{
+		AccessType accessType;
+		CX_CXXAccessSpecifier intAccessType = clang_getCXXAccessSpecifier(cursor);
+		switch (intAccessType)
+		{
+		case CX_CXXInvalidAccessSpecifier:
+			accessType = AccessType::PUBLIC;
+			break;
+		case CX_CXXPublic:
+			accessType = AccessType::PUBLIC;
+			break;
+		case CX_CXXProtected:
+			accessType = AccessType::PROTECTED;
+			break;
+		case CX_CXXPrivate:
+			accessType = AccessType::PRIVATE;
+			break;
+		}
+		classes.push_back(Class(name, accessType));
 		currentClass = &classes.back();
 		currentClass->namespaceStack = namespaceStack;
 		namespaceStack.clear();
@@ -98,7 +139,7 @@ CXChildVisitResult traverse(CXCursor cursor, CXCursor parent, CXClientData data)
 				break;
 			}
 
-			currentClass->methods.push_back(Method(name, String(clang_getCString(resultType)), accessType, isStatic));
+			currentClass->methods.push_back(Method(name, String(clang_getCString(resultType)), accessType, MethodType::METHOD, isStatic));
 			currentMethod = &currentClass->methods.back();
 			clang_disposeString(resultType);
 		}
@@ -112,10 +153,6 @@ CXChildVisitResult traverse(CXCursor cursor, CXCursor parent, CXClientData data)
 			currentClass->methods.back().parameters.push_back(Parameter(name, clang_getCString(paramType)));
 			clang_disposeString(paramType);
 		}
-	}
-	else if (type == "AccessSpecDecl")
-	{
-
 	}
 	else if (type == "C++ base class specifier")
 	{
@@ -154,9 +191,10 @@ static std::vector<String> GetAllFiles(String path, const String& mask)
 					directories.push(path + "/" + ffd.cFileName);
 				}
 				else {
-					if (path.find("platform") == std::string::npos) {
-						results.push_back(path + "/" + ffd.cFileName);
-					}
+					if (path.find("platform") != std::string::npos) continue;
+					if (path.find("scripting") != std::string::npos) continue;
+
+					results.push_back(path + "/" + ffd.cFileName);
 				}
 			}
 		} while (FindNextFile(hFind, &ffd) != 0);
@@ -205,6 +243,8 @@ int main(int argc, char *argv[])
 
 	clang_disposeIndex(index);
 	GenerateFile(path + "/sp/scripting/API.h", classes);
+#ifdef SP_DEBUG
 	system("PAUSE");
+#endif
 	return 0;
 }

@@ -48,13 +48,15 @@ namespace sp { namespace gen {
 
 	struct Class
 	{
+		AccessType accessType;
+
 		String name;
 		String baseClass;
 		std::vector<Method> methods;
 		std::vector<String> namespaceStack;
 
-		Class(const String& name)
-			: name(name) {}
+		Class(const String& name, AccessType accessType = AccessType::PUBLIC)
+			: name(name), accessType(accessType) {}
 	};
 
 } }
