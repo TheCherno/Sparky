@@ -12,8 +12,7 @@
 #ifndef LUA_H
 #define LUA_H
 #include <lua.hpp>
-#include "luawrapper.h"
-#include "luawrapperutils.h"
+#include <luabind\luabind.hpp>
 #endif
 
 #include "marshal.h"
@@ -61,6 +60,7 @@ namespace sp { namespace scripting {
 		luaopen_string(L);
 		luaopen_math(L);
 		luaL_openlibs(L);
+		luabind::open(state);
 	}
 
 	void LoadLuaFile(lua_State* L, const char* file)
@@ -82,22 +82,29 @@ namespace sp { namespace scripting {
 	}
 } }
 
-#define SP_FUNCTION(T, S, R, ...) sp::scripting::RegisterLocalFunction<decltype(&T::S), &T::S>(#T, #S)
+#define SP_FUNCTION(T, S, R, ...)			R (T::*ref)(__VA_ARGS__) = &T::S; \
+											sp::scripting::RegisterLocalFunction<decltype(ref), ref>(#T, #S)
 
-#define SP_STATICFUNCTION(T, S, R, ...) sp::scripting::RegisterStaticFunction<decltype(&T::S), &T::S, R, __VA_ARGS__>(#T, #S)
+#define SP_STATICFUNCTION(T, S, R, ...)		R (T::*ref)(__VA_ARGS__) = &T::S; \
+											sp::scripting::RegisterStaticFunction<decltype(ref), ref, R, __VA_ARGS__>(#T, #S)
 
-#define SP_CONSTRUCTOR(S, ...) sp::scripting::WrapConstructor<S, __VA_ARGS__>
+#define SP_CONSTRUCTOR(S, ...)				sp::scripting::WrapConstructor<S, __VA_ARGS__>
 
-#define SP_NEWSTATE() LuaState = luaL_newstate()
-#define SP_INIT() sp::scripting::InitLua(LuaState)
-#define SP_LOADFILE(F) sp::scripting::LoadLuaFile(LuaState, F)
+#define SP_NEWSTATE()						LuaState = luaL_newstate()
+#define SP_INIT()							sp::scripting::InitLua(LuaState)
+#define SP_LOADFILE(F)						sp::scripting::LoadLuaFile(LuaState, F)
 
-#define _SP_CLASSREGISTER(S) sp::scripting::RegisterClass<S>(LuaState, #S, nullptr)
-#define SP_CLASSREGISTER(S, ...) sp::scripting::RegisterClass<S>(LuaState, #S, sp::scripting::WrapConstructor<S, __VA_ARGS__>)
-#define SP_CLASSREGISTERDEF(S) sp::scripting::RegisterClass<S>(LuaState, #S, sp::scripting::WrapConstructor<S>)
-#define SP_CALLFUNCTION(F, ...) sp::scripting::FunctionCaller::Dispatch(LuaState, F, __VA_ARGS__)
+#define _SP_CLASSREGISTER(S)				sp::scripting::RegisterClass<S>(LuaState, #S, nullptr)
+
+#define SP_CLASSREGISTER(S, ...)			void (S::*ref)(__VA_ARGS__) = &S; \
+											sp::scripting::RegisterClass<S>(LuaState, #S, sp::scripting::WrapConstructor<ref, __VA_ARGS__>)
+
+#define SP_CLASSREGISTERDEF(S)				void (S::*ref)() = &S; \
+											sp::scripting::RegisterClass<S>(LuaState, #S, sp::scripting::WrapConstructor<ref>)
+
+#define SP_CALLFUNCTION(F, ...)				sp::scripting::FunctionCaller::Dispatch(LuaState, F, __VA_ARGS__)
 
 #include "API.h"
-#define SP_LOADAPI() sp::scripting::Load(LuaState)
+#define SP_LOADAPI()						sp::scripting::Load(LuaState)
 
 #endif

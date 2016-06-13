@@ -3,8 +3,6 @@
 #ifndef LUA_H
 #define LUA_H
 #include <lua.hpp>
-#include "luawrapper.h"
-#include "luawrapperutils.h"
 #endif
 template<typename T>
 struct FunctionWrapper
@@ -77,13 +75,13 @@ struct FunctionWrapper<void(T::*)(Args...)>
 	}
 };
 
-template<typename T, T method, std::size_t N, typename Indices = std::make_index_sequence<N>>
+template<class T, T method, std::size_t N, typename Indices = std::make_index_sequence<N>>
 lua_CFunction WrapMethod()
 {
 	return FunctionWrapper<T>::WrapMethodInternal<method>(Indices());
 }
 
-template<typename T, T method>
+template<class T, T method>
 lua_CFunction WrapMethod()
 {
 	return WrapMethod<T, method, FunctionWrapper<T>::ArgCount>();

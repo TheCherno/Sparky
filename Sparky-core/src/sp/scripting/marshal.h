@@ -42,14 +42,14 @@ struct Marshal
 	template<class T>
 	static int Dispatch(lua_State* L, T* value)
 	{
-		luaW_push<T>(L, value);
+		luabind::object(value).push(L);
 		return 1;
 	}
 
 	template<class T>
 	static int Dispatch(lua_State* L, T value)
 	{
-		luaW_push<T>(L, &value);
+		luabind::object(&value).push(L);
 		return 1;
 	}
 };

@@ -847,12 +847,6 @@
     <ClInclude Include="src\sp\scripting\luafunction.h">
       <Filter>sp\scripting</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\scripting\luawrapper.h">
-      <Filter>sp\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\scripting\luawrapperutils.h">
-      <Filter>sp\scripting</Filter>
-    </ClInclude>
     <ClInclude Include="src\sp\scripting\marshal.h">
       <Filter>sp\scripting</Filter>
     </ClInclude>

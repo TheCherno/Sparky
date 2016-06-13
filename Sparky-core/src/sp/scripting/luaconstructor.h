@@ -3,8 +3,6 @@
 #ifndef LUA_H
 #define LUA_H
 #include <lua.hpp>
-#include "luawrapper.h"
-#include "luawrapperutils.h"
 #endif
 
 namespace sp { namespace scripting {

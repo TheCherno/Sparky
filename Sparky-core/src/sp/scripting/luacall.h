@@ -3,7 +3,6 @@
 #ifndef LUA_H
 #define LUA_H
 #include <lua.hpp>
-#include "luawrapper.h"
 #endif
 
 #include <sp\utils\Log.h>

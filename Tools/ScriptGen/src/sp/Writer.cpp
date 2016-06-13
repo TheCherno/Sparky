@@ -45,64 +45,57 @@ namespace sp { namespace gen {
 			pre.append("namespace sp { namespace scripting {\n");
 			pre.append("	void Load(lua_State* L)	{\n");
 
-
 			f << pre.c_str();
+
+			f << "		luabind::module(L)\n		[" << std::endl;
 
 			for (int i = 0; i < classes.size(); i++) {
 				Class c = classes[i];
 				if (c.name == "") continue;
-				if (c.name.find("VFS") != std::string::npos) continue;
+				// if (c.name.find("VFS") != std::string::npos) continue;
 				if (c.accessType != AccessType::PUBLIC) continue;
 
-				bool consDone = false;
-				bool skipCons = false;
-				bool noConsPars = false;
 
-				String cons = "SP_CLASSREGISTER";
-				cons.append("(");
-				cons.append(c.name);
+				if (i != 0) f << ",\n\n";
+
+				bool constructorDone = false, canSkipConstructor = false;
+
+				String constructorParameters;
 
 				std::vector<String> methods;
 				int currentMethodIndex = 0;
 				for (int j = 0; j < c.methods.size(); j++) {
 					Method m = c.methods[j];
 					if (StartsWith(m.name, "operator")) continue;
+
 					switch (m.methodType) {
 					case MethodType::CONSTRUCTOR:
-						if (consDone) continue;
+						if (constructorDone) continue;
+						if (canSkipConstructor) continue;
 						if (m.accessType != AccessType::PUBLIC) continue;
-						consDone = true;
+						constructorDone = true;
 
+						/*
 						for (int h = 0; h < constructorsDone.size(); h++) {
 							String p = constructorsDone[h];
 							if (c.name.find(p) != std::string::npos) {
-								skipCons = true;
+								canSkipConstructor = true;
 							}
 						}
+						*/
+
 						constructorsDone.push_back(c.name);
 
-						if (m.parameters.size() == 0) {
-							noConsPars = true;
-						}
-						else {
-							for (int h = 0; h < m.parameters.size(); h++) {
-								Parameter p = m.parameters[h];
-								cons.append(", ").append(p.type);
-							}
+						for (int h = 0; h < m.parameters.size(); h++) {
+							Parameter p = m.parameters[h];
+							if (h != 0) constructorParameters.append(", ");
+							constructorParameters.append(p.type);
 						}
 						break;
 					case MethodType::DESTRUCTOR:
 						break;
 					case MethodType::METHOD:
 						if (m.accessType == AccessType::PUBLIC) {
-							int largest = 0;
-							for (int v = 0; v < c.methods.size(); v++) {
-								Method other = c.methods[v];
-								if (m.name.find(other.name) != std::string::npos) {
-									if (other.parameters.size() > largest) largest = other.parameters.size();
-								}
-							}
-							if (largest > m.parameters.size()) continue;
 
 							if (m.isStatic) {
 
@@ -112,18 +105,24 @@ namespace sp { namespace gen {
 								String parameters;
 								for (int h = 0; h < m.parameters.size(); h++) {
 									Parameter p = m.parameters[h];
-									parameters.append(", ").append(p.type);
+									if (h != 0) parameters.append(", ");
+									parameters.append(p.type);
 								}
 
-								methods.push_back("SP_FUNCTION");
+								methods.push_back("def");
+								methods[currentMethodIndex].append("(\"");
+								methods[currentMethodIndex].append(m.name);
+								methods[currentMethodIndex].append("\", (");
+								methods[currentMethodIndex].append(m.type);
 								methods[currentMethodIndex].append("(");
 								methods[currentMethodIndex].append(c.name);
-								methods[currentMethodIndex].append(", ");
-								methods[currentMethodIndex].append(m.name);
-								methods[currentMethodIndex].append(", ");
-								methods[currentMethodIndex].append(m.type);
+								methods[currentMethodIndex].append("::*)(");
 								methods[currentMethodIndex].append(parameters);
-								methods[currentMethodIndex].append(");");
+								methods[currentMethodIndex].append("))");
+								methods[currentMethodIndex].append(c.name);
+								methods[currentMethodIndex].append("::");
+								methods[currentMethodIndex].append(m.name);
+								methods[currentMethodIndex].append(")");
 								currentMethodIndex++;
 							}
 						}
@@ -131,36 +130,25 @@ namespace sp { namespace gen {
 					}
 
 				}
-				for (int c = 0; c < methods.size(); c++) {
-					f << "		" << methods[c].c_str() << std::endl;
+
+
+				f << "			luabind::class_<" + c.name + ">(\"" + c.name + "\")";
+
+				if (constructorDone) {
+					String defC = "def(luabind::constructor<";
+					defC.append(constructorParameters);
+					defC.append(">())");
+					f << std::endl << "				." << defC.c_str();
 				}
 
-				if (!skipCons) {
-					if (consDone) {
-						if (noConsPars) {
-							String defC = "SP_CLASSREGISTERDEF";
-							defC.append("(");
-							defC.append(c.name);
-							defC.append(");");
-							f << "		" << defC.c_str() << std::endl;
-						}
-						else {
-							cons.append(");");
-							f << "		" << cons.c_str() << std::endl;
-						}
-					}
-					else {
-						String defC = "_SP_CLASSREGISTER";
-						defC.append("(");
-						defC.append(c.name);
-						defC.append(");");
-						f << "		" << defC.c_str() << std::endl;
-					}
+				for (int c = 0; c < methods.size(); c++) {
+					f << std::endl << "				." << methods[c].c_str();
 				}
 			}
 
-			f << "	}\n";
-			f << "} }\n";
+			f << std::endl << "		];" << std::endl;
+
+			f << "	}" << std::endl << "} }";
 		}
 	}
 

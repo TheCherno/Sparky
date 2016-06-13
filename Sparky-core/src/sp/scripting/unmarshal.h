@@ -3,8 +3,6 @@
 #ifndef LUA_H
 #define LUA_H
 #include <lua.hpp>
-#include "luawrapper.h"
-#include "luawrapperutils.h"
 #endif
 
 template<class T>
@@ -12,7 +10,7 @@ struct Unmarshal
 {
 	static T* Dispatch(lua_State* L, int index)
 	{
-		return luaW_check<T>(L, index);
+		return nullptr;
 	}
 };
 
