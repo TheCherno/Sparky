@@ -40,16 +40,10 @@ struct Marshal
 	}
 
 	template<class T>
-	static int Dispatch(lua_State* L, T* value)
+	static int Dispatch(lua_State* L, const T* value)
 	{
-		luabind::object(value).push(L);
-		return 1;
-	}
-
-	template<class T>
-	static int Dispatch(lua_State* L, T value)
-	{
-		luabind::object(&value).push(L);
+		// luabind::object object = luabind::object(L, value);
+		// object.push(L);
 		return 1;
 	}
 };

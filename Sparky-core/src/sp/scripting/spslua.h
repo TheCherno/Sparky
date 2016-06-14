@@ -12,7 +12,7 @@
 #ifndef LUA_H
 #define LUA_H
 #include <lua.hpp>
-#include <luabind\luabind.hpp>
+#include "luabind\luabind.hpp"
 #endif
 
 #include "marshal.h"

@@ -118,7 +118,7 @@ namespace sp { namespace gen {
 								methods[currentMethodIndex].append(c.name);
 								methods[currentMethodIndex].append("::*)(");
 								methods[currentMethodIndex].append(parameters);
-								methods[currentMethodIndex].append("))");
+								methods[currentMethodIndex].append("))&");
 								methods[currentMethodIndex].append(c.name);
 								methods[currentMethodIndex].append("::");
 								methods[currentMethodIndex].append(m.name);
