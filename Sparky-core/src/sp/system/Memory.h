@@ -47,4 +47,4 @@ inline void operator delete[](void* block, const char* file, uint line)
 	sp::Allocator::FreeDebug(block, file, line);
 }
 
-#pragma warning(default : 4800)
+#pragma warning(default : 4595)
