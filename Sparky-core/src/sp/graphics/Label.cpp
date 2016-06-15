@@ -4,21 +4,21 @@
 namespace sp { namespace graphics {
 
 	Label::Label(const String& text, float x, float y, uint color)
-		: Renderable2D(), text(text), position(m_Position), m_Font(FontManager::Get("SourceSansPro"))
+		: Sprite(), text(text), m_Font(FontManager::Get("SourceSansPro"))
 	{
 		m_Position = maths::vec3(x, y, 0.0f);
 		m_Color = color;
 	}
 
 	Label::Label(const String& text, float x, float y, Font* font, uint color)
-		: Renderable2D(), text(text), position(m_Position), m_Font(font)
+		: Sprite(), text(text), m_Font(font)
 	{
 		m_Position = maths::vec3(x, y, 0.0f);
 		m_Color = color;
 	}
 
 	Label::Label(const String& text, float x, float y, const String& font, uint color)
-		: Renderable2D(), text(text), position(m_Position), m_Font(FontManager::Get(font))
+		: Sprite(), text(text), m_Font(FontManager::Get(font))
 	{
 		m_Position = maths::vec3(x, y, 0.0f);
 		m_Color = color;
@@ -27,7 +27,7 @@ namespace sp { namespace graphics {
 	}
 
 	Label::Label(const String& text, float x, float y, const String& font, uint size, uint color)
-		: Renderable2D(), text(text), position(m_Position), m_Font(FontManager::Get(font, size))
+		: Sprite(), text(text), m_Font(FontManager::Get(font, size))
 	{
 		m_Position = maths::vec3(x, y, 0.0f);
 		m_Color = color;

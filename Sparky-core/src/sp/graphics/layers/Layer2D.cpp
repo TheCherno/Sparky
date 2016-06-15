@@ -3,24 +3,34 @@
 
 #include "../BatchRenderer2D.h"
 #include "sp/app/Window.h"
+#include "sp/app/Application.h"
 
 namespace sp { namespace graphics {
 
 	Layer2D::Layer2D(const maths::mat4& projectionMatrix)
-		: m_Renderer(spnew BatchRenderer2D(Window::GetWindowClass(nullptr)->GetWidth(), Window::GetWindowClass(nullptr)->GetHeight())), m_ProjectionMatrix(projectionMatrix)
 	{
-		m_Renderer->SetCamera(spnew Camera(projectionMatrix));
-		// m_Material = spnew Material(shader);
-		// m_Material->SetUniform("sys_ProjectionMatrix", m_ProjectionMatrix);
+		float width = Application::GetApplication().GetWindowWidth();
+		float height = Application::GetApplication().GetWindowHeight();
+
+		m_Renderer = spnew BatchRenderer2D(width, height);
+		m_Scene = spnew Scene2D(projectionMatrix);
+		m_Renderer->SetCamera(m_Scene->GetCamera());
+	}
+
+	Layer2D::Layer2D(Scene2D* scene)
+		: m_Scene(scene)
+	{
+		float width = Application::GetApplication().GetWindowWidth();
+		float height = Application::GetApplication().GetWindowHeight();
+
+		m_Renderer = spnew BatchRenderer2D(width, height);
+		m_Renderer->SetCamera(m_Scene->GetCamera());
 	}
 
 	Layer2D::~Layer2D()
 	{
 		spdel m_Material;
 		spdel m_Renderer;
-
-		for (uint i = 0; i < m_Renderables.size(); i++)
-			spdel m_Renderables[i];
 	}
 
 	void Layer2D::Init()
@@ -32,10 +42,10 @@ namespace sp { namespace graphics {
 	{
 	}
 
-	Renderable2D* Layer2D::Add(Renderable2D* renderable)
+	Sprite* Layer2D::Add(Sprite* sprite)
 	{
-		m_Renderables.push_back(renderable);
-		return renderable;
+		m_Scene->Add(spnew entity::Entity(sprite));
+		return sprite;
 	}
 
 	Renderable2D* Layer2D::Submit(Renderable2D* renderable)
@@ -47,15 +57,15 @@ namespace sp { namespace graphics {
 	bool Layer2D::OnResize(uint width, uint height)
 	{
 		((BatchRenderer2D*)m_Renderer)->SetScreenSize(maths::tvec2<uint>(width, height));
+		m_Scene->GetRenderer()->SetScreenSize(maths::tvec2<uint>(width, height));
 		return false;
 	}
 
 	void Layer2D::OnRender()
 	{
-		m_Renderer->Begin();
+		m_Scene->OnRender();
 
-		for (const Renderable2D* renderable : m_Renderables)
-			renderable->Submit(m_Renderer);
+		m_Renderer->Begin();
 
 		for (const Renderable2D* renderable : m_SubmittedRenderables)
 			renderable->Submit(m_Renderer);

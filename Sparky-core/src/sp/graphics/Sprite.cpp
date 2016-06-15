@@ -3,6 +3,11 @@
 
 namespace sp { namespace graphics {
 
+	Sprite::Sprite()
+		: Renderable2D(), position(m_Position), size(m_Size)
+	{
+	}
+
 	Sprite::Sprite(API::Texture2D* texture)
 		: Renderable2D(maths::vec3(0.0f, 0.0f, 0.0f), maths::vec2((float)texture->GetWidth(), (float)texture->GetHeight()), 0xffffffff), position(m_Position), size(m_Size)
 	{

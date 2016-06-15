@@ -3,20 +3,20 @@
 #include "Component.h"
 
 #include "sp/Common.h"
-#include "sp/graphics/Mesh.h"
+#include "sp/graphics/Sprite.h"
 
 namespace sp { namespace entity { namespace component {
 
-	class SP_API MeshComponent : public Component
+	class SP_API SpriteComponent : public Component
 	{
 	public:
-		graphics::Mesh* mesh;
+		graphics::Sprite* sprite;
 	public:
-		MeshComponent(graphics::Mesh* mesh);
+		SpriteComponent(graphics::Sprite* sprite);
 
 		static ComponentType* GetStaticType()
 		{
-			static ComponentType type({ "Mesh" });
+			static ComponentType type({ "Sprite" });
 			return &type;
 		}
 
@@ -24,3 +24,4 @@ namespace sp { namespace entity { namespace component {
 	};
 
 } } }
+

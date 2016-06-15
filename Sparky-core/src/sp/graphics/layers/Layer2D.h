@@ -3,9 +3,10 @@
 #include "Layer.h"
 
 #include "sp/Common.h"
-#include "../../events/Event.h"
-#include "../Renderable2D.h"
-#include "../Mask.h"
+#include "sp/Scene2D.h"
+#include "sp/events/Event.h"
+#include "sp/graphics/Renderable2D.h"
+#include "sp/graphics/Mask.h"
 
 namespace sp { namespace graphics {
 
@@ -14,21 +15,20 @@ namespace sp { namespace graphics {
 	private:
 		Renderer2D* m_Renderer;
 	protected:
-		std::vector<Renderable2D*> m_Renderables;
-		std::vector<Renderable2D*> m_SubmittedRenderables;
 		Material* m_Material;
-		maths::mat4 m_ProjectionMatrix;
+		Scene2D* m_Scene;
+		std::vector<Renderable2D*> m_SubmittedRenderables;
 	public:
-		// TODO: Replace Shader with Material
 		Layer2D(const maths::mat4& projectionMatrix);
+		Layer2D(Scene2D* scene);
 		virtual ~Layer2D();
 
 		virtual void Init();
 		virtual void OnInit(Renderer2D& renderer, Material& material);
 
 		inline void SetMask(const Mask* mask) const { m_Renderer->SetMask(mask); }
-		virtual Renderable2D* Add(Renderable2D* renderable);
-		inline const std::vector<Renderable2D*>& GetRenderables() const { return m_Renderables; }
+		virtual Sprite* Add(Sprite* sprite);
+		inline Scene2D* GetScene() { return m_Scene; }
 
 		virtual Renderable2D* Submit(Renderable2D* renderable);
 
