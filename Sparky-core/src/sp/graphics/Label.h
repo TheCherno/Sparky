@@ -1,18 +1,17 @@
 #pragma once
 
 #include "sp/Common.h"
-#include "Renderable2D.h"
+#include "Sprite.h"
 #include "FontManager.h"
 
 namespace sp { namespace graphics {
 
-	class SP_API Label : public Renderable2D
+	class SP_API Label : public Sprite
 	{
 	private:
 		Font* m_Font;
 	public:
 		String text;
-		maths::vec3& position;
 	public:
 		Label(const String& text, float x, float y, uint color);
 		Label(const String& text, float x, float y, Font* font, uint color);

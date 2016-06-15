@@ -13,6 +13,7 @@ namespace sp { namespace entity {
 		std::vector<component::Component*> m_Components;
 	public:
 		Entity();
+		Entity(graphics::Sprite* sprite, const maths::mat4& transform = maths::mat4::Identity());
 		Entity(graphics::Mesh* mesh, const maths::mat4& transform = maths::mat4::Identity());
 
 		void AddComponent(component::Component* component);

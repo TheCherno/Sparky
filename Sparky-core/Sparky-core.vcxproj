@@ -165,6 +165,7 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <ClCompile Include="src\sp\app\Input.cpp" />
     <ClCompile Include="src\sp\debug\DebugMenuItem.cpp" />
     <ClCompile Include="src\sp\debug\DebugMenuSlider.cpp" />
+    <ClCompile Include="src\sp\entity\component\SpriteComponent.cpp" />
     <ClCompile Include="src\sp\events\WindowEvent.cpp" />
     <ClCompile Include="src\sp\graphics\API\Texture2D.cpp" />
     <ClCompile Include="src\sp\graphics\API\TextureCube.cpp" />
@@ -175,6 +176,7 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="src\sp\graphics\API\Context.cpp" />
+    <ClCompile Include="src\sp\graphics\camera\OrthographicCamera.cpp" />
     <ClCompile Include="src\sp\graphics\DeferredRenderer.cpp" />
     <ClCompile Include="src\sp\graphics\API\Framebuffer2D.cpp" />
     <ClCompile Include="src\sp\graphics\API\FramebufferDepth.cpp" />
@@ -607,6 +609,7 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\sp\Scene2D.cpp" />
     <ClCompile Include="src\sp\sp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">Create</PrecompiledHeader>
@@ -637,11 +640,13 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <ClInclude Include="src\sp\debug\DebugMenuAction.h" />
     <ClInclude Include="src\sp\debug\DebugMenuItem.h" />
     <ClInclude Include="src\sp\debug\DebugMenuSlider.h" />
+    <ClInclude Include="src\sp\entity\component\SpriteComponent.h" />
     <ClInclude Include="src\sp\events\WindowEvent.h" />
     <ClInclude Include="src\sp\graphics\API\VertexBuffer.h" />
     <ClInclude Include="src\sp\graphics\camera\FPSCamera.h" />
     <ClInclude Include="src\sp\debug\DebugRenderer.h" />
     <ClInclude Include="src\sp\graphics\API\Context.h" />
+    <ClInclude Include="src\sp\graphics\camera\OrthographicCamera.h" />
     <ClInclude Include="src\sp\graphics\DeferredRenderer.h" />
     <ClInclude Include="src\sp\graphics\API\Framebuffer2D.h" />
     <ClInclude Include="src\sp\graphics\API\FramebufferDepth.h" />
@@ -756,6 +761,7 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <ClInclude Include="src\sp\maths\vec3.h" />
     <ClInclude Include="src\sp\maths\vec4.h" />
     <ClCompile Include="src\sp\platform\windows\Win32MemoryManager.cpp" />
+    <ClInclude Include="src\sp\Scene2D.h" />
     <ClInclude Include="src\sp\sp.h" />
     <ClInclude Include="src\sp\String.h" />
     <ClInclude Include="src\sp\system\Allocator.h" />

@@ -7,7 +7,7 @@ using namespace maths;
 using namespace API;
 
 Test2D::Test2D()
-	: Layer2D(mat4::Orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f))
+	: Layer2D(spnew Scene2D(mat4::Orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f)))
 {
 	m_Renderer = nullptr;
 }
