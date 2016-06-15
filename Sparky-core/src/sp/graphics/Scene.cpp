@@ -34,6 +34,7 @@ namespace sp { namespace graphics {
 
 	void Scene::Add(Entity* entity)
 	{
+		SP_INFO("Creating?", entity->GetComponent<MeshComponent>()->mesh);
 		m_Entities.push_back(entity);
 		if (!entity->GetComponent<TransformComponent>())
 		{

@@ -63,7 +63,7 @@ void SponzaTest::OnInit(Renderer3D& renderer, Scene& scene)
 	//Set texture Wrap to work on OpenGL (or there are texture glitches when texture is repeating)
 	Texture::SetWrap(TextureWrap::REPEAT);
 	//Loop
-	for (int i = 0; i < models.size(); i++) {
+	for (unsigned int i = 0; i < models.size(); i++) {
 		PBRMaterial* material = spnew PBRMaterial(pbrShader);
 		material->SetEnviromentMap(environment);
 		{

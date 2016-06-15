@@ -15,3 +15,9 @@
 
 Intermediates/
 ipch/
+/bin/Debug
+/SandboxCS/obj/Debug
+/Sparky.VC.db
+/Sparky.VC.VC.opendb
+/bin/Release
+/Tools/Dependencies/LLVM

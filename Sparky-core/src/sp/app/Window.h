@@ -67,5 +67,4 @@ namespace sp {
 		static void RegisterWindowClass(void* handle, Window* window);
 		static Window* GetWindowClass(void* handle);
 	};
-
 }
