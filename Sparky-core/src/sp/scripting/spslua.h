@@ -26,6 +26,7 @@ namespace sp { namespace scripting {
 	lua_State* state;
 
 } }
+
 #define LuaState sp::scripting::state
 
 namespace sp { namespace scripting {

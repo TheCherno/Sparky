@@ -11,7 +11,18 @@
 
 namespace sp { namespace gen {
 
-	void GenerateFile(String filePath, std::vector<Class> classes) {
+	bool ParseParameters(std::vector<Parameter> parameters, String& out) {
+		for (int h = 0; h < parameters.size(); h++) {
+			Parameter p = parameters[h];
+			if (p.name.find("T") != std::string::npos) return true;
+			if (p.name.find("RenderTarget") != std::string::npos) return true;
+			if (h != 0) out.append(", ");
+			out.append(p.type);
+		}
+		return false;
+	}
+
+	void GenerateFile(String filePath, std::map<String, Class> classes) {
 		std::ofstream f(filePath);
 
 		String namespaces[] = { "sp", "graphics", "audio", "debug", "entity", "component", "internal", "API", "ui", "events", "maths", "ftgl"};
@@ -49,14 +60,26 @@ namespace sp { namespace gen {
 
 			f << "		luabind::module(L)\n		[" << std::endl;
 
-			for (int i = 0; i < classes.size(); i++) {
-				Class c = classes[i];
+			bool isStart = true;
+			for (std::map<String, Class>::iterator iter = classes.begin(); iter != classes.end(); ++iter)
+			{
+				Class c = iter->second;
 				if (c.name == "") continue;
-				// if (c.name.find("VFS") != std::string::npos) continue;
+				if (c.name.find("VFS") != std::string::npos) continue;
+				if (c.name.find("Event") != std::string::npos) continue;
+				if (c.name.find("Panel") != std::string::npos) continue;
+				if (c.name.find("Button") != std::string::npos) continue;
+				if (c.name.find("Widget") != std::string::npos) continue;
+				if (c.name.find("MaterialInstance") != std::string::npos) continue;
 				if (c.accessType != AccessType::PUBLIC) continue;
 
 
-				if (i != 0) f << ",\n\n";
+				if (!isStart) {
+					f << ",\n\n";
+				}
+				else {
+					isStart = false;
+				}
 
 				bool constructorDone = false, canSkipConstructor = false;
 
@@ -85,29 +108,20 @@ namespace sp { namespace gen {
 						*/
 
 						constructorsDone.push_back(c.name);
-
-						for (int h = 0; h < m.parameters.size(); h++) {
-							Parameter p = m.parameters[h];
-							if (h != 0) constructorParameters.append(", ");
-							constructorParameters.append(p.type);
-						}
+						ParseParameters(m.parameters, constructorParameters);
 						break;
 					case MethodType::DESTRUCTOR:
 						break;
 					case MethodType::METHOD:
 						if (m.accessType == AccessType::PUBLIC) {
-
+							String parameters;
+							if (ParseParameters(m.parameters, parameters)) continue;
 							if (m.isStatic) {
 
 							}
 							else
 							{
-								String parameters;
-								for (int h = 0; h < m.parameters.size(); h++) {
-									Parameter p = m.parameters[h];
-									if (h != 0) parameters.append(", ");
-									parameters.append(p.type);
-								}
+								
 
 								methods.push_back("def");
 								methods[currentMethodIndex].append("(\"");
@@ -131,8 +145,12 @@ namespace sp { namespace gen {
 
 				}
 
-
-				f << "			luabind::class_<" + c.name + ">(\"" + c.name + "\")";
+				if (c.baseClass == "" || c.baseClass.empty()) {
+					f << "			luabind::class_<" + c.name + ">(\"" + c.name + "\")";
+				}
+				else {
+					f << "			luabind::class_<" + c.name + ", " + c.baseClass + ">(\"" + c.name + "\")";
+				}
 
 				if (constructorDone) {
 					String defC = "def(luabind::constructor<";

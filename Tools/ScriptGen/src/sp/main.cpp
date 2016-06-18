@@ -15,7 +15,7 @@
 
 using namespace sp::gen;
 
-std::vector<Class> classes;
+std::map<String, Class> classes;
 std::vector<String> namespaceStack;
 
 Class* currentClass = nullptr;
@@ -41,6 +41,11 @@ CXChildVisitResult traverse(CXCursor cursor, CXCursor parent, CXClientData data)
 	}
 	else if (type == "ClassDecl")
 	{
+		if (!classes.empty()) {
+			if (currentClass->methods.size() == 0) {
+				classes.erase(classes.begin());
+			}
+		}
 		AccessType accessType;
 		CX_CXXAccessSpecifier intAccessType = clang_getCXXAccessSpecifier(cursor);
 		switch (intAccessType)
@@ -58,13 +63,18 @@ CXChildVisitResult traverse(CXCursor cursor, CXCursor parent, CXClientData data)
 			accessType = AccessType::PRIVATE;
 			break;
 		}
-		classes.push_back(Class(name, accessType));
-		currentClass = &classes.back();
+		classes[name] = Class(name, accessType);
+		currentClass = &classes[name];
 		currentClass->namespaceStack = namespaceStack;
 		namespaceStack.clear();
 	}
 	else if (type == "StructDecl")
 	{
+		if (!classes.empty()) {
+			if (currentClass->methods.size() == 0) {
+				classes.erase(classes.begin());
+			}
+		}
 		AccessType accessType;
 		CX_CXXAccessSpecifier intAccessType = clang_getCXXAccessSpecifier(cursor);
 		switch (intAccessType)
@@ -82,8 +92,8 @@ CXChildVisitResult traverse(CXCursor cursor, CXCursor parent, CXClientData data)
 			accessType = AccessType::PRIVATE;
 			break;
 		}
-		classes.push_back(Class(name, accessType));
-		currentClass = &classes.back();
+		classes[name] = Class(name, accessType);
+		currentClass = &classes[name];
 		currentClass->namespaceStack = namespaceStack;
 		namespaceStack.clear();
 	}
@@ -225,41 +235,6 @@ String GetFileName(const String& path)
 	return result.back();
 }
 
-void Sort(std::vector<Class> &classes)
-{
-	std::vector<bool> tbr(classes.size());
-
-	for (int x = 0; x < tbr.size(); ++x)
-		tbr[x] = false;
-
-	for (int i = 0; i < classes.size(); i++) 
-	{
-		for (int j = 0; j < classes.size(); j++) 
-		{
-			if (tbr[j]) continue;
-			if (j == i) continue;
-			if (j <= i) continue;
-			if (classes[i].name.find(classes[j].name) == std::string::npos)
-			{
-				if (classes[i].methods.size() < classes[j].methods.size())
-				{
-					tbr[j] = true;
-					std::cout << j << ", " << i << std::endl;
-				}
-			}
-		}
-	}
-
-
-	for (int i = tbr.size() - 1; i >= 0; i--)
-	{
-		if (tbr[i])
-		{
-			classes.erase(classes.begin() + i);
-		}
-	}
-}
-
 int main(int argc, char *argv[])
 {
 	String path = "../../Sparky-core/src";
@@ -283,7 +258,6 @@ int main(int argc, char *argv[])
 
 		clang_disposeTranslationUnit(tu);
 	}
-	// Sort(classes);
 	clang_disposeIndex(index);
 	GenerateFile(path + "/sp/scripting/API.h", classes);
 #ifdef SP_DEBUG

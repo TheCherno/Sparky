@@ -55,7 +55,7 @@ namespace sp { namespace gen {
 		std::vector<Method> methods;
 		std::vector<String> namespaceStack;
 
-		Class(const String& name, AccessType accessType = AccessType::PUBLIC)
+		Class(const String& name = "", AccessType accessType = AccessType::PUBLIC)
 			: name(name), accessType(accessType) {}
 	};
 
