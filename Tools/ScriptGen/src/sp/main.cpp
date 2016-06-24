@@ -20,6 +20,7 @@ std::vector<String> namespaceStack;
 
 Class* currentClass = nullptr;
 Method* currentMethod = nullptr;
+Class* parentClass = nullptr;
 
 namespace sp { namespace cligen {
 	std::map<String, String> g_TypeMappings;
@@ -42,8 +43,11 @@ CXChildVisitResult traverse(CXCursor cursor, CXCursor parent, CXClientData data)
 	else if (type == "ClassDecl")
 	{
 		if (!classes.empty()) {
-			if (currentClass->methods.size() == 0) {
-				classes.erase(classes.begin());
+			if (parentClass != nullptr) {
+
+				if (currentClass->methods.size() == 0) {
+					classes.erase(classes.begin());
+				}
 			}
 		}
 		AccessType accessType;
@@ -175,7 +179,13 @@ CXChildVisitResult traverse(CXCursor cursor, CXCursor parent, CXClientData data)
 	else if (type == "C++ base class specifier")
 	{
 		SP_ASSERT(currentClass);
-		currentClass->baseClass = SplitString(name, " ").back();
+		std::string className = SplitString(SplitString(name, " ").back(), "::").back();
+		currentClass->baseClass = className;
+
+		if (classes.find(className) == classes.end()) {
+			classes[className] = Class(className, AccessType::PUBLIC);
+			parentClass = &classes[className];
+		}
 	}
 
 	clang_disposeString(cursorKind);
@@ -235,6 +245,25 @@ String GetFileName(const String& path)
 	return result.back();
 }
 
+std::vector<Class> SortClasses(std::map<String, Class> classes) {
+	String ignoreClasses[] = { "VFS", "Event", "Panel", "Button", "Widget", "MaterialInstance" };
+	
+	std::vector<Class> sort;
+	for (std::map<String, Class>::iterator iter = classes.begin(); iter != classes.end(); ++iter)
+	{
+		Class c = iter->second;
+		bool ignore = false;
+		for (int i = 0; i < sizeof(ignoreClasses) / sizeof(String); i++) {
+			if (c.name.find(ignoreClasses[i]) != std::string::npos) ignore = true;
+			if (c.baseClass.find(ignoreClasses[i]) != std::string::npos) ignore = true;
+		}
+		if (ignore) continue;
+		sort.push_back(classes[c.baseClass]);
+		sort.push_back(c);
+	}
+	return sort;
+}
+
 int main(int argc, char *argv[])
 {
 	String path = "../../Sparky-core/src";
@@ -259,7 +288,7 @@ int main(int argc, char *argv[])
 		clang_disposeTranslationUnit(tu);
 	}
 	clang_disposeIndex(index);
-	GenerateFile(path + "/sp/scripting/API.h", classes);
+	GenerateFile(path + "/sp/scripting/API.h", SortClasses(classes));
 #ifdef SP_DEBUG
 	system("PAUSE");
 #endif

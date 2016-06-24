@@ -5,6 +5,6 @@
 
 namespace sp { namespace gen {
 
-	void GenerateFile(String filePath, std::map<String, Class> classes);
+	void GenerateFile(String filePath, std::vector<Class> classes);
 
 } }

@@ -1,10 +1,10 @@
 #pragma once
 
 #ifndef LUA_H
-#define LUA_H
-#include <lua.hpp>
-#include "luawrapper.h"
-#include "luawrapperutils.h"
+	#define LUA_H
+	#include <lua.hpp>
+	#include "luawrapper.h"
+	#include "luawrapperutils.h"
 #endif
 
 #include "Sparky.h"
@@ -26,16 +26,20 @@ namespace sp { namespace scripting {
 	void Load(lua_State* L)	{
 		luabind::module(L)
 		[
+			luabind::class_<DebugMenuSlider>("DebugMenuSlider"),
+
 			luabind::class_<DebugRenderer>("DebugRenderer"),
 
-			luabind::class_<EmptyAction, sp::debug::IAction>("EmptyAction")
+			luabind::class_<IAction>("IAction"),
+
+			luabind::class_<EmptyAction, IAction>("EmptyAction")
 				.def(luabind::constructor<const String &>())
 				.def("OnAction", (void(EmptyAction::*)())&EmptyAction::OnAction)
 				.def("ToString", (String(EmptyAction::*)())&EmptyAction::ToString),
 
 			luabind::class_<Entity>("Entity"),
 
-			luabind::class_<FPSCamera, sp::graphics::Camera>("FPSCamera")
+			luabind::class_<FPSCamera, Camera>("FPSCamera")
 				.def(luabind::constructor<const maths::mat4 &>())
 				.def("Focus", (void(FPSCamera::*)())&FPSCamera::Focus)
 				.def("Update", (void(FPSCamera::*)())&FPSCamera::Update),
@@ -48,18 +52,34 @@ namespace sp { namespace scripting {
 				.def("GetHeight", (uint(Framebuffer::*)())&Framebuffer::GetHeight)
 				.def("GetTexture", (API::Texture *(Framebuffer::*)())&Framebuffer::GetTexture),
 
-			luabind::class_<Framebuffer2D, sp::graphics::Framebuffer>("Framebuffer2D")
+			luabind::class_<Framebuffer>("Framebuffer")
+				.def("Bind", (void(Framebuffer::*)())&Framebuffer::Bind)
+				.def("Unbind", (void(Framebuffer::*)())&Framebuffer::Unbind)
+				.def("Clear", (void(Framebuffer::*)())&Framebuffer::Clear)
+				.def("GetWidth", (uint(Framebuffer::*)())&Framebuffer::GetWidth)
+				.def("GetHeight", (uint(Framebuffer::*)())&Framebuffer::GetHeight)
+				.def("GetTexture", (API::Texture *(Framebuffer::*)())&Framebuffer::GetTexture),
+
+			luabind::class_<Framebuffer2D, Framebuffer>("Framebuffer2D")
 				.def("SetClearColor", (void(Framebuffer2D::*)(const maths::vec4 &))&Framebuffer2D::SetClearColor),
 
-			luabind::class_<FramebufferDepth, sp::graphics::Framebuffer>("FramebufferDepth"),
+			luabind::class_<Framebuffer>("Framebuffer")
+				.def("Bind", (void(Framebuffer::*)())&Framebuffer::Bind)
+				.def("Unbind", (void(Framebuffer::*)())&Framebuffer::Unbind)
+				.def("Clear", (void(Framebuffer::*)())&Framebuffer::Clear)
+				.def("GetWidth", (uint(Framebuffer::*)())&Framebuffer::GetWidth)
+				.def("GetHeight", (uint(Framebuffer::*)())&Framebuffer::GetHeight)
+				.def("GetTexture", (API::Texture *(Framebuffer::*)())&Framebuffer::GetTexture),
 
-			luabind::class_<Group, sp::graphics::Renderable2D>("Group")
+			luabind::class_<FramebufferDepth, Framebuffer>("FramebufferDepth"),
+
+			luabind::class_<Renderable2D>("Renderable2D"),
+
+			luabind::class_<Group, Renderable2D>("Group")
 				.def(luabind::constructor<const maths::mat4 &>())
 				.def("Add", (void(Group::*)(sp::graphics::Renderable2D *))&Group::Add)
 				.def("Submit", (void(Group::*)(sp::graphics::Renderer2D *))&Group::Submit)
 				.def("GetTransformRef", (maths::mat4 &(Group::*)())&Group::GetTransformRef),
-
-			luabind::class_<IAction>("IAction"),
 
 			luabind::class_<IndexBuffer>("IndexBuffer")
 				.def("Bind", (void(IndexBuffer::*)())&IndexBuffer::Bind)
@@ -84,7 +104,7 @@ namespace sp { namespace scripting {
 				.def("ClearKeys", (void(InputManager::*)())&InputManager::ClearKeys)
 				.def("ClearMouseButtons", (void(InputManager::*)())&InputManager::ClearMouseButtons),
 
-			luabind::class_<Layer, events::IEventListener>("Layer")
+			luabind::class_<Layer, IEventListener>("Layer")
 				.def(luabind::constructor<>())
 				.def("IsVisible", (bool(Layer::*)())&Layer::IsVisible)
 				.def("SetVisible", (void(Layer::*)(bool))&Layer::SetVisible)
@@ -94,7 +114,7 @@ namespace sp { namespace scripting {
 				.def("OnUpdate", (void(Layer::*)())&Layer::OnUpdate)
 				.def("OnRender", (void(Layer::*)())&Layer::OnRender),
 
-			luabind::class_<Layer2D, sp::graphics::Layer>("Layer2D")
+			luabind::class_<Layer2D, Layer>("Layer2D")
 				.def(luabind::constructor<const maths::mat4 &>())
 				.def("Init", (void(Layer2D::*)())&Layer2D::Init)
 				.def("OnInit", (void(Layer2D::*)(sp::graphics::Renderer2D &, sp::graphics::Material &))&Layer2D::OnInit)
@@ -103,7 +123,17 @@ namespace sp { namespace scripting {
 				.def("OnRender", (void(Layer2D::*)(sp::graphics::Renderer2D &))&Layer2D::OnRender)
 				.def("OnRender", (void(Layer2D::*)())&Layer2D::OnRender),
 
-			luabind::class_<Layer3D, sp::graphics::Layer>("Layer3D")
+			luabind::class_<Layer, IEventListener>("Layer")
+				.def(luabind::constructor<>())
+				.def("IsVisible", (bool(Layer::*)())&Layer::IsVisible)
+				.def("SetVisible", (void(Layer::*)(bool))&Layer::SetVisible)
+				.def("Init", (void(Layer::*)())&Layer::Init)
+				.def("OnEvent", (void(Layer::*)(events::Event &))&Layer::OnEvent)
+				.def("OnTick", (void(Layer::*)())&Layer::OnTick)
+				.def("OnUpdate", (void(Layer::*)())&Layer::OnUpdate)
+				.def("OnRender", (void(Layer::*)())&Layer::OnRender),
+
+			luabind::class_<Layer3D, Layer>("Layer3D")
 				.def(luabind::constructor<sp::graphics::Scene *, sp::graphics::Renderer3D *>())
 				.def("Init", (void(Layer3D::*)())&Layer3D::Init)
 				.def("OnInit", (void(Layer3D::*)(sp::graphics::Renderer3D &, sp::graphics::Scene &))&Layer3D::OnInit)
@@ -129,29 +159,47 @@ namespace sp { namespace scripting {
 				.def("SetRenderFlags", (void(Material::*)(int))&Material::SetRenderFlags)
 				.def("SetRenderFlag", (void(Material::*)(Material::RenderFlags))&Material::SetRenderFlag),
 
-			luabind::class_<MayaCamera, sp::graphics::Camera>("MayaCamera")
+			luabind::class_<MayaCamera, Camera>("MayaCamera")
 				.def(luabind::constructor<const maths::mat4 &>())
 				.def("Focus", (void(MayaCamera::*)())&MayaCamera::Focus)
 				.def("Update", (void(MayaCamera::*)())&MayaCamera::Update)
 				.def("GetDistance", (float(MayaCamera::*)())&MayaCamera::GetDistance)
 				.def("SetDistance", (void(MayaCamera::*)(float))&MayaCamera::SetDistance),
 
-			luabind::class_<Mesh, sp::graphics::IRenderable>("Mesh")
+			luabind::class_<MemoryManager>("MemoryManager")
+				.def(luabind::constructor<>())
+				.def("GetMemoryStats", (sp::internal::MemoryStats(MemoryManager::*)())&MemoryManager::GetMemoryStats)
+				.def("GetSystemInfo", (sp::internal::SystemMemoryInfo(MemoryManager::*)())&MemoryManager::GetSystemInfo),
+
+			luabind::class_<MemoryStats>("MemoryStats")
+				.def(luabind::constructor<>()),
+
+			luabind::class_<Mesh, IRenderable>("Mesh")
 				.def(luabind::constructor<API::VertexArray *, API::IndexBuffer *, sp::graphics::MaterialInstance *>())
 				.def("SetMaterial", (void(Mesh::*)(sp::graphics::MaterialInstance *))&Mesh::SetMaterial)
 				.def("GetMaterialInstance", (sp::graphics::MaterialInstance *(Mesh::*)())&Mesh::GetMaterialInstance)
 				.def("Render", (void(Mesh::*)(sp::graphics::Renderer3D &, float, float, float, float, sp::graphics::MaterialInstance *, const maths::vec2 &, const maths::vec2 &, sp::graphics::MaterialInstance *, float, sp::graphics::MaterialInstance *, float, float, const maths::vec3 &, sp::graphics::MaterialInstance *))&Mesh::Render),
 
-			luabind::class_<MeshComponent, sp::entity::component::Component>("MeshComponent")
+			luabind::class_<MeshComponent, Component>("MeshComponent")
 				.def(luabind::constructor<graphics::Mesh *>())
 				.def("GetType", (sp::entity::component::ComponentType *(MeshComponent::*)())&MeshComponent::GetType),
 
-			luabind::class_<Model, sp::graphics::IRenderable>("Model")
+			luabind::class_<Model, IRenderable>("Model")
 				.def(luabind::constructor<const String &, sp::graphics::MaterialInstance *>())
 				.def("Render", (void(Model::*)(sp::graphics::Renderer3D &))&Model::Render)
 				.def("GetMesh", (sp::graphics::Mesh *(Model::*)())&Model::GetMesh),
 
-			luabind::class_<PBRMaterial, sp::graphics::Material>("PBRMaterial")
+			luabind::class_<Material>("Material")
+				.def(luabind::constructor<API::Shader *>())
+				.def("Bind", (void(Material::*)())&Material::Bind)
+				.def("Unbind", (void(Material::*)())&Material::Unbind)
+				.def("SetUniformData", (void(Material::*)(const String &, byte *))&Material::SetUniformData)
+				.def("SetTexture", (void(Material::*)(const String &, API::Texture *))&Material::SetTexture)
+				.def("GetRenderFlags", (int(Material::*)())&Material::GetRenderFlags)
+				.def("SetRenderFlags", (void(Material::*)(int))&Material::SetRenderFlags)
+				.def("SetRenderFlag", (void(Material::*)(Material::RenderFlags))&Material::SetRenderFlag),
+
+			luabind::class_<PBRMaterial, Material>("PBRMaterial")
 				.def(luabind::constructor<API::Shader *>())
 				.def("SetEnviromentMap", (void(PBRMaterial::*)(API::TextureCube *))&PBRMaterial::SetEnviromentMap)
 				.def("SetAlbedo", (void(PBRMaterial::*)(const maths::vec4 &))&PBRMaterial::SetAlbedo)
@@ -199,8 +247,6 @@ namespace sp { namespace scripting {
 			luabind::class_<Renderer2D>("Renderer2D")
 				.def("Push", (void(Renderer2D::*)(const maths::mat4 &, bool))&Renderer2D::Push)
 				.def("Pop", (void(Renderer2D::*)())&Renderer2D::Pop)
-				.def("SetRenderTarget", (void(Renderer2D::*)(sp::graphics::RenderTarget))&Renderer2D::SetRenderTarget)
-				.def("GetRenderTarget", (const sp::graphics::RenderTarget(Renderer2D::*)())&Renderer2D::GetRenderTarget)
 				.def("SetPostEffects", (void(Renderer2D::*)(bool))&Renderer2D::SetPostEffects)
 				.def("GetPostEffects", (bool(Renderer2D::*)())&Renderer2D::GetPostEffects)
 				.def("AddPostEffectsPass", (void(Renderer2D::*)(sp::graphics::PostEffectsPass *))&Renderer2D::AddPostEffectsPass)
@@ -276,18 +322,6 @@ namespace sp { namespace scripting {
 				.def("GetCount", (uint(ShaderUniformDeclaration::*)())&ShaderUniformDeclaration::GetCount)
 				.def("GetOffset", (uint(ShaderUniformDeclaration::*)())&ShaderUniformDeclaration::GetOffset),
 
-			luabind::class_<Slider, sp::graphics::ui::Widget>("Slider")
-				.def(luabind::constructor<const maths::Rectangle &, bool>())
-				.def("OnMousePressed", (bool(Slider::*)(events::MousePressedEvent &))&Slider::OnMousePressed)
-				.def("OnMouseReleased", (bool(Slider::*)(events::MouseReleasedEvent &))&Slider::OnMouseReleased)
-				.def("OnMouseMoved", (bool(Slider::*)(events::MouseMovedEvent &))&Slider::OnMouseMoved)
-				.def("OnUpdate", (void(Slider::*)())&Slider::OnUpdate)
-				.def("OnRender", (void(Slider::*)(sp::graphics::Renderer2D &))&Slider::OnRender)
-				.def("SetCallback", (void(Slider::*)(const int &))&Slider::SetCallback)
-				.def("GetCallback", (const int &(Slider::*)())&Slider::GetCallback)
-				.def("GetValue", (float(Slider::*)())&Slider::GetValue)
-				.def("SetValue", (void(Slider::*)(float))&Slider::SetValue),
-
 			luabind::class_<Sound>("Sound")
 				.def(luabind::constructor<const String &, const String &>())
 				.def("Play", (void(Sound::*)())&Sound::Play)
@@ -303,7 +337,9 @@ namespace sp { namespace scripting {
 
 			luabind::class_<SoundManager>("SoundManager"),
 
-			luabind::class_<Sprite, sp::graphics::Renderable2D>("Sprite")
+			luabind::class_<Renderable2D>("Renderable2D"),
+
+			luabind::class_<Sprite, Renderable2D>("Sprite")
 				.def(luabind::constructor<API::Texture2D *>())
 				.def("SetUV", (void(Sprite::*)(const int))&Sprite::SetUV)
 				.def("SetTexture", (void(Sprite::*)(API::Texture2D *))&Sprite::SetTexture),
@@ -323,15 +359,33 @@ namespace sp { namespace scripting {
 				.def("GetName", (const String &(Texture::*)())&Texture::GetName)
 				.def("GetFilepath", (const String &(Texture::*)())&Texture::GetFilepath),
 
-			luabind::class_<Texture2D, sp::graphics::API::Texture>("Texture2D")
+			luabind::class_<Texture>("Texture")
+				.def("Bind", (void(Texture::*)(uint))&Texture::Bind)
+				.def("Unbind", (void(Texture::*)(uint))&Texture::Unbind)
+				.def("GetName", (const String &(Texture::*)())&Texture::GetName)
+				.def("GetFilepath", (const String &(Texture::*)())&Texture::GetFilepath),
+
+			luabind::class_<Texture2D, Texture>("Texture2D")
 				.def("SetData", (void(Texture2D::*)(const void *))&Texture2D::SetData)
 				.def("SetData", (void(Texture2D::*)(uint))&Texture2D::SetData)
 				.def("GetWidth", (uint(Texture2D::*)())&Texture2D::GetWidth)
 				.def("GetHeight", (uint(Texture2D::*)())&Texture2D::GetHeight),
 
-			luabind::class_<TextureCube, sp::graphics::API::Texture>("TextureCube"),
+			luabind::class_<Texture>("Texture")
+				.def("Bind", (void(Texture::*)(uint))&Texture::Bind)
+				.def("Unbind", (void(Texture::*)(uint))&Texture::Unbind)
+				.def("GetName", (const String &(Texture::*)())&Texture::GetName)
+				.def("GetFilepath", (const String &(Texture::*)())&Texture::GetFilepath),
 
-			luabind::class_<TextureDepth, sp::graphics::API::Texture>("TextureDepth"),
+			luabind::class_<TextureCube, Texture>("TextureCube"),
+
+			luabind::class_<Texture>("Texture")
+				.def("Bind", (void(Texture::*)(uint))&Texture::Bind)
+				.def("Unbind", (void(Texture::*)(uint))&Texture::Unbind)
+				.def("GetName", (const String &(Texture::*)())&Texture::GetName)
+				.def("GetFilepath", (const String &(Texture::*)())&Texture::GetFilepath),
+
+			luabind::class_<TextureDepth, Texture>("TextureDepth"),
 
 			luabind::class_<TextureLoadOptions>("TextureLoadOptions")
 				.def(luabind::constructor<>()),
@@ -347,7 +401,7 @@ namespace sp { namespace scripting {
 				.def("Elapsed", (float(Timer::*)())&Timer::Elapsed)
 				.def("ElapsedMillis", (float(Timer::*)())&Timer::ElapsedMillis),
 
-			luabind::class_<TransformComponent, sp::entity::component::Component>("TransformComponent")
+			luabind::class_<TransformComponent, Component>("TransformComponent")
 				.def(luabind::constructor<const maths::mat4 &>())
 				.def("GetType", (sp::entity::component::ComponentType *(TransformComponent::*)())&TransformComponent::GetType),
 
@@ -408,11 +462,9 @@ namespace sp { namespace scripting {
 				.def(luabind::constructor<>())
 				.def("Add", (sp::maths::vec3 &(vec3::*)(const sp::maths::vec3 &))&vec3::Add)
 				.def("Subtract", (sp::maths::vec3 &(vec3::*)(const sp::maths::vec3 &))&vec3::Subtract)
-				.def("Multiply", (sp::maths::vec3 &(vec3::*)(const sp::maths::vec3 &))&vec3::Multiply)
 				.def("Divide", (sp::maths::vec3 &(vec3::*)(const sp::maths::vec3 &))&vec3::Divide)
 				.def("Add", (sp::maths::vec3 &(vec3::*)(float))&vec3::Add)
 				.def("Subtract", (sp::maths::vec3 &(vec3::*)(float))&vec3::Subtract)
-				.def("Multiply", (sp::maths::vec3 &(vec3::*)(float))&vec3::Multiply)
 				.def("Divide", (sp::maths::vec3 &(vec3::*)(float))&vec3::Divide)
 				.def("Cross", (sp::maths::vec3(vec3::*)(const sp::maths::vec3 &))&vec3::Cross)
 				.def("Dot", (float(vec3::*)(const sp::maths::vec3 &))&vec3::Dot)
@@ -424,7 +476,6 @@ namespace sp { namespace scripting {
 				.def(luabind::constructor<>())
 				.def("Add", (sp::maths::vec4 &(vec4::*)(const sp::maths::vec4 &))&vec4::Add)
 				.def("Subtract", (sp::maths::vec4 &(vec4::*)(const sp::maths::vec4 &))&vec4::Subtract)
-				.def("Multiply", (sp::maths::vec4 &(vec4::*)(const sp::maths::vec4 &))&vec4::Multiply)
 				.def("Divide", (sp::maths::vec4 &(vec4::*)(const sp::maths::vec4 &))&vec4::Divide)
 				.def("Dot", (float(vec4::*)(const sp::maths::vec4 &))&vec4::Dot)
 		];

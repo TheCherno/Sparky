@@ -12,20 +12,32 @@
 namespace sp { namespace gen {
 
 	bool ParseParameters(std::vector<Parameter> parameters, String& out) {
+		bool found = false;
 		for (int h = 0; h < parameters.size(); h++) {
 			Parameter p = parameters[h];
-			if (p.name.find("T") != std::string::npos) return true;
-			if (p.name.find("RenderTarget") != std::string::npos) return true;
+			if (p.type.find(" T ") != std::string::npos ||
+				p.type.find("RenderTarget") != std::string::npos)
+				{
+					found = true;
+					break;
+				}
 			if (h != 0) out.append(", ");
 			out.append(p.type);
 		}
-		return false;
+#ifdef SP_DEBUG
+		if (found) std::cout << found << std::endl;
+#endif
+		return found;
 	}
 
-	void GenerateFile(String filePath, std::map<String, Class> classes) {
+	void GenerateFile(String filePath, std::vector<Class> classes) {
 		std::ofstream f(filePath);
 
 		String namespaces[] = { "sp", "graphics", "audio", "debug", "entity", "component", "internal", "API", "ui", "events", "maths", "ftgl"};
+		String ignoreMethods[] = { 
+			".def(\"Multiply\", (sp::maths::vec4(vec4::*)(const sp::maths::mat4 &))&vec4::Multiply)",
+			".def(\"Multiply\", (sp::maths::vec3(vec3::*)(const sp::maths::mat4 &))&vec3::Multiply)"
+		};
 
 		std::vector<String> constructorsDone;
 
@@ -36,10 +48,10 @@ namespace sp { namespace gen {
 			pre.append("#pragma once\n");
 			pre.append("\n");
 			pre.append("#ifndef LUA_H\n");
-			pre.append("#define LUA_H\n");
-			pre.append("#include <lua.hpp>\n");
-			pre.append("#include \"luawrapper.h\"\n");
-			pre.append("#include \"luawrapperutils.h\"\n");
+			pre.append("	#define LUA_H\n");
+			pre.append("	#include <lua.hpp>\n");
+			pre.append("	#include \"luawrapper.h\"\n");
+			pre.append("	#include \"luawrapperutils.h\"\n");
 			pre.append("#endif\n");
 			pre.append("\n");
 			pre.append("#include \"Sparky.h\"\n");
@@ -61,16 +73,10 @@ namespace sp { namespace gen {
 			f << "		luabind::module(L)\n		[" << std::endl;
 
 			bool isStart = true;
-			for (std::map<String, Class>::iterator iter = classes.begin(); iter != classes.end(); ++iter)
+			for (int i = 0; i < classes.size(); i++)
 			{
-				Class c = iter->second;
+				Class c = classes[i];
 				if (c.name == "") continue;
-				if (c.name.find("VFS") != std::string::npos) continue;
-				if (c.name.find("Event") != std::string::npos) continue;
-				if (c.name.find("Panel") != std::string::npos) continue;
-				if (c.name.find("Button") != std::string::npos) continue;
-				if (c.name.find("Widget") != std::string::npos) continue;
-				if (c.name.find("MaterialInstance") != std::string::npos) continue;
 				if (c.accessType != AccessType::PUBLIC) continue;
 
 
@@ -121,23 +127,45 @@ namespace sp { namespace gen {
 							}
 							else
 							{
-								
 
-								methods.push_back("def");
-								methods[currentMethodIndex].append("(\"");
-								methods[currentMethodIndex].append(m.name);
-								methods[currentMethodIndex].append("\", (");
-								methods[currentMethodIndex].append(m.type);
-								methods[currentMethodIndex].append("(");
-								methods[currentMethodIndex].append(c.name);
-								methods[currentMethodIndex].append("::*)(");
-								methods[currentMethodIndex].append(parameters);
-								methods[currentMethodIndex].append("))&");
-								methods[currentMethodIndex].append(c.name);
-								methods[currentMethodIndex].append("::");
-								methods[currentMethodIndex].append(m.name);
-								methods[currentMethodIndex].append(")");
-								currentMethodIndex++;
+								if (m.type.find("T ") != std::string::npos ||
+									m.type.find("RenderTarget") != std::string::npos)
+									continue;
+
+								if (c.name.find("vec3") != std::string::npos &&
+									m.name.find("Multiply") != std::string::npos)
+									continue;
+
+								if (c.name.find("vec4") != std::string::npos &&
+									m.name.find("Multiply") != std::string::npos)
+									continue;
+
+								String method = "def";
+								method.append("(\"");
+								method.append(m.name);
+								method.append("\", (");
+								method.append(m.type);
+								method.append("(");
+								method.append(c.name);
+								method.append("::*)(");
+								method.append(parameters);
+								method.append("))&");
+								method.append(c.name);
+								method.append("::");
+								method.append(m.name);
+								method.append(")");
+
+								bool ignore = false;
+								for (int b = 0; b < sizeof(ignoreMethods) / sizeof(String); b++) {
+									if (IgnoreCaseEquals(method, ignoreMethods[b])) {
+										ignore = true;
+										break;
+									}
+								}
+								if (!ignore) {
+									methods.push_back(method);
+									currentMethodIndex++;
+								}
 							}
 						}
 						break;

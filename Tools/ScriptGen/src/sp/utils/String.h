@@ -26,4 +26,7 @@ namespace sp { namespace gen {
 	bool EndsWith(const String& string, const String& end);
 	int NextInt(const String& string);
 
+	bool IgnoreCaseEquals(const String& a, const String& b);
+	bool Equals(const String& a, const String& b);
+
 } }

@@ -130,5 +130,26 @@ namespace sp { namespace gen {
 		return -1;
 	}
 
+	bool IgnoreCaseEquals(const String& a, const String& b)
+	{
+		unsigned int sz = a.size();
+		if (b.size() != sz)
+			return false;
+		for (unsigned int i = 0; i < sz; ++i)
+			if (tolower(a[i]) != tolower(b[i]))
+				return false;
+		return true;
+	}
+
+	bool Equals(const String& a, const String& b)
+	{
+		unsigned int sz = a.size();
+		if (b.size() != sz)
+			return false;
+		for (unsigned int i = 0; i < sz; ++i)
+			if (a[i] != b[i])
+				return false;
+		return true;
+	}
 
 } }
