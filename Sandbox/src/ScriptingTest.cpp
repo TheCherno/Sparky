@@ -129,6 +129,9 @@ void ScriptingTest::OnRender(Renderer3D& renderer)
 	Layer3D::OnRender(renderer);
 }
 
+
+sp::audio::Sound* s = nullptr;
+
 void ScriptingTest::OnEvent(Event& event)
 {
 	if (event.GetType() == Event::Type::KEY_PRESSED)
@@ -149,12 +152,13 @@ void ScriptingTest::OnEvent(Event& event)
 				break;
 			case SP_KEY_O:
 				m_Script->CallFunction("loadSound", "cherno", "res/Cherno.ogg");
+				s = audio::SoundManager::Get("cherno");
 				break;
 			case SP_KEY_P:
 				m_Script->CallFunction("playSound", "cherno");
 				break;
 			case SP_KEY_L:
-				m_Script->CallFunction("loopSound", "cherno");
+				m_Script->CallFunction("loopSound", s);
 				break;
 			}
 		}

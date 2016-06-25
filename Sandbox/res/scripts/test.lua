@@ -11,9 +11,8 @@ playSound = function (name)
 	sound:Play()
 end
 
-loopSound = function (name)
-	sound = SoundManager.Get(name)
-	sound:Loop()
+loopSound = function (s)
+	s:Loop()
 end
 
 changeGain = function (name, gain)
