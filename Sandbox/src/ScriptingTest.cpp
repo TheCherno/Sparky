@@ -1,8 +1,5 @@
 #include "ScriptingTest.h"
 
-#include <sp\scripting\spslua.h>
-#include <sp\system\Reference.h>
-
 using namespace sp;
 using namespace debug;
 using namespace graphics;
@@ -104,10 +101,9 @@ void ScriptingTest::OnInit(Renderer3D& renderer, Scene& scene)
 	g_Mesh = spnew Mesh(sphereModel->GetMesh());
 	g_Mesh->SetMaterial(m);
 
-	SP_NEWSTATE();
-	SP_INIT();
-	SP_LOADAPI();
-	SP_LOADFILE("res/scripts/test.lua");
+	m_Script = new sp::scripting::Script();
+	m_Script->AddFile("res/scripts/test.lua");
+	m_Script->CreateState();
 
 	Entity* e = spnew Entity();
 	e->AddComponent(spnew MeshComponent(g_Mesh));
@@ -133,8 +129,6 @@ void ScriptingTest::OnRender(Renderer3D& renderer)
 	Layer3D::OnRender(renderer);
 }
 
-sp::audio::Sound* s = nullptr;
-
 void ScriptingTest::OnEvent(Event& event)
 {
 	if (event.GetType() == Event::Type::KEY_PRESSED)
@@ -147,31 +141,30 @@ void ScriptingTest::OnEvent(Event& event)
 			case SP_KEY_R:
 				ShaderManager::Reload("AdvancedLighting");
 				break;
+			case SP_KEY_F:
+				m_Script->CreateState();
+				break;
 			case SP_KEY_C:
 				m_Scene->SetCamera(m_Scene->GetCamera() == m_MayaCamera ? m_FPSCamera : m_MayaCamera);
 				break;
 			case SP_KEY_O:
-				SP_CALLFUNCTION("loadSound", "cherno", "res/Cherno.ogg");
-				s = audio::SoundManager::Get("cherno");
+				m_Script->CallFunction("loadSound", "cherno", "res/Cherno.ogg");
 				break;
 			case SP_KEY_P:
-				SP_CALLFUNCTION("playSound", s);
+				m_Script->CallFunction("playSound", "cherno");
 				break;
 			case SP_KEY_L:
-				SP_CALLFUNCTION("loopSound", s);
-				break;
-			case SP_KEY_H:
-				SP_CALLFUNCTION("debugMenu", "yes", false);
+				m_Script->CallFunction("loopSound", "cherno");
 				break;
 			}
 		}
 		switch (kpe->GetKeyCode())
 		{
 		case SP_KEY_1:
-			SP_CALLFUNCTION("changeGain", s, -0.1f);
+			m_Script->CallFunction("changeGain", "cherno", -0.1f);
 			break;
 		case SP_KEY_2:
-			SP_CALLFUNCTION("changeGain", s, 0.1f);
+			m_Script->CallFunction("changeGain", "cherno", 0.1f);
 			break;
 		}
 	}

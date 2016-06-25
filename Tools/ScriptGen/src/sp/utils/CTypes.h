@@ -57,6 +57,11 @@ namespace sp { namespace gen {
 
 		Class(const String& name = "", AccessType accessType = AccessType::PUBLIC)
 			: name(name), accessType(accessType) {}
+
+		friend bool operator== (const Class &n1, const Class &n2)
+		{
+			return n1.name == n2.name;
+		}
 	};
 
 } }

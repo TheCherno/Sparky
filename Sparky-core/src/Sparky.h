@@ -87,6 +87,8 @@
 #include <sp/utils/Log.h>
 #include <sp/utils/Timer.h>
 
+#include <sp/scripting/script.h>
+
 #include <sp/system/FileSystem.h>
 #include <sp/system/Memory.h>
 #include <sp/system/MemoryManager.h>

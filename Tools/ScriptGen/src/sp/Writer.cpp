@@ -45,14 +45,10 @@ namespace sp { namespace gen {
 
 			String pre;
 
-			pre.append("#pragma once\n");
-			pre.append("\n");
-			pre.append("#ifndef LUA_H\n");
-			pre.append("	#define LUA_H\n");
-			pre.append("	#include <lua.hpp>\n");
-			pre.append("	#include \"luawrapper.h\"\n");
-			pre.append("	#include \"luawrapperutils.h\"\n");
-			pre.append("#endif\n");
+			pre.append("#include \"sp\\sp.h\"\n");
+			pre.append("#include \"API.h\"\n");
+			pre.append("#include <lua.hpp>\n");
+			pre.append("#include <luabind\\luabind.hpp>\n");
 			pre.append("\n");
 			pre.append("#include \"Sparky.h\"\n");
 			pre.append("\n");
@@ -138,6 +134,22 @@ namespace sp { namespace gen {
 
 								if (c.name.find("vec4") != std::string::npos &&
 									m.name.find("Multiply") != std::string::npos)
+									continue;
+
+								if (c.name.find("BooleanAction") != std::string::npos &&
+									m.name.find("Getter") != std::string::npos)
+									continue;
+
+								if (c.name.find("BufferLayout") != std::string::npos &&
+									m.name.find("Push") != std::string::npos)
+									continue;
+
+								if (c.name.find("AABB") != std::string::npos &&
+									m.name.find("Contains") != std::string::npos)
+									continue; 
+
+								if (c.name.find("Font") != std::string::npos &&
+									m.name.find("GetFTFont") != std::string::npos)
 									continue;
 
 								String method = "def";

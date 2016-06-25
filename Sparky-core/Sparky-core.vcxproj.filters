@@ -429,6 +429,12 @@
     <ClCompile Include="src\sp\system\FileSystem.cpp" />
     <ClCompile Include="src\sp\system\VFS.cpp" />
     <ClCompile Include="src\sp\platform\windows\Win32FileSystem.cpp" />
+    <ClCompile Include="src\sp\scripting\script.cpp">
+      <Filter>sp\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sp\scripting\API.cpp">
+      <Filter>sp\scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Application.h">
@@ -853,7 +859,7 @@
     <ClInclude Include="src\sp\scripting\unmarshal.h">
       <Filter>sp\scripting</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\scripting\spslua.h">
+    <ClInclude Include="src\sp\scripting\script.h">
       <Filter>sp\scripting</Filter>
     </ClInclude>
   </ItemGroup>

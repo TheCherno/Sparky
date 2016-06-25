@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 #include <clang-c/Index.h>
 
@@ -44,9 +45,8 @@ CXChildVisitResult traverse(CXCursor cursor, CXCursor parent, CXClientData data)
 	{
 		if (!classes.empty()) {
 			if (parentClass != nullptr) {
-
 				if (currentClass->methods.size() == 0) {
-					classes.erase(classes.begin());
+					classes.erase(currentClass->name);
 				}
 			}
 		}
@@ -75,8 +75,10 @@ CXChildVisitResult traverse(CXCursor cursor, CXCursor parent, CXClientData data)
 	else if (type == "StructDecl")
 	{
 		if (!classes.empty()) {
-			if (currentClass->methods.size() == 0) {
-				classes.erase(classes.begin());
+			if (parentClass != nullptr) {
+				if (currentClass->methods.size() == 0) {
+					classes.erase(currentClass->name);
+				}
 			}
 		}
 		AccessType accessType;
@@ -245,8 +247,19 @@ String GetFileName(const String& path)
 	return result.back();
 }
 
+void AddToVector(std::vector<Class>* v, Class c) {
+	auto res = std::find(std::begin(*v), std::end(*v), c);
+	if (res != std::end(*v)) 
+	{
+		
+	}
+	else {
+		v->push_back(c);
+	}
+}
+
 std::vector<Class> SortClasses(std::map<String, Class> classes) {
-	String ignoreClasses[] = { "VFS", "Event", "Panel", "Button", "Widget", "MaterialInstance" };
+	String ignoreClasses[] = { "VFS", "Event", "Panel", "Button", "Widget", "MaterialInstance", "Action", "BufferLayout", "GBuffer", "DeferredRenderer", "Renderer3D", "IEventListener", "Layer" };
 	
 	std::vector<Class> sort;
 	for (std::map<String, Class>::iterator iter = classes.begin(); iter != classes.end(); ++iter)
@@ -258,8 +271,9 @@ std::vector<Class> SortClasses(std::map<String, Class> classes) {
 			if (c.baseClass.find(ignoreClasses[i]) != std::string::npos) ignore = true;
 		}
 		if (ignore) continue;
-		sort.push_back(classes[c.baseClass]);
-		sort.push_back(c);
+
+		AddToVector(&sort, classes[c.baseClass]);
+		AddToVector(&sort, c);
 	}
 	return sort;
 }
@@ -288,7 +302,7 @@ int main(int argc, char *argv[])
 		clang_disposeTranslationUnit(tu);
 	}
 	clang_disposeIndex(index);
-	GenerateFile(path + "/sp/scripting/API.h", SortClasses(classes));
+	GenerateFile(path + "/sp/scripting/API.cpp", SortClasses(classes));
 #ifdef SP_DEBUG
 	system("PAUSE");
 #endif

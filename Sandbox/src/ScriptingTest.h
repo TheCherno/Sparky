@@ -8,6 +8,8 @@ private:
 	sp::graphics::Camera* m_MayaCamera;
 	sp::graphics::Camera* m_FPSCamera;
 
+	sp::scripting::Script* m_Script;
+
 	float m_Rotation;
 	bool m_SetUniforms[2];
 	std::vector<sp::graphics::PBRMaterial*> m_Materials;
