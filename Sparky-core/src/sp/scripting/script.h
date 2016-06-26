@@ -30,7 +30,16 @@ namespace sp { namespace scripting {
 
 		template <typename... Args>
 		void CallFunction(const char* func, Args&&... args) {
-			sp::scripting::FunctionCaller::Dispatch(m_State, func, args...);
+			try
+			{
+				luabind::call_function<void>(m_State, func, args...);
+			}
+			catch (luabind::error& e)
+			{
+				SP_ERROR("Lua >> ", lua_tostring(m_State, -1));
+			}
+			
+			// sp::scripting::FunctionCaller::Dispatch(m_State, func, args...);
 		}
 	private:
 		void Create();

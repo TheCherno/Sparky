@@ -20,13 +20,13 @@ namespace sp { namespace scripting {
 	void Script::Create() {
 		m_State = luaL_newstate();
 
+
 		luaopen_io(m_State);
 		luaopen_base(m_State);
 		luaopen_table(m_State);
 		luaopen_string(m_State);
 		luaopen_math(m_State);
 		luaL_openlibs(m_State);
-
 		luabind::open(m_State);
 
 		sp::scripting::Load(m_State);
