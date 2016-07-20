@@ -11,6 +11,7 @@
 namespace sp { namespace debug {
 
 	struct IAction;
+	struct PathAction;
 	typedef std::vector<IAction*> ActionList;
 
 	struct DebugMenuSettings
@@ -27,6 +28,7 @@ namespace sp { namespace debug {
 		bool m_Visible;
 		DebugMenuSettings m_Settings;
 		ActionList m_ActionList;
+		PathAction* m_Path;
 
 		graphics::ui::Panel* m_Panel;
 		graphics::ui::Slider** m_Slider;
@@ -45,8 +47,12 @@ namespace sp { namespace debug {
 
 		static void Remove(const String& name);
 
+		PathAction* FindPath(const String& name);
+
 		static bool IsVisible();
 		static void SetVisible(bool visible);
+
+		static void SetPath(PathAction* path);
 
 		static DebugMenuSettings& GetSettings();
 
@@ -60,6 +66,9 @@ namespace sp { namespace debug {
 		void OnRender(graphics::Renderer2D& renderer);
 	private:
 		DebugMenu();
+
+		void Add(const String& path, IAction* action);
+		PathAction* CreateOrFindPaths(std::vector<String>& paths, PathAction* action = nullptr);
 	};
 
 } }

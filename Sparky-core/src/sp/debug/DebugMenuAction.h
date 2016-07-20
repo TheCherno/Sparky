@@ -12,16 +12,92 @@ namespace sp { namespace debug {
 
 	struct IAction
 	{
+		enum class Type
+		{
+			NONE = 0, EMPTY, PATH, BOOLEAN, VALUE, VEC2, VEC3, VEC4
+		};
+
 		String name;
+		Type type;
+
 		virtual void OnAction() = 0;
 		virtual String ToString() = 0;
+
 	};
+
+	typedef std::vector<IAction*> ActionList;
 
 	struct EmptyAction : public IAction
 	{
-		EmptyAction(const String& name) { this->name = name; }
+		EmptyAction(const String& name)
+		{
+			this->name = name;
+			type = Type::EMPTY;
+		}
+
 		void OnAction() override {}
 		String ToString() override { return name; }
+	};
+
+	struct BackAction : public IAction
+	{
+		PathAction* destination;
+
+		BackAction(PathAction* destination)
+		{
+			this->name = "..  ";
+			this->destination = destination;
+			type = Type::PATH;
+		}
+
+		void OnAction() override
+		{
+			DebugMenu::SetPath(destination);
+		}
+
+		String ToString() override
+		{
+			return name;
+		}
+	};
+
+	struct PathAction : public IAction
+	{
+		ActionList actionList;
+		PathAction* parent;
+
+		PathAction(const String& name, PathAction* parent)
+		{
+			this->name = name;
+			this->parent = parent;
+			type = Type::PATH;
+		}
+
+		void OnAction() override
+		{
+			DebugMenu::SetPath(this);
+		}
+
+		String ToString() override
+		{
+			return name + "  >";
+		}
+
+		PathAction* FindPath(const String& name)
+		{
+			for (IAction* action : actionList)
+			{
+				if (action->type == IAction::Type::PATH)
+				{
+					PathAction* a = (PathAction*)action;
+					if (a->name == name)
+						return a;
+					else
+						a->FindPath(name);
+				}
+			}
+			return nullptr;
+		}
 	};
 
 	struct BooleanAction : public IAction

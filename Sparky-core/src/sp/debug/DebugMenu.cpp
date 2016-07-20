@@ -17,15 +17,15 @@ namespace sp { namespace debug {
 	DebugMenu* DebugMenu::s_Instance = nullptr;
 
 	DebugMenu::DebugMenu()
-		: m_Visible(false), m_Slider(nullptr)
+		: m_Visible(false), m_Slider(nullptr), m_Path(nullptr)
 	{
 		s_Instance = this;
 
 		m_Settings.padding = 0.75f;
 		m_Settings.fontSize = 24.0f;
 
-		Add("Padding", &m_Settings.padding, 0.0f, 2.0f);
-		Add("Font Size", &m_Settings.fontSize, 8.0f, 48.0f);
+		Add("Debug Menu/Padding", &m_Settings.padding, 0.0f, 2.0f);
+		Add("Debug Menu/Font Size", &m_Settings.fontSize, 8.0f, 48.0f);
 
 		m_Slider = spnew Slider*[4];
 		m_Panel = spnew Panel();
@@ -43,12 +43,12 @@ namespace sp { namespace debug {
 
 	void DebugMenu::Add(const String& name)
 	{
-		s_Instance->m_ActionList.push_back(new EmptyAction(name));
+		s_Instance->m_ActionList.push_back(spnew EmptyAction(name));
 	}
 
 	void DebugMenu::Add(const String& name, bool* value)
 	{
-		s_Instance->m_ActionList.push_back(new BooleanAction(name, [value]() { return *value; }, [value](bool v) { *value = v; }));
+		s_Instance->m_ActionList.push_back(spnew BooleanAction(name, [value]() { return *value; }, [value](bool v) { *value = v; }));
 	}
 
 	void DebugMenu::Add(const String& name, float* value)
@@ -58,22 +58,59 @@ namespace sp { namespace debug {
 
 	void DebugMenu::Add(const String& name, float* value, float minimum, float maximum)
 	{
-		s_Instance->m_ActionList.push_back(new FloatAction(name, [value]() { return *value; }, [value](float v) { *value = v; }, minimum, maximum));
+		s_Instance->Add(name, spnew FloatAction(name, [value]() { return *value; }, [value](float v) { *value = v; }, minimum, maximum));
 	}
 
 	void DebugMenu::Add(const String& name, vec2* value, float minimum, float maximum)
 	{
-		s_Instance->m_ActionList.push_back(new Vec2Action(name, [value]() { return *value; }, [value](vec2 v) { *value = v; }, vec2(minimum), vec2(maximum)));
+		s_Instance->m_ActionList.push_back(spnew Vec2Action(name, [value]() { return *value; }, [value](vec2 v) { *value = v; }, vec2(minimum), vec2(maximum)));
 	}
 
 	void DebugMenu::Add(const String& name, vec3* value, float minimum, float maximum)
 	{
-		s_Instance->m_ActionList.push_back(new Vec3Action(name, [value]() { return *value; }, [value](vec3 v) { *value = v; }, vec3(minimum), vec3(maximum)));
+		s_Instance->m_ActionList.push_back(spnew Vec3Action(name, [value]() { return *value; }, [value](vec3 v) { *value = v; }, vec3(minimum), vec3(maximum)));
 	}
 
 	void DebugMenu::Add(const String& name, vec4* value, float minimum, float maximum)
 	{
-		s_Instance->m_ActionList.push_back(new Vec4Action(name, [value]() { return *value; }, [value](vec4 v) { *value = v; }, vec4(minimum), vec4(maximum)));
+		s_Instance->m_ActionList.push_back(spnew Vec4Action(name, [value]() { return *value; }, [value](vec4 v) { *value = v; }, vec4(minimum), vec4(maximum)));
+	}
+
+	void DebugMenu::Add(const String& path, IAction* action)
+	{
+		if (StringContains(path, "/"))
+		{
+			std::vector<String> paths = SplitString(path, "/");
+			action->name = paths.back();
+			paths.pop_back();
+			PathAction* pathAction = CreateOrFindPaths(paths);
+			SP_ASSERT(pathAction);
+			pathAction->actionList.push_back(action);
+		}
+		else
+		{
+			m_ActionList.push_back(action);
+		}
+	}
+
+	PathAction* DebugMenu::CreateOrFindPaths(std::vector<String>& paths, PathAction* action)
+	{
+		if (paths.empty())
+			return action;
+
+		String name = paths.front();
+		paths.erase(paths.begin());
+
+		ActionList* actionList = action ? &action->actionList : &m_ActionList;
+		for (IAction* a : *actionList)
+		{
+			if (a->type == IAction::Type::PATH && a->name == name)
+				return CreateOrFindPaths(paths, (PathAction*)a);
+		}
+
+		PathAction* pathAction = spnew PathAction(name, action);
+		actionList->push_back(pathAction);
+		return CreateOrFindPaths(paths, pathAction);
 	}
 
 	void DebugMenu::Remove(const String& name)
@@ -90,6 +127,22 @@ namespace sp { namespace debug {
 		}
 	}
 
+	PathAction* DebugMenu::FindPath(const String& name)
+	{
+		for (IAction* action : m_ActionList)
+		{
+			if (action->type == IAction::Type::PATH)
+			{
+				PathAction* a = (PathAction*)action;
+				if (a->name == name)
+					return a;
+				else
+					a->FindPath(name);
+			}
+		}
+		return nullptr;
+	}
+
 	bool DebugMenu::IsVisible()
 	{
 		return s_Instance->m_Visible;
@@ -102,6 +155,13 @@ namespace sp { namespace debug {
 			s_Instance->OnActivate();
 		else
 			s_Instance->OnDeactivate();
+	}
+
+	void DebugMenu::SetPath(PathAction* path)
+	{
+		s_Instance->m_Path = path;
+		s_Instance->OnDeactivate();
+		s_Instance->OnActivate();
 	}
 
 	DebugMenuSettings& DebugMenu::GetSettings()
@@ -124,7 +184,17 @@ namespace sp { namespace debug {
 		float width = 0.0f;
 		float height = 1.0f + m_Settings.padding;
 		float yOffset = height;
-		for (IAction* action : m_ActionList)
+
+		ActionList* actionList = m_Path ? &m_Path->actionList : &m_ActionList;
+		if (m_Path)
+		{
+			DebugMenuItem* item = spnew DebugMenuItem(spnew BackAction(m_Path->parent), Rectangle(0.0f, 18.0f - yOffset, 0.0f, height));
+			m_Panel->Add(item);
+			yOffset += height;
+			width = item->GetFont().GetWidth(item->GetLabel());
+		}
+
+		for (IAction* action : *actionList)
 		{
 			float y = 18.0f - yOffset;
 			DebugMenuItem* item = spnew DebugMenuItem(action, Rectangle(0.0f, y, 0.0f, height));
