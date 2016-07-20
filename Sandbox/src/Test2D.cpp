@@ -3,8 +3,12 @@
 using namespace sp;
 using namespace graphics;
 using namespace events;
+using namespace entity;
+using namespace component;
 using namespace maths;
 using namespace API;
+
+static float s_BoxSize = 0.1f;
 
 Test2D::Test2D()
 	: Layer2D(spnew Scene2D(mat4::Orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f)))
@@ -27,8 +31,11 @@ void Test2D::OnInit(Renderer2D& renderer, Material& material)
 	//renderer.SetPostEffects(false);
 
 	TextureParameters params(TextureFilter::NEAREST);
-	Add(new Sprite(0.0f, 0.0f, 8, 8, Texture2D::CreateFromFile("Tex", "res/tb.png", params)));
-	Add(new Sprite(-8.0f, -8.0f, 6, 6, 0xffff00ff));
+	Add(new Sprite(0.0f, 0.0f, 4, 4, Texture2D::CreateFromFile("Tex", "res/tb.png", params)));
+
+	Entity* pinkSquare = spnew Entity(spnew Sprite(-8.0f, -8.0f, 3, 3, 0xffff00ff));
+	pinkSquare->CreateComponent<Physics2DComponent>();
+	m_Scene->Add(pinkSquare);
 
 	FontManager::Add(new Font("Consolas", "res/consola.ttf", 96));
 	FontManager::Add(new Font("Brush Script", "res/BrushScriptStd.otf", 96));
@@ -52,6 +59,17 @@ void Test2D::OnInit(Renderer2D& renderer, Material& material)
 	Mask* mask = new Mask(Texture2D::CreateFromFile("Mask", "res/mask.png"));
 	mask->transform = mat4::Translate(vec3(-16.0f, -9.0f, 0.0f)) * mat4::Scale(vec3(32, 18, 1));
 	SetMask(mask);
+
+	for (int i = 0; i < 100; i++)
+	{
+		Entity* entity = spnew Entity(spnew Sprite(0.0f, 9.0f, s_BoxSize, s_BoxSize, vec4((rand() % 1000) / 1000.0f, 0.5f, 0.5f, 1.0f)));
+		Physics2DComponent& p = entity->CreateComponent<Physics2DComponent>();
+		m_Scene->Add(entity);
+
+		p.ApplyForce(((rand() % 1000) - 500) * 0.005f);
+	}
+
+	debug::DebugMenu::Add("Box Size", &s_BoxSize, 0.0f, 1.0f);
 }
 
 void Test2D::OnTick()
@@ -61,13 +79,14 @@ void Test2D::OnTick()
 	Application& app = Application::GetApplication();
 	SP_INFO(app.GetUPS(), " ups, ", app.GetFPS(), " fps");
 
-	debugInfo[2]->text = "Total Allocs: " + StringFormat::ToString(MemoryManager::Get()->GetMemoryStats().totalAllocations);
-	debugInfo[3]->text = "Total Allocated: " + MemoryManager::BytesToString(MemoryManager::Get()->GetMemoryStats().totalAllocated);
-	debugInfo[4]->text = "Total Freed: " + MemoryManager::BytesToString(MemoryManager::Get()->GetMemoryStats().totalFreed);
+	debugInfo[2]->SetText("Total Allocs: " + StringFormat::ToString(MemoryManager::Get()->GetMemoryStats().totalAllocations));
+	debugInfo[3]->SetText("Total Allocated: " + MemoryManager::BytesToString(MemoryManager::Get()->GetMemoryStats().totalAllocated));
+	debugInfo[4]->SetText("Total Freed: " + MemoryManager::BytesToString(MemoryManager::Get()->GetMemoryStats().totalFreed));
 }
 
-void Test2D::OnUpdate()
+void Test2D::OnUpdate(const Timestep& ts)
 {
+
 }
 
 bool Test2D::OnKeyPressedEvent(KeyPressedEvent& event)
@@ -94,14 +113,33 @@ bool Test2D::OnKeyPressedEvent(KeyPressedEvent& event)
 	return false;
 }
 
+bool Test2D::OnMousePressedEvent(MousePressedEvent& event)
+{
+	if (event.GetButton() == SP_MOUSE_LEFT)
+	{
+		vec2 pos = event.GetPosition();
+		pos.x = pos.x / Application::GetApplication().GetWindowWidth() * 32.0f - 16.0f;
+		pos.y = 9.0f - pos.y / Application::GetApplication().GetWindowHeight() * 18.0f;
+
+		Entity* entity = spnew Entity(new Sprite(pos.x, pos.y, s_BoxSize, s_BoxSize, vec4((rand() % 1000) / 1000.0f, 0.5f, 0.5f, 1.0f)));
+		Physics2DComponent& p = entity->CreateComponent<Physics2DComponent>();
+		m_Scene->Add(entity);
+		p.ApplyForce(((rand() % 1000) - 500) * 0.005f);
+
+		return true;
+	}
+	return false;
+}
+
 void Test2D::OnEvent(sp::events::Event& event)
 {
 	EventDispatcher dispatcher(event);
 	dispatcher.Dispatch<KeyPressedEvent>(METHOD(&Test2D::OnKeyPressedEvent));
+	dispatcher.Dispatch<MousePressedEvent>(METHOD(&Test2D::OnMousePressedEvent));
 }
 
 void Test2D::OnRender(Renderer2D& renderer)
 {
-	debugInfo[0]->text = String("Target: ") + (renderer.GetRenderTarget() == RenderTarget::SCREEN ? "Screen" : "Buffer");
-	debugInfo[1]->text = String("PostFX: ") + (renderer.GetPostEffects() ? "On" : "Off");
+	debugInfo[0]->SetText(String("Target: ") + (renderer.GetRenderTarget() == RenderTarget::SCREEN ? "Screen" : "Buffer"));
+	debugInfo[1]->SetText(String("PostFX: ") + (renderer.GetPostEffects() ? "On" : "Off"));
 }

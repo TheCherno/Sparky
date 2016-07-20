@@ -38,7 +38,7 @@ namespace sp { namespace graphics {
 		if (!entity->GetComponent<TransformComponent>())
 		{
 			SP_WARN("Entity does not have Transform, creating...");
-			entity->AddComponent(new TransformComponent(maths::mat4::Identity()));
+			entity->AddComponent(spnew TransformComponent(entity, maths::mat4::Identity()));
 		}
 	}
 

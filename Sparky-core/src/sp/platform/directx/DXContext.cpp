@@ -16,7 +16,7 @@ namespace sp { namespace graphics { namespace API {
 	}
 
 	D3DContext::D3DContext(WindowProperties properties, void* deviceContext)
-		: m_DebugLayerEnabled(true)
+		: m_DebugLayerEnabled(false)
 	{
 		m_RenderTargetView = nullptr;
 		m_DepthStencilView = nullptr;

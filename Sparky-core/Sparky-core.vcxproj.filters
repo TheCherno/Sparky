@@ -441,6 +441,8 @@
     <ClCompile Include="src\sp\system\FileSystem.cpp">
       <Filter>sp\system</Filter>
     </ClCompile>
+    <ClCompile Include="src\sp\entity\component\Physics2DComponent.cpp" />
+    <ClCompile Include="src\sp\graphics\Renderable2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Application.h">
@@ -857,6 +859,8 @@
     <ClInclude Include="src\sp\system\FileSystem.h">
       <Filter>sp\system</Filter>
     </ClInclude>
+    <ClInclude Include="src\sp\entity\component\Physics2DComponent.h" />
+    <ClInclude Include="src\sp\utils\Timestep.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="SparkyCore-TODO.txt" />

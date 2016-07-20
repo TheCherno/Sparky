@@ -110,15 +110,15 @@ namespace sp {
 			m_LayerStack[i]->OnTick();
 	}
 
-	void Application::OnUpdate()
+	void Application::OnUpdate(const Timestep& ts)
 	{
-		m_DebugLayer->OnUpdate();
+		m_DebugLayer->OnUpdate(ts);
 
 		for (uint i = 0; i < m_OverlayStack.size(); i++)
-			m_OverlayStack[i]->OnUpdate();
+			m_OverlayStack[i]->OnUpdateInternal(ts);
 
 		for (uint i = 0; i < m_LayerStack.size(); i++)
-			m_LayerStack[i]->OnUpdate();
+			m_LayerStack[i]->OnUpdateInternal(ts);
 	}
 
 	void Application::OnRender()

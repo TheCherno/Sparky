@@ -14,9 +14,10 @@ public:
 	void OnInit(sp::graphics::Renderer2D& renderer, sp::graphics::Material& material) override;
 
 	void OnTick() override;
-	void OnUpdate() override;
+	void OnUpdate(const sp::Timestep& ts) override;
 
 	bool OnKeyPressedEvent(sp::events::KeyPressedEvent& event);
+	bool OnMousePressedEvent(sp::events::MousePressedEvent& event);
 	void OnEvent(sp::events::Event& event) override;
 
 	void OnRender(sp::graphics::Renderer2D& renderer) override;

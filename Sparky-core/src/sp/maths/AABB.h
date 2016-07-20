@@ -8,12 +8,15 @@
 
 namespace sp { namespace maths {
 
+	struct Rectangle;
+
 	struct SP_API AABB
 	{
 		vec3 min;
 		vec3 max;
 
 		AABB();
+		AABB(const Rectangle& rectangle);
 		AABB(const vec2& min, const vec2& max);
 		AABB(const vec3& min, const vec3& max);
 		AABB(float x, float y, float width, float height);
@@ -32,6 +35,8 @@ namespace sp { namespace maths {
 		bool operator>(const AABB& other) const;
 
 		friend std::ostream& operator<<(std::ostream& stream, const AABB& aabb);
+
+		inline vec3 GetSize() const { return vec3(abs(max.x - min.x), abs(max.y - min.y), abs(max.z - min.z)); }
 	};
 
 } }

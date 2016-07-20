@@ -165,6 +165,7 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <ClCompile Include="src\sp\app\Input.cpp" />
     <ClCompile Include="src\sp\debug\DebugMenuItem.cpp" />
     <ClCompile Include="src\sp\debug\DebugMenuSlider.cpp" />
+    <ClCompile Include="src\sp\entity\component\Physics2DComponent.cpp" />
     <ClCompile Include="src\sp\entity\component\SpriteComponent.cpp" />
     <ClCompile Include="src\sp\events\WindowEvent.cpp" />
     <ClCompile Include="src\sp\graphics\API\Texture2D.cpp" />
@@ -187,6 +188,7 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <ClCompile Include="src\sp\graphics\PBRMaterial.cpp" />
     <ClCompile Include="src\sp\graphics\postfx\PostEffects.cpp" />
     <ClCompile Include="src\sp\graphics\postfx\PostEffectsPass.cpp" />
+    <ClCompile Include="src\sp\graphics\Renderable2D.cpp" />
     <ClCompile Include="src\sp\graphics\Renderer.cpp" />
     <ClCompile Include="src\sp\graphics\shaders\ShaderManager.cpp" />
     <ClCompile Include="src\sp\platform\directx\DXFramebufferDepth.cpp" />
@@ -640,6 +642,7 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <ClInclude Include="src\sp\debug\DebugMenuAction.h" />
     <ClInclude Include="src\sp\debug\DebugMenuItem.h" />
     <ClInclude Include="src\sp\debug\DebugMenuSlider.h" />
+    <ClInclude Include="src\sp\entity\component\Physics2DComponent.h" />
     <ClInclude Include="src\sp\entity\component\SpriteComponent.h" />
     <ClInclude Include="src\sp\events\WindowEvent.h" />
     <ClInclude Include="src\sp\graphics\API\VertexBuffer.h" />
@@ -775,6 +778,7 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <ClInclude Include="src\sp\utils\ImageLoad.h" />
     <ClInclude Include="src\sp\utils\Log.h" />
     <ClInclude Include="src\sp\utils\Timer.h" />
+    <ClInclude Include="src\sp\utils\Timestep.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="SparkyCore-TODO.txt" />

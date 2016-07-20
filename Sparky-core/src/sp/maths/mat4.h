@@ -39,7 +39,10 @@ namespace sp { namespace maths {
 
 		mat4& Invert();
 
-		vec4 GetColumn(int index);
+		vec4 GetColumn(int index) const;
+		void SetColumn(uint index, const vec4& column);
+		inline vec3 GetPosition() const { return vec3(GetColumn(3)); }
+		inline void SetPosition(const vec3& position) { SetColumn(3, vec4(position, 1.0f)); }
 
 		static mat4 Orthographic(float left, float right, float bottom, float top, float near, float far);
 		static mat4 Perspective(float fov, float aspectRatio, float near, float far);

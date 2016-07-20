@@ -94,7 +94,7 @@ void SponzaTest::OnTick()
 {
 }
 
-void SponzaTest::OnUpdate()
+void SponzaTest::OnUpdate(const Timestep& ts)
 {
 	// Still OpenGL maths style (column-major)
 	mat4 vp = m_Scene->GetCamera()->GetProjectionMatrix() * m_Scene->GetCamera()->GetViewMatrix();

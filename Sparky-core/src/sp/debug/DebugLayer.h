@@ -34,7 +34,7 @@ namespace sp { namespace debug {
 		void OnInit(graphics::Renderer2D& renderer, graphics::Material& material) override;
 
 		void OnTick() override;
-		void OnUpdate() override;
+		void OnUpdate(const Timestep& ts) override;
 
 		void OnEvent(events::Event& event) override;
 		bool OnMouseMovedEvent(events::MouseMovedEvent& e);

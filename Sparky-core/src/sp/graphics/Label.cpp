@@ -4,32 +4,32 @@
 namespace sp { namespace graphics {
 
 	Label::Label(const String& text, float x, float y, uint color)
-		: Sprite(), text(text), m_Font(FontManager::Get("SourceSansPro"))
+		: Sprite(), m_Text(text), m_Font(FontManager::Get("SourceSansPro"))
 	{
-		m_Position = maths::vec3(x, y, 0.0f);
+		SetPosition(maths::vec3(x, y, 0.0f));
 		m_Color = color;
 	}
 
 	Label::Label(const String& text, float x, float y, Font* font, uint color)
-		: Sprite(), text(text), m_Font(font)
+		: Sprite(), m_Text(text), m_Font(font)
 	{
-		m_Position = maths::vec3(x, y, 0.0f);
+		SetPosition(maths::vec3(x, y, 0.0f));
 		m_Color = color;
 	}
 
 	Label::Label(const String& text, float x, float y, const String& font, uint color)
-		: Sprite(), text(text), m_Font(FontManager::Get(font))
+		: Sprite(), m_Text(text), m_Font(FontManager::Get(font))
 	{
-		m_Position = maths::vec3(x, y, 0.0f);
+		SetPosition(maths::vec3(x, y, 0.0f));
 		m_Color = color;
 
 		ValidateFont(font);
 	}
 
 	Label::Label(const String& text, float x, float y, const String& font, uint size, uint color)
-		: Sprite(), text(text), m_Font(FontManager::Get(font, size))
+		: Sprite(), m_Text(text), m_Font(FontManager::Get(font, size))
 	{
-		m_Position = maths::vec3(x, y, 0.0f);
+		SetPosition(maths::vec3(x, y, 0.0f));
 		m_Color = color;
 
 		ValidateFont(font, size);
@@ -37,7 +37,7 @@ namespace sp { namespace graphics {
 
 	void Label::Submit(Renderer2D* renderer) const
 	{
-		renderer->DrawString(text, position, *m_Font, m_Color);
+		renderer->DrawString(m_Text, GetPosition(), *m_Font, m_Color);
 	}
 
 	void Label::ValidateFont(const String& name, int32 size)
@@ -53,5 +53,10 @@ namespace sp { namespace graphics {
 		m_Font = FontManager::Get("SourceSansPro");
 	}
 
+	void Label::SetText(const String& text)
+	{
+		m_Text = text;
+		m_Bounds.size = m_Font->GetSize(text) / 2.0f;
+	}
 
 } }

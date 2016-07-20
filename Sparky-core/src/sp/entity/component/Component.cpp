@@ -3,6 +3,9 @@
 
 namespace sp { namespace entity { namespace component {
 
-	
+	Component::Component(Entity* entity)
+		: m_Entity(entity)
+	{
+	}
 
 } } }

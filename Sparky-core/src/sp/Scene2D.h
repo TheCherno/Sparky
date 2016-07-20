@@ -5,6 +5,10 @@
 #include "graphics/BatchRenderer2D.h"
 #include "entity/Entity.h"
 
+#include "sp/utils/Timestep.h"
+
+class b2World;
+
 namespace sp {
  
 	class SP_API Scene2D
@@ -14,14 +18,16 @@ namespace sp {
 		graphics::BatchRenderer2D* m_Renderer;
 
 		std::vector<entity::Entity*> m_Entities;
+		b2World* m_PhysicsWorld;
 	public:
 		Scene2D();
 		Scene2D(const maths::mat4& projectionMatrix);
 		~Scene2D();
 
+		void Init();
 		void Add(entity::Entity* entity);
 
-		virtual void OnUpdate();
+		virtual void OnUpdate(const Timestep& ts);
 		virtual void OnRender(graphics::BatchRenderer2D& renderer);
 
 		void OnRender();

@@ -35,11 +35,12 @@ namespace sp { namespace graphics {
 		inline ftgl::texture_font_t* GetFTFont() const { return m_FTFont; }
 		inline const String& GetName() const { return m_Name; }
 		inline const String& GetFileName() const { return m_Filename; }
-		inline float GetSize() const { return m_Size; }
+		inline float GetFontSize() const { return m_Size; }
 
 		maths::vec2 GetOffsets(const String& text) const;
 		float GetWidth(const String& text) const;
 		float GetHeight(const String& text) const;
+		maths::vec2 GetSize(const String& text) const;
 
 		maths::Rectangle GetBounds(const String& text) const;
 

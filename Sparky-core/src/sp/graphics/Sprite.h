@@ -6,9 +6,6 @@ namespace sp { namespace graphics {
 
 	class SP_API Sprite : public Renderable2D
 	{
-	public:
-		maths::vec3& position;
-		maths::vec2& size;
 	protected:
 		Sprite();
 	public:

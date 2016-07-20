@@ -21,7 +21,7 @@ namespace sp { namespace debug {
 	{
 		s_Instance = this;
 
-		m_Settings.padding = 0.75f;
+		m_Settings.padding = 0.25f;
 		m_Settings.fontSize = 24.0f;
 
 		Add("Padding", &m_Settings.padding, 0.0f, 2.0f);
@@ -121,32 +121,36 @@ namespace sp { namespace debug {
 
 	void DebugMenu::OnActivate()
 	{
-		float width = 0.0f;
-		float height = 1.0f + m_Settings.padding;
+		float maxWidth = 0.0f;
+		float height = 0.5f + m_Settings.padding;
 		float yOffset = height;
 		for (IAction* action : m_ActionList)
 		{
 			float y = 18.0f - yOffset;
 			DebugMenuItem* item = spnew DebugMenuItem(action, Rectangle(0.0f, y, 0.0f, height));
 			m_Panel->Add(item);
-			yOffset += height;
+			yOffset += height * 2.0f;
 
 			const Font& font = item->GetFont();
-			float stringWidth = font.GetWidth(item->GetLabel());
-			if (stringWidth > width)
-				width = stringWidth;
+			float stringWidth = font.GetWidth(item->GetLabel()) * 0.5f;
+			if (stringWidth > maxWidth)
+				maxWidth = stringWidth;
 		}
 
-		width += m_Settings.padding;
+		maxWidth += m_Settings.padding;
 		for (Widget* widget : m_Panel->GetWidgets())
 		{
 			DebugMenuItem* item = (DebugMenuItem*)widget;
-			item->GetBounds().width = width;
+			Rectangle& bounds = item->GetBounds();
+			bounds.x = maxWidth;
+			bounds.width = maxWidth;
 		}
 
+		const float sliderWidth = 0.75f;
+		float sliderX = maxWidth * 2.0f + sliderWidth;
 		for (uint i = 0; i < 4; i++)
 		{
-			m_Slider[i] = spnew Slider({ width + i * 1.5f, 0.0f, 1.5f, 18.0f }, true);
+			m_Slider[i] = spnew Slider({ sliderX + i * sliderWidth * 2.0f, 9.0f, sliderWidth, 9.0f }, true);
 			m_Panel->Add(m_Slider[i])->SetActive(false);
 		}
 	}
