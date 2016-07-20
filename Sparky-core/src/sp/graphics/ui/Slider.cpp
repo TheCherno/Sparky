@@ -7,7 +7,7 @@ namespace sp { namespace graphics { namespace ui {
 
 	Slider::Slider(const maths::Rectangle& bounds, bool vertical)
 		: Widget(bounds), m_Value(0.0f), m_State(SliderState::UNPRESSED), m_HeadOffset(0.0f),
-		m_Callback(&Slider::NoCallback), m_Vertical(vertical)
+		m_Callback(&Slider::NoCallback), m_Vertical(vertical), m_Increment(0.0f)
 	{
 		float size = vertical ? bounds.width : bounds.height;
 		m_HeadBounds = Rectangle(bounds.x, bounds.y, size, size);
@@ -15,7 +15,7 @@ namespace sp { namespace graphics { namespace ui {
 
 	Slider::Slider(const maths::Rectangle& bounds, float value, const ValueChangedCallback& callback, bool vertical)
 		: Widget(bounds), m_Value(value), m_State(SliderState::UNPRESSED), m_HeadOffset(0.0f),
-		m_Callback(callback), m_Vertical(vertical)
+		m_Callback(callback), m_Vertical(vertical), m_Increment(0.0f)
 	{
 		float size = vertical ? bounds.width : bounds.height;
 		m_HeadBounds = Rectangle(bounds.x, bounds.y, size, size);
@@ -66,13 +66,13 @@ namespace sp { namespace graphics { namespace ui {
 		if (m_Vertical)
 		{
 			float bounds = m_Bounds.size.y - m_HeadBounds.size.y;
-			m_HeadBounds.y = m_Bounds.y + bounds * m_Value;
+			m_HeadBounds.y = m_Bounds.y + bounds * GetIncrementedValue();
 			m_HeadBounds.y = clamp(m_HeadBounds.y, m_Bounds.y, m_Bounds.y + m_Bounds.size.y - m_HeadBounds.size.y);
 		}
 		else
 		{
 			float bounds = m_Bounds.size.x - m_HeadBounds.size.x;
-			m_HeadBounds.x = m_Bounds.x + bounds * m_Value;
+			m_HeadBounds.x = m_Bounds.x + bounds * GetIncrementedValue();
 			m_HeadBounds.x = clamp(m_HeadBounds.x, m_Bounds.x, m_Bounds.x + m_Bounds.size.x - m_HeadBounds.size.x);
 		}
 	}
@@ -88,12 +88,33 @@ namespace sp { namespace graphics { namespace ui {
 		vec2 offset = m_Vertical ? vec2(0, m_Bounds.size.y / 2.0f) : vec2(m_Bounds.size.x / 2.0f, 0);
 		renderer.DrawLine(m_Bounds.Center() - offset, m_Bounds.Center() + offset);
 	}
-
+	
 	void Slider::SetValue(float value)
 	{
 		value = clamp(value, 0.0f, 1.0f);
 		m_Value = value;
-		m_Callback(value);
+		m_Callback(GetIncrementedValue());
+	}
+
+	void Slider::SetIncrement(float increment)
+	{ 
+		increment = clamp(increment, 0.0f, 1.0f);
+		m_Increment = increment;
+	}
+	
+	float Slider::GetIncrementedValue()
+	{
+		if (m_Increment == 0.0f)
+			return m_Value;
+
+		float halfIncrement = m_Increment / 2;
+		
+		for (float i = 0; i <= 1; i += m_Increment)
+		{
+			if (m_Value >= i - halfIncrement && m_Value < i + halfIncrement)
+				return i;
+		}
+		return m_Value;
 	}
 
 } } }
