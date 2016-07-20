@@ -70,7 +70,7 @@ namespace sp { namespace graphics {
 		inline bool IsVisible() const { return m_Visible; }
 		inline void SetVisible(bool visible) { m_Visible = visible; }
 	public:
-		static std::vector<maths::vec2> GetDefaultUVs()
+		static const std::vector<maths::vec2>& GetDefaultUVs()
 		{
 			static std::vector<maths::vec2> results;
 			if (!results.size())
