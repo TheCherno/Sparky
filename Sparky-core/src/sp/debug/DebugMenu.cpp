@@ -47,12 +47,17 @@ namespace sp { namespace debug {
 
 	void DebugMenu::Add(const String& path)
 	{
-		s_Instance->Add(path, spnew EmptyAction(path));
+		Add(path, spnew EmptyAction(path));
+	}
+
+	void DebugMenu::Add(const String& path, const std::function<void()>& function)
+	{
+		Add(path, spnew CustomAction(path, function));
 	}
 
 	void DebugMenu::Add(const String& path, bool* value)
 	{
-		s_Instance->Add(path, spnew BooleanAction(path, [value]() { return *value; }, [value](bool v) { *value = v; }));
+		Add(path, spnew BooleanAction(path, [value]() { return *value; }, [value](bool v) { *value = v; }));
 	}
 
 	void DebugMenu::Add(const String& path, float* value)
@@ -62,22 +67,22 @@ namespace sp { namespace debug {
 
 	void DebugMenu::Add(const String& path, float* value, float minimum, float maximum)
 	{
-		s_Instance->Add(path, spnew FloatAction(path, [value]() { return *value; }, [value](float v) { *value = v; }, minimum, maximum));
+		Add(path, spnew FloatAction(path, [value]() { return *value; }, [value](float v) { *value = v; }, minimum, maximum));
 	}
 
 	void DebugMenu::Add(const String& path, vec2* value, float minimum, float maximum)
 	{
-		s_Instance->Add(path, spnew Vec2Action(path, [value]() { return *value; }, [value](vec2 v) { *value = v; }, vec2(minimum), vec2(maximum)));
+		Add(path, spnew Vec2Action(path, [value]() { return *value; }, [value](vec2 v) { *value = v; }, vec2(minimum), vec2(maximum)));
 	}
 
 	void DebugMenu::Add(const String& path, vec3* value, float minimum, float maximum)
 	{
-		s_Instance->Add(path, spnew Vec3Action(path, [value]() { return *value; }, [value](vec3 v) { *value = v; }, vec3(minimum), vec3(maximum)));
+		Add(path, spnew Vec3Action(path, [value]() { return *value; }, [value](vec3 v) { *value = v; }, vec3(minimum), vec3(maximum)));
 	}
 
 	void DebugMenu::Add(const String& path, vec4* value, float minimum, float maximum)
 	{
-		s_Instance->Add(path, spnew Vec4Action(path, [value]() { return *value; }, [value](vec4 v) { *value = v; }, vec4(minimum), vec4(maximum)));
+		Add(path, spnew Vec4Action(path, [value]() { return *value; }, [value](vec4 v) { *value = v; }, vec4(minimum), vec4(maximum)));
 	}
 
 	void DebugMenu::Add(const String& path, IAction* action)
@@ -87,7 +92,7 @@ namespace sp { namespace debug {
 			std::vector<String> paths = SplitString(path, "/");
 			action->name = paths.back();
 			paths.pop_back();
-			PathAction* pathAction = CreateOrFindPaths(paths);
+			PathAction* pathAction = s_Instance->CreateOrFindPaths(paths);
 			SP_ASSERT(pathAction);
 			if (!pathAction->ContainsAction(action->name))
 				pathAction->actionList.push_back(action);
@@ -96,9 +101,9 @@ namespace sp { namespace debug {
 		}
 		else
 		{
-			m_ActionList.push_back(action);
+			s_Instance->m_ActionList.push_back(action);
 		}
-		Refresh();
+		s_Instance->Refresh();
 	}
 
 	PathAction* DebugMenu::CreateOrFindPaths(std::vector<String>& paths, PathAction* action)

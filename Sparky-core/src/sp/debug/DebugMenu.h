@@ -38,6 +38,8 @@ namespace sp { namespace debug {
 
 		static void Init();
 		static void Add(const String& path);
+		static void Add(const String& path, IAction* action);
+		static void Add(const String& path, const std::function<void()>& function);
 		static void Add(const String& path, bool* value);
 		static void Add(const String& path, float* value);
 		static void Add(const String& path, float* value, float mininmum, float maximum);
@@ -69,7 +71,6 @@ namespace sp { namespace debug {
 
 		void Refresh();
 
-		void Add(const String& path, IAction* action);
 		PathAction* CreateOrFindPaths(std::vector<String>& paths, PathAction* action = nullptr);
 	};
 
