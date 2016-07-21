@@ -16,7 +16,7 @@ namespace sp { namespace debug {
 
 	struct DebugMenuSettings
 	{
-		float padding;
+		float horizontalPadding, verticalPadding;
 		float fontSize;
 	};
 

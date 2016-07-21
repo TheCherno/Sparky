@@ -21,7 +21,7 @@ namespace sp { namespace debug {
 		Type type;
 
 		virtual void OnAction() = 0;
-		virtual String ToString() = 0;
+		virtual String ToString() const = 0;
 	};
 
 	typedef std::vector<IAction*> ActionList;
@@ -35,7 +35,7 @@ namespace sp { namespace debug {
 		}
 
 		void OnAction() override {}
-		String ToString() override { return name; }
+		String ToString() const override { return name; }
 	};
 
 	struct BackAction : public IAction
@@ -54,7 +54,7 @@ namespace sp { namespace debug {
 			DebugMenu::SetPath(destination);
 		}
 
-		String ToString() override
+		String ToString() const override
 		{
 			return name;
 		}
@@ -77,7 +77,7 @@ namespace sp { namespace debug {
 			DebugMenu::SetPath(this);
 		}
 
-		String ToString() override
+		String ToString() const override
 		{
 			return name + "  >";
 		}
@@ -139,7 +139,7 @@ namespace sp { namespace debug {
 			m_Setter(!m_Getter());
 		}
 
-		String ToString() override
+		String ToString() const override
 		{
 			return name + "     " + (m_Getter() ? "v" : "x");
 		}
@@ -163,7 +163,7 @@ namespace sp { namespace debug {
 			SP_ASSERT(false, "Not implemented!");
 		}
 
-		String ToString() override
+		String ToString() const override
 		{
 			return name + " " + StringFormat::ToString(m_Getter());
 		}
@@ -178,7 +178,7 @@ namespace sp { namespace debug {
 	}
 
 	template<>
-	String ValueAction<float>::ToString()
+	String ValueAction<float>::ToString() const
 	{
 		return name + " " + StringFormat::Float(m_Getter());
 	}
@@ -200,7 +200,7 @@ namespace sp { namespace debug {
  	}
 
 	template<>
-	String ValueAction<maths::vec2>::ToString()
+	String ValueAction<maths::vec2>::ToString() const
 	{
 		return name + " " + StringFormat::Float(m_Getter().x) + ", " + StringFormat::Float(m_Getter().y);
 	}
@@ -224,7 +224,7 @@ namespace sp { namespace debug {
 	}
 
 	template<>
-	String ValueAction<maths::vec3>::ToString()
+	String ValueAction<maths::vec3>::ToString() const
 	{
 		return name + " " + StringFormat::Float(m_Getter().x) + ", " + StringFormat::Float(m_Getter().y) + ", " + StringFormat::Float(m_Getter().z);
 	}
@@ -250,7 +250,7 @@ namespace sp { namespace debug {
 	}
 
 	template<>
-	String ValueAction<maths::vec4>::ToString()
+	String ValueAction<maths::vec4>::ToString() const
 	{
 		return name + " " + StringFormat::Float(m_Getter().x) + ", " + StringFormat::Float(m_Getter().y) + ", " + StringFormat::Float(m_Getter().z) + ", " + StringFormat::Float(m_Getter().w);
 	}

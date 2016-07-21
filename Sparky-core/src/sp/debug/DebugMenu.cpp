@@ -21,10 +21,13 @@ namespace sp { namespace debug {
 	{
 		s_Instance = this;
 
-		m_Settings.padding = 0.25f;
-		m_Settings.fontSize = 24.0f;
+		// Default settings
+		m_Settings.horizontalPadding = 0.4f;
+		m_Settings.verticalPadding = 0.6f;
+		m_Settings.fontSize = 20.0f;
 
-		Add("Debug Menu/Padding", &m_Settings.padding, 0.0f, 2.0f);
+		Add("Debug Menu/Horizontal Padding", &m_Settings.horizontalPadding, 0.0f, 4.0f);
+		Add("Debug Menu/Vertical Padding", &m_Settings.verticalPadding, 0.0f, 4.0f);
 		Add("Debug Menu/Font Size", &m_Settings.fontSize, 8.0f, 48.0f);
 
 		m_Slider = spnew Slider*[4];
@@ -238,7 +241,7 @@ namespace sp { namespace debug {
 	void DebugMenu::OnActivate()
 	{
 		float maxWidth = 0.0f;
-		float height = 0.5f + m_Settings.padding;
+		float height = m_Settings.verticalPadding;
 		float yOffset = height;
 
 		ActionList* actionList = m_Path ? &m_Path->actionList : &m_ActionList;
@@ -247,7 +250,7 @@ namespace sp { namespace debug {
 			DebugMenuItem* item = spnew DebugMenuItem(spnew BackAction(m_Path->parent), Rectangle(0.0f, 18.0f - yOffset, 0.0f, height));
 			m_Panel->Add(item);
 			yOffset += height * 2.0f;
-			maxWidth = item->GetFont().GetWidth(item->GetLabel());
+			maxWidth = item->GetFont().GetWidth(item->GetAction()->ToString()) * 0.5f;
 		}
 
 		for (IAction* action : *actionList)
@@ -258,12 +261,12 @@ namespace sp { namespace debug {
 			yOffset += height * 2.0f;
 
 			const Font& font = item->GetFont();
-			float stringWidth = font.GetWidth(item->GetLabel()) * 0.5f;
+			float stringWidth = font.GetWidth(item->GetAction()->ToString()) * 0.5f;
 			if (stringWidth > maxWidth)
 				maxWidth = stringWidth;
 		}
 
-		maxWidth += m_Settings.padding;
+		maxWidth += m_Settings.horizontalPadding;
 		for (Widget* widget : m_Panel->GetWidgets())
 		{
 			DebugMenuItem* item = (DebugMenuItem*)widget;

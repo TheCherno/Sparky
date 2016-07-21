@@ -3,33 +3,41 @@
 
 namespace sp { namespace graphics {
 
-	Label::Label(const String& text, float x, float y, uint color)
-		: Sprite(), m_Text(text), m_Font(FontManager::Get("SourceSansPro"))
+	Label::Label(const String& text, float x, float y, uint color, Alignment alignment)
+		: Sprite(), m_Font(FontManager::Get("SourceSansPro"))
 	{
 		SetPosition(maths::vec3(x, y, 0.0f));
+		SetText(text);
+		SetAlignment(alignment);
 		m_Color = color;
 	}
 
-	Label::Label(const String& text, float x, float y, Font* font, uint color)
-		: Sprite(), m_Text(text), m_Font(font)
+	Label::Label(const String& text, float x, float y, Font* font, uint color, Alignment alignment)
+		: Sprite(), m_Font(font)
 	{
 		SetPosition(maths::vec3(x, y, 0.0f));
+		SetText(text);
+		SetAlignment(alignment);
 		m_Color = color;
 	}
 
-	Label::Label(const String& text, float x, float y, const String& font, uint color)
-		: Sprite(), m_Text(text), m_Font(FontManager::Get(font))
+	Label::Label(const String& text, float x, float y, const String& font, uint color, Alignment alignment)
+		: Sprite(), m_Font(FontManager::Get(font))
 	{
 		SetPosition(maths::vec3(x, y, 0.0f));
+		SetText(text);
+		SetAlignment(alignment);
 		m_Color = color;
 
 		ValidateFont(font);
 	}
 
-	Label::Label(const String& text, float x, float y, const String& font, uint size, uint color)
-		: Sprite(), m_Text(text), m_Font(FontManager::Get(font, size))
+	Label::Label(const String& text, float x, float y, const String& font, uint size, uint color, Alignment alignment)
+		: Sprite(), m_Font(FontManager::Get(font, size))
 	{
 		SetPosition(maths::vec3(x, y, 0.0f));
+		SetText(text);
+		SetAlignment(alignment);
 		m_Color = color;
 
 		ValidateFont(font, size);
@@ -37,7 +45,7 @@ namespace sp { namespace graphics {
 
 	void Label::Submit(Renderer2D* renderer) const
 	{
-		renderer->DrawString(m_Text, GetPosition(), *m_Font, m_Color);
+		renderer->DrawString(m_Text, m_Bounds.GetMinimumBound() + m_AlignmentOffset, *m_Font, m_Color);
 	}
 
 	void Label::ValidateFont(const String& name, int32 size)
@@ -53,10 +61,36 @@ namespace sp { namespace graphics {
 		m_Font = FontManager::Get("SourceSansPro");
 	}
 
+	void Label::SetAlignment(Alignment alignment)
+	{
+		m_Alignment = alignment;
+		UpdateBounds();
+	}
+
 	void Label::SetText(const String& text)
 	{
 		m_Text = text;
-		m_Bounds.size = m_Font->GetSize(text) / 2.0f;
+		UpdateBounds();
+	}
+
+	void Label::UpdateBounds()
+	{
+		using namespace maths;
+
+		vec2 size = m_Font->GetSize(m_Text) * 0.5f;
+		m_Bounds.size = size;
+		switch (m_Alignment)
+		{
+		case Alignment::LEFT:
+			m_AlignmentOffset.x = size.x;
+			break;
+		case Alignment::CENTER:
+			m_AlignmentOffset.x = 0.0f;
+			break;
+		case Alignment::RIGHT:
+			m_AlignmentOffset.x = -size.x;
+			break;
+		}
 	}
 
 } }
