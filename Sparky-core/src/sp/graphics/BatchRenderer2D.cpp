@@ -11,6 +11,7 @@
 #include "sp/utils/Log.h"
 
 #include "Renderer.h"
+#include "sp/debug/DebugMenu.h"
 
 #include <freetype-gl/freetype-gl.h>
 
@@ -121,6 +122,9 @@ namespace sp { namespace graphics {
 		m_PostEffects = new PostEffects();
 		m_PostEffectsBuffer = Framebuffer2D::Create(m_ViewportSize.x, m_ViewportSize.y);
 #endif
+
+		debug::DebugMenu::Add(String("Renderer2D/Post Effects"), &s_PostEffectsEnabled);
+		debug::DebugMenu::Add(String("Renderer2D/Mask"), &s_MaskEnabled);
 	}
 
 	float BatchRenderer2D::SubmitTexture(API::Texture* texture)
@@ -220,7 +224,7 @@ namespace sp { namespace graphics {
 		float mid = m_Mask ? SubmitTexture(m_Mask->texture) : 0.0f;
 		float ms = 0.0f;
 
-		if (m_Mask != nullptr)
+		if (s_MaskEnabled && m_Mask != nullptr)
 		{
 			maskTransform = mat4::Invert(m_Mask->transform);
 			ms = SubmitTexture(m_Mask->texture);
@@ -273,7 +277,7 @@ namespace sp { namespace graphics {
 		float mid = m_Mask ? SubmitTexture(m_Mask->texture) : 0.0f;
 
 		float ms = 0.0f;
-		if (m_Mask != nullptr)
+		if (s_MaskEnabled && m_Mask != nullptr)
 		{
 			maskTransform = mat4::Invert(m_Mask->transform);
 			ms = SubmitTexture(m_Mask->texture);
@@ -415,7 +419,7 @@ namespace sp { namespace graphics {
 		float mid = m_Mask ? SubmitTexture(m_Mask->texture) : 0.0f;
 
 		float ms = 0.0f;
-		if (m_Mask != nullptr)
+		if (s_MaskEnabled && m_Mask != nullptr)
 		{
 			maskTransform = mat4::Invert(m_Mask->transform);
 			ms = SubmitTexture(m_Mask->texture);
@@ -499,7 +503,7 @@ namespace sp { namespace graphics {
 			SP_ASSERT(false); // Currently unsupported
 #if 0
 			// Post Effects pass should go here!
-			if (m_PostEffectsEnabled)
+			if (s_PostEffectsEnabled && m_PostEffectsEnabled)
 				m_PostEffects->RenderPostEffects(m_Framebuffer, m_PostEffectsBuffer, m_ScreenQuad, m_IBO);
 
 			// Display Framebuffer - potentially move to Framebuffer class

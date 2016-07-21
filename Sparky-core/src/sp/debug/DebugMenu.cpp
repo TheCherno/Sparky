@@ -38,42 +38,43 @@ namespace sp { namespace debug {
 
 	void DebugMenu::Init()
 	{
-		s_Instance = new DebugMenu();
+		SP_ASSERT(s_Instance == nullptr); // There should only ever be ONE Debug Menu!
+		spnew DebugMenu();
 	}
 
-	void DebugMenu::Add(const String& name)
+	void DebugMenu::Add(const String& path)
 	{
-		s_Instance->m_ActionList.push_back(spnew EmptyAction(name));
+		s_Instance->Add(path, spnew EmptyAction(path));
 	}
 
-	void DebugMenu::Add(const String& name, bool* value)
+	void DebugMenu::Add(const String& path, bool* value)
 	{
-		s_Instance->m_ActionList.push_back(spnew BooleanAction(name, [value]() { return *value; }, [value](bool v) { *value = v; }));
+		s_Instance->Add(path, spnew BooleanAction(path, [value]() { return *value; }, [value](bool v) { *value = v; }));
 	}
 
-	void DebugMenu::Add(const String& name, float* value)
+	void DebugMenu::Add(const String& path, float* value)
 	{
-		Add(name, value, 0.0f, 100.0f);
+		Add(path, value, 0.0f, 100.0f);
 	}
 
-	void DebugMenu::Add(const String& name, float* value, float minimum, float maximum)
+	void DebugMenu::Add(const String& path, float* value, float minimum, float maximum)
 	{
-		s_Instance->Add(name, spnew FloatAction(name, [value]() { return *value; }, [value](float v) { *value = v; }, minimum, maximum));
+		s_Instance->Add(path, spnew FloatAction(path, [value]() { return *value; }, [value](float v) { *value = v; }, minimum, maximum));
 	}
 
-	void DebugMenu::Add(const String& name, vec2* value, float minimum, float maximum)
+	void DebugMenu::Add(const String& path, vec2* value, float minimum, float maximum)
 	{
-		s_Instance->m_ActionList.push_back(spnew Vec2Action(name, [value]() { return *value; }, [value](vec2 v) { *value = v; }, vec2(minimum), vec2(maximum)));
+		s_Instance->Add(path, spnew Vec2Action(path, [value]() { return *value; }, [value](vec2 v) { *value = v; }, vec2(minimum), vec2(maximum)));
 	}
 
-	void DebugMenu::Add(const String& name, vec3* value, float minimum, float maximum)
+	void DebugMenu::Add(const String& path, vec3* value, float minimum, float maximum)
 	{
-		s_Instance->m_ActionList.push_back(spnew Vec3Action(name, [value]() { return *value; }, [value](vec3 v) { *value = v; }, vec3(minimum), vec3(maximum)));
+		s_Instance->Add(path, spnew Vec3Action(path, [value]() { return *value; }, [value](vec3 v) { *value = v; }, vec3(minimum), vec3(maximum)));
 	}
 
-	void DebugMenu::Add(const String& name, vec4* value, float minimum, float maximum)
+	void DebugMenu::Add(const String& path, vec4* value, float minimum, float maximum)
 	{
-		s_Instance->m_ActionList.push_back(spnew Vec4Action(name, [value]() { return *value; }, [value](vec4 v) { *value = v; }, vec4(minimum), vec4(maximum)));
+		s_Instance->Add(path, spnew Vec4Action(path, [value]() { return *value; }, [value](vec4 v) { *value = v; }, vec4(minimum), vec4(maximum)));
 	}
 
 	void DebugMenu::Add(const String& path, IAction* action)
@@ -85,12 +86,16 @@ namespace sp { namespace debug {
 			paths.pop_back();
 			PathAction* pathAction = CreateOrFindPaths(paths);
 			SP_ASSERT(pathAction);
-			pathAction->actionList.push_back(action);
+			if (!pathAction->ContainsAction(action->name))
+				pathAction->actionList.push_back(action);
+			else
+				spdel action;
 		}
 		else
 		{
 			m_ActionList.push_back(action);
 		}
+		Refresh();
 	}
 
 	PathAction* DebugMenu::CreateOrFindPaths(std::vector<String>& paths, PathAction* action)
@@ -113,18 +118,70 @@ namespace sp { namespace debug {
 		return CreateOrFindPaths(paths, pathAction);
 	}
 
-	void DebugMenu::Remove(const String& name)
+	void DebugMenu::Remove(const String& path)
 	{
-		auto& actions = s_Instance->m_ActionList;
-		for (uint i = 0; i < actions.size(); i++)
+		if (StringContains(path, "/"))
 		{
-			if (actions[i]->name == name)
+			std::vector<String> paths = SplitString(path, "/");
+			String name = paths.back();
+			paths.pop_back();
+			PathAction* pathAction = s_Instance->CreateOrFindPaths(paths);
+			SP_ASSERT(pathAction);
+			if (pathAction->ContainsAction(name))
 			{
-				spdel actions[i];
-				actions.erase(actions.begin() + i);
-				break;
+				if (pathAction->actionList.size() == 1)
+				{
+					PathAction* parent = pathAction->parent;
+					if (parent)
+					{
+						parent->DeleteChild(pathAction);
+					}
+					else
+					{
+						for (uint i = 0; i < s_Instance->m_ActionList.size(); i++)
+						{
+							if (s_Instance->m_ActionList[i] == pathAction)
+							{
+								spdel s_Instance->m_ActionList[i];
+								s_Instance->m_ActionList.erase(s_Instance->m_ActionList.begin() + i);
+								break;
+							}
+						}
+					}
+					while (parent)
+					{
+						spdel pathAction;
+						pathAction = pathAction->parent;
+					}
+				}
+				else
+				{
+					ActionList& actionList = pathAction->actionList;
+					for (uint i = 0; i < actionList.size(); i++)
+					{
+						if (actionList[i]->name == name)
+						{
+							actionList.erase(actionList.begin() + i);
+							break;
+						}
+					}
+				}
 			}
 		}
+		else
+		{
+			ActionList& actions = s_Instance->m_ActionList;
+			for (uint i = 0; i < actions.size(); i++)
+			{
+				if (actions[i]->name == path)
+				{
+					spdel actions[i];
+					actions.erase(actions.begin() + i);
+					break;
+				}
+			}
+		}
+		s_Instance->Refresh();
 	}
 
 	PathAction* DebugMenu::FindPath(const String& name)
@@ -160,8 +217,7 @@ namespace sp { namespace debug {
 	void DebugMenu::SetPath(PathAction* path)
 	{
 		s_Instance->m_Path = path;
-		s_Instance->OnDeactivate();
-		s_Instance->OnActivate();
+		s_Instance->Refresh();
 	}
 
 	DebugMenuSettings& DebugMenu::GetSettings()
@@ -224,6 +280,15 @@ namespace sp { namespace debug {
 	void DebugMenu::OnDeactivate()
 	{
 		m_Panel->Clear();
+	}
+
+	void DebugMenu::Refresh()
+	{
+		if (!m_Panel || !IsVisible())
+			return;
+
+		OnDeactivate();
+		OnActivate();
 	}
 
 	void DebugMenu::EditValues(const String& name, float* values, uint count, const Slider::ValueChangedCallback* callbacks)

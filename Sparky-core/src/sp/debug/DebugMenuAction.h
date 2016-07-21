@@ -22,7 +22,6 @@ namespace sp { namespace debug {
 
 		virtual void OnAction() = 0;
 		virtual String ToString() = 0;
-
 	};
 
 	typedef std::vector<IAction*> ActionList;
@@ -83,6 +82,16 @@ namespace sp { namespace debug {
 			return name + "  >";
 		}
 
+		bool ContainsAction(const String& name)
+		{
+			for (IAction* action : actionList)
+			{
+				if (action->name == name)
+					return true;
+			}
+			return false;
+		}
+
 		PathAction* FindPath(const String& name)
 		{
 			for (IAction* action : actionList)
@@ -97,6 +106,20 @@ namespace sp { namespace debug {
 				}
 			}
 			return nullptr;
+		}
+
+		bool DeleteChild(PathAction* child)
+		{
+			for (uint i = 0; i < actionList.size(); i++)
+			{
+				if (actionList[i] == child)
+				{
+					spdel actionList[i];
+					actionList.erase(actionList.begin() + i);
+					return true;
+				}
+			}
+			return false;
 		}
 	};
 

@@ -441,6 +441,7 @@
     <ClCompile Include="src\sp\system\FileSystem.cpp">
       <Filter>sp\system</Filter>
     </ClCompile>
+    <ClCompile Include="src\sp\graphics\Renderer2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Application.h">

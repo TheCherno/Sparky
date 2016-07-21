@@ -19,7 +19,7 @@ namespace sp {
 		PlatformInit();
 
 		debug::DebugMenu::Init();
-		//debug::DebugRenderer::Init();
+		// debug::DebugRenderer::Init();
 
 		m_DebugLayer = spnew debug::DebugLayer();
 		m_DebugLayer->Init();

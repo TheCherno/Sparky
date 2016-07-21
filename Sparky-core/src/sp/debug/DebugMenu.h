@@ -37,17 +37,17 @@ namespace sp { namespace debug {
 		static DebugMenu* Get();
 
 		static void Init();
-		static void Add(const String& name);
-		static void Add(const String& name, bool* value);
-		static void Add(const String& name, float* value);
-		static void Add(const String& name, float* value, float mininmum, float maximum);
-		static void Add(const String& name, maths::vec2* value, float mininmum = 0.0f, float maximum = 100.0f);
-		static void Add(const String& name, maths::vec3* value, float mininmum = 0.0f, float maximum = 100.0f);
-		static void Add(const String& name, maths::vec4* value, float mininmum = 0.0f, float maximum = 100.0f);
+		static void Add(const String& path);
+		static void Add(const String& path, bool* value);
+		static void Add(const String& path, float* value);
+		static void Add(const String& path, float* value, float mininmum, float maximum);
+		static void Add(const String& path, maths::vec2* value, float mininmum = 0.0f, float maximum = 100.0f);
+		static void Add(const String& path, maths::vec3* value, float mininmum = 0.0f, float maximum = 100.0f);
+		static void Add(const String& path, maths::vec4* value, float mininmum = 0.0f, float maximum = 100.0f);
 
-		static void Remove(const String& name);
+		static void Remove(const String& path);
 
-		PathAction* FindPath(const String& name);
+		PathAction* FindPath(const String& path);
 
 		static bool IsVisible();
 		static void SetVisible(bool visible);
@@ -66,6 +66,8 @@ namespace sp { namespace debug {
 		void OnRender(graphics::Renderer2D& renderer);
 	private:
 		DebugMenu();
+
+		void Refresh();
 
 		void Add(const String& path, IAction* action);
 		PathAction* CreateOrFindPaths(std::vector<String>& paths, PathAction* action = nullptr);
