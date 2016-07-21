@@ -122,6 +122,11 @@ namespace sp { namespace graphics {
 		return abs(min) + abs(max);
 	}
 
+	maths::vec2 Font::GetSize(const String& text) const
+	{
+		return maths::vec2(GetWidth(text), GetHeight(text));
+	}
+
 	maths::Rectangle Font::GetBounds(const String& text) const
 	{
 		return maths::Rectangle(0.0f, 0.0f, GetWidth(text), GetHeight(text));

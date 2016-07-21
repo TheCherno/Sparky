@@ -32,6 +32,7 @@ namespace sp { namespace graphics {
 
 		virtual Renderable2D* Submit(Renderable2D* renderable);
 
+		void OnUpdateInternal(const Timestep& ts) override;
 		virtual void OnRender(Renderer2D& renderer);
 		void OnRender() override;
 	protected:

@@ -52,12 +52,15 @@ namespace sp {
 		float updateTick = 1.0f / 60.0f;
 		uint frames = 0;
 		uint updates = 0;
+		Timestep timestep(m_Timer->ElapsedMillis());
 		while (m_Running)
 		{
 			window->Clear();
-			if (m_Timer->Elapsed() - updateTimer > updateTick)
+			float now = m_Timer->ElapsedMillis();
+			if (now - updateTimer > updateTick)
 			{
-				OnUpdate();
+				timestep.Update(now);
+				OnUpdate(timestep);
 				updates++;
 				updateTimer += updateTick;
 			}

@@ -85,6 +85,7 @@
 #include <sp/utils/ImageLoad.h>
 #include <sp/utils/Log.h>
 #include <sp/utils/Timer.h>
+#include <sp/utils/Timestep.h>
 
 #include <sp/system/FileSystem.h>
 #include <sp/system/Memory.h>

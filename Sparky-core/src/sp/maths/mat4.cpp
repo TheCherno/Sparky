@@ -213,9 +213,17 @@ namespace sp { namespace maths {
 		return *this;
 	}
 
-	vec4 mat4::GetColumn(int index)
+	vec4 mat4::GetColumn(int index) const
 	{
 		return vec4(elements[index + 0 * 4], elements[index + 1 * 4], elements[index + 2 * 4], elements[index + 3 * 4]);
+	}
+
+	void mat4::SetColumn(uint index, const vec4& column)
+	{
+		elements[index + 0 * 4] = column.x;
+		elements[index + 1 * 4] = column.y;
+		elements[index + 2 * 4] = column.z;
+		elements[index + 3 * 4] = column.w;
 	}
 
 	mat4 mat4::Orthographic(float left, float right, float bottom, float top, float near, float far)

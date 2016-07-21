@@ -50,9 +50,9 @@ namespace sp { namespace graphics { namespace ui {
 		if (m_State == SliderState::PRESSEDHEAD)
 		{
 			if (m_Vertical)
-				SetValue((mouse.y - m_Bounds.y - m_HeadOffset) / (m_Bounds.size.y - m_HeadBounds.size.y));
+				SetValue((mouse.y - m_Bounds.GetMinimumBound().y - m_HeadOffset) / (m_Bounds.GetMaximumBound().y));
 			else
-				SetValue((mouse.x - m_Bounds.x - m_HeadOffset) / (m_Bounds.size.x - m_HeadBounds.size.x));
+				SetValue((mouse.x - m_Bounds.GetMinimumBound().x - m_HeadOffset) / (m_Bounds.GetMaximumBound().x));
 		}
 
 		return false;
@@ -64,17 +64,9 @@ namespace sp { namespace graphics { namespace ui {
 			m_State = SliderState::UNPRESSED;
 
 		if (m_Vertical)
-		{
-			float bounds = m_Bounds.size.y - m_HeadBounds.size.y;
-			m_HeadBounds.y = m_Bounds.y + bounds * m_Value;
-			m_HeadBounds.y = clamp(m_HeadBounds.y, m_Bounds.y, m_Bounds.y + m_Bounds.size.y - m_HeadBounds.size.y);
-		}
+			m_HeadBounds.y = m_Bounds.GetMinimumBound().y + m_HeadBounds.height + m_Value * (m_Bounds.height * 2.0f - m_HeadBounds.height * 2.0f);
 		else
-		{
-			float bounds = m_Bounds.size.x - m_HeadBounds.size.x;
-			m_HeadBounds.x = m_Bounds.x + bounds * m_Value;
-			m_HeadBounds.x = clamp(m_HeadBounds.x, m_Bounds.x, m_Bounds.x + m_Bounds.size.x - m_HeadBounds.size.x);
-		}
+			m_HeadBounds.x = m_Bounds.GetMinimumBound().x + m_HeadBounds.width + m_Value * (m_Bounds.width * 2.0f - m_HeadBounds.width * 2.0f);
 	}
 
 	void Slider::OnRender(Renderer2D& renderer)
@@ -85,8 +77,8 @@ namespace sp { namespace graphics { namespace ui {
 		renderer.FillRect(m_HeadBounds, 0xcfbfbfbf);
 		renderer.DrawRect(m_HeadBounds);
 
-		vec2 offset = m_Vertical ? vec2(0, m_Bounds.size.y / 2.0f) : vec2(m_Bounds.size.x / 2.0f, 0);
-		renderer.DrawLine(m_Bounds.Center() - offset, m_Bounds.Center() + offset);
+		vec2 offset = m_Vertical ? vec2(0, m_Bounds.size.y) : vec2(m_Bounds.size.x, 0);
+		renderer.DrawLine(m_Bounds.position - offset, m_Bounds.position + offset);
 	}
 
 	void Slider::SetValue(float value)

@@ -39,7 +39,7 @@ namespace sp { namespace graphics {
 	{
 		for (Font* font : s_Fonts)
 		{
-			if (font->GetSize() == size)
+			if (font->GetFontSize() == size)
 				return font;
 		}
 		Font* result = new Font("SourceSansPro", internal::DEFAULT_FONT, internal::DEFAULT_FONT_SIZE, (float)size);
@@ -52,7 +52,7 @@ namespace sp { namespace graphics {
 	{
 		for (Font* font : s_Fonts)
 		{
-			if (font->GetSize() == size && font->GetName() == name)
+			if (font->GetFontSize() == size && font->GetName() == name)
 				return font;
 		}
 		// TODO: Maybe return a default font instead?

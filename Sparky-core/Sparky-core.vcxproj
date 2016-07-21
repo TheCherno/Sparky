@@ -187,6 +187,7 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <ClCompile Include="src\sp\graphics\PBRMaterial.cpp" />
     <ClCompile Include="src\sp\graphics\postfx\PostEffects.cpp" />
     <ClCompile Include="src\sp\graphics\postfx\PostEffectsPass.cpp" />
+    <ClCompile Include="src\sp\graphics\Renderable2D.cpp" />
     <ClCompile Include="src\sp\graphics\Renderer.cpp" />
     <ClCompile Include="src\sp\graphics\Renderer2D.cpp" />
     <ClCompile Include="src\sp\graphics\shaders\ShaderManager.cpp" />
@@ -776,6 +777,7 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <ClInclude Include="src\sp\utils\ImageLoad.h" />
     <ClInclude Include="src\sp\utils\Log.h" />
     <ClInclude Include="src\sp\utils\Timer.h" />
+    <ClInclude Include="src\sp\utils\Timestep.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="SparkyCore-TODO.txt" />

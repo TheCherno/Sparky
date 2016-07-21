@@ -1,6 +1,8 @@
 #include "sp/sp.h"
 #include "vec3.h"
+
 #include "vec2.h"
+#include "vec4.h"
 #include "mat4.h"
 
 namespace sp { namespace maths {
@@ -27,6 +29,11 @@ namespace sp { namespace maths {
 
 	vec3::vec3(float x, float y)
 		: x(x), y(y), z(0.0f)
+	{
+	}
+
+	vec3::vec3(const vec4& other)
+		: x(other.x), y(other.y), z(other.z)
 	{
 	}
 

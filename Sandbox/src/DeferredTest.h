@@ -18,7 +18,7 @@ public:
 	void OnInit(sp::graphics::Renderer3D& renderer, sp::graphics::Scene& scene) override;
 
 	void OnTick() override;
-	void OnUpdate() override;
+	void OnUpdate(const sp::Timestep& ts) override;
 	void OnEvent(sp::events::Event& event) override;
 
 	void OnRender(sp::graphics::Renderer3D& renderer);

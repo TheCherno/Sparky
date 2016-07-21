@@ -31,6 +31,11 @@ namespace sp { namespace graphics {
 		return false;
 	}
 
+	void Layer3D::OnUpdateInternal(const Timestep& ts)
+	{
+		OnUpdate(ts);
+	}
+
 	void Layer3D::OnRender()
 	{
 		OnRender(*m_Renderer);

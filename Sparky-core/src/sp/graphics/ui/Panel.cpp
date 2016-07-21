@@ -106,7 +106,7 @@ namespace sp { namespace graphics { namespace ui {
 		return false;
 	}
 
-	void Panel::OnUpdate()
+	void Panel::OnUpdate(const Timestep& ts)
 	{
 		for (Widget* widget : m_Widgets)
 		{
