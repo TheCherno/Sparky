@@ -28,18 +28,18 @@ Test3D::~Test3D()
 {
 }
 
-vec3 g_CubeTransform(-10, 10, 0);
-vec3 g_DaggerTransform(0, 20, 0);
-vec4 g_SphereColor(0.0f, 0.0f, 0.0f, 1.0f);
-vec3 g_SphereSpecularColor(1.0f, 1.0f, 0.6f);
+static vec3 g_CubeTransform(-10, 10, 0);
+static vec3 g_DaggerTransform(0, 20, 0);
+static vec4 g_SphereColor(0.0f, 0.0f, 0.0f, 1.0f);
+static vec3 g_SphereSpecularColor(1.0f, 1.0f, 0.6f);
 
-float g_DaggerGloss = 0.5f;
+static float g_DaggerGloss = 0.5f;
 
-Shader* shadowPassShader;
-FramebufferDepth* g_DepthBuffer;
-TextureDepth* g_ShadowMap;
+static Shader* shadowPassShader;
+static FramebufferDepth* g_DepthBuffer;
+static TextureDepth* g_ShadowMap;
 
-String materialInputs[5] =
+static String materialInputs[5] =
 {
 	"CastIron",
 	"WornWood",

@@ -112,12 +112,14 @@
     <ClCompile Include="src\SponzaTest.cpp" />
     <ClCompile Include="src\Test3D.cpp" />
     <ClCompile Include="src\Test2D.cpp" />
+    <ClCompile Include="src\VoxelTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DeferredTest.h" />
     <ClInclude Include="src\SponzaTest.h" />
     <ClInclude Include="src\Test3D.h" />
     <ClInclude Include="src\Test2D.h" />
+    <ClInclude Include="src\VoxelTest.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shaders\AdvancedLighting.hlsl">
