@@ -49,7 +49,7 @@ namespace sp { namespace graphics { namespace ui {
 	void Panel::Clear()
 	{
 		for (uint i = 0; i < m_Widgets.size(); i++)
-			delete m_Widgets[i];
+			spdel m_Widgets[i];
 
 		m_Widgets.clear();
 	}

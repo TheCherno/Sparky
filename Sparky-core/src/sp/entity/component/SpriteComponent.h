@@ -12,7 +12,7 @@ namespace sp { namespace entity { namespace component {
 	public:
 		graphics::Sprite* sprite;
 	public:
-		SpriteComponent(Entity* entity, graphics::Sprite* sprite);
+		SpriteComponent(graphics::Sprite* sprite);
 
 		static ComponentType* GetStaticType()
 		{

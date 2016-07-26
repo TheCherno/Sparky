@@ -26,7 +26,7 @@ namespace sp { namespace graphics {
 	};
 
 	ForwardRenderer::ForwardRenderer()
-		: m_DebugDrawCalls(-1)
+		: m_DebugDrawCalls(-1), m_DebugMeshRender(false)
 	{
 		SetScreenBufferSize(Application::GetApplication().GetWindowWidth(), Application::GetApplication().GetWindowHeight());
 		Init();
@@ -70,7 +70,8 @@ namespace sp { namespace graphics {
 		// Per Scene System Uniforms
 		m_PSSystemUniformBufferOffsets[PSSystemUniformIndex_Lights] = 0;
 
-		debug::DebugMenu::Add("Draw Calls", &m_DebugDrawCalls, -1, 50);
+		debug::DebugMenu::Add("Renderer3D/Draw Calls", &m_DebugDrawCalls, -1, 50);
+		debug::DebugMenu::Add("Renderer3D/Debug Mesh", &m_DebugMeshRender);
 	}
 
 	void ForwardRenderer::Begin()
@@ -141,8 +142,10 @@ namespace sp { namespace graphics {
 			memcpy(m_VSSystemUniformBuffer + m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ModelMatrix], &command.transform, sizeof(mat4));
 			SetSystemUniforms(command.shader);
 			command.mesh->Render(*this);
-			command.mesh->DebugRender(command.transform);
+			if (m_DebugMeshRender)
+				command.mesh->DebugRender(command.transform);
 		}
+		debug::DebugRenderer::Present();
 	}
 
 } }

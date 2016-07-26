@@ -1,6 +1,5 @@
 #include "sp/sp.h"
 #include "sp/app/Application.h"
-#include "sp/utils/Log.h"
 
 namespace sp {
 

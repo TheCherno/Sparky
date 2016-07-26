@@ -36,7 +36,7 @@ namespace sp { namespace graphics {
 		m_Color = a << 24 | b << 16 | g << 8 | r;
 	}
 
-	std::vector<maths::vec2> Renderable2D::GetDefaultUVs()
+	const std::vector<maths::vec2>& Renderable2D::GetDefaultUVs()
 	{
 		static std::vector<maths::vec2> results;
 		if (!results.size())

@@ -35,7 +35,6 @@ namespace sp { namespace graphics {
 
 	void Layer2D::Init()
 	{
-		m_Scene->Init();
 		OnInit(*m_Renderer, *m_Material);
 	}
 
@@ -64,7 +63,6 @@ namespace sp { namespace graphics {
 
 	void Layer2D::OnUpdateInternal(const Timestep& ts)
 	{
-		m_Scene->OnUpdate(ts);
 		OnUpdate(ts);
 	}
 

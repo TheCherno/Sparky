@@ -12,7 +12,7 @@ namespace sp { namespace entity { namespace component {
 	public:
 		maths::mat4 transform;
 	public:
-		TransformComponent(Entity* entity, const maths::mat4& transform);
+		TransformComponent(const maths::mat4& transform);
 
 		static ComponentType* GetStaticType()
 		{

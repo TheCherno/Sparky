@@ -53,6 +53,7 @@ namespace sp {
 	const char* FindToken(const char* str, const String& token);
 	const char* FindToken(const String& string, const String& token);
 	int32 FindStringPosition(const String& string, const String& search, uint offset = 0);
+	String StringRange(const String& string, uint start, uint length);
 	String RemoveStringRange(const String& string, uint start, uint length);
 
 	String GetBlock(const char* str, const char** outPosition = nullptr);
@@ -60,6 +61,7 @@ namespace sp {
 
 	String GetStatement(const char* str, const char** outPosition = nullptr);
 
+	bool StringContains(const String& string, const String& chars);
 	bool StartsWith(const String& string, const String& start);
 	int32 NextInt(const String& string);
 

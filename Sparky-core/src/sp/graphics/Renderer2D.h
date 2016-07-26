@@ -22,8 +22,12 @@ namespace sp { namespace graphics {
 		BUFFER = 1
 	};
 
+	// TODO: Put BatchRenderer2D into this class
 	class SP_API Renderer2D
 	{
+	protected:
+		static bool s_PostEffectsEnabled;
+		static bool s_MaskEnabled;
 	protected:
 		std::vector<maths::mat4> m_TransformationStack;
 		const maths::mat4* m_TransformationBack;

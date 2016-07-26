@@ -6,4 +6,3 @@
 #include "TransformComponent.h"
 #include "MeshComponent.h"
 #include "SpriteComponent.h"
-#include "Physics2DComponent.h"

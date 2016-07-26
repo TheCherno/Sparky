@@ -20,8 +20,6 @@ namespace sp { namespace entity { namespace component {
 	protected:
 		Entity* m_Entity;
 	public:
-		Component(Entity* entity);
-
 		virtual Entity* GetEntity() { return m_Entity; }
 		virtual ComponentType* GetType() const { return nullptr; }
 	};

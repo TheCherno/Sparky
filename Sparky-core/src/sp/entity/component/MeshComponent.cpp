@@ -3,8 +3,8 @@
 
 namespace sp { namespace entity { namespace component {
 
-	MeshComponent::MeshComponent(Entity* entity, graphics::Mesh* mesh)
-		: Component(entity), mesh(mesh)
+	MeshComponent::MeshComponent(graphics::Mesh* mesh)
+		: mesh(mesh)
 	{
 	}
 

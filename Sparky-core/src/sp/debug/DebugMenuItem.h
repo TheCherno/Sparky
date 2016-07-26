@@ -8,10 +8,11 @@
 namespace sp { namespace debug {
 
 	struct IAction;
+	
 
 	class DebugMenuItem : public graphics::ui::Button
 	{
-	private:
+	protected:
 		IAction* m_Action;
 	public:
 		DebugMenuItem(IAction* action, const maths::Rectangle& bounds);

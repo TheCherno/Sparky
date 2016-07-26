@@ -72,6 +72,11 @@ namespace sp {
 		return (int32)(found - str) + offset;
 	}
 
+	String StringRange(const String& string, uint start, uint length)
+	{
+		return string.substr(start, length);
+	}
+
 	String RemoveStringRange(const String& string, uint start, uint length)
 	{
 		String result = string;
@@ -106,6 +111,11 @@ namespace sp {
 			*outPosition = end;
 		uint length = end - str + 1;
 		return String(str, length);
+	}
+
+	bool StringContains(const String& string, const String& chars)
+	{
+		return string.find(chars) != String::npos;
 	}
 
 	bool StartsWith(const String& string, const String& start)

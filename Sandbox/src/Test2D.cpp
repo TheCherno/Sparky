@@ -8,8 +8,6 @@ using namespace component;
 using namespace maths;
 using namespace API;
 
-static float s_BoxSize = 0.1f;
-
 Test2D::Test2D()
 	: Layer2D(spnew Scene2D(mat4::Orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f)))
 {
@@ -31,45 +29,31 @@ void Test2D::OnInit(Renderer2D& renderer, Material& material)
 	//renderer.SetPostEffects(false);
 
 	TextureParameters params(TextureFilter::NEAREST);
-	Add(new Sprite(0.0f, 0.0f, 4, 4, Texture2D::CreateFromFile("Tex", "res/tb.png", params)));
+	Add(spnew Sprite(4.0f, 4.0f, 4, 4, Texture2D::CreateFromFile("Tex", "res/tb.png", params)));
+	Add(spnew Sprite(-5.0f, -5.0f, 3, 3, 0xffff00ff));
 
-	Entity* pinkSquare = spnew Entity(spnew Sprite(-8.0f, -8.0f, 3, 3, 0xffff00ff));
-	pinkSquare->CreateComponent<Physics2DComponent>();
-	m_Scene->Add(pinkSquare);
+	FontManager::Add(spnew Font("Consolas", "res/consola.ttf", 96));
+	FontManager::Add(spnew Font("Brush Script", "res/BrushScriptStd.otf", 96));
 
-	FontManager::Add(new Font("Consolas", "res/consola.ttf", 96));
-	FontManager::Add(new Font("Brush Script", "res/BrushScriptStd.otf", 96));
-
-	debugInfo = new Label*[10];
-	debugInfo[0] = new Label("", -15.5f, 7.8f, 0xffffffff);
-	debugInfo[1] = new Label("", -15.5f, 6.8f, 0xffffffff);
-	debugInfo[2] = new Label("", -15.5f, 5.8f, 0xffffffff);
-	debugInfo[3] = new Label("", -15.5f, 4.8f, 0xffffffff);
-	debugInfo[4] = new Label("", -15.5f, 3.8f, 0xffffffff);
+	debugInfo = spnew Label*[10];
+	debugInfo[0] = spnew Label("", -15.5f, 8.5f, 0xffffffff);
+	debugInfo[1] = spnew Label("", -15.5f, 7.5f, 0xffffffff);
+	debugInfo[2] = spnew Label("", -15.5f, 6.5f, 0xffffffff);
+	debugInfo[3] = spnew Label("", -15.5f, 5.5f, 0xffffffff);
+	debugInfo[4] = spnew Label("", -15.5f, 4.5f, 0xffffffff);
 	Add(debugInfo[0]);
 	Add(debugInfo[1]);
 	Add(debugInfo[2]);
 	Add(debugInfo[3]);
 	Add(debugInfo[4]);
 
-	Add(new Label("Consolas", -15.5f, 0.0f, FontManager::Get("Consolas"), 0xffffffff));
-	Add(new Label("Brush Script", -15.5f, 2.0f, FontManager::Get("Brush Script"), 0xffffffff));
+	Add(spnew Label("Consolas", -15.5f, 0.0f, FontManager::Get("Consolas"), 0xffffffff));
+	Add(spnew Label("Brush Script", -15.5f, 2.0f, FontManager::Get("Brush Script"), 0xffffffff));
 
 	Texture::SetWrap(TextureWrap::CLAMP_TO_BORDER);
-	Mask* mask = new Mask(Texture2D::CreateFromFile("Mask", "res/mask.png"));
+	Mask* mask = spnew Mask(Texture2D::CreateFromFile("Mask", "res/mask.png"));
 	mask->transform = mat4::Translate(vec3(-16.0f, -9.0f, 0.0f)) * mat4::Scale(vec3(32, 18, 1));
 	SetMask(mask);
-
-	for (int i = 0; i < 100; i++)
-	{
-		Entity* entity = spnew Entity(spnew Sprite(0.0f, 9.0f, s_BoxSize, s_BoxSize, vec4((rand() % 1000) / 1000.0f, 0.5f, 0.5f, 1.0f)));
-		Physics2DComponent& p = entity->CreateComponent<Physics2DComponent>();
-		m_Scene->Add(entity);
-
-		p.ApplyForce(((rand() % 1000) - 500) * 0.005f);
-	}
-
-	debug::DebugMenu::Add("Box Size", &s_BoxSize, 0.0f, 1.0f);
 }
 
 void Test2D::OnTick()
@@ -115,19 +99,6 @@ bool Test2D::OnKeyPressedEvent(KeyPressedEvent& event)
 
 bool Test2D::OnMousePressedEvent(MousePressedEvent& event)
 {
-	if (event.GetButton() == SP_MOUSE_LEFT)
-	{
-		vec2 pos = event.GetPosition();
-		pos.x = pos.x / Application::GetApplication().GetWindowWidth() * 32.0f - 16.0f;
-		pos.y = 9.0f - pos.y / Application::GetApplication().GetWindowHeight() * 18.0f;
-
-		Entity* entity = spnew Entity(new Sprite(pos.x, pos.y, s_BoxSize, s_BoxSize, vec4((rand() % 1000) / 1000.0f, 0.5f, 0.5f, 1.0f)));
-		Physics2DComponent& p = entity->CreateComponent<Physics2DComponent>();
-		m_Scene->Add(entity);
-		p.ApplyForce(((rand() % 1000) - 500) * 0.005f);
-
-		return true;
-	}
 	return false;
 }
 
