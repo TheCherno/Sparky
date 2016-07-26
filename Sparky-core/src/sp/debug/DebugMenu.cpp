@@ -51,9 +51,9 @@ namespace sp { namespace debug {
 		s_Instance->m_ActionList.push_back(new BooleanAction(name, [value]() { return *value; }, [value](bool v) { *value = v; }));
 	}
 
-	void DebugMenu::Add(const String& name, float* value)
+	void DebugMenu::Add(const String& name, int* value, int minimum, int maximum)
 	{
-		Add(name, value, 0.0f, 100.0f);
+		s_Instance->m_ActionList.push_back(new IntAction(name, [value]() { return *value; }, [value](int v) { *value = v; }, minimum, maximum));
 	}
 
 	void DebugMenu::Add(const String& name, float* value, float minimum, float maximum)

@@ -130,11 +130,6 @@ namespace sp { namespace graphics {
 
 		API::IndexBuffer* ib = API::IndexBuffer::Create((uint*)format.indexData, format.indexBufferSize / sizeof(uint));
 		m_Mesh = spnew Mesh(va, ib, nullptr);
-
-#ifdef SP_DEBUG
-		m_Mesh->SetDebugData((Vertex*)format.vertexData, format.vertexBufferSize / sizeof(Vertex));
-#else
-#endif
 	}
 
 	void Model::Render(Renderer3D& renderer)

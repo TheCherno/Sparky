@@ -12,6 +12,7 @@ namespace sp { namespace graphics { namespace API {
 		BufferUsage m_Usage;
 		uint m_Size;
 		BufferLayout m_Layout;
+		void* m_Data;
 	public:
 		GLVertexBuffer(BufferUsage usage);
 		~GLVertexBuffer();
@@ -24,6 +25,10 @@ namespace sp { namespace graphics { namespace API {
 
 		void Bind() override;
 		void Unbind() override;
+
+		inline const void* GetData() const { return m_Data; }
+		inline uint GetSize() const { return m_Size; }
+		inline const BufferLayout& GetLayout() const { return m_Layout; }
 	protected:
 		void* GetPointerInternal() override;
 	};

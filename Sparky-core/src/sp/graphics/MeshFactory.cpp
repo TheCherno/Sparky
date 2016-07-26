@@ -144,7 +144,7 @@ namespace sp { namespace graphics { namespace MeshFactory {
 		data[3].tangent = mat4::Rotate(90.0f, vec3(0, 0, 1)) * normal;
 
 		API::VertexBuffer* buffer = API::VertexBuffer::Create(API::BufferUsage::STATIC);
-		buffer->SetData(8 * sizeof(Vertex), data);
+		buffer->SetData(4 * sizeof(Vertex), data);
 
 		API::BufferLayout layout;
 		layout.Push<vec3>("POSITION");

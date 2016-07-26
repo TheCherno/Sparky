@@ -26,6 +26,8 @@ namespace sp { namespace maths {
 		bool Contains(const vec2& point) const;
 		bool Contains(const vec3& point) const;
 
+		AABB GetTransformed(const mat4& transform) const;
+
 		vec3 Center() const;
 
 		bool operator==(const AABB& other) const;

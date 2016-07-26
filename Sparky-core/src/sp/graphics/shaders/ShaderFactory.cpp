@@ -12,7 +12,7 @@ namespace sp { namespace graphics { namespace ShaderFactory {
 		;
 
 	static const char* s_BatchRendererShaderD3D =
-	#include "sp/platform/directx/shaders/BatchRenderer.hlsl"
+#include "sp/platform/directx/shaders/BatchRenderer.hlsl"
 		;
 
 	static const char* s_SimpleShader =
@@ -27,19 +27,24 @@ namespace sp { namespace graphics { namespace ShaderFactory {
 #include "default/GeometryPass.shader"
 		;
 
-	static const char* s_DebugShader =
-#include "default/Debug.shader"
+	static const char* s_DebugShaderGL =
+#include "sp/platform/opengl/shaders/Debug.shader"
 		;
+
+	static const char* s_DebugShaderD3D =
+#include "sp/platform/directx/shaders/Debug.hlsl"
+		;
+
 #else
-#error TODO: GLES shaders!
+	#error TODO: GLES shaders!
 #endif
 
 	API::Shader* BatchRendererShader()
 	{
 		switch (API::Context::GetRenderAPI())
 		{
-			case API::RenderAPI::OPENGL: return API::Shader::CreateFromSource("BatchRenderer", s_BatchRendererShaderGL);
-			case API::RenderAPI::DIRECT3D: return API::Shader::CreateFromSource("BatchRenderer", s_BatchRendererShaderD3D);
+			case API::RenderAPI::OPENGL:	return API::Shader::CreateFromSource("BatchRenderer", s_BatchRendererShaderGL);
+			case API::RenderAPI::DIRECT3D:	return API::Shader::CreateFromSource("BatchRenderer", s_BatchRendererShaderD3D);
 		}
 		return nullptr;
 	}
@@ -61,7 +66,12 @@ namespace sp { namespace graphics { namespace ShaderFactory {
 
 	API::Shader* DebugShader()
 	{
-		return API::Shader::CreateFromSource("Debug Shader", s_DebugShader);
+		switch (API::Context::GetRenderAPI())
+		{
+		case API::RenderAPI::OPENGL:	return API::Shader::CreateFromSource("Debug Shader", s_DebugShaderGL);
+		case API::RenderAPI::DIRECT3D:	return API::Shader::CreateFromSource("Debug Shader", s_DebugShaderD3D);
+		}
+		return nullptr;
 	}
 
 } } }

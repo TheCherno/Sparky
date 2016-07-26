@@ -3,6 +3,8 @@
 
 #include "sp/app/Application.h"
 #include "sp/graphics/Renderer.h"
+#include "sp/debug/DebugRenderer.h"
+#include "sp/debug/DebugMenu.h"
 
 namespace sp { namespace graphics {
 
@@ -24,6 +26,7 @@ namespace sp { namespace graphics {
 	};
 
 	ForwardRenderer::ForwardRenderer()
+		: m_DebugDrawCalls(-1)
 	{
 		SetScreenBufferSize(Application::GetApplication().GetWindowWidth(), Application::GetApplication().GetWindowHeight());
 		Init();
@@ -67,6 +70,7 @@ namespace sp { namespace graphics {
 		// Per Scene System Uniforms
 		m_PSSystemUniformBufferOffsets[PSSystemUniformIndex_Lights] = 0;
 
+		debug::DebugMenu::Add("Draw Calls", &m_DebugDrawCalls, -1, 50);
 	}
 
 	void ForwardRenderer::Begin()
@@ -127,6 +131,9 @@ namespace sp { namespace graphics {
 		// TODO: Shader binding, texture sorting, visibility testing, etc.
 		for (uint i = 0; i < m_CommandQueue.size(); i++)
 		{
+			if (m_DebugDrawCalls != -1 && i > m_DebugDrawCalls)
+				break;
+
 			RenderCommand& command = m_CommandQueue[i];
 			MaterialInstance* material = command.mesh->GetMaterialInstance();
 			int materialRenderFlags = material->GetRenderFlags();
@@ -134,18 +141,7 @@ namespace sp { namespace graphics {
 			memcpy(m_VSSystemUniformBuffer + m_VSSystemUniformBufferOffsets[VSSystemUniformIndex_ModelMatrix], &command.transform, sizeof(mat4));
 			SetSystemUniforms(command.shader);
 			command.mesh->Render(*this);
-
-#if defined(SP_DEBUG) && 0
-			uint j;
-			for (j = 0; j < command.uniforms.size(); j++)
-			{
-				if (command.uniforms[j].uniform == "ml_matrix")
-				{
-					command.mesh->DebugRender(*(maths::mat4*)command.uniforms[j].value);
-					break;
-				}
-			}
-#endif
+			command.mesh->DebugRender(command.transform);
 		}
 	}
 

@@ -79,6 +79,20 @@ namespace sp { namespace debug {
 	}
 
 	template<>
+	String ValueAction<int>::ToString()
+	{
+		return name + " " + StringFormat::ToString(m_Getter());
+	}
+
+	template<>
+	void ValueAction<int>::OnAction()
+	{
+		float values[1] = { (m_Getter() - m_Min) / (m_Max - m_Min) };
+		graphics::ui::Slider::ValueChangedCallback callback[1] = { [&](float value) { m_Setter((int)(value * (m_Max - m_Min) + m_Min)); } };
+		DebugMenu::Get()->EditValues(name, values, 1, callback);
+	}
+
+	template<>
 	String ValueAction<float>::ToString()
 	{
 		return name + " " + StringFormat::Float(m_Getter());

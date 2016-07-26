@@ -26,7 +26,7 @@ namespace sp { namespace graphics { namespace API {
 	{
 	private:
 		uint m_Size;
-		std::vector<BufferElement> m_Layout;
+		std::vector<BufferElement> m_Layout; // TODO: This should be a map
 	public:
 		BufferLayout();
 
@@ -119,6 +119,8 @@ namespace sp { namespace graphics { namespace API {
 					break;
 			}
 		}
+
+		const BufferElement* GetElement(const String& name) const;
 
 		inline const std::vector<BufferElement>& GetLayout() const { return m_Layout; }
 		inline uint GetStride() const { return m_Size; }

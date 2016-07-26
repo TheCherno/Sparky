@@ -17,12 +17,12 @@ namespace sp { namespace graphics { namespace API {
 	}
 
 	D3DVertexBuffer::D3DVertexBuffer(BufferUsage usage)
-		: m_Usage(usage), m_Size(0)
+		: m_Usage(usage), m_Size(0), m_Data(nullptr)
 	{
 		ZeroMemory(&m_BufferDesc, sizeof(D3D11_BUFFER_DESC));
-		m_BufferDesc.Usage = (D3D11_USAGE)SPBufferUsageToDirect3D(usage);     // write access access by CPU and GPU
-		m_BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
-		m_BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
+		m_BufferDesc.Usage = (D3D11_USAGE)SPBufferUsageToDirect3D(usage);
+		m_BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		m_BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	}
 
 	D3DVertexBuffer::~D3DVertexBuffer()
@@ -61,6 +61,10 @@ namespace sp { namespace graphics { namespace API {
 		GetPointerInternal();
 		memcpy(m_MappedSubresource.pData, data, size);
 		ReleasePointer();
+
+		if (!m_Data)
+			m_Data = spnew byte[size];
+		memcpy(m_Data, data, size);
 	}
 
 	void* D3DVertexBuffer::GetPointerInternal()

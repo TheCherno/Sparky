@@ -19,7 +19,7 @@ namespace sp {
 		PlatformInit();
 
 		debug::DebugMenu::Init();
-		//debug::DebugRenderer::Init();
+		debug::DebugRenderer::Init();
 
 		m_DebugLayer = spnew debug::DebugLayer();
 		m_DebugLayer->Init();
@@ -139,7 +139,7 @@ namespace sp {
 		if (debugLayer->IsVisible())
 			debugLayer->OnRender();
 
-		// debug::DebugRenderer::Present();
+		debug::DebugRenderer::Present();
 	}
 	
 	String Application::GetBuildConfiguration()

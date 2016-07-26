@@ -2,6 +2,7 @@
 #include "AABB.h"
 
 #include "Rectangle.h"
+#include "mat4.h"
 
 namespace sp { namespace maths {
 
@@ -48,6 +49,11 @@ namespace sp { namespace maths {
 	bool AABB::Contains(const vec3& point) const
 	{
 		return point > min && point < max;
+	}
+
+	AABB AABB::GetTransformed(const mat4& transform) const
+	{
+		return AABB(transform.Multiply(min), transform.Multiply(max));
 	}
 
 	vec3 AABB::Center() const

@@ -37,8 +37,8 @@ namespace sp { namespace debug {
 		static void Init();
 		static void Add(const String& name);
 		static void Add(const String& name, bool* value);
-		static void Add(const String& name, float* value);
-		static void Add(const String& name, float* value, float mininmum, float maximum);
+		static void Add(const String& name, int* value, int minimum = 0, int maximum = 100);
+		static void Add(const String& name, float* value, float minimum = 0.0f, float maximum = 100.0f);
 		static void Add(const String& name, maths::vec2* value, float mininmum = 0.0f, float maximum = 100.0f);
 		static void Add(const String& name, maths::vec3* value, float mininmum = 0.0f, float maximum = 100.0f);
 		static void Add(const String& name, maths::vec4* value, float mininmum = 0.0f, float maximum = 100.0f);

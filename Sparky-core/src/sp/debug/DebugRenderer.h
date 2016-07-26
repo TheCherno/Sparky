@@ -17,21 +17,22 @@ namespace sp { namespace debug {
 		TANGENTS	= BIT(3)
 	};
 
-	class DebugRenderer
+	class SP_API DebugRenderer
 	{
  	private:
 		DebugRenderer() {}
 	public:
-		SP_DEBUG_METHOD_V(static void Init())
-		SP_DEBUG_METHOD_V(static void Shutdown())
-		SP_DEBUG_METHOD_V(static void DrawLine(const maths::vec3& start, const maths::vec3& end, uint color = 0xffffffff))
-		SP_DEBUG_METHOD_V(static void DrawMesh(const graphics::Mesh* mesh, DebugRenderMeshFlags flags, const maths::mat4& transform = maths::mat4::Identity()))
+		static void Init();
+		static void Shutdown();
+		static void DrawLine(const maths::vec3& start, const maths::vec3& end, uint color = 0xffffffff);
+		static void DrawAABB(const maths::AABB& aabb, const maths::mat4& transform = maths::mat4::Identity());
+		static void DrawMesh(const graphics::Mesh* mesh, DebugRenderMeshFlags flags, const maths::mat4& transform = maths::mat4::Identity());
 
-		SP_DEBUG_METHOD_V(static void SetCamera(graphics::Camera* camera))
+		static void SetCamera(graphics::Camera* camera);
 
-		SP_DEBUG_METHOD_V(static void Present())
+		static void Present();
 	private:
-		SP_DEBUG_METHOD_V(static void DrawLineInternal(const maths::vec3& start, const maths::vec3& end, uint color))
+		static void DrawLineInternal(const maths::vec3& start, const maths::vec3& end, uint color = 0xffffffff);
 	};
 
 } }

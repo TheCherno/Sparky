@@ -26,10 +26,8 @@ namespace sp { namespace graphics {
 		API::VertexArray* m_VertexArray;
 		API::IndexBuffer* m_IndexBuffer;
 		MaterialInstance* m_MaterialInstance;
-
+		maths::AABB m_AABB;
 #ifdef SP_DEBUG
-		Vertex* m_DebugVertexData;
-		uint m_DebugVertexDataCount;
 		bool m_DebugDraw;
 #endif
 	public:
@@ -40,16 +38,16 @@ namespace sp { namespace graphics {
 		inline void SetMaterial(MaterialInstance* materialInstance) { m_MaterialInstance = materialInstance; }
 		inline MaterialInstance* GetMaterialInstance() const { return m_MaterialInstance; }
 
+		inline const maths::AABB& GetAABB() const { return m_AABB; }
+
 		void Render(Renderer3D& renderer) override;
 
 #ifdef SP_DEBUG
 		void DebugRender(const maths::mat4& transform);
-
-		inline void SetDebugData(Vertex* vertices, uint count) { m_DebugVertexData = vertices; m_DebugVertexDataCount = count; }
-		inline uint GetDebugData(Vertex*& vertices) const { vertices = m_DebugVertexData; return m_DebugVertexDataCount; }
-
 		inline void SetDebugDraw(bool debug) { m_DebugDraw = debug; }
 #endif
+	private:
+		void ComputeAABB();
 	};
 
 } }

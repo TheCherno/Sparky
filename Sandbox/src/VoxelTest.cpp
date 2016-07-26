@@ -16,12 +16,6 @@ VoxelTest::VoxelTest()
 {
 	m_MayaCamera = m_Scene->GetCamera();
 	m_FPSCamera = spnew FPSCamera(maths::mat4::Perspective(65.0f, 16.0f / 9.0f, 0.1f, 1000.0f));
-
-	m_Rotation = 0.0f;
-	m_SetUniforms[0] = true;
-	m_SetUniforms[1] = true;
-
-	mat4 result = mat4::Identity() * mat4::Identity();
 }
 
 VoxelTest::~VoxelTest()
@@ -29,27 +23,18 @@ VoxelTest::~VoxelTest()
 }
 
 static vec3 g_CubeTransform(-10, 10, 0);
-static vec3 g_DaggerTransform(0, 20, 0);
 static vec4 g_SphereColor(0.0f, 0.0f, 0.0f, 1.0f);
 static vec3 g_SphereSpecularColor(1.0f, 1.0f, 0.6f);
 
-static float g_DaggerGloss = 0.5f;
-
-static String materialInputs[5] =
+static String materialInputs[2] =
 {
 	"CastIron",
-	"WornWood",
-	"GunMetal",
-	"ABSRed",
 	"Custom"
 };
 
 enum Materials : uint
 {
 	CAST_IRON = 0,
-	WORN_WOOD,
-	GUN_METAL,
-	ABS_RED,
 	CUSTOM
 };
 
@@ -99,40 +84,6 @@ void VoxelTest::OnInit(Renderer3D& renderer, Scene& scene)
 	}
 	m_Materials.push_back(castIron);
 
-	PBRMaterial* wornWood = spnew PBRMaterial(pbrShader);
-	wornWood->SetEnviromentMap(environment);
-	{
-		String path = materialInputs[WORN_WOOD] + "/" + materialInputs[WORN_WOOD];
-		wornWood->SetAlbedoMap(Texture2D::CreateFromFile("/pbr/" + path + "_Albedo.tga"));
-		wornWood->SetSpecularMap(Texture2D::CreateFromFile("/pbr/" + path + "_Specular.tga"));
-		wornWood->SetGlossMap(Texture2D::CreateFromFile("/pbr/" + path + "_Gloss.tga"));
-		wornWood->SetNormalMap(Texture2D::CreateFromFile("/pbr/" + path + "_Normal.tga"));
-	}
-	m_Materials.push_back(wornWood);
-
-	PBRMaterial* gunMetal = spnew PBRMaterial(pbrShader);
-	gunMetal->SetEnviromentMap(environment);
-	{
-		String path = materialInputs[GUN_METAL] + "/" + materialInputs[GUN_METAL];
-		gunMetal->SetAlbedoMap(Texture2D::CreateFromFile("/pbr/" + path + "_Albedo.tga"));
-		gunMetal->SetSpecularMap(Texture2D::CreateFromFile("/pbr/" + path + "_Specular.tga"));
-		gunMetal->SetGlossMap(Texture2D::CreateFromFile("/pbr/" + path + "_Gloss.tga"));
-		gunMetal->SetNormalMap(Texture2D::CreateFromFile("/pbr/" + path + "_Normal.tga"));
-	}
-	m_Materials.push_back(gunMetal);
-
-
-	PBRMaterial* absRed = spnew PBRMaterial(pbrShader);
-	absRed->SetEnviromentMap(environment);
-	{
-		String path = materialInputs[ABS_RED] + "/" + materialInputs[ABS_RED];
-		absRed->SetAlbedoMap(Texture2D::CreateFromFile("/pbr/" + path + "_Albedo.tga"));
-		absRed->SetSpecularMap(Texture2D::CreateFromFile("/pbr/" + path + "_Specular.tga"));
-		absRed->SetGlossMap(Texture2D::CreateFromFile("/pbr/" + path + "_Gloss.tga"));
-		absRed->SetNormalMap(Texture2D::CreateFromFile("/pbr/" + path + "_Normal.tga"));
-	}
-	m_Materials.push_back(absRed);
-
 	PBRMaterial* custom = spnew PBRMaterial(pbrShader);
 	custom->SetEnviromentMap(environment);
 	{
@@ -143,21 +94,6 @@ void VoxelTest::OnInit(Renderer3D& renderer, Scene& scene)
 		custom->SetNormalMap(Texture2D::CreateFromFile("/pbr/" + path + "_Normal.tga"));
 	}
 	m_Materials.push_back(custom);
-
-	// Texture::SetLoadParameters(0);
-	m_DaggerMaterial = spnew PBRMaterial(pbrShader);
-	m_DaggerMaterial->SetEnviromentMap(environment);
-	{
-		TextureLoadOptions options(false, true);
-		m_DaggerMaterial->SetAlbedoMap(Texture2D::CreateFromFile("res/Dagger/Textures/Dagger_Albedo.tga", options));
-		m_DaggerMaterial->SetSpecularMap(Texture2D::CreateFromFile("res/Dagger/Textures/Dagger_Specular.tga", options));
-		m_DaggerMaterial->SetGlossMap(Texture2D::CreateFromFile("res/Dagger/Textures/Dagger_Gloss.tga", options));
-		m_DaggerMaterial->SetNormalMap(Texture2D::CreateFromFile("res/Dagger/Textures/Dagger_Normals.tga", options));
-	}
-
-	Model* daggerModel = spnew Model("/models/Dagger.spm", spnew MaterialInstance(m_DaggerMaterial));
-	m_Dagger = spnew Entity(daggerModel->GetMesh(), mat4::Translate(g_DaggerTransform));
-	m_Scene->Add(m_Dagger);
 
 	PBRMaterial* cubeMaterial = spnew PBRMaterial(pbrShader);
 	cubeMaterial->SetEnviromentMap(environment);
@@ -185,6 +121,7 @@ void VoxelTest::OnInit(Renderer3D& renderer, Scene& scene)
 
 		Mesh* mesh = spnew Mesh(sphereModel->GetMesh());
 		mesh->SetMaterial(m);
+		mesh->SetDebugDraw(true);
 
 		Entity* sphere = spnew Entity(mesh, mat4::Translate(vec3(-60 + xx, 2.5f, 90 + zz)) * mat4::Scale(vec3(2.0f)));
 		m_Spheres.push_back(sphere);
@@ -226,8 +163,6 @@ void VoxelTest::OnInit(Renderer3D& renderer, Scene& scene)
 	DebugMenu::Add("Cube", &g_CubeTransform, -100.0f, 100.0f);
 	DebugMenu::Add("Light Direction", &lights->GetLights()[0]->direction, -1.0f, 1.0f);
 	DebugMenu::Add("Light Intensity", &lights->GetLights()[0]->intensity, 0, 100);
-	DebugMenu::Add("Dagger", &g_DaggerTransform, -50, 50);
-	DebugMenu::Add("Dagger Gloss", &g_DaggerGloss, 0.0f, 1.0f);
 
 	SP_INFO("Init took ", timer.ElapsedMillis(), " ms");
 }
@@ -241,12 +176,7 @@ void VoxelTest::OnTick()
 void VoxelTest::OnUpdate(const Timestep& ts)
 {
  	TransformComponent* cubeTransform = m_Cube->GetComponent<TransformComponent>();
- 
- 	mat4 transform = mat4::Translate(vec3(0, 2.5f, 0)) * mat4::Rotate(m_Rotation, vec3(1, 0, 0)) * mat4::Rotate(m_Rotation, vec3(0, 1, 0)) * mat4::Rotate(m_Rotation, vec3(0, 0, 1));
- 	cubeTransform->transform = mat4::Translate(g_CubeTransform) * transform * mat4::Scale(vec3(1.4f, 1.4f, 1.4f));
-
-	TransformComponent* dagger = m_Dagger->GetComponent<TransformComponent>();
-	dagger->transform = mat4::Translate(g_DaggerTransform);
+ 	cubeTransform->transform = mat4::Translate(g_CubeTransform) * mat4::Scale(vec3(1.4f, 1.4f, 1.4f));
 
 	// Still OpenGL maths style (column-major)
 	mat4 vp = m_Scene->GetCamera()->GetProjectionMatrix() * m_Scene->GetCamera()->GetViewMatrix();

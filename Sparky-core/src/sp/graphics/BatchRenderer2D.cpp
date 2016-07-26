@@ -18,15 +18,15 @@ namespace sp { namespace graphics {
 
 	using namespace maths;
 
-	const uint g_RequiredSystemUniformsCount = 2;
-	const String g_RequiredSystemUniforms[g_RequiredSystemUniformsCount] =
+	static const uint s_RequiredSystemUniformsCount = 2;
+	static const String s_RequiredSystemUniforms[s_RequiredSystemUniformsCount] =
 	{
 		"sys_ProjectionMatrix",
 		"sys_ViewMatrix"
 	};
 
-	const uint sys_ProjectionMatrixIndex = 0;
-	const uint sys_ViewMatrixIndex = 1;
+	static const uint sys_ProjectionMatrixIndex = 0;
+	static const uint sys_ViewMatrixIndex = 1;
 
 	BatchRenderer2D::BatchRenderer2D(uint width, uint height)
 		: m_IndexCount(0), m_ScreenSize(tvec2<uint>(width, height)), m_ViewportSize(tvec2<uint>(width, height))
@@ -51,7 +51,7 @@ namespace sp { namespace graphics {
 	{
 		m_PostEffectsEnabled = false;
 
-		m_SystemUniforms.resize(g_RequiredSystemUniformsCount);
+		m_SystemUniforms.resize(s_RequiredSystemUniformsCount);
 
 		m_Shader = ShaderFactory::BatchRendererShader();
 		const API::ShaderUniformBufferList& vssu = m_Shader->GetVSSystemUniforms();
@@ -63,9 +63,9 @@ namespace sp { namespace graphics {
 			m_SystemUniformBuffers.push_back(buffer);
 			for (API::ShaderUniformDeclaration* decl : ub->GetUniformDeclarations())
 			{
-				for (uint j = 0; j < g_RequiredSystemUniformsCount; j++)
+				for (uint j = 0; j < s_RequiredSystemUniformsCount; j++)
 				{
-					if (decl->GetName() == g_RequiredSystemUniforms[j])
+					if (decl->GetName() == s_RequiredSystemUniforms[j])
 						m_SystemUniforms[j] = BR2DSystemUniform(buffer, decl->GetOffset());
 				}
 			}

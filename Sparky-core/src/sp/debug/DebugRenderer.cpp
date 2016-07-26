@@ -2,8 +2,11 @@
 #include "DebugRenderer.h"
 
 #include "sp/graphics/shaders/ShaderFactory.h"
+#include "sp/graphics/BatchRenderer2D.h" // TEMP
 
-#ifdef SP_DEBUG
+#include "sp/graphics/Renderer.h"
+#include "sp/platform/directx/DXContext.h"
+
 namespace sp { namespace debug {
 
 #define RENDERER_VERTEX_SIZE	sizeof(LineVertex)
@@ -27,24 +30,57 @@ namespace sp { namespace debug {
 	static LineVertex* s_LineVertexPointer;
 	static uint s_IndexCount;
 
+	static const uint s_RequiredSystemUniformsCount = 2;
+	static const String s_RequiredSystemUniforms[s_RequiredSystemUniformsCount] =
+	{
+		"sys_ProjectionMatrix",
+		"sys_ViewMatrix"
+	};
+
+	static const uint sys_ProjectionMatrixIndex = 0;
+	static const uint sys_ViewMatrixIndex = 1;
+
+	static std::vector<BR2DSystemUniform> s_SystemUniforms;
+	static std::vector<UniformBuffer> s_SystemUniformBuffers;
+
 	void DebugRenderer::Init()
 	{
 		s_Camera = nullptr;
+
 		s_Shader = ShaderFactory::DebugShader();
+		s_Shader->Bind();
+
+		s_SystemUniforms.resize(s_RequiredSystemUniformsCount);
+		const API::ShaderUniformBufferList& vssu = s_Shader->GetVSSystemUniforms();
+		SP_ASSERT(vssu.size());
+		for (uint i = 0; i < vssu.size(); i++)
+		{
+			API::ShaderUniformBufferDeclaration* ub = vssu[i];
+			UniformBuffer buffer(spnew byte[ub->GetSize()], ub->GetSize());
+			s_SystemUniformBuffers.push_back(buffer);
+			for (API::ShaderUniformDeclaration* decl : ub->GetUniformDeclarations())
+			{
+				for (uint j = 0; j < s_RequiredSystemUniformsCount; j++)
+				{
+					if (decl->GetName() == s_RequiredSystemUniforms[j])
+						s_SystemUniforms[j] = BR2DSystemUniform(buffer, decl->GetOffset());
+				}
+			}
+		}
 
 		API::VertexBuffer* buffer = API::VertexBuffer::Create(API::BufferUsage::DYNAMIC);
 		buffer->Bind();
 		buffer->Resize(RENDERER_BUFFER_SIZE);
 
 		API::BufferLayout layout;
-		layout.Push<vec3>("position");
-		layout.Push<byte>("color", 4, true);
+		layout.Push<vec3>("POSITION");
+		layout.Push<byte>("COLOR", 4, true);
 		buffer->SetLayout(layout);
 
 		s_VertexArray = API::VertexArray::Create();
 		s_VertexArray->PushBuffer(buffer);
 
-		uint* indices = new uint[RENDERER_INDICES_SIZE];
+		uint* indices = spnew uint[RENDERER_INDICES_SIZE];
 		for (int32 i = 0; i < RENDERER_INDICES_SIZE; i++)
 			indices[i] = i;
 
@@ -56,15 +92,15 @@ namespace sp { namespace debug {
 
 	void DebugRenderer::Shutdown()
 	{
-		delete s_Shader;
-		delete s_VertexArray;
-		delete s_IndexBuffer;
+		spdel s_Shader;
+		spdel s_VertexArray;
+		spdel s_IndexBuffer;
 	}
 
 	static void Begin()
 	{
 		s_VertexArray->GetBuffer()->Bind();
-		s_LineVertexPointer = s_VertexArray->GetBuffer()->GetPointer<LineVertex>();
+		s_LineVertexPointer = s_VertexArray->GetBuffer()->GetPointer<LineVertex>() + s_IndexCount;
 	}
 
 	static void End()
@@ -100,8 +136,31 @@ namespace sp { namespace debug {
 		End();
 	}
 
+	void DebugRenderer::DrawAABB(const maths::AABB& aabb, const maths::mat4& transform)
+	{
+		Begin();
+		AABB transformed = aabb.GetTransformed(transform);
+
+		DrawLineInternal(transformed.min, vec3(transformed.max.x, transformed.min.y, transformed.min.z));
+		DrawLineInternal(transformed.min, vec3(transformed.min.x, transformed.max.y, transformed.min.z));
+		DrawLineInternal(vec3(transformed.min.x, transformed.max.y, transformed.min.z), vec3(transformed.max.x, transformed.max.y, transformed.min.z));
+		DrawLineInternal(vec3(transformed.max.x, transformed.min.y, transformed.min.z), vec3(transformed.max.x, transformed.max.y, transformed.min.z));
+
+		DrawLineInternal(vec3(transformed.min.x, transformed.min.y, transformed.max.z), vec3(transformed.max.x, transformed.min.y, transformed.max.z));
+		DrawLineInternal(vec3(transformed.min.x, transformed.min.y, transformed.max.z), vec3(transformed.min.x, transformed.max.y, transformed.max.z));
+		DrawLineInternal(vec3(transformed.min.x, transformed.max.y, transformed.max.z), vec3(transformed.max.x, transformed.max.y, transformed.max.z));
+		DrawLineInternal(vec3(transformed.max.x, transformed.min.y, transformed.max.z), vec3(transformed.max.x, transformed.max.y, transformed.max.z));
+
+		DrawLineInternal(transformed.min, vec3(transformed.min.x, transformed.min.y, transformed.max.z));
+		DrawLineInternal(vec3(transformed.max.x, transformed.min.y, transformed.min.z), vec3(transformed.max.x, transformed.min.y, transformed.max.z));
+		DrawLineInternal(vec3(transformed.min.x, transformed.max.y, transformed.min.z), vec3(transformed.min.x, transformed.max.y, transformed.max.z));
+		DrawLineInternal(vec3(transformed.max.x, transformed.max.y, transformed.min.z), vec3(transformed.max.x, transformed.max.y, transformed.max.z));
+		End();
+	}
+
 	void DebugRenderer::DrawMesh(const Mesh* mesh, DebugRenderMeshFlags flags, const maths::mat4& transform)
 	{
+#if 0
 		Vertex* vertices = nullptr;
 		uint count = mesh->GetDebugData(vertices);
 		float scalar = 2.0f;
@@ -115,12 +174,16 @@ namespace sp { namespace debug {
 			DrawLineInternal(vec3(position.x, position.y, position.z), vec3(position.x + v.tangent.x * scalar, position.y + v.tangent.y * scalar, position.z + v.tangent.z * scalar), 0xffff0000);
 		}
 		End();
+#endif
 	}
 
 	void DebugRenderer::SetCamera(Camera* camera)
 	{
 		Present();
 		s_Camera = camera;
+
+		memcpy(s_SystemUniforms[sys_ProjectionMatrixIndex].buffer.buffer + s_SystemUniforms[sys_ProjectionMatrixIndex].offset, &camera->GetProjectionMatrix(), sizeof(mat4));
+		memcpy(s_SystemUniforms[sys_ViewMatrixIndex].buffer.buffer + s_SystemUniforms[sys_ViewMatrixIndex].offset, &camera->GetViewMatrix(), sizeof(mat4));
 	}
 
 	void DebugRenderer::Present()
@@ -128,19 +191,18 @@ namespace sp { namespace debug {
 		if (!s_Camera)
 			return;
 
-		/*GLCall(glEnable(GL_DEPTH_TEST));
 		s_Shader->Bind();
-		// TODO: set this to use uniform declaration!
-		s_Shader->SetUniformMat4("pr_matrix", s_Camera->GetProjectionMatrix());
-		s_Shader->SetUniformMat4("vw_matrix", s_Camera->GetViewMatrix());
+		for (uint i = 0; i < s_SystemUniformBuffers.size(); i++)
+			s_Shader->SetVSSystemUniformBuffer(s_SystemUniformBuffers[i].buffer, s_SystemUniformBuffers[i].size, i);
 
 		s_VertexArray->Bind();
 		s_IndexBuffer->Bind();
-		s_VertexArray->Draw(s_IndexCount, GL_LINES);
+		API::D3DContext::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+		Renderer::SetDepthTesting(false);
+		s_VertexArray->Draw(s_IndexCount);
 		s_IndexBuffer->Unbind();
 		s_VertexArray->Unbind();
-		s_IndexCount = 0;*/
+		s_IndexCount = 0;
 	}
 
 } }
-#endif

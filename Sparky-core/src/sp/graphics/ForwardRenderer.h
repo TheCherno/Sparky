@@ -16,6 +16,7 @@ namespace sp { namespace graphics {
 
 		std::vector<uint> m_VSSystemUniformBufferOffsets;
 		std::vector<uint> m_PSSystemUniformBufferOffsets;
+		int m_DebugDrawCalls;
 	public:
 		ForwardRenderer();
 		ForwardRenderer(uint width, uint height);

@@ -11,12 +11,8 @@ private:
 	sp::entity::Entity* m_Cube;
 	std::vector<sp::entity::Entity*> m_Spheres;
 	sp::entity::Entity* m_Plane;
-	sp::entity::Entity* m_Dagger;
-	sp::graphics::PBRMaterial* m_DaggerMaterial;
 	sp::graphics::MaterialInstance* m_SkyboxMaterial;
 	sp::graphics::Light* m_Light;
-	float m_Rotation;
-	bool m_SetUniforms[2];
 	std::vector<sp::graphics::PBRMaterial*> m_Materials;
 public:
 	VoxelTest();

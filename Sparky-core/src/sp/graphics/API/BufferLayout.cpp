@@ -14,4 +14,14 @@ namespace sp { namespace graphics { namespace API {
 		m_Size += size * count;
 	}
 
+	const BufferElement* BufferLayout::GetElement(const String& name) const
+	{
+		for (const BufferElement& element : m_Layout)
+		{
+			if (name == element.name)
+				return &element;
+		}
+		return nullptr;
+	}
+
 } } }

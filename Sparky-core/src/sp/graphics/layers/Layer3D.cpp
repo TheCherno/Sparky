@@ -1,6 +1,7 @@
 #include "sp/sp.h"
 #include "Layer3D.h"
 
+#include "sp/debug/DebugRenderer.h"
 #include "../DeferredRenderer.h"
 
 namespace sp { namespace graphics {
@@ -12,8 +13,8 @@ namespace sp { namespace graphics {
 
 	Layer3D::~Layer3D()
 	{
-		delete m_Scene;
-		delete m_Renderer;
+		spdel m_Scene;
+		spdel m_Renderer;
 	}
 
 	void Layer3D::Init()

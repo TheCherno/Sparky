@@ -17,6 +17,9 @@ namespace sp { namespace graphics { namespace API {
 		virtual void Resize(uint size) = 0;
 		virtual void SetLayout(const BufferLayout& layout) = 0;
 		virtual void SetData(uint size, const void* data) = 0;
+		virtual const void* GetData() const = 0;
+		virtual uint GetSize() const = 0;
+		virtual const BufferLayout& GetLayout() const = 0;
 
 		virtual void ReleasePointer() = 0;
 
