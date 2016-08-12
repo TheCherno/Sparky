@@ -1,5 +1,6 @@
 #include "sp/sp.h"
 #include "Button.h"
+#include "sp/debug/DebugMenu.h"
 
 #include "sp/graphics/FontManager.h"
 
@@ -49,9 +50,11 @@ namespace sp { namespace graphics { namespace ui {
 
 	void Button::OnRender(Renderer2D& renderer)
 	{
+		float horizontalPadding = debug::DebugMenu::GetSettings().horizontalPadding * 0.5f;
+
 		renderer.DrawRect(m_Bounds);
 		renderer.FillRect(m_Bounds, m_State == ButtonState::PRESSED ? 0xcfbbbbbb : 0xcf5f5f5f);
-		renderer.DrawString(m_Label, m_Bounds.position + vec2(0.2f, 0.7f), *m_Font);
+		renderer.DrawString(m_Label, m_Bounds.position - vec2(m_Bounds.width - horizontalPadding, m_Font->GetHeight(m_Label) * 0.5f), *m_Font); // TODO: Actually use a Label
 	}
 
 } } }

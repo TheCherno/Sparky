@@ -11,6 +11,7 @@
 #include "sp/utils/Log.h"
 
 #include "Renderer.h"
+#include "sp/debug/DebugMenu.h"
 
 #include <freetype-gl/freetype-gl.h>
 
@@ -121,6 +122,9 @@ namespace sp { namespace graphics {
 		m_PostEffects = new PostEffects();
 		m_PostEffectsBuffer = Framebuffer2D::Create(m_ViewportSize.x, m_ViewportSize.y);
 #endif
+
+		debug::DebugMenu::Add(String("Renderer2D/Post Effects"), &s_PostEffectsEnabled);
+		debug::DebugMenu::Add(String("Renderer2D/Mask"), &s_MaskEnabled);
 	}
 
 	float BatchRenderer2D::SubmitTexture(API::Texture* texture)
@@ -206,10 +210,12 @@ namespace sp { namespace graphics {
 		if (!renderable->IsVisible())
 			return;
 
-		const vec3& position = renderable->GetPosition();
-		const vec2& size = renderable->GetSize();
+		const Rectangle& bounds = renderable->GetBounds();
+		const vec3 min = bounds.GetMinimumBound();
+		const vec3 max = bounds.GetMaximumBound();
+
 		const uint color = renderable->GetColor();
-		const std::vector<vec2>& uv = renderable->GetUV();
+		const std::vector<vec2>& uv = renderable->GetUVs();
 		const API::Texture* texture = renderable->GetTexture();
 
 		float textureSlot = 0.0f;
@@ -220,13 +226,13 @@ namespace sp { namespace graphics {
 		float mid = m_Mask ? SubmitTexture(m_Mask->texture) : 0.0f;
 		float ms = 0.0f;
 
-		if (m_Mask != nullptr)
+		if (s_MaskEnabled && m_Mask != nullptr)
 		{
 			maskTransform = mat4::Invert(m_Mask->transform);
 			ms = SubmitTexture(m_Mask->texture);
 		}
 
-		vec3 vertex = *m_TransformationBack * position;
+		vec3 vertex = *m_TransformationBack * min;
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[0];
 		m_Buffer->mask_uv = maskTransform * vertex;
@@ -235,7 +241,7 @@ namespace sp { namespace graphics {
 		m_Buffer->color = color;
 		m_Buffer++;
 
-		vertex = *m_TransformationBack * vec3(position.x + size.x, position.y, position.z);
+		vertex = *m_TransformationBack * vec3(max.x, min.y);
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[1];
 		m_Buffer->mask_uv = maskTransform * vertex;
@@ -244,7 +250,7 @@ namespace sp { namespace graphics {
 		m_Buffer->color = color;
 		m_Buffer++;
 
-		vertex = *m_TransformationBack * vec3(position.x + size.x, position.y + size.y, position.z);
+		vertex = *m_TransformationBack * max;
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[2];
 		m_Buffer->mask_uv = maskTransform * vertex;
@@ -253,7 +259,7 @@ namespace sp { namespace graphics {
 		m_Buffer->color = color;
 		m_Buffer++;
 
-		vertex = *m_TransformationBack * vec3(position.x, position.y + size.y, position.z);
+		vertex = *m_TransformationBack * vec3(min.x, max.y);
 		m_Buffer->vertex = vertex;
 		m_Buffer->uv = uv[3];
 		m_Buffer->mask_uv = maskTransform * vertex;
@@ -273,7 +279,7 @@ namespace sp { namespace graphics {
 		float mid = m_Mask ? SubmitTexture(m_Mask->texture) : 0.0f;
 
 		float ms = 0.0f;
-		if (m_Mask != nullptr)
+		if (s_MaskEnabled && m_Mask != nullptr)
 		{
 			maskTransform = mat4::Invert(m_Mask->transform);
 			ms = SubmitTexture(m_Mask->texture);
@@ -333,9 +339,14 @@ namespace sp { namespace graphics {
 		DrawLine(x, y + height, x, y, color);
 	}
 
+	void BatchRenderer2D::DrawRect(const maths::vec2& position, const maths::vec2& size, uint color)
+	{
+		DrawRect(position.x, position.y, size.x, size.y, color);
+	}
+
 	void BatchRenderer2D::DrawRect(const Rectangle& rectangle, uint color)
 	{
-		DrawRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height, color);
+		DrawRect(rectangle.GetMinimumBound(), rectangle.size * 2.0f, color);
 	}
 
 	void BatchRenderer2D::DrawString(const String& text, const maths::vec2& position, const Font& font, uint color)
@@ -415,7 +426,7 @@ namespace sp { namespace graphics {
 		float mid = m_Mask ? SubmitTexture(m_Mask->texture) : 0.0f;
 
 		float ms = 0.0f;
-		if (m_Mask != nullptr)
+		if (s_MaskEnabled && m_Mask != nullptr)
 		{
 			maskTransform = mat4::Invert(m_Mask->transform);
 			ms = SubmitTexture(m_Mask->texture);
@@ -460,9 +471,14 @@ namespace sp { namespace graphics {
 		m_IndexCount += 6;
 	}
 
+	void BatchRenderer2D::FillRect(const maths::vec2& position, const maths::vec2& size, uint color)
+	{
+		FillRect(position.x, position.y, size.x, size.y, color);
+	}
+
 	void BatchRenderer2D::FillRect(const Rectangle& rectangle, uint color)
 	{
-		FillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height, color);
+		FillRect(rectangle.GetMinimumBound(), rectangle.size * 2.0f, color);
 	}
 
 	void BatchRenderer2D::End()
@@ -499,7 +515,7 @@ namespace sp { namespace graphics {
 			SP_ASSERT(false); // Currently unsupported
 #if 0
 			// Post Effects pass should go here!
-			if (m_PostEffectsEnabled)
+			if (s_PostEffectsEnabled && m_PostEffectsEnabled)
 				m_PostEffects->RenderPostEffects(m_Framebuffer, m_PostEffectsBuffer, m_ScreenQuad, m_IBO);
 
 			// Display Framebuffer - potentially move to Framebuffer class

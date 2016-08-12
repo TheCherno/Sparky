@@ -77,10 +77,12 @@ namespace sp { namespace graphics {
 		void DrawLine(float x0, float y0, float x1, float y1, uint color = 0xffffffff, float thickness = 0.02f) override;
 		void DrawLine(const maths::vec2& start, const maths::vec2& end, uint color = 0xffffffff, float thickness = 0.02f) override;
 		void DrawRect(float x, float y, float width, float height, uint color = 0xffffffff) override;
+		void DrawRect(const maths::vec2& position, const maths::vec2& size, uint color = 0xffffffff) override;
 		void DrawRect(const maths::Rectangle& rectangle, uint color = 0xffffffff) override;
 		void DrawString(const String& text, const maths::vec2& position, const Font& font = *FontManager::Get(), uint color = 0xffffffff) override;
 
 		void FillRect(float x, float y, float width, float height, uint color = 0xffffffff) override;
+		void FillRect(const maths::vec2& position, const maths::vec2& size, uint color = 0xffffffff) override;
 		void FillRect(const maths::Rectangle& rectangle, uint color = 0xffffffff) override;
 
 		void End() override;

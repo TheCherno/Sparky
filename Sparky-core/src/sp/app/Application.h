@@ -7,6 +7,7 @@
 #include "sp/app/Window.h"
 #include "sp/graphics/layers/Layer.h"
 #include "sp/utils/Timer.h"
+#include "sp/utils/Timestep.h"
 
 #include "sp/events/Events.h"
 
@@ -70,7 +71,7 @@ namespace sp {
 		void Run();
 
 		void OnTick();
-		void OnUpdate();
+		void OnUpdate(const Timestep& ts);
 		void OnRender();
 	private:
 		void OnEvent(events::Event& event);

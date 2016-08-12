@@ -22,8 +22,12 @@ namespace sp { namespace graphics {
 		BUFFER = 1
 	};
 
+	// TODO: Put BatchRenderer2D into this class
 	class SP_API Renderer2D
 	{
+	protected:
+		static bool s_PostEffectsEnabled;
+		static bool s_MaskEnabled;
 	protected:
 		std::vector<maths::mat4> m_TransformationStack;
 		const maths::mat4* m_TransformationBack;
@@ -77,10 +81,12 @@ namespace sp { namespace graphics {
 		virtual void DrawLine(float x0, float y0, float x1, float y1, uint color = 0xffffffff, float thickness = 0.02f) { }
 		virtual void DrawLine(const maths::vec2& start, const maths::vec2& end, uint color = 0xffffffff, float thickness = 0.02f) { }
 		virtual void DrawRect(float x, float y, float width, float height, uint color = 0xffffffff) { }
+		virtual void DrawRect(const maths::vec2& position, const maths::vec2& size, uint color = 0xffffffff) { }
 		virtual void DrawRect(const maths::Rectangle& rectangle, uint color = 0xffffffff) { }
 		virtual void DrawString(const String& text, const maths::vec2& position, const Font& font = *FontManager::Get(), uint color = 0xffffffff) { }
 
 		virtual void FillRect(float x, float y, float width, float height, uint color = 0xffffffff) { }
+		virtual void FillRect(const maths::vec2& position, const maths::vec2& size, uint color = 0xffffffff) { }
 		virtual void FillRect(const maths::Rectangle& rectangle, uint color = 0xffffffff) { }
 
 		virtual void End() {}

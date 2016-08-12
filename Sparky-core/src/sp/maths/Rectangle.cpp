@@ -1,6 +1,8 @@
 #include "sp/sp.h"
 #include "Rectangle.h"
 
+#include "AABB.h"
+
 namespace sp { namespace maths {
 
 	Rectangle::Rectangle()
@@ -8,8 +10,13 @@ namespace sp { namespace maths {
 	{
 	}
 
+	Rectangle::Rectangle(const AABB& aabb)
+		: position(vec2(aabb.min)), size(vec2(aabb.GetSize()))
+	{
+	}
+
 	Rectangle::Rectangle(const vec2& position, const vec2& size)
-		: position(vec3(position)), size(vec3(size))
+		: position(position), size(size)
 	{
 	}
 
@@ -25,17 +32,12 @@ namespace sp { namespace maths {
 
 	bool Rectangle::Contains(const vec2& point) const
 	{
-		return point > position && point < position + size;
+		return point > GetMinimumBound() && point < GetMaximumBound();
 	}
 
 	bool Rectangle::Contains(const vec3& point) const
 	{
 		return Contains(vec2(point));
-	}
-
-	vec2 Rectangle::Center() const
-	{
-		return position + size * 0.5f;
 	}
 
 	bool Rectangle::operator==(const Rectangle& other) const

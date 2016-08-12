@@ -86,15 +86,15 @@ void SponzaTest::OnInit(Renderer3D& renderer, Scene& scene)
 	lights->Add(spnew Light(vec3(0.8f)));
 	m_Scene->PushLightSetup(lights);
 
-	DebugMenu::Add("Light Direction", &lights->GetLights()[0]->direction, -1.0f, 1.0f);
-	DebugMenu::Add("Light Intensity", &lights->GetLights()[0]->intensity, 0, 100);
+	DebugMenu::Add("SponzaTest/Light Direction", &lights->GetLights()[0]->direction, -1.0f, 1.0f);
+	DebugMenu::Add("SponzaTest/Light Intensity", &lights->GetLights()[0]->intensity, 0, 100);
 }
 
 void SponzaTest::OnTick()
 {
 }
 
-void SponzaTest::OnUpdate()
+void SponzaTest::OnUpdate(const Timestep& ts)
 {
 	// Still OpenGL maths style (column-major)
 	mat4 vp = m_Scene->GetCamera()->GetProjectionMatrix() * m_Scene->GetCamera()->GetViewMatrix();

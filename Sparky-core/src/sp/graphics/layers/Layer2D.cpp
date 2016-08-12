@@ -44,7 +44,7 @@ namespace sp { namespace graphics {
 
 	Sprite* Layer2D::Add(Sprite* sprite)
 	{
-		m_Scene->Add(spnew entity::Entity(sprite));
+		m_Scene->Add(spnew entity::Entity(sprite, maths::mat4::Translate(sprite->GetPosition())));
 		return sprite;
 	}
 
@@ -59,6 +59,11 @@ namespace sp { namespace graphics {
 		((BatchRenderer2D*)m_Renderer)->SetScreenSize(maths::tvec2<uint>(width, height));
 		m_Scene->GetRenderer()->SetScreenSize(maths::tvec2<uint>(width, height));
 		return false;
+	}
+
+	void Layer2D::OnUpdateInternal(const Timestep& ts)
+	{
+		OnUpdate(ts);
 	}
 
 	void Layer2D::OnRender()

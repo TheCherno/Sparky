@@ -1,10 +1,17 @@
 #include "sp/sp.h"
 #include "AABB.h"
 
+#include "Rectangle.h"
+
 namespace sp { namespace maths {
 
 	AABB::AABB()
 		: min(vec3()), max(vec3())
+	{
+	}
+
+	AABB::AABB(const Rectangle& rectangle)
+		: min(rectangle.GetMinimumBound()), max(rectangle.GetMaximumBound())
 	{
 	}
 
@@ -45,7 +52,7 @@ namespace sp { namespace maths {
 
 	vec3 AABB::Center() const
 	{
-		return (min - max) * 0.5f;
+		return (max + min) * 0.5f;
 	}
 
 	bool AABB::operator==(const AABB& other) const

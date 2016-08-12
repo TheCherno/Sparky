@@ -1,7 +1,6 @@
 #include "Test3D.h"
 
 using namespace sp;
-using namespace debug;
 using namespace graphics;
 using namespace maths;
 
@@ -10,6 +9,8 @@ using namespace entity;
 using namespace component;
 
 using namespace API;
+
+#define DEBUG_MENU(name, var, min, max) debug::DebugMenu::Add("Test3D/" ## name, var, min, max)
 
 Test3D::Test3D()
 	: Layer3D(spnew Scene())
@@ -227,11 +228,11 @@ void Test3D::OnInit(Renderer3D& renderer, Scene& scene)
 	lights->Add(m_Light);
 	m_Scene->PushLightSetup(lights);
 
-	DebugMenu::Add("Cube", &g_CubeTransform, -100.0f, 100.0f);
-	DebugMenu::Add("Light Direction", &lights->GetLights()[0]->direction, -1.0f, 1.0f);
-	DebugMenu::Add("Light Intensity", &lights->GetLights()[0]->intensity, 0, 100);
-	DebugMenu::Add("Dagger", &g_DaggerTransform, -50, 50);
-	DebugMenu::Add("Dagger Gloss", &g_DaggerGloss, 0.0f, 1.0f);
+	DEBUG_MENU("Cube", &g_CubeTransform, -100.0f, 100.0f);
+	DEBUG_MENU("Light Direction", &lights->GetLights()[0]->direction, -1.0f, 1.0f);
+	DEBUG_MENU("Light Intensity", &lights->GetLights()[0]->intensity, 0, 100);
+	DEBUG_MENU("Dagger", &g_DaggerTransform, -50, 50);
+	DEBUG_MENU("Dagger Gloss", &g_DaggerGloss, 0.0f, 1.0f);
 
 	// shadowPassShader = Shader::CreateFromFile("Shadow", "shaders/ShadowPass.shader");
 	// g_DepthBuffer = FramebufferDepth::Create(2048, 2048);
@@ -252,7 +253,7 @@ void Test3D::OnTick()
 	SP_INFO(app.GetUPS(), " ups, ", app.GetFPS(), " fps");
 }
 
-void Test3D::OnUpdate()
+void Test3D::OnUpdate(const Timestep& ts)
 {
  	TransformComponent* cubeTransform = m_Cube->GetComponent<TransformComponent>();
  

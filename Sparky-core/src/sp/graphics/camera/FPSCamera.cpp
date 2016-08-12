@@ -19,14 +19,14 @@ namespace sp { namespace graphics {
 		m_Yaw = 2.4f;
 		m_Pitch = 0.7f;
 
-		debug::DebugMenu::Add("FPS Camera Speed", &m_Speed);
-		debug::DebugMenu::Add("FPS Camera Sprint Speed", &m_SprintSpeed);
+		debug::DebugMenu::Add("Camera/FPS Camera Speed", &m_Speed);
+		debug::DebugMenu::Add("Camera/FPS Camera Sprint Speed", &m_SprintSpeed);
 	}
 
 	FPSCamera::~FPSCamera()
 	{
-		debug::DebugMenu::Remove("FPS Camera Speed");
-		debug::DebugMenu::Remove("FPS Camera Sprint Speed");
+		debug::DebugMenu::Remove("Camera/FPS Camera Speed");
+		debug::DebugMenu::Remove("Camera/FPS Camera Sprint Speed");
 	}
 
 	void FPSCamera::Focus()

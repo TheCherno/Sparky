@@ -50,7 +50,10 @@ namespace sp { namespace graphics {
 	void Font::UpdateAtlas() const
 	{
 		if (m_FTAtlas->dirty)
+		{
 			m_Texture->SetData(m_FTAtlas->data);
+			m_FTAtlas->dirty = false;
+		}
 	}
 
 	maths::vec2 Font::GetOffsets(const String& text) const
@@ -117,6 +120,11 @@ namespace sp { namespace graphics {
 				max = height;
 		}
 		return abs(min) + abs(max);
+	}
+
+	maths::vec2 Font::GetSize(const String& text) const
+	{
+		return maths::vec2(GetWidth(text), GetHeight(text));
 	}
 
 	maths::Rectangle Font::GetBounds(const String& text) const

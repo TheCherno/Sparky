@@ -81,7 +81,7 @@ void DeferredTest::OnTick()
 	SP_INFO(app.GetUPS(), " ups, ", app.GetFPS(), " fps");
 }
 
-void DeferredTest::OnUpdate()
+void DeferredTest::OnUpdate(const Timestep& ts)
 {
 	material->SetUniform("u_CameraPos", m_Scene->GetCamera()->GetPosition());
 

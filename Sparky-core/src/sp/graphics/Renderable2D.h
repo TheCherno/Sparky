@@ -26,62 +26,51 @@ namespace sp { namespace graphics {
 
 #define RENDERER_VERTEX_SIZE	sizeof(VertexData)
 
+	///
+	/// Renderable2D
+	///
+	/// Base class for 2D renderables, such as Sprites and Labels.
+	/// Note that positions are stored as center points with size
+	/// being half-width and half-height extents. AABBs in Sparky
+	/// on the other hand are min and max coordinates.
 	class SP_API Renderable2D
 	{
 	protected:
-		maths::vec3 m_Position;
-		maths::vec2 m_Size;
+		maths::Rectangle m_Bounds;
 		uint m_Color;
 		std::vector<maths::vec2> m_UVs;
 		API::Texture* m_Texture;
 		bool m_Visible;
 	protected:
-		Renderable2D() : m_Texture(nullptr) { m_UVs = GetDefaultUVs(); }
+		Renderable2D();
 	public:
-		Renderable2D(const maths::vec3& position, const maths::vec2& size, uint color)
-			: m_Position(position), m_Size(size), m_Color(color), m_Texture(nullptr), m_Visible(true)
-		{ m_UVs = GetDefaultUVs(); }
+		Renderable2D(const maths::vec2& position, const maths::vec2& size, uint color);
+		virtual ~Renderable2D();
 
-		virtual ~Renderable2D() { }
+		virtual void Submit(Renderer2D* renderer) const;
 
-		virtual void Submit(Renderer2D* renderer) const
-		{
-			renderer->Submit(this);
-		}
+		inline const maths::vec2& GetPosition() const { return m_Bounds.position; }
+		inline const maths::vec2& GetSize() const { return m_Bounds.size; }
 
-		void SetColor(uint color) { m_Color = color; }
-		void SetColor(const maths::vec4& color)
-		{ 
-			uint r = (uint)(color.x * 255.0f);
-			uint g = (uint)(color.y * 255.0f);
-			uint b = (uint)(color.z * 255.0f);
-			uint a = (uint)(color.w * 255.0f);
+		inline const maths::Rectangle& GetBounds() const { return m_Bounds; }
+		inline maths::Rectangle& GetBounds() { return m_Bounds; }
 
-			m_Color = a << 24 | b << 16 | g << 8 | r;
-		}
-
-		inline const maths::vec3& GetPosition() const { return m_Position; }
-		inline const maths::vec2& GetSize() const { return m_Size; }
+		inline maths::AABB GetBoundingBox() const { return m_Bounds; }
 		inline const uint GetColor() const { return m_Color; }
-		inline const std::vector<maths::vec2>& GetUV() const { return m_UVs; }
 
 		inline API::Texture* GetTexture() const { return m_Texture; }
+		inline const std::vector<maths::vec2>& GetUVs() const { return m_UVs; }
 
 		inline bool IsVisible() const { return m_Visible; }
+
+		inline void SetPosition(const maths::vec2& position) { m_Bounds.position = position; }
+		inline void SetSize(const maths::vec2& size) { m_Bounds.size = size; }
+		inline void SetColor(uint color) { m_Color = color; }
+		void SetColor(const maths::vec4& color);
+
 		inline void SetVisible(bool visible) { m_Visible = visible; }
 	public:
-		static std::vector<maths::vec2> GetDefaultUVs()
-		{
-			static std::vector<maths::vec2> results;
-			if (!results.size())
-			{
-				results.push_back(maths::vec2(0, 1));
-				results.push_back(maths::vec2(1, 1));
-				results.push_back(maths::vec2(1, 0));
-				results.push_back(maths::vec2(0, 0));
-			}
-			return results;
-		}
+		static const std::vector<maths::vec2>& GetDefaultUVs();
 	};
 
 } }
