@@ -41,7 +41,7 @@ namespace sp { namespace debug {
 
 	void DebugMenu::Init()
 	{
-		SP_ASSERT(s_Instance == nullptr); // There should only ever be ONE Debug Menu!
+		SP_ASSERT(s_Instance == nullptr, ""); // There should only ever be ONE Debug Menu!
 		spnew DebugMenu();
 	}
 
@@ -93,7 +93,7 @@ namespace sp { namespace debug {
 			action->name = paths.back();
 			paths.pop_back();
 			PathAction* pathAction = s_Instance->CreateOrFindPaths(paths);
-			SP_ASSERT(pathAction);
+			SP_ASSERT(pathAction, "");
 			if (!pathAction->ContainsAction(action->name))
 				pathAction->actionList.push_back(action);
 			else
@@ -134,7 +134,7 @@ namespace sp { namespace debug {
 			String name = paths.back();
 			paths.pop_back();
 			PathAction* pathAction = s_Instance->CreateOrFindPaths(paths);
-			SP_ASSERT(pathAction);
+			SP_ASSERT(pathAction, "");
 			if (pathAction->ContainsAction(name))
 			{
 				if (pathAction->actionList.size() == 1)

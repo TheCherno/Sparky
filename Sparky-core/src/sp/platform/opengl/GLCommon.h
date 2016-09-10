@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GL/glew.h>
+#include "gl.h"
 
 namespace sp {
 	extern GLenum GLCheckError();
@@ -10,7 +10,7 @@ namespace sp {
 #ifdef SP_DEBUG
 	#define GLCall(x) sp::GLCheckError();\
 		x; \
-		if (!sp::GLLogCall(#x, __FILE__, __LINE__)) __debugbreak();
+		if (!sp::GLLogCall(#x, __FILE__, __LINE__)) SP_BREAK;
 #else
 	#define GLCall(x) x
 #endif

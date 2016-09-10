@@ -41,6 +41,33 @@ namespace sp { namespace internal {
 	static char to_string_buffer[1024 * 10];
 	static char sprintf_buffer[1024 * 10];
 
+	template <typename T>
+	static const char* to_string_internal(const T& v, const std::true_type& ignored)
+	{
+		sprintf(to_string_buffer, "Container of size: %d, contents: %s", v.size(), format_iterators(v.begin(), v.end()).c_str());
+		return to_string_buffer;
+	}
+
+	template <typename T>
+	static const char* to_string_internal(const T& t, const std::false_type& ignored)
+	{
+		auto x = StringFormat::ToString(t);
+		return strcpy(to_string_buffer, x.c_str());
+	}
+
+	template<typename X, typename Y>
+	static const char* to_string(const std::pair<X, Y>& v)
+	{
+		sprintf(to_string_buffer, "(Key: %s, Value: %s)", to_string(v.first), to_string(v.second));
+		return to_string_buffer;
+	}
+
+	template<>
+	static const char* to_string_internal<const char*>(const char* const& v, const std::false_type& ignored)
+	{
+		return v;
+	}
+
 	SP_API void PlatformLogMessage(uint level, const char* message);
 
 	template <class T>
@@ -227,33 +254,6 @@ namespace sp { namespace internal {
 		return result;
 	}
 
-	template <typename T>
-	static const char* to_string_internal(const T& v, const std::true_type& ignored)
-	{
-		sprintf(to_string_buffer, "Container of size: %d, contents: %s", v.size(), format_iterators(v.begin(), v.end()).c_str());
-		return to_string_buffer;
-	}
-
-	template <typename T>
-	static const char* to_string_internal(const T& t, const std::false_type& ignored)
-	{
-		auto x = StringFormat::ToString(t);
-		return strcpy(to_string_buffer, x.c_str());
-	}
-
-	template<typename X, typename Y>
-	static const char* to_string(const std::pair<typename X, typename Y>& v)
-	{
-		sprintf(to_string_buffer, "(Key: %s, Value: %s)", to_string(v.first), to_string(v.second));
-		return to_string_buffer;
-	}
-
-	template<>
-	static const char* to_string_internal<const char*>(const char* const& v, const std::false_type& ignored)
-	{
-		return v;
-	}
-
 	template <typename First>
 	static void print_log_internal(char* buffer, int32& position, First&& first)
 	{
@@ -331,6 +331,14 @@ namespace sp { namespace internal {
 #define _SP_INFO(...)
 #endif
 
+#if defined(SP_PLATFORM_WIN32)
+#define SP_BREAK __debugbreak()
+#elif defined(SP_PLATFORM_ANDROID)
+#define SP_BREAK __asm__ volatile(".inst 0xd4200000")
+#else
+#error No platform defined!
+#endif
+
 #ifdef SP_DEBUG
 #define SP_ASSERT(x, ...) \
 		if (!(x)) {\
@@ -340,8 +348,9 @@ namespace sp { namespace internal {
 			SP_FATAL(__FILE__, ": ", __LINE__); \
 			SP_FATAL("Condition: ", #x); \
 			SP_FATAL(__VA_ARGS__); \
-			__debugbreak(); \
+			SP_BREAK; \
 		}
 #else
+#define SP_ASSERT(x)
 #define SP_ASSERT(x, ...)
 #endif

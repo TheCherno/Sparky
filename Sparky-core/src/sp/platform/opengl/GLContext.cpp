@@ -1,6 +1,7 @@
 #include "sp/sp.h"
 #include "GLContext.h"
 
+#ifdef SP_PLATFORM_WIN32
 #undef NOGDI
 #include <Windows.h>
 #define NOGDI
@@ -43,3 +44,4 @@ namespace sp { namespace graphics { namespace API {
 	}
 
 } } }
+#endif

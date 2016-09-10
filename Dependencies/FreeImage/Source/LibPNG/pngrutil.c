@@ -3916,7 +3916,7 @@ png_init_filter_functions(png_structrp pp)
     * To see an example of this examine what configure.ac does when
     * --enable-arm-neon is specified on the command line.
     */
-   PNG_FILTER_OPTIMIZATIONS(pp, bpp);
+   // PNG_FILTER_OPTIMIZATIONS(pp, bpp);
 #endif
 }
 

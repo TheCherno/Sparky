@@ -26,7 +26,7 @@ namespace sp {
 	class SP_API Window
 	{
 	private:
-		static std::map<void*, Window*> s_Handles;
+		static std::unordered_map<void*, Window*> s_Handles;
 	private:
 		String m_Title;
 		WindowProperties m_Properties;

@@ -3,7 +3,7 @@
 
 #include "sp/utils/Log.h"
 
-#include <GL/glew.h>
+#include "gl.h"
 
 namespace sp { namespace graphics {
 

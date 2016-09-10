@@ -10,7 +10,7 @@ using namespace component;
 
 using namespace API;
 
-#define DEBUG_MENU(name, var, min, max) debug::DebugMenu::Add("Test3D/" ## name, var, min, max)
+#define DEBUG_MENU(name, var, min, max) debug::DebugMenu::Add("Test3D/" name, var, min, max)
 
 Test3D::Test3D()
 	: Layer3D(spnew Scene())

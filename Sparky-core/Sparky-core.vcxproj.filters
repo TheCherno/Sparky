@@ -440,8 +440,15 @@
     </ClCompile>
     <ClCompile Include="src\sp\system\FileSystem.cpp">
       <Filter>sp\system</Filter>
-    </ClCompile> 	<ClCompile Include="src\sp\entity\component\Physics2DComponent.cpp" />
-    <ClCompile Include="src\sp\graphics\Renderable2D.cpp" />	<ClCompile Include="src\sp\graphics\Renderer2D.cpp" />  </ItemGroup>
+    </ClCompile>
+    <ClCompile Include="src\sp\graphics\Renderable2D.cpp" />
+    <ClCompile Include="src\sp\graphics\Renderer2D.cpp" />
+    <ClCompile Include="src\sp\debug\DebugMenuAction.cpp" />
+    <ClCompile Include="src\sp\platform\android\AndroidApplication.cpp" />
+    <ClCompile Include="src\sp\platform\android\AndroidFileSystem.cpp" />
+    <ClCompile Include="src\sp\platform\android\AndroidInput.cpp" />
+    <ClCompile Include="src\sp\platform\android\AndroidLog.cpp" />
+  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Application.h">
       <Filter>sp\app</Filter>
@@ -858,6 +865,7 @@
       <Filter>sp\system</Filter>
     </ClInclude>
     <ClInclude Include="src\sp\utils\Timestep.h" />
+    <ClInclude Include="src\sp\platform\opengl\gl.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="SparkyCore-TODO.txt" />

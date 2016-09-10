@@ -1,7 +1,7 @@
 #include "sp/sp.h"
 #include "GLShader.h"
 
-#include <GL/glew.h>
+#include "gl.h"
 #include "sp/system/Memory.h"
 
 namespace sp { namespace graphics { namespace API {
@@ -17,7 +17,7 @@ namespace sp { namespace graphics { namespace API {
 		String* shaders[2] = { &vert, &frag };
 		GLShader::PreProcess(source, shaders);
 		GLShaderErrorInfo info;
-		if (!GLShader::Compile(shaders, info))
+		if (!GLShader::Compile(shaders, &info))
 		{
 			error = info.message[info.shader];
 			return false;
@@ -50,10 +50,10 @@ namespace sp { namespace graphics { namespace API {
 		PreProcess(m_Source, shaders);
 		Parse(m_VertexSource, m_FragmentSource);
 		GLShaderErrorInfo error;
-		m_Handle = Compile(shaders, error);
+		m_Handle = Compile(shaders, &error);
 		if (!m_Handle)
 			SP_ERROR(error.message[error.shader]);
-		SP_ASSERT(m_Handle);
+		SP_ASSERT(m_Handle, "");
 		ResolveUniforms();
 		ValidateUniforms();
 	}
@@ -86,7 +86,7 @@ namespace sp { namespace graphics { namespace API {
 		}
 	}
 
-	uint GLShader::Compile(String** shaders, GLShaderErrorInfo& info)
+	uint GLShader::Compile(String** shaders, GLShaderErrorInfo* info)
 	{
 		const char* vertexSource = shaders[0]->c_str();
 		const char* fragmentSource = shaders[1]->c_str();
@@ -107,9 +107,12 @@ namespace sp { namespace graphics { namespace API {
 			std::vector<char> error(length);
 			GLCall(glGetShaderInfoLog(vertex, length, &length, &error[0]));
 			String errorMessage(&error[0]);
-			info.shader = 0;
-			info.message[info.shader] += "Failed to compile vertex shader!\n";
-			info.message[info.shader] += errorMessage;
+			if (info)
+			{
+				info->shader = 0;
+				info->message[info->shader] += "Failed to compile vertex shader!\n";
+				info->message[info->shader] += errorMessage;
+			}
 			GLCall(glDeleteShader(vertex));
 			return 0;
 		}
@@ -127,14 +130,17 @@ namespace sp { namespace graphics { namespace API {
 			String errorMessage(&error[0], length);
 			int32 lineNumber;
 			sscanf(&error[0], "%*s %*d:%d", &lineNumber);
-			info.shader = 1;
-			info.message[info.shader] += "Failed to compile fragment shader!\n";
+			if (info)
+			{
+				info->shader = 1;
+				info->message[info->shader] += "Failed to compile fragment shader!\n";
 
-			// String line = utils::GetLines(m_FragmentSource)[lineNumber - 1];
-			// uint absoluteLine = utils::GetLines(m_VertexSource).size() + lineNumber + 2;
-			// info.message += lineNumber + "(" + StringFormat::ToString(absoluteLine) + ")  " + line;
-			info.line[info.shader] = lineNumber;
-			info.message[info.shader] += errorMessage;
+				// String line = utils::GetLines(m_FragmentSource)[lineNumber - 1];
+				// uint absoluteLine = utils::GetLines(m_VertexSource).size() + lineNumber + 2;
+				// info.message += lineNumber + "(" + StringFormat::ToString(absoluteLine) + ")  " + line;
+				info->line[info->shader] = lineNumber;
+				info->message[info->shader] += errorMessage;
+			}
 			GLCall(glDeleteShader(fragment));
 			return 0;
 		}
@@ -232,7 +238,7 @@ namespace sp { namespace graphics { namespace API {
 			{
 				// Find struct
 				ShaderStruct* s = FindStruct(typeString);
-				SP_ASSERT(s);
+				SP_ASSERT(s, "");
 				declaration = new GLShaderUniformDeclaration(s, name, count);
 			}
 			else
@@ -521,7 +527,7 @@ namespace sp { namespace graphics { namespace API {
 	void GLShader::SetVSSystemUniformBuffer(byte* data, uint size, uint slot)
 	{
 		Bind();
-		SP_ASSERT(m_VSUniformBuffers.size() > slot);
+		SP_ASSERT(m_VSUniformBuffers.size() > slot, "");
 		ShaderUniformBufferDeclaration* declaration = m_VSUniformBuffers[slot];
 		ResolveAndSetUniforms(declaration, data, size);
 	}
@@ -529,7 +535,7 @@ namespace sp { namespace graphics { namespace API {
 	void GLShader::SetPSSystemUniformBuffer(byte* data, uint size, uint slot)
 	{
 		Bind();
-		SP_ASSERT(m_PSUniformBuffers.size() > slot);
+		SP_ASSERT(m_PSUniformBuffers.size() > slot, "");
 		ShaderUniformBufferDeclaration* declaration = m_PSUniformBuffers[slot];
 		ResolveAndSetUniforms(declaration, data, size);
 	}

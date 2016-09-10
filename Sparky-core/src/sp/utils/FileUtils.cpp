@@ -11,7 +11,7 @@ namespace sp { namespace utils {
 
 		fseek(file, 0, SEEK_END);
 		int32 length = ftell(file);
-		SP_ASSERT(length < 100 * 1024 * 1024);
+		SP_ASSERT(length < 100 * 1024 * 1024, "");
 		String result(length, 0);
 		fseek(file, 0, SEEK_SET);
 		fread(&result[0], 1, length, file);

@@ -67,11 +67,11 @@ namespace sp { namespace graphics {
 			}
 			memcpy(buffer + declaration->GetOffset(), &data, declaration->GetSize());
 		}
-
+#if 0
 		template<typename T>
 		const T* GetUniform(const String& name) const
 		{
-			return GetUniform<T>(GetUniformDeclaration(name));
+			return GetUniform<T>(FindUniformDeclaration(name));
 		}
 
 		template<typename T>
@@ -79,10 +79,11 @@ namespace sp { namespace graphics {
 		{
 			return (T*)&m_UniformData[uniform->GetOffset()];
 		}
+#endif
 	protected:
 		void AllocateStorage();
-		API::ShaderUniformDeclaration* FindUniformDeclaration(const String& name, byte** outBuffer = nullptr);
-		API::ShaderResourceDeclaration* FindResourceDeclaration(const String& name);
+		API::ShaderUniformDeclaration* FindUniformDeclaration(const String& name, byte** outBuffer = nullptr) const;
+		API::ShaderResourceDeclaration* FindResourceDeclaration(const String& name) const;
 	};
 
 	class SP_API MaterialInstance
@@ -122,19 +123,19 @@ namespace sp { namespace graphics {
 		{
 			byte* buffer;
 			API::ShaderUniformDeclaration* declaration = FindUniformDeclaration(name, &buffer);
-			SP_ASSERT(declaration);
+			SP_ASSERT(declaration, "");
 			memcpy(buffer + declaration->GetOffset(), &data, declaration->GetSize());
 		}
 
 		template<typename T>
 		const T* GetUniform(const String& name) const
 		{
-			return GetUniform<T>(GetUniformDeclaration(name));
+			return GetUniform<T>(FindUniformDeclaration(name));
 		}
 	private:
 		void AllocateStorage();
-		API::ShaderUniformDeclaration* FindUniformDeclaration(const String& name, byte** outBuffer = nullptr);
-		API::ShaderResourceDeclaration* FindResourceDeclaration(const String& name);
+		API::ShaderUniformDeclaration* FindUniformDeclaration(const String& name, byte** outBuffer = nullptr) const;
+		API::ShaderResourceDeclaration* FindResourceDeclaration(const String& name) const;
 	};
 
 } }

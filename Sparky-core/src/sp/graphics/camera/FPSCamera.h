@@ -19,8 +19,8 @@ namespace sp { namespace graphics {
 	private:
 		maths::Quaternion GetOrientation() const;
 		maths::vec3 GetForwardDirection(const maths::Quaternion& orientation) const;
-		maths::vec3 FPSCamera::GetUpDirection(const maths::Quaternion& orientation) const;
-		maths::vec3 FPSCamera::GetRightDirection(const maths::Quaternion& orientation) const;
+		maths::vec3 GetUpDirection(const maths::Quaternion& orientation) const;
+		maths::vec3 GetRightDirection(const maths::Quaternion& orientation) const;
 	};
 
 } }

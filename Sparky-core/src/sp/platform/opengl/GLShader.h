@@ -58,7 +58,7 @@ namespace sp { namespace graphics { namespace API {
 		inline const ShaderUniformBufferDeclaration* GetPSUserUniformBuffer() const override { return m_PSUserUniformBuffer; }
 		inline const ShaderResourceList& GetResources() const override { return m_Resources; }
 	private:
-		static uint Compile(String** shaders, GLShaderErrorInfo& info = GLShaderErrorInfo());
+		static uint Compile(String** shaders, GLShaderErrorInfo* info = nullptr);
 		static void PreProcess(const String& source, String** shaders);
 
 		void Parse(const String& vertexSource, const String& fragmentSource);

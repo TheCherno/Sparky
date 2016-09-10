@@ -93,14 +93,14 @@ namespace sp { namespace graphics {
 	void Material::SetTexture(const String& name, Texture* texture)
 	{
 		ShaderResourceDeclaration* declaration = FindResourceDeclaration(name);
-		SP_ASSERT(declaration);
+		SP_ASSERT(declaration, "");
 		uint slot = declaration->GetRegister();
 		if (m_Textures.size() <= slot)
 			m_Textures.resize(slot + 1);
 		m_Textures[slot] = texture;
 	}
 
-	ShaderUniformDeclaration* Material::FindUniformDeclaration(const String& name, byte** outBuffer)
+	ShaderUniformDeclaration* Material::FindUniformDeclaration(const String& name, byte** outBuffer) const
 	{
 		if (m_VSUserUniforms)
 		{
@@ -127,7 +127,7 @@ namespace sp { namespace graphics {
 		return nullptr;
 	}
 
-	ShaderResourceDeclaration* Material::FindResourceDeclaration(const String& name)
+	ShaderResourceDeclaration* Material::FindResourceDeclaration(const String& name) const
 	{
 		for (ShaderResourceDeclaration* resource : *m_Resources)
 		{
@@ -201,7 +201,7 @@ namespace sp { namespace graphics {
 	{
 		byte* buffer;
 		ShaderUniformDeclaration* declaration = FindUniformDeclaration(uniform, &buffer);
-		SP_ASSERT(buffer);
+		SP_ASSERT(buffer, "");
 		memcpy(buffer + declaration->GetOffset(), data, declaration->GetSize());
 	}
 
@@ -214,7 +214,7 @@ namespace sp { namespace graphics {
 		m_Textures[slot] = texture;
 	}
 
-	ShaderUniformDeclaration* MaterialInstance::FindUniformDeclaration(const String& name, byte** outBuffer)
+	ShaderUniformDeclaration* MaterialInstance::FindUniformDeclaration(const String& name, byte** outBuffer) const
 	{
 		if (m_VSUserUniforms)
 		{
@@ -241,7 +241,7 @@ namespace sp { namespace graphics {
 		return nullptr;
 	}
 
-	ShaderResourceDeclaration* MaterialInstance::FindResourceDeclaration(const String& name)
+	ShaderResourceDeclaration* MaterialInstance::FindResourceDeclaration(const String& name) const
 	{
 		for (ShaderResourceDeclaration* resource : *m_Resources)
 		{

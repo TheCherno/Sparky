@@ -64,14 +64,14 @@ namespace sp { namespace graphics {
 			return maths::vec2(0.0f, 0.0f);
 
 		texture_glyph_t* glyph = texture_font_get_glyph(m_FTFont, text[0]);
-		SP_ASSERT(glyph);
+		SP_ASSERT(glyph, "");
 
 		float yo = 0.0f;
 		const maths::vec2& scale = m_Scale;
 		for (int i = 0; i < text.size(); i++)
 		{
 			texture_glyph_t* glyph = texture_font_get_glyph(m_FTFont, text[i]);
-			SP_ASSERT(glyph);
+			SP_ASSERT(glyph, "");
 			float height = glyph->height / scale.y;
 			float offset = glyph->offset_y / scale.y - height;
 			if (offset < yo)
@@ -90,7 +90,7 @@ namespace sp { namespace graphics {
 		for (int i = 0; i < text.size(); i++)
 		{
 			texture_glyph_t* glyph = texture_font_get_glyph(m_FTFont, text[i]);
-			SP_ASSERT(glyph);
+			SP_ASSERT(glyph, "");
 			if (i > 0)
 			{
 				float kerning = texture_glyph_get_kerning(glyph, text[i - 1]);
@@ -111,7 +111,7 @@ namespace sp { namespace graphics {
 		for (int i = 0; i < text.size(); i++)
 		{
 			texture_glyph_t* glyph = texture_font_get_glyph(m_FTFont, text[i]);
-			SP_ASSERT(glyph);
+			SP_ASSERT(glyph, "");
 			float height = glyph->height / scale.y;
 			float offset = glyph->offset_y / scale.y - height;
 			if (offset < min)

@@ -70,7 +70,6 @@ void Test2D::OnTick()
 
 void Test2D::OnUpdate(const Timestep& ts)
 {
-
 }
 
 bool Test2D::OnKeyPressedEvent(KeyPressedEvent& event)

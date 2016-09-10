@@ -4,7 +4,9 @@
 #include "sp/system/Memory.h"
 
 #include "sp/platform/opengl/GLTexture2D.h"
+#ifdef SP_PLATFORM_WIN32
 #include "sp/platform/directx/DXTexture2D.h"
+#endif
 
 #include "sp/graphics/API/Context.h"
 
@@ -15,7 +17,9 @@ namespace sp { namespace graphics { namespace API {
 		switch (Context::GetRenderAPI())
 		{
 			case RenderAPI::OPENGL:		return spnew GLTexture2D(width, height, parameters, loadOptions);
+#ifdef SP_PLATFORM_WIN32
 			case RenderAPI::DIRECT3D:	return spnew D3DTexture2D(width, height, parameters, loadOptions);
+#endif
 		}
 		return nullptr;
 	}
@@ -25,7 +29,9 @@ namespace sp { namespace graphics { namespace API {
 		switch (Context::GetRenderAPI())
 		{
 			case RenderAPI::OPENGL:		return spnew GLTexture2D(filepath, filepath, parameters, loadOptions);
+#ifdef SP_PLATFORM_WIN32
 			case RenderAPI::DIRECT3D:	return spnew D3DTexture2D(filepath, filepath, parameters, loadOptions);
+#endif
 		}
 		return nullptr;
 	}
@@ -35,7 +41,9 @@ namespace sp { namespace graphics { namespace API {
 		switch (Context::GetRenderAPI())
 		{
 		case RenderAPI::OPENGL:		return spnew GLTexture2D(filepath, filepath, TextureParameters(), loadOptions);
+#ifdef SP_PLATFORM_WIN32
 		case RenderAPI::DIRECT3D:	return spnew D3DTexture2D(filepath, filepath, TextureParameters(), loadOptions);
+#endif
 		}
 		return nullptr;
 	}
@@ -45,7 +53,9 @@ namespace sp { namespace graphics { namespace API {
 		switch (Context::GetRenderAPI())
 		{
 			case RenderAPI::OPENGL:		return spnew GLTexture2D(name, filepath, parameters, loadOptions);
+#ifdef SP_PLATFORM_WIN32
 			case RenderAPI::DIRECT3D:	return spnew D3DTexture2D(name, filepath, parameters, loadOptions);
+#endif
 		}
 		return nullptr;
 	}
@@ -55,7 +65,9 @@ namespace sp { namespace graphics { namespace API {
 		switch (Context::GetRenderAPI())
 		{
 		case RenderAPI::OPENGL:		return spnew GLTexture2D(name, filepath, TextureParameters(), loadOptions);
+#ifdef SP_PLATFORM_WIN32
 		case RenderAPI::DIRECT3D:	return spnew D3DTexture2D(name, filepath, TextureParameters(), loadOptions);
+#endif
 		}
 		return nullptr;
 	}

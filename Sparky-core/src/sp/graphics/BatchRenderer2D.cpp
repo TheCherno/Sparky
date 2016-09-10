@@ -56,7 +56,7 @@ namespace sp { namespace graphics {
 
 		m_Shader = ShaderFactory::BatchRendererShader();
 		const API::ShaderUniformBufferList& vssu = m_Shader->GetVSSystemUniforms();
-		SP_ASSERT(vssu.size());
+		SP_ASSERT(vssu.size(), "");
 		for (uint i = 0; i < vssu.size(); i++)
 		{
 			API::ShaderUniformBufferDeclaration* ub = vssu[i];
@@ -171,7 +171,7 @@ namespace sp { namespace graphics {
 	{
 		if (m_Target == RenderTarget::BUFFER)
 		{
-			SP_ASSERT(false); // Currently Unsupported
+			SP_ASSERT(false, ""); // Currently Unsupported
 #if 0
 			if (m_ViewportSize != m_Framebuffer->GetSize())
 			{
@@ -354,7 +354,7 @@ namespace sp { namespace graphics {
 		using namespace ftgl;
 
 		API::Texture2D* texture = font.GetTexture();
-		SP_ASSERT(texture);
+		SP_ASSERT(texture, "");
 		float ts = SubmitTexture(texture);
 
 		const vec2& scale = font.GetScale(); // FontManager::GetScale();
@@ -512,7 +512,7 @@ namespace sp { namespace graphics {
 		
 		if (m_Target == RenderTarget::BUFFER)
 		{
-			SP_ASSERT(false); // Currently unsupported
+			SP_ASSERT(false, ""); // Currently unsupported
 #if 0
 			// Post Effects pass should go here!
 			if (s_PostEffectsEnabled && m_PostEffectsEnabled)

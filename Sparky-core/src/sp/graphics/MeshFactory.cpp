@@ -6,8 +6,6 @@
 #include "sp/graphics/Renderable2D.h"
 #include "sp/graphics/shaders/Shader.h"
 
-#include <GL/glew.h>
-
 namespace sp { namespace graphics { namespace MeshFactory {
 
 	Mesh* CreateQuad(float x, float y, float width, float height, MaterialInstance* material)

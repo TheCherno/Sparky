@@ -1,7 +1,7 @@
 #include "sp/sp.h"
 #include "GLIndexBuffer.h"
 
-#include <GL/glew.h>
+#include "gl.h"
 #include "sp/utils/Log.h"
 
 namespace sp { namespace graphics { namespace API {

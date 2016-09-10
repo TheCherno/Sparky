@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="jni">
+      <UniqueIdentifier>2f03bc55-7e87-4e14-83d6-eccbe5a131b5</UniqueIdentifier>
+    </Filter>
+    <Filter Include="res">
+      <UniqueIdentifier>142646f8-bd64-46d4-a529-4b83a00f2a70</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>b1761225-7d99-477b-aa51-2048c2169df1</UniqueIdentifier>
+    </Filter>
+    <Filter Include="res\values">
+      <UniqueIdentifier>e362c291-6438-49e9-9ef4-5fd34034f5dd</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\com">
+      <UniqueIdentifier>f7fca9eb-b96c-4290-9efd-e07c70db277b</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\com\example">
+      <UniqueIdentifier>44eb63bd-077f-43c3-84eb-dcb307303e48</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\com\example\hellojni">
+      <UniqueIdentifier>d14dc168-74c7-473f-9497-b4a9c2d21fdc</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidBuild Include="AndroidManifest.xml" />
+    <AndroidBuild Include="res\values\strings.xml">
+      <Filter>res\values</Filter>
+    </AndroidBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <JCompile Include="src\com\example\hellojni\HelloJni.java">
+      <Filter>src\com\example\hellojni</Filter>
+    </JCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="jni\HelloJni.cpp">
+      <Filter>jni</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -63,11 +63,11 @@ namespace sp { namespace internal {
 		avm = MemoryManager::BytesToString(availableVirtualMemory);
 		tvm = MemoryManager::BytesToString(totalVirtualMemory);
 
-		SP_INFO();
+		SP_INFO("");
 		SP_INFO("Memory Info:");
 		SP_INFO("\tPhysical Memory (Avail/Total): ", apm, " / ", tpm);
 		SP_INFO("\tVirtual Memory  (Avail/Total): ", avm, " / ", tvm);
-		SP_INFO();
+		SP_INFO("");
 	}
 
 } }

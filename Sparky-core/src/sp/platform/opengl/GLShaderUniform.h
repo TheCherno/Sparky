@@ -3,6 +3,7 @@
 #include "sp/Common.h"
 #include "sp/graphics/shaders/ShaderUniform.h"
 #include "GLCommon.h"
+#include "sp/utils/Log.h"
 
 namespace sp { namespace graphics { namespace API {
 
@@ -37,7 +38,7 @@ namespace sp { namespace graphics { namespace API {
 
 		int32 GetLocation() const { return m_Location; }
 		inline Type GetType() const { return m_Type; }
-		inline const ShaderStruct& GetShaderUniformStruct() const { SP_ASSERT(m_Struct); return *m_Struct; }
+		inline const ShaderStruct& GetShaderUniformStruct() const { SP_ASSERT(m_Struct, ""); return *m_Struct; }
 	protected:
 		void SetOffset(uint offset) override;
 	public:

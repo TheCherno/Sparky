@@ -12,6 +12,7 @@ namespace sp { namespace graphics { namespace API {
 		BufferUsage m_Usage;
 		uint m_Size;
 		BufferLayout m_Layout;
+		byte* m_ScratchBuffer;
 	public:
 		GLVertexBuffer(BufferUsage usage);
 		~GLVertexBuffer();

@@ -21,13 +21,13 @@ namespace sp {
 	
 	void VFS::Mount(const String& virtualPath, const String& physicalPath)
 	{
-		SP_ASSERT(s_Instance);
+		SP_ASSERT(s_Instance, "");
 		m_MountPoints[virtualPath].push_back(physicalPath);
 	}
 
 	void VFS::Unmount(const String& path)
 	{
-		SP_ASSERT(s_Instance);
+		SP_ASSERT(s_Instance, "");
 		m_MountPoints[path].clear();
 	}
 
@@ -60,21 +60,21 @@ namespace sp {
 
 	byte* VFS::ReadFile(const String& path)
 	{
-		SP_ASSERT(s_Instance);		
+		SP_ASSERT(s_Instance, "");
 		String physicalPath;
 		return ResolvePhysicalPath(path, physicalPath) ? FileSystem::ReadFile(physicalPath) : nullptr;
 	}
 
 	String VFS::ReadTextFile(const String& path)
 	{
-		SP_ASSERT(s_Instance);
+		SP_ASSERT(s_Instance, "");
 		String physicalPath;
 		return ResolvePhysicalPath(path, physicalPath) ? FileSystem::ReadTextFile(physicalPath) : nullptr;
 	}
 
 	bool VFS::WriteFile(const String& path, byte* buffer)
 	{
-		SP_ASSERT(s_Instance);
+		SP_ASSERT(s_Instance, "");
 		String physicalPath;
 		return ResolvePhysicalPath(path, physicalPath) ? FileSystem::WriteFile(physicalPath, buffer) : false;
 
@@ -82,7 +82,7 @@ namespace sp {
 
 	bool VFS::WriteTextFile(const String& path, const String& text)
 	{
-		SP_ASSERT(s_Instance);
+		SP_ASSERT(s_Instance, "");
 		String physicalPath;
 		return ResolvePhysicalPath(path, physicalPath) ? FileSystem::WriteTextFile(physicalPath, text) : false;
 	}

@@ -1,7 +1,7 @@
 #include "sp/sp.h"
 #include "GLTextureCube.h"
 
-#include <GL/glew.h>
+#include "gl.h"
 #include <FreeImage.h>
 
 #include "sp/utils/ImageLoad.h"

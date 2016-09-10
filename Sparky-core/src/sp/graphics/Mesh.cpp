@@ -3,8 +3,6 @@
 
 #include "Renderer3D.h"
 
-#include <GL/glew.h>
-
 #include "sp/debug/DebugRenderer.h"
 
 namespace sp { namespace graphics {

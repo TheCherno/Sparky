@@ -1,8 +1,6 @@
 #include "sp/sp.h"
 #include "Model.h"
 
-#include <GL/glew.h>
-
 #include "sp/system/Memory.h"
 #include "sp/graphics/shaders/ShaderManager.h"
 #include "sp/system/VFS.h"
@@ -57,11 +55,11 @@ namespace sp { namespace graphics {
 		VFS::Get()->ResolvePhysicalPath(path, physicalPath);
 		SPMFormat format;
 		FILE* f = fopen(physicalPath.c_str(), "rb");
-		SP_ASSERT(f);
+		SP_ASSERT(f, "");
 		{
 			byte header[4];
 			ReadBytes(f, header, 4);
-			SP_ASSERT(memcmp(header, format.header, 4) == 0);
+			SP_ASSERT(memcmp(header, format.header, 4) == 0, "");
 		}
 
 		{
@@ -107,7 +105,7 @@ namespace sp { namespace graphics {
 		{
 			byte footer[4];
 			ReadBytes(f, footer, 4);
-			SP_ASSERT(memcmp(footer, format.footer, 4) == 0);
+			SP_ASSERT(memcmp(footer, format.footer, 4) == 0, "");
 		}
 
 		fclose(f);

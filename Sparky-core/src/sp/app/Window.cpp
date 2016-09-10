@@ -12,7 +12,7 @@ namespace sp {
 
 	using namespace graphics;
 
-	std::map<void*, Window*> Window::s_Handles;
+	std::unordered_map<void*, Window*> Window::s_Handles;
 
 	Window::Window(const String& title, const WindowProperties& properties)
 		: m_Title(title), m_Properties(properties), m_Handle(nullptr), m_Closed(false), m_EventCallback(nullptr)
@@ -32,7 +32,9 @@ namespace sp {
 
 		FreeImage_Initialise();
 
+#ifdef SP_PLATFORM_WIN32
 		audio::SoundManager::Init();
+#endif
 		m_InputManager = new InputManager();
 	}
 
@@ -40,7 +42,9 @@ namespace sp {
 	{
 		FontManager::Clean();
 		TextureManager::Clean();
+#ifdef SP_PLATFORM_WIN32
 		audio::SoundManager::Clean();
+#endif
 	}
 
 	bool Window::Init()
@@ -72,7 +76,9 @@ namespace sp {
  	void Window::Update()
 	{
 		PlatformUpdate();
+#ifdef SP_PLATFORM_WIN32
 		audio::SoundManager::Update();
+#endif
 	}
 
 	bool Window::Closed() const

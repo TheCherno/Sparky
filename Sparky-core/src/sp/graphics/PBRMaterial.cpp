@@ -93,7 +93,7 @@ namespace sp { namespace graphics {
 	API::Texture* PBRMaterial::GetAlbedoMap()
 	{
 		ShaderResourceDeclaration* declaration = FindResourceDeclaration("u_AlbedoMap");
-		SP_ASSERT(declaration);
+		SP_ASSERT(declaration, "");
 		uint slot = declaration->GetRegister();
 		return m_Textures.size() > slot ? m_Textures[slot] : nullptr;
 	}
@@ -101,7 +101,7 @@ namespace sp { namespace graphics {
 	API::Texture* PBRMaterial::GetSpecularMap()
 	{
 		ShaderResourceDeclaration* declaration = FindResourceDeclaration("u_SpecularMap");
-		SP_ASSERT(declaration);
+		SP_ASSERT(declaration, "");
 		uint slot = declaration->GetRegister();
 		return m_Textures.size() > slot ? m_Textures[slot] : nullptr;
 	}
@@ -109,7 +109,7 @@ namespace sp { namespace graphics {
 	API::Texture* PBRMaterial::GetNormalMap()
 	{
 		ShaderResourceDeclaration* declaration = FindResourceDeclaration("u_NormalMap");
-		SP_ASSERT(declaration);
+		SP_ASSERT(declaration, "");
 		uint slot = declaration->GetRegister();
 		return m_Textures.size() > slot ? m_Textures[slot] : nullptr;
 	}
@@ -117,7 +117,7 @@ namespace sp { namespace graphics {
 	API::Texture* PBRMaterial::GetGlossMap()
 	{
 		ShaderResourceDeclaration* declaration = FindResourceDeclaration("u_GlossMap");
-		SP_ASSERT(declaration);
+		SP_ASSERT(declaration, "");
 		uint slot = declaration->GetRegister();
 		return m_Textures.size() > slot ? m_Textures[slot] : nullptr;
 	}

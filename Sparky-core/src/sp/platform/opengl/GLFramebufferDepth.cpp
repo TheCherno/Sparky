@@ -3,7 +3,7 @@
 
 #include "sp/system/Memory.h"
 
-#include <GL/glew.h>
+#include "gl.h"
 #include "sp/utils/Log.h"
 
 namespace sp { namespace graphics {
@@ -26,9 +26,11 @@ namespace sp { namespace graphics {
 
 		m_Texture = spnew API::GLTextureDepth(m_Width, m_Height);
 
-		GLCall(glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, ((API::GLTextureDepth*)m_Texture)->GetHandle(), 0));
+		GLCall(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, ((API::GLTextureDepth*)m_Texture)->GetHandle(), 0));
+#ifdef SP_PLATFORM_WIN32
 		GLCall(glDrawBuffer(GL_NONE));
-		SP_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
+#endif
+		SP_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE, "");
 
 		GLCall(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 	}

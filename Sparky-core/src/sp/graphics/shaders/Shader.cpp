@@ -2,7 +2,9 @@
 #include "Shader.h"
 
 #include "sp/platform/opengl/GLShader.h"
+#ifdef SP_PLATFORM_WIN32
 #include "sp/platform/directx/DXShader.h"
+#endif
 
 #include "sp/graphics/API/Context.h"
 
@@ -25,12 +27,14 @@ namespace sp { namespace graphics { namespace API {
 				result->m_Path = filepath;
 				return result;
 			}
+#ifdef SP_PLATFORM_WIN32
 			case RenderAPI::DIRECT3D:
 			{
 				D3DShader* result = address ? new(address) D3DShader(name, source) : spnew D3DShader(name, source);
 				result->m_FilePath = filepath;
 				return result;
 			}
+#endif
 		}
 		return nullptr;
 	}
@@ -40,7 +44,9 @@ namespace sp { namespace graphics { namespace API {
 		switch (Context::GetRenderAPI())
 		{
 			case RenderAPI::OPENGL:		return spnew GLShader(name, source);
+#ifdef SP_PLATFORM_WIN32
 			case RenderAPI::DIRECT3D:	return spnew D3DShader(name, source);
+#endif
 		}
 		return nullptr;
 	}
@@ -50,7 +56,9 @@ namespace sp { namespace graphics { namespace API {
 		switch (Context::GetRenderAPI())
 		{
 			case RenderAPI::OPENGL:		return GLShader::TryCompile(source, error);
+#ifdef SP_PLATFORM_WIN32
 			case RenderAPI::DIRECT3D:	return D3DShader::TryCompile(source, error);
+#endif
 		}
 		return nullptr;
 	}
