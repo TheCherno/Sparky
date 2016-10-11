@@ -35,17 +35,12 @@ void Test2D::OnInit(Renderer2D& renderer, Material& material)
 	FontManager::Add(spnew Font("Consolas", "res/consola.ttf", 96));
 	FontManager::Add(spnew Font("Brush Script", "res/BrushScriptStd.otf", 96));
 
-	debugInfo = spnew Label*[10];
-	debugInfo[0] = spnew Label("", -15.5f, 8.5f, 0xffffffff);
-	debugInfo[1] = spnew Label("", -15.5f, 7.5f, 0xffffffff);
-	debugInfo[2] = spnew Label("", -15.5f, 6.5f, 0xffffffff);
-	debugInfo[3] = spnew Label("", -15.5f, 5.5f, 0xffffffff);
-	debugInfo[4] = spnew Label("", -15.5f, 4.5f, 0xffffffff);
-	Add(debugInfo[0]);
-	Add(debugInfo[1]);
-	Add(debugInfo[2]);
-	Add(debugInfo[3]);
-	Add(debugInfo[4]);
+	m_DebugInfo = spnew Label*[10];
+	Add(m_DebugInfo[0] = spnew Label("", -15.5f, 8.5f, 0xffffffff));
+	Add(m_DebugInfo[1] = spnew Label("", -15.5f, 7.5f, 0xffffffff));
+	Add(m_DebugInfo[2] = spnew Label("", -15.5f, 6.5f, 0xffffffff));
+	Add(m_DebugInfo[3] = spnew Label("", -15.5f, 5.5f, 0xffffffff));
+	Add(m_DebugInfo[4] = spnew Label("", -15.5f, 4.5f, 0xffffffff));
 
 	Add(spnew Label("Consolas", -15.5f, 0.0f, FontManager::Get("Consolas"), 0xffffffff));
 	Add(spnew Label("Brush Script", -15.5f, 2.0f, FontManager::Get("Brush Script"), 0xffffffff));
@@ -63,9 +58,9 @@ void Test2D::OnTick()
 	Application& app = Application::GetApplication();
 	SP_INFO(app.GetUPS(), " ups, ", app.GetFPS(), " fps");
 
-	debugInfo[2]->SetText("Total Allocs: " + StringFormat::ToString(MemoryManager::Get()->GetMemoryStats().totalAllocations));
-	debugInfo[3]->SetText("Total Allocated: " + MemoryManager::BytesToString(MemoryManager::Get()->GetMemoryStats().totalAllocated));
-	debugInfo[4]->SetText("Total Freed: " + MemoryManager::BytesToString(MemoryManager::Get()->GetMemoryStats().totalFreed));
+	m_DebugInfo[2]->SetText("Total Allocs: " + StringFormat::ToString(MemoryManager::Get()->GetMemoryStats().totalAllocations));
+	m_DebugInfo[3]->SetText("Total Allocated: " + MemoryManager::BytesToString(MemoryManager::Get()->GetMemoryStats().totalAllocated));
+	m_DebugInfo[4]->SetText("Total Freed: " + MemoryManager::BytesToString(MemoryManager::Get()->GetMemoryStats().totalFreed));
 }
 
 void Test2D::OnUpdate(const Timestep& ts)
@@ -111,6 +106,6 @@ void Test2D::OnEvent(sp::events::Event& event)
 
 void Test2D::OnRender(Renderer2D& renderer)
 {
-	debugInfo[0]->SetText(String("Target: ") + (renderer.GetRenderTarget() == RenderTarget::SCREEN ? "Screen" : "Buffer"));
-	debugInfo[1]->SetText(String("PostFX: ") + (renderer.GetPostEffects() ? "On" : "Off"));
+	m_DebugInfo[0]->SetText(String("Target: ") + (renderer.GetRenderTarget() == RenderTarget::SCREEN ? "Screen" : "Buffer"));
+	m_DebugInfo[1]->SetText(String("PostFX: ") + (renderer.GetPostEffects() ? "On" : "Off"));
 }

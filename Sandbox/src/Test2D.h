@@ -5,7 +5,7 @@
 class Test2D : public sp::graphics::Layer2D
 {
 private:
-	sp::graphics::Label** debugInfo;
+	sp::graphics::Label** m_DebugInfo;
 	sp::graphics::Renderer2D* m_Renderer;
 public:
 	Test2D();
