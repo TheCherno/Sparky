@@ -48,8 +48,8 @@ namespace sp {
 	{
 		m_Timer = new Timer();
 		float timer = 0.0f;
-		float updateTimer = 0.0f;
-		float updateTick = 1.0f / 60.0f;
+		float updateTimer = m_Timer->ElapsedMillis();
+		float updateTick = 1000.0f / 60.0f;
 		uint frames = 0;
 		uint updates = 0;
 		Timestep timestep(m_Timer->ElapsedMillis());

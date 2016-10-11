@@ -1,6 +1,8 @@
 #include "sp/sp.h"
 #include "Renderable2D.h"
 
+#include "Renderer2D.h"
+
 namespace sp { namespace graphics {
 
 	using namespace maths;

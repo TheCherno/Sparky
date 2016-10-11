@@ -10,7 +10,7 @@ namespace sp { namespace entity {
 	class SP_API Entity
 	{
 	protected:
-		std::vector<component::Component*> m_Components;
+		std::unordered_map<component::ComponentType*, component::Component*> m_Components;
 	public:
 		Entity();
 		Entity(graphics::Sprite* sprite, const maths::mat4& transform = maths::mat4::Identity());
@@ -34,12 +34,10 @@ namespace sp { namespace entity {
 		const T* GetComponentInternal() const
 		{
 			component::ComponentType* type = T::GetStaticType();
-			for (auto x : m_Components)
-			{
-				if (x->GetType() == type)
-					return (const T*)x;
-			}
-			return nullptr;
+			auto it = m_Components.find(type);
+			if (it == m_Components.end())
+				return nullptr;
+			return (T*)it->second; // TODO: ...
 		}
 	};
 

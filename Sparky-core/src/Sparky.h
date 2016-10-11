@@ -26,7 +26,6 @@
 
 #include <sp/graphics/Renderer.h>
 #include <sp/graphics/Renderer2D.h>
-#include <sp/graphics/Batchrenderer2D.h>
 #include <sp/graphics/Renderer3D.h>
 #include <sp/graphics/ForwardRenderer.h>
 #include <sp/graphics/DeferredRenderer.h>

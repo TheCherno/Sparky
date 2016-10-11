@@ -189,7 +189,6 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <ClCompile Include="src\sp\graphics\postfx\PostEffectsPass.cpp" />
     <ClCompile Include="src\sp\graphics\Renderable2D.cpp" />
     <ClCompile Include="src\sp\graphics\Renderer.cpp" />
-    <ClCompile Include="src\sp\graphics\Renderer2D.cpp" />
     <ClCompile Include="src\sp\graphics\shaders\ShaderManager.cpp" />
     <ClCompile Include="src\sp\platform\directx\DXFramebufferDepth.cpp" />
     <ClCompile Include="src\sp\platform\directx\DXRenderer.cpp" />
@@ -323,7 +322,7 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sp/sp.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\sp\graphics\BatchRenderer2D.cpp">
+    <ClCompile Include="src\sp\graphics\Renderer2D.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sp/sp.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Emscripten|Win32'">Use</PrecompiledHeader>
@@ -719,7 +718,7 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <ClInclude Include="src\sp\events\IEventListener.h" />
     <ClInclude Include="src\sp\events\KeyEvent.h" />
     <ClInclude Include="src\sp\events\MouseEvent.h" />
-    <ClInclude Include="src\sp\graphics\BatchRenderer2D.h" />
+    <ClInclude Include="src\sp\graphics\Renderer2D.h" />
     <ClInclude Include="src\sp\graphics\buffers\Buffer.h" />
     <ClInclude Include="src\sp\graphics\API\BufferLayout.h" />
     <ClInclude Include="src\sp\graphics\API\IndexBuffer.h" />
@@ -743,7 +742,6 @@ xcopy /f /y $"(SolutionDir)Dependencies\OpenAL\bin\x86\OpenAL32.dll" "$(Solution
     <ClInclude Include="src\sp\graphics\Model.h" />
     <ClInclude Include="src\sp\graphics\Renderable2D.h" />
     <ClInclude Include="src\sp\graphics\RenderCommand.h" />
-    <ClInclude Include="src\sp\graphics\Renderer2D.h" />
     <ClInclude Include="src\sp\graphics\Renderer3D.h" />
     <ClInclude Include="src\sp\graphics\Scene.h" />
     <ClInclude Include="src\sp\graphics\shaders\Shader.h" />
