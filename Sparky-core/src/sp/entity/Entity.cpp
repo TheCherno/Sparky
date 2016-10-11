@@ -11,19 +11,20 @@ namespace sp { namespace entity {
 
 	Entity::Entity(graphics::Sprite* sprite, const maths::mat4& transform)
 	{
-		AddComponent(new SpriteComponent(sprite));
-		AddComponent(new TransformComponent(transform));
+		AddComponent(spnew SpriteComponent(sprite));
+		AddComponent(spnew TransformComponent(transform));
 	}
 
 	Entity::Entity(graphics::Mesh* mesh, const maths::mat4& transform)
 	{
-		AddComponent(new MeshComponent(mesh));
-		AddComponent(new TransformComponent(transform));
+		AddComponent(spnew MeshComponent(mesh));
+		AddComponent(spnew TransformComponent(transform));
 	}
 
 	void Entity::AddComponent(component::Component* component)
 	{
-		m_Components.push_back(component);
+		SP_ASSERT(component->GetType());
+		m_Components[component->GetType()] = component;
 	}
 
 } }
