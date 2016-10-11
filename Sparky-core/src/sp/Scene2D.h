@@ -2,7 +2,7 @@
 
 #include "sp/sp.h"
 #include "graphics/camera/OrthographicCamera.h"
-#include "graphics/BatchRenderer2D.h"
+#include "graphics/Renderer2D.h"
 #include "entity/Entity.h"
 
 namespace sp {
@@ -11,7 +11,7 @@ namespace sp {
 	{
 	private:
 		graphics::OrthographicCamera* m_Camera;
-		graphics::BatchRenderer2D* m_Renderer;
+		graphics::Renderer2D* m_Renderer;
 
 		std::vector<entity::Entity*> m_Entities;
 	public:
@@ -22,11 +22,11 @@ namespace sp {
 		void Add(entity::Entity* entity);
 
 		virtual void OnUpdate();
-		virtual void OnRender(graphics::BatchRenderer2D& renderer);
+		virtual void OnRender(graphics::Renderer2D& renderer);
 
 		void OnRender();
 
-		inline graphics::BatchRenderer2D* GetRenderer() { return m_Renderer; }
+		inline graphics::Renderer2D* GetRenderer() { return m_Renderer; }
 		inline graphics::OrthographicCamera* GetCamera() { return m_Camera; }
 	};
 

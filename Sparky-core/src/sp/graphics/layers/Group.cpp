@@ -1,6 +1,8 @@
 #include "sp/sp.h"
 #include "Group.h"
 
+#include "sp/graphics/Renderer2D.h"
+
 namespace sp { namespace graphics {
 
 	Group::Group(const maths::mat4& transform)

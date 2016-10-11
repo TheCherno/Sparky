@@ -1,7 +1,7 @@
 #include "sp/sp.h"
 #include "MeshFactory.h"
 
-#include "sp/graphics/BatchRenderer2D.h"
+#include "sp/graphics/Renderer2D.h"
 
 #include "sp/graphics/Renderable2D.h"
 #include "sp/graphics/shaders/Shader.h"

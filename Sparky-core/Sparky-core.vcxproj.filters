@@ -87,9 +87,6 @@
     <ClCompile Include="src\sp\graphics\shaders\ShaderFactory.cpp">
       <Filter>sp\graphics\ShaderFactory</Filter>
     </ClCompile>
-    <ClCompile Include="src\sp\graphics\BatchRenderer2D.cpp">
-      <Filter>sp\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\sp\graphics\Font.cpp">
       <Filter>sp\graphics</Filter>
     </ClCompile>
@@ -440,8 +437,13 @@
     </ClCompile>
     <ClCompile Include="src\sp\system\FileSystem.cpp">
       <Filter>sp\system</Filter>
-    </ClCompile> 	<ClCompile Include="src\sp\entity\component\Physics2DComponent.cpp" />
-    <ClCompile Include="src\sp\graphics\Renderable2D.cpp" />	<ClCompile Include="src\sp\graphics\Renderer2D.cpp" />  </ItemGroup>
+    </ClCompile>
+	<ClCompile Include="src\sp\entity\component\Physics2DComponent.cpp" />
+    <ClCompile Include="src\sp\graphics\Renderable2D.cpp" />
+    <ClCompile Include="src\sp\graphics\Renderer2D.cpp">
+      <Filter>sp\graphics</Filter>
+    </ClCompile>
+  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sp\app\Application.h">
       <Filter>sp\app</Filter>
@@ -470,9 +472,6 @@
     <ClInclude Include="src\sp\embedded\Embedded.h">
       <Filter>sp\embedded</Filter>
     </ClInclude>
-    <ClInclude Include="src\sp\graphics\BatchRenderer2D.h">
-      <Filter>sp\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="src\sp\graphics\Font.h">
       <Filter>sp\graphics</Filter>
     </ClInclude>
@@ -489,9 +488,6 @@
       <Filter>sp\graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\sp\graphics\Renderable2D.h">
-      <Filter>sp\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sp\graphics\Renderer2D.h">
       <Filter>sp\graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\sp\graphics\Sprite.h">
@@ -858,6 +854,9 @@
       <Filter>sp\system</Filter>
     </ClInclude>
     <ClInclude Include="src\sp\utils\Timestep.h" />
+    <ClInclude Include="src\sp\graphics\Renderer2D.h">
+      <Filter>sp\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="SparkyCore-TODO.txt" />

@@ -19,7 +19,7 @@ namespace sp {
 		float aspect = width / height;
 
 		m_Camera = spnew OrthographicCamera(mat4::Orthographic(-10.0f * aspect, 10.0f * aspect, -10.0f, 10.0f, -1.0f, 1.0f));
-		m_Renderer = spnew BatchRenderer2D(width, height);
+		m_Renderer = spnew Renderer2D(width, height);
 		m_Renderer->SetCamera(m_Camera);
 	}
 
@@ -29,7 +29,7 @@ namespace sp {
 		float width = Application::GetApplication().GetWindowWidth();
 		float height = Application::GetApplication().GetWindowHeight();
 
-		m_Renderer = spnew BatchRenderer2D(width, height);
+		m_Renderer = spnew Renderer2D(width, height);
 		m_Renderer->SetCamera(m_Camera);
 	}
 
@@ -49,7 +49,7 @@ namespace sp {
 		// 	m_Entities[i]
 	}
 
-	void Scene2D::OnRender(BatchRenderer2D& renderer)
+	void Scene2D::OnRender(Renderer2D& renderer)
 	{
 	
 	}

@@ -1,6 +1,8 @@
 #include "sp/sp.h"
 #include "Label.h"
 
+#include "Renderer2D.h"
+
 namespace sp { namespace graphics {
 
 	Label::Label(const String& text, float x, float y, uint color, Alignment alignment)

@@ -3,7 +3,6 @@
 #include "sp/Common.h"
 #include "sp/Types.h"
 
-#include "Renderer2D.h"
 #include "API/Texture.h"
 
 #include "API/VertexBuffer.h"
@@ -13,6 +12,8 @@
 #include "../maths/maths.h"
 
 namespace sp { namespace graphics {
+
+	class Renderer2D;
 
 	struct SP_API VertexData
 	{

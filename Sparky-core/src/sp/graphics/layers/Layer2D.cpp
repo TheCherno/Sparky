@@ -1,7 +1,7 @@
 #include "sp/sp.h"
 #include "Layer2D.h"
 
-#include "../BatchRenderer2D.h"
+#include "../Renderer2D.h"
 #include "sp/app/Window.h"
 #include "sp/app/Application.h"
 
@@ -12,7 +12,7 @@ namespace sp { namespace graphics {
 		float width = Application::GetApplication().GetWindowWidth();
 		float height = Application::GetApplication().GetWindowHeight();
 
-		m_Renderer = spnew BatchRenderer2D(width, height);
+		m_Renderer = spnew Renderer2D(width, height);
 		m_Scene = spnew Scene2D(projectionMatrix);
 		m_Renderer->SetCamera(m_Scene->GetCamera());
 	}
@@ -23,7 +23,7 @@ namespace sp { namespace graphics {
 		float width = Application::GetApplication().GetWindowWidth();
 		float height = Application::GetApplication().GetWindowHeight();
 
-		m_Renderer = spnew BatchRenderer2D(width, height);
+		m_Renderer = spnew Renderer2D(width, height);
 		m_Renderer->SetCamera(m_Scene->GetCamera());
 	}
 
@@ -56,7 +56,7 @@ namespace sp { namespace graphics {
 
 	bool Layer2D::OnResize(uint width, uint height)
 	{
-		((BatchRenderer2D*)m_Renderer)->SetScreenSize(maths::tvec2<uint>(width, height));
+		m_Renderer->SetScreenSize(maths::tvec2<uint>(width, height));
 		m_Scene->GetRenderer()->SetScreenSize(maths::tvec2<uint>(width, height));
 		return false;
 	}
