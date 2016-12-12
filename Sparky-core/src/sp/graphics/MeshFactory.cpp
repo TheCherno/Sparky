@@ -56,34 +56,58 @@ namespace sp { namespace graphics { namespace MeshFactory {
 
 	Mesh* CreateCube(float size, MaterialInstance* material)
 	{
-		// TODO: Do this ~properly~! Current lazy cube.
-
 		using namespace maths;
 
-		Vertex data[8];
+		Vertex data[24];
 
-		memset(data, 0, 8 * sizeof(Vertex));
+		memset(data, 0, 24 * sizeof(Vertex));
 
-		data[0].position = vec3(-size / 2.0f, -size / 2.0f, size / 2.0f);
-		data[1].position = vec3(size / 2.0f, -size / 2.0f, size / 2.0f);
-		data[2].position = vec3(size / 2.0f, size / 2.0f, size / 2.0f);
-		data[3].position = vec3(-size / 2.0f, size / 2.0f, size / 2.0f);
-		data[4].position = vec3(-size / 2.0f, -size / 2.0f, -size / 2.0f);
-		data[5].position = vec3(size / 2.0f, -size / 2.0f, -size / 2.0f);
-		data[6].position = vec3(size / 2.0f, size / 2.0f, -size / 2.0f);
-		data[7].position = vec3(-size / 2.0f, size / 2.0f, -size / 2.0f);
+		for (uint i = 0; i < 3; i++)
+		{
+			data[0 + 8 * i].position = vec3(-size / 2.0f, -size / 2.0f, size / 2.0f);
+			data[1 + 8 * i].position = vec3(size / 2.0f, -size / 2.0f, size / 2.0f);
+			data[2 + 8 * i].position = vec3(size / 2.0f, size / 2.0f, size / 2.0f);
+			data[3 + 8 * i].position = vec3(-size / 2.0f, size / 2.0f, size / 2.0f);
+			data[4 + 8 * i].position = vec3(-size / 2.0f, -size / 2.0f, -size / 2.0f);
+			data[5 + 8 * i].position = vec3(size / 2.0f, -size / 2.0f, -size / 2.0f);
+			data[6 + 8 * i].position = vec3(size / 2.0f, size / 2.0f, -size / 2.0f);
+			data[7 + 8 * i].position = vec3(-size / 2.0f, size / 2.0f, -size / 2.0f);
+		}
 
-		data[0].normal = vec3(-1.0f, -1.0f, 1.0f);
-		data[1].normal = vec3(1.0f, -1.0f, 1.0f);
-		data[2].normal = vec3(1.0f, 1.0f, 1.0f);
-		data[3].normal = vec3(-1.0f, 1.0f, 1.0f);
-		data[4].normal = vec3(-1.0f, -1.0f, -1.0f);
-		data[5].normal = vec3(1.0f, -1.0f, -1.0f);
-		data[6].normal = vec3(1.0f, 1.0f, -1.0f);
-		data[7].normal = vec3(-1.0f, 1.0f, -1.0f);
+		data[0 ].normal = vec3(-1.0f,  0.0f,  0.0f);
+		data[8 ].normal = vec3( 0.0f, -1.0f,  0.0f);
+		data[16].normal = vec3( 0.0f,  0.0f,  1.0f);
+
+		data[1 ].normal = vec3( 1.0f,  0.0f,  0.0f);
+		data[9 ].normal = vec3( 0.0f, -1.0f,  0.0f);
+		data[17].normal = vec3( 0.0f,  0.0f,  1.0f);
+
+		data[2 ].normal = vec3( 1.0f,  0.0f,  0.0f);
+		data[10].normal = vec3( 0.0f,  1.0f,  0.0f);
+		data[18].normal = vec3( 0.0f,  0.0f,  1.0f);
+
+		data[3 ].normal = vec3(-1.0f,  0.0f,  0.0f);
+		data[11].normal = vec3( 0.0f,  1.0f,  0.0f);
+		data[19].normal = vec3( 0.0f,  0.0f,  1.0f);
+
+		data[4 ].normal = vec3(-1.0f,  0.0f,  0.0f);
+		data[12].normal = vec3( 0.0f, -1.0f,  0.0f);
+		data[20].normal = vec3( 0.0f,  0.0f, -1.0f);
+
+		data[5 ].normal = vec3( 1.0f,  0.0f,  0.0f);
+		data[13].normal = vec3( 0.0f, -1.0f,  0.0f);
+		data[21].normal = vec3( 0.0f,  0.0f, -1.0f);
+
+		data[6 ].normal = vec3( 1.0f,  0.0f,  0.0f);
+		data[14].normal = vec3( 0.0f,  1.0f,  0.0f);
+		data[22].normal = vec3( 0.0f,  0.0f, -1.0f);
+
+		data[7 ].normal = vec3(-1.0f,  0.0f,  0.0f);
+		data[15].normal = vec3( 0.0f,  1.0f,  0.0f);
+		data[23].normal = vec3( 0.0f,  0.0f, -1.0f);
 
 		API::VertexBuffer* buffer = API::VertexBuffer::Create(API::BufferUsage::STATIC);
-		buffer->SetData(8 * sizeof(Vertex), data);
+		buffer->SetData(24 * sizeof(Vertex), data);
 
 		API::BufferLayout layout;
 		layout.Push<vec3>("position");
@@ -97,12 +121,12 @@ namespace sp { namespace graphics { namespace MeshFactory {
 	
 		uint* indices = new uint[36]
 		{
-			0, 1, 2, 2, 3, 0,
-			3, 2, 6, 6, 7, 3,
-			7, 6, 5, 5, 4, 7,
-			4, 0, 3, 3, 7, 4,
-			0, 1, 5, 5, 4, 0,
-			1, 5, 6, 6, 2, 1
+			 4,  7,  3,  3,  0,  4, // 4 7 3 0 : -x
+			 5,  6,  2,  2,  1,  5, // 5 6 2 1 : +x
+			12, 13,  9,  9,  8, 12, // 4 5 1 0 : -y
+			15, 14, 10, 10, 11, 15, // 7 6 2 3 : +y
+			20, 21, 22, 22, 23, 20, // 4 5 6 7 : -z
+			16, 17, 18, 18, 19, 16  // 0 1 2 3 : +z
 		};
 
 		API::IndexBuffer* ib = API::IndexBuffer::Create(indices, 36);
