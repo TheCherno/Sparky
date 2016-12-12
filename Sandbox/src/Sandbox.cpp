@@ -35,6 +35,7 @@ public:
 	}
 };
 
+// Main function just testing some stuff
 int main()
 {
 	Game game;
