@@ -60,3 +60,15 @@ namespace sp { namespace maths {
 	};
 
 } }
+
+namespace std {
+    template<>
+    struct hash<sp::maths::mat4>
+    {
+        size_t operator()(const sp::maths::mat4& value) const
+        {
+            return std::hash<sp::maths::vec4>()(value.rows[0]) ^ std::hash<sp::maths::vec4>()(value.rows[1])
+                ^ std::hash<sp::maths::vec4>()(value.rows[2]) ^ std::hash<sp::maths::vec4>()(value.rows[3]);
+        }
+    };
+}

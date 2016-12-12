@@ -66,3 +66,14 @@ namespace sp { namespace maths {
 	};
 
 } }
+
+namespace std {
+    template<>
+    struct hash<sp::maths::vec2>
+    {
+        size_t operator()(const sp::maths::vec2& value) const
+        {
+            return std::hash<float>()(value.x) ^ std::hash<float>()(value.y);
+        }
+    };
+}

@@ -40,3 +40,14 @@ namespace sp { namespace maths {
 	};
 
 } }
+
+namespace std {
+    template<>
+    struct hash<sp::maths::AABB>
+    {
+        size_t operator()(const sp::maths::AABB& value) const
+        {
+            return std::hash<sp::maths::vec3>()(value.min) ^ std::hash<sp::maths::vec3>()(value.max);
+        }
+    };
+}

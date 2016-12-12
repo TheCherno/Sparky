@@ -85,3 +85,14 @@ namespace sp { namespace maths {
 	};
 
 } }
+
+namespace std {
+    template<>
+    struct hash<sp::maths::vec3>
+    {
+        size_t operator()(const sp::maths::vec3& value) const
+        {
+            return std::hash<float>()(value.x) ^ std::hash<float>()(value.y) ^ std::hash<float>()(value.z);
+        }
+    };
+}
