@@ -11,7 +11,8 @@
 #define SPARKY_LOG_LEVEL_ERROR 1
 #define SPARKY_LOG_LEVEL_WARN  2
 #define SPARKY_LOG_LEVEL_INFO  3
-
+//For Something That The User Needs To Know But Isn't Mission-Critical (Like If You Wanted To Print The Highscore In Blue For Easy Terminal Reading) 
+#define SPARKY_LOG_LEVEL_IMPORTANT 4
 #ifdef MOUSE_MOVED
 	#undef MOUSE_MOVED // Defined in wincon.h
 #endif
@@ -33,7 +34,7 @@ namespace std
 // -------------------------------
 //	- Better container type logging
 //	- Better platform support
-//	- Logging to other destinations (eg. files)
+//	- Logging to other destinations (eg. files) Done!
 //	- Include (almost) ALL Sparky class types
 //	- More...
 namespace sp { namespace internal {
@@ -41,7 +42,14 @@ namespace sp { namespace internal {
 	static char to_string_buffer[1024 * 10];
 	static char sprintf_buffer[1024 * 10];
 
-	SP_API void PlatformLogMessage(uint level, const char* message);
+	SP_API void   PlatformLogMessage(uint level, const char* message);
+	SP_API void   PlatformLogMessage(uint level, String message);
+	SP_API void   PlatformLogMessage(const char* message);
+	SP_API void   PlatformLogMessage(String message);
+	SP_API void   PlatformFileMessage(String filename, String message);
+	SP_API void   PlatformFileMessage(String filename, const char* message);
+	SP_API String ReadFile(String filename);
+	SP_API String ReadFile(const char* filename);
 
 	template <class T>
 	struct has_iterator
