@@ -10,30 +10,35 @@ namespace sp { namespace maths {
 	{
 		T x, y;
 
-		tvec2<T>();
-		tvec2<T>(const T& x, const T& y);
+		tvec2();
+		tvec2(const T& x, const T& y);
 
-		tvec2<T>& Add(const tvec2<T>& other);
-		tvec2<T>& Subtract(const tvec2<T>& other);
-		tvec2<T>& Multiply(const tvec2<T>& other);
-		tvec2<T>& Divide(const tvec2<T>& other);
+		tvec2& Add(const tvec2& other);
+		tvec2& Subtract(const tvec2& other);
+		tvec2& Multiply(const tvec2& other);
+		tvec2& Divide(const tvec2& other);
 
-		friend tvec2<T> operator+(tvec2<T> left, const tvec2<T>& right);
-		friend tvec2<T> operator-(tvec2<T> left, const tvec2<T>& right);
-		friend tvec2<T> operator*(tvec2<T> left, const tvec2<T>& right);
-		friend tvec2<T> operator/(tvec2<T> left, const tvec2<T>& right);
+		friend tvec2 operator+(tvec2 left, const tvec2& right);
+		friend tvec2 operator-(tvec2 left, const tvec2& right);
+		friend tvec2 operator*(tvec2 left, const tvec2& right);
+		friend tvec2 operator/(tvec2 left, const tvec2& right);
 
-		bool operator==(const tvec2<T>& other);
-		bool operator!=(const tvec2<T>& other);
+		bool operator==(const tvec2& other);
+		bool operator!=(const tvec2& other);
 
-		tvec2<T>& operator+=(const tvec2<T>& other);
-		tvec2<T>& operator-=(const tvec2<T>& other);
-		tvec2<T>& operator*=(const tvec2<T>& other);
-		tvec2<T>& operator/=(const tvec2<T>& other);
+		tvec2& operator+=(const tvec2& other);
+		tvec2& operator-=(const tvec2& other);
+		tvec2& operator*=(const tvec2& other);
+		tvec2& operator/=(const tvec2& other);
 
 		friend std::ostream& operator<<(std::ostream& stream, const tvec2& vector);
 	};
 
+	typedef tvec2<int> tvec2i;
+	typedef tvec2<float> tvec2f;
+	typedef tvec2<double> tvec2d;
+	typedef tvec2<unsigned> tvec2u;
+	
 	template <class T>
 	tvec2<T>::tvec2()
 	{
