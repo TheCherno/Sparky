@@ -238,7 +238,7 @@ namespace sp { namespace maths {
 
 		result.elements[3 + 0 * 4] = (left + right) / (left - right);
 		result.elements[3 + 1 * 4] = (bottom + top) / (bottom - top);
-		result.elements[3 + 2 * 4] = (far + near) / (far - near);
+		result.elements[3 + 2 * 4] = (far + near) / (near - far);
 
 		return result;
 	}
