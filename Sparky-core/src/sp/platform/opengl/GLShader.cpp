@@ -338,6 +338,7 @@ namespace sp { namespace graphics { namespace API {
 					uniform->m_Location = GetUniformLocation(uniform->m_Name);
 				}
 			}
+		} // <- add an misplaced closing bracket here;
 
 			for (uint i = 0; i < m_PSUniformBuffers.size(); i++)
 			{
@@ -437,7 +438,7 @@ namespace sp { namespace graphics { namespace API {
 				}
 			}
 			Unbind();
-		}
+		// } <- remove this closing bracket;
 	}
 
 	void GLShader::ValidateUniforms()
