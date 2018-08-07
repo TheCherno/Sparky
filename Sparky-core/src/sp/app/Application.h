@@ -5,6 +5,7 @@
 #include "sp/Types.h"
 
 #include "sp/app/Window.h"
+#include "sp/app/Platform.h"
 #include "sp/graphics/layers/Layer.h"
 #include "sp/utils/Timer.h"
 #include "sp/utils/Timestep.h"
@@ -37,6 +38,8 @@ namespace sp {
 
 		std::vector<graphics::Layer*> m_LayerStack;
 		std::vector<graphics::Layer*> m_OverlayStack;
+	protected:
+		Platform m_Platform;
 	public:
 		Application(const String& name, const WindowProperties& properties, graphics::API::RenderAPI api = graphics::API::RenderAPI::OPENGL);
 		virtual ~Application();
@@ -65,7 +68,7 @@ namespace sp {
 		inline maths::vec2 GetWindowSize() const { return maths::vec2((float)window->GetWidth(), (float)window->GetHeight()); }
 
 		String GetBuildConfiguration();
-		String GetPlatform(); // TODO: Return "Platform" object rather than String
+		inline const Platform& GetPlatform() const { return m_Platform; }
 	private:
 		void PlatformInit();
 		void Run();
@@ -78,6 +81,5 @@ namespace sp {
 	public:
 		inline static Application& GetApplication() { return *s_Instance; }
 	};
-
 
 }

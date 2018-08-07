@@ -36,11 +36,11 @@ void Test2D::OnInit(Renderer2D& renderer, Material& material)
 	FontManager::Add(spnew Font("Brush Script", "res/BrushScriptStd.otf", 96));
 
 	m_DebugInfo = spnew Label*[10];
-	Add(m_DebugInfo[0] = spnew Label("", -15.5f, 8.5f, 0xffffffff));
-	Add(m_DebugInfo[1] = spnew Label("", -15.5f, 7.5f, 0xffffffff));
-	Add(m_DebugInfo[2] = spnew Label("", -15.5f, 6.5f, 0xffffffff));
-	Add(m_DebugInfo[3] = spnew Label("", -15.5f, 5.5f, 0xffffffff));
-	Add(m_DebugInfo[4] = spnew Label("", -15.5f, 4.5f, 0xffffffff));
+	Add(m_DebugInfo[0] = spnew Label("", -15.5f, 8.0f, 0xffffffff));
+	Add(m_DebugInfo[1] = spnew Label("", -15.5f, 7.0f, 0xffffffff));
+	Add(m_DebugInfo[2] = spnew Label("", -15.5f, 6.0f, 0xffffffff));
+	Add(m_DebugInfo[3] = spnew Label("", -15.5f, 5.0f, 0xffffffff));
+	Add(m_DebugInfo[4] = spnew Label("", -15.5f, 4.0f, 0xffffffff));
 
 	Add(spnew Label("Consolas", -15.5f, 0.0f, FontManager::Get("Consolas"), 0xffffffff));
 	Add(spnew Label("Brush Script", -15.5f, 2.0f, FontManager::Get("Brush Script"), 0xffffffff));

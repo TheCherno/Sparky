@@ -128,7 +128,7 @@ namespace sp {
 
 	void Window::SetTitle(const String& title)
 	{
-		m_Title = title + "  |  " + Application::GetApplication().GetBuildConfiguration() + " " + Application::GetApplication().GetPlatform() + "  |  Renderer: " + Renderer::GetTitle();
+		m_Title = title + "  |  " + Application::GetApplication().GetBuildConfiguration() + " " + Application::GetApplication().GetPlatform().GetArchitecture() + "  |  Renderer: " + Renderer::GetTitle();
 		SetWindowText(hWnd, m_Title.c_str());
 	}
 
