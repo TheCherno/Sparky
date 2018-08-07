@@ -22,7 +22,7 @@ namespace sp { namespace graphics {
 	void Layer::OnEvent(events::Event& event)
 	{
 		events::EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<events::ResizeWindowEvent>([this](events::ResizeWindowEvent& e) { return OnResize(e.GetWidth(), e.GetHeight()); });
+		dispatcher.Dispatch<events::WindowResizeEvent>([this](events::WindowResizeEvent& e) { return OnResize(e.GetWidth(), e.GetHeight()); });
 	}
 
 	bool Layer::OnResize(uint width, uint height)

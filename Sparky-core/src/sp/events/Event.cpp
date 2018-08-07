@@ -27,6 +27,16 @@ namespace sp { namespace events {
 			return "MOUSE_RELEASED";
 		case Type::MOUSE_MOVED:
 			return "MOUSE_MOVED";
+		case Type::WINDOW_RESIZE:
+			return "WINDOW_RESIZE";
+		case Type::WINDOW_FOCUS:
+			return "WINDOW_FOCUS";
+		case Type::WINDOW_CLOSE:
+			return "WINDOW_CLOSE";
+		case Type::WINDOW_ACTIVE:
+			return "WINDOW_ACTIVE";
+		case Type::WINDOW_MOVE:
+			return "WINDOW_MOVE";
 		}
 		return "INVALID";
 	}

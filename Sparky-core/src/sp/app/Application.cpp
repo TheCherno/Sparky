@@ -141,7 +141,7 @@ namespace sp {
 
 		// debug::DebugRenderer::Present();
 	}
-	
+
 	String Application::GetBuildConfiguration()
 	{
 #if defined(SP_DEBUG)

@@ -62,7 +62,7 @@ namespace sp { namespace graphics { namespace ui {
 		dispatcher.Dispatch<MouseMovedEvent>(METHOD(&Panel::OnMouseMovedEvent));
 		
 		// TODO: Temporary fix
-		dispatcher.Dispatch<ResizeWindowEvent>([this](events::ResizeWindowEvent& e) { return Layer2D::OnResize(e.GetWidth(), e.GetHeight());  });
+		dispatcher.Dispatch<WindowResizeEvent>([this](events::WindowResizeEvent& e) { return Layer2D::OnResize(e.GetWidth(), e.GetHeight());  });
 	}
 
 	bool Panel::OnMousePressedEvent(events::MousePressedEvent& e)

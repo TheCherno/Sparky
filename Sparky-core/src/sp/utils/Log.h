@@ -182,6 +182,51 @@ namespace sp { namespace internal {
 	}
 
 	template <>
+	static const char* to_string<events::WindowActiveEvent>(const events::WindowActiveEvent& e)
+	{
+		sprintf(sprintf_buffer, "WindowActiveEvent: (%s)", e.IsActive() ? "true" : false);
+		char* result = new char[strlen(sprintf_buffer)];
+		strcpy(result, &sprintf_buffer[0]);
+		return result;
+	}
+
+	template <>
+	static const char* to_string<events::WindowCloseEvent>(const events::WindowCloseEvent& e)
+	{
+		sprintf(sprintf_buffer, "WindowCloseEvent");
+		char* result = new char[strlen(sprintf_buffer)];
+		strcpy(result, &sprintf_buffer[0]);
+		return result;
+	}
+
+	template <>
+	static const char* to_string<events::WindowFocusEvent>(const events::WindowFocusEvent& e)
+	{
+		sprintf(sprintf_buffer, "WindowFocusEvent: (%s)", e.GetFocus() ? "true" : "false");
+		char* result = new char[strlen(sprintf_buffer)];
+		strcpy(result, &sprintf_buffer[0]);
+		return result;
+	}
+
+	template <>
+	static const char* to_string<events::WindowMoveEvent>(const events::WindowMoveEvent& e)
+	{
+		sprintf(sprintf_buffer, "WindowMoveEvent: (%f, %f)", e.GetX(), e.GetY());
+		char* result = new char[strlen(sprintf_buffer)];
+		strcpy(result, &sprintf_buffer[0]);
+		return result;
+	}
+
+	template <>
+	static const char* to_string<events::WindowResizeEvent>(const events::WindowResizeEvent& e)
+	{
+		sprintf(sprintf_buffer, "WindowResizeEvent: (%f, %f)", e.GetWidth(), e.GetHeight());
+		char* result = new char[strlen(sprintf_buffer)];
+		strcpy(result, &sprintf_buffer[0]);
+		return result;
+	}
+
+	template <>
 	static const char* to_string<events::Event>(const events::Event& e)
 	{
 		sprintf(sprintf_buffer, "Event: %s (%d)", events::Event::TypeToString(e.GetType()).c_str(), e.GetType());
@@ -207,6 +252,16 @@ namespace sp { namespace internal {
 			return to_string(*(MouseReleasedEvent*)e);
 		case Event::Type::MOUSE_MOVED:
 			return to_string(*(MouseMovedEvent*)e);
+		case Event::Type::WINDOW_ACTIVE:
+			return to_string(*(WindowActiveEvent*)e);
+		case Event::Type::WINDOW_CLOSE:
+			return to_string(*(WindowCloseEvent*)e);
+		case Event::Type::WINDOW_FOCUS:
+			return to_string(*(WindowFocusEvent*)e);
+		case Event::Type::WINDOW_MOVE:
+			return to_string(*(WindowMoveEvent*)e);
+		case Event::Type::WINDOW_RESIZE:
+			return to_string(*(WindowResizeEvent*)e);
 		}
 		return "Unkown Event!";
 	}

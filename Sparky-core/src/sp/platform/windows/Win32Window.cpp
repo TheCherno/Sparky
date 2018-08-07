@@ -128,7 +128,7 @@ namespace sp {
 
 	void Window::SetTitle(const String& title)
 	{
-		m_Title = title + "  |  " + Application::GetApplication().GetBuildConfiguration() + " " + Application::GetApplication().GetPlatform() + "  |  Renderer: " + Renderer::GetTitle();
+		m_Title = title + "  |  " + Application::GetApplication().GetBuildConfiguration() + " " + Application::GetApplication().GetPlatform().GetArchitecture() + "  |  Renderer: " + Renderer::GetTitle();
 		SetWindowText(hWnd, m_Title.c_str());
 	}
 
@@ -139,7 +139,7 @@ namespace sp {
 		FontManager::SetScale(maths::vec2(window->m_Properties.width / 32.0f, window->m_Properties.height / 18.0f));
 
 		if (window->m_EventCallback)
-			window->m_EventCallback(ResizeWindowEvent((uint)width, (uint)height));
+			window->m_EventCallback(WindowResizeEvent((uint)width, (uint)height));
 	}
 
 	void FocusCallback(Window* window, bool focused)
@@ -149,6 +149,30 @@ namespace sp {
 			window->m_InputManager->ClearKeys();
 			window->m_InputManager->ClearMouseButtons();
 		}
+
+		if (window->m_EventCallback)
+			window->m_EventCallback(WindowFocusEvent(focused));
+	}
+
+	void CloseCallback(Window* window)
+	{
+		if (window->m_EventCallback)
+			window->m_EventCallback(WindowCloseEvent());
+
+		PostQuitMessage(0);
+	}
+
+	void ActiveCallback(Window* window, bool active)
+	{
+		if (window->m_EventCallback)
+			window->m_EventCallback(WindowActiveEvent(active));
+	}
+
+	void MoveCallback(Window* window, int32 x, int32 y)
+	{
+		// (By Peter1745): TODO: Should the window store it's own position?
+		if (window->m_EventCallback)
+			window->m_EventCallback(WindowMoveEvent(x, y));
 	}
 
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -165,11 +189,11 @@ namespace sp {
 		{
 			if (!HIWORD(wParam)) // Is minimized
 			{
-				// active
+				ActiveCallback(window, true);
 			}
 			else
 			{
-				// inactive
+				ActiveCallback(window, false);
 			}
 
 			return 0;
@@ -192,7 +216,7 @@ namespace sp {
 			break;
 		case WM_CLOSE:
 		case WM_DESTROY:
-			PostQuitMessage(0);
+			CloseCallback(window);
 			break;
 		case WM_KEYDOWN:
 		case WM_KEYUP:
@@ -210,6 +234,9 @@ namespace sp {
 			break;
 		case WM_SIZE:
 			ResizeCallback(window, LOWORD(lParam), HIWORD(lParam));
+			break;
+		case WM_MOVE:
+			MoveCallback(window, LOWORD(lParam), HIWORD(lParam));
 			break;
 		default:
 			result = DefWindowProc(hWnd, message, wParam, lParam);

@@ -63,6 +63,9 @@ namespace sp {
 		// Window event callbacks (TODO: more platform independent)
 		friend void ResizeCallback(Window* window, int32 width, int32 height);
 		friend void FocusCallback(Window* window, bool focused);
+		friend void CloseCallback(Window* window);
+		friend void ActiveCallback(Window* window, bool active);
+		friend void MoveCallback(Window* window, int32 x, int32 y);
 	public:
 		static void RegisterWindowClass(void* handle, Window* window);
 		static Window* GetWindowClass(void* handle);

@@ -2,7 +2,6 @@
  Sparky Core - TODO
 --------------------
 
-- Complete event system with additional events (focus, close, resize, etc.)
 - Custom Allocators / Memory management (in-progress)
 - Really need string formatting!
 - DirectX for Windows

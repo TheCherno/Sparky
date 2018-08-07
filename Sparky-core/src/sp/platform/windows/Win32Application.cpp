@@ -4,7 +4,7 @@
 namespace sp {
 
 	Application::Application(const String& name, const WindowProperties& properties, graphics::API::RenderAPI api)
-		: m_Name(name), m_Properties(properties), m_Frametime(0.0f)
+		: m_Name(name), m_Platform(Platform("Unknown", "Unknown")), m_Properties(properties), m_Frametime(0.0f)
 	{
 		s_Instance = this;
 		graphics::API::Context::SetRenderAPI(api);
@@ -17,6 +17,11 @@ namespace sp {
 
 	void Application::PlatformInit()
 	{
+		#if defined(SP_PLATFORM_WIN32)
+			m_Platform = Platform("Windows", "Win32");
+		#elif defined(SP_PLATFORM_WIN64)
+			m_Platform = Platform("Windows", "Win64");
+		#endif
 		window = new Window(m_Name, m_Properties);
 		window->SetEventCallback(METHOD(&Application::OnEvent));
 	}
@@ -83,17 +88,6 @@ namespace sp {
 			if (window->Closed())
 				m_Running = false;
 		}
-	}
-
-	String Application::GetPlatform()
-	{
-#if defined(SP_PLATFORM_WIN32)
-		return "Win32";
-#elif defined(SP_PLATFORM_WIN64)
-		return "Win64";
-#else
-		return "Unknown Platform";
-#endif
 	}
 
 }

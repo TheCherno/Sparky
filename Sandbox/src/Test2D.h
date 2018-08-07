@@ -16,6 +16,7 @@ public:
 	void OnTick() override;
 	void OnUpdate(const sp::Timestep& ts) override;
 
+	bool OnWindowMoveEvent(sp::events::WindowMoveEvent& event);
 	bool OnKeyPressedEvent(sp::events::KeyPressedEvent& event);
 	bool OnMousePressedEvent(sp::events::MousePressedEvent& event);
 	void OnEvent(sp::events::Event& event) override;
