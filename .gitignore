@@ -15,3 +15,13 @@
 
 Intermediates/
 ipch/
+
+.vs/
+
+# Intermediates
+obj/
+
+# Binaries
+bin/*
+!Web/*
+!*.js
