@@ -2,15 +2,15 @@
 
 namespace SparkyCLI {
 
-	Window::Window(sparky::graphics::Window* instance)
-		: ManagedClass(instance)
-	{
-	}
+    Window::Window(sp::Window* instance)
+        : ManagedClass(instance)
+    {
+    }
 
-	Window::Window(System::String^ name, System::UInt32 width, System::UInt32 height)
-	{
-		m_Instance = new sparky::graphics::Window(string_to_char_array(name), width, height);
-	}
+    Window::Window(System::String^ name, System::UInt32 width, System::UInt32 height)
+    {
+        m_Instance = new sp::Window(string_to_char_array(name), {width, height, false, 0});
+    }
 
 	void Window::Clear()
 	{

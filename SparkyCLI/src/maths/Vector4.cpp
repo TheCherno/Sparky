@@ -4,7 +4,7 @@
 
 namespace SparkyCLI {
 
-	Vector4::Vector4(sparky::maths::vec4* instance)
+	Vector4::Vector4(sp::maths::vec4* instance)
 		: ManagedClass(instance)
 	{
 	}
@@ -16,7 +16,7 @@ namespace SparkyCLI {
 
 	Vector4::Vector4(float x, float y, float z, float w)
 	{
-		m_Instance = new sparky::maths::vec4(x, y, z, w);
+		m_Instance = new sp::maths::vec4(x, y, z, w);
 	}
 
 	Vector4^ Vector4::Add(Vector4^ other)

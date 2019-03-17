@@ -2,10 +2,10 @@
 
 namespace SparkyCLI {
 
-	Shader::Shader(sparky::graphics::Shader* instance)
-		: ManagedClass(instance)
-	{
-	}
+    Shader::Shader(sp::graphics::API::Shader* instance)
+        : ManagedClass(instance)
+    {
+    }
 
 	Shader::Shader(System::String^ vertPath, System::String^ fragPath)
 	{

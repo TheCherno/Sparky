@@ -2,14 +2,14 @@
 
 namespace SparkyCLI {
 
-	Sound::Sound(sparky::audio::Sound* instance)
+	Sound::Sound(sp::audio::Sound* instance)
 		: ManagedClass(instance)
 	{
 	}
 
 	Sound::Sound(System::String^ name, System::String^ filename)
 	{
-		m_Instance = new sparky::audio::Sound(string_to_std_string(name), string_to_std_string(filename));
+		m_Instance = new sp::audio::Sound(string_to_std_string(name), string_to_std_string(filename));
 	}
 
 	void Sound::Play()

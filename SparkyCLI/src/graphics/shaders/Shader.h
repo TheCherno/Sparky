@@ -5,14 +5,14 @@
 #include "../../maths/Vector3.h"
 #include "../../maths/Matrix4.h"
 
-#include <graphics/shaders/Shader.h>
+#include <sp/graphics/shaders/Shader.h>
 
 namespace SparkyCLI {
 
-	public ref class Shader : public ManagedClass<sparky::graphics::Shader>
-	{
-	private:
-		Shader(sparky::graphics::Shader* instance);
+    public ref class Shader : public ManagedClass<sp::graphics::API::Shader>
+    {
+    private:
+        Shader(sp::graphics::API::Shader* instance);
 	public:
 		Shader(System::String^ name, System::String^ vertSrc, System::String^ fragSrc);
 		Shader(System::String^ vertPath, System::String^ fragPath);

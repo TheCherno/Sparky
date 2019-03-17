@@ -4,28 +4,28 @@ namespace SparkyCLI {
 
 	void SoundManager::Init()
 	{
-		sparky::audio::SoundManager::Init();
+		sp::audio::SoundManager::Init();
 	}
 
 	Sound^ SoundManager::Add(Sound^ sound)
 	{
-		sparky::audio::SoundManager::Add(sound->GetHandle());
+		sp::audio::SoundManager::Add(sound->GetHandle());
 		return sound;
 	}
 
 	Sound^ SoundManager::Get(System::String^ name)
 	{
-		return gcnew Sound(sparky::audio::SoundManager::Get(string_to_std_string(name)));
+		return gcnew Sound(sp::audio::SoundManager::Get(string_to_std_string(name)));
 	}
 
 	void SoundManager::Update()
 	{
-		sparky::audio::SoundManager::Update();
+		sp::audio::SoundManager::Update();
 	}
 
 	void SoundManager::Clean()
 	{
-		sparky::audio::SoundManager::Clean();
+		sp::audio::SoundManager::Clean();
 	}
 
 }

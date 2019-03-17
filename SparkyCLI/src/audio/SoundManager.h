@@ -3,7 +3,7 @@
 #include "..\SparkyCLI.h"
 #include "Sound.h"
 
-#include <audio/SoundManager.h>
+#include <sp/audio/SoundManager.h>
 
 namespace SparkyCLI {
 
