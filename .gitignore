@@ -25,3 +25,4 @@ obj/
 bin/*
 !Web/*
 !*.js
+*.filters
