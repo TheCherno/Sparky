@@ -70,6 +70,7 @@ namespace sp {
 		void PlatformInit();
 		void Run();
 
+	public:
 		void OnTick();
 		void OnUpdate(const Timestep& ts);
 		void OnRender();

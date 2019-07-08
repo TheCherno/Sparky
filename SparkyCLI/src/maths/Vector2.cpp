@@ -2,7 +2,7 @@
 
 namespace SparkyCLI {
 
-	Vector2::Vector2(sparky::maths::vec2* instance)
+	Vector2::Vector2(sp::maths::vec2* instance)
 		: ManagedClass(instance)
 	{
 	}
@@ -14,12 +14,12 @@ namespace SparkyCLI {
 
 	Vector2::Vector2(float x, float y)
 	{
-		m_Instance = new sparky::maths::vec2(x, y);
+		m_Instance = new sp::maths::vec2(x, y);
 	}
 
 	Vector2::Vector2(Vector3^ vector)
 	{
-		m_Instance = new sparky::maths::vec2(*vector->GetHandle());
+		m_Instance = new sp::maths::vec2(*vector->GetHandle());
 	}
 
 	Vector2^ Vector2::Add(Vector2^ other)

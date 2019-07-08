@@ -4,7 +4,7 @@
 #include "Vector3.h"
 #include "Vector4.h"
 
-#include <maths/mat4.h>
+#include <sp/maths/mat4.h>
 
 #ifdef near
 #undef near
@@ -17,10 +17,10 @@ namespace SparkyCLI {
 
 	ref class Vector2;
 
-	public ref class Matrix4 : public ManagedClass<sparky::maths::mat4>
+	public ref class Matrix4 : public ManagedClass<sp::maths::mat4>
 	{
 	private:
-		Matrix4(sparky::maths::mat4* instance);
+		Matrix4(sp::maths::mat4* instance);
 	public:
 
 		Matrix4();
