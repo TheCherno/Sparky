@@ -245,7 +245,7 @@ namespace sp { namespace maths {
 
 	mat4 mat4::Perspective(float fov, float aspectRatio, float near, float far)
 	{
-		mat4 result(1.0f);
+		mat4 result(0.0f);
 
 		float q = 1.0f / tan(toRadians(0.5f * fov));
 		float a = q / aspectRatio;
